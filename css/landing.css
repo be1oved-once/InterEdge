@@ -234,13 +234,23 @@ body.landing-open {
 .landing-theme-toggle svg {
   width: 17px;
   height: 17px;
-  display: block;
 }
 
-.sun-icon { display: block; }
-.moon-icon { display: none; }
-.light-theme .sun-icon { display: none; }
-.light-theme .moon-icon { display: block; }
+.landing-theme-toggle .sun-icon {
+  display: block !important;
+}
+
+.landing-theme-toggle .moon-icon {
+  display: none !important;
+}
+
+.light-theme .landing-theme-toggle .sun-icon {
+  display: none !important;
+}
+
+.light-theme .landing-theme-toggle .moon-icon {
+  display: block !important;
+}
 
 /* ===== HERO SECTION ===== */
 .landing-hero {
