@@ -85,17 +85,22 @@ body {
     display: none;              /* Chrome/Safari */
 }
 .splash-logo-box {
-  width: 80px;
-  height: 80px;
-  border-radius: 24px;
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  width: 130px;
+  height: 130px;
+  border-radius: 28px;
+  background: transparent;
   display: grid;
   place-items: center;
   animation: splashPop 0.6s cubic-bezier(.22,1,.36,1) forwards;
-  box-shadow: 0 8px 32px rgba(91,108,255,.3);
+  box-shadow: none;
+  filter: drop-shadow(0 12px 36px rgba(91,108,255,.55));
 }
 
-.splash-logo-box svg { width: 42px; height: 42px; }
+.splash-logo-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
 
 .splash-brand {
   margin-top: 20px;
@@ -175,16 +180,21 @@ body {
 }
 
 .auth-logo-box {
-  width: 56px;
-  height: 56px;
-  border-radius: 18px;
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  width: 76px;
+  height: 76px;
+  border-radius: 20px;
+  background: transparent;
   display: grid;
   place-items: center;
-  box-shadow: 0 8px 24px rgba(91,108,255,.25);
+  box-shadow: none;
+  filter: drop-shadow(0 8px 24px rgba(91,108,255,.45));
 }
 
-.auth-logo-box svg { width: 28px; height: 28px; }
+.auth-logo-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
 
 .auth-brand { margin-top: 14px; font-size: 1.3rem; font-weight: 700; color: var(--txt); }
 .auth-sub { margin-top: 4px; font-size: 0.85rem; color: var(--txt3); }
@@ -368,9 +378,17 @@ body {
   width: 38px;
   height: 38px;
   border-radius: 12px;
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  background: transparent;
   display: grid;
   place-items: center;
+  flex-shrink: 0;
+}
+
+.logo-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 8px rgba(91,108,255,.35));
 }
 
 .logo-box svg { width: 20px; height: 20px; }
