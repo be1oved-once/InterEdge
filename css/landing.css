@@ -1152,7 +1152,7 @@ body.landing-open {
     overflow-x: hidden !important;
   }
   .landing-content {
-    padding: 0 12px 50px;
+    padding: 0 14px 40px;
     width: 100%;
     max-width: 100vw;
     box-sizing: border-box;
@@ -1161,25 +1161,25 @@ body.landing-open {
 
   /* Navbar */
   .landing-nav {
-    padding: 10px 12px;
-    margin: 0 -12px 18px;
+    padding: 8px 12px;
+    margin: 0 -14px 14px;
     gap: 6px;
     box-sizing: border-box;
-    width: calc(100% + 24px);
+    width: calc(100% + 28px);
     overflow: hidden;
   }
   .landing-nav-brand {
-    gap: 8px;
+    gap: 6px;
     min-width: 0;
     flex-shrink: 1;
   }
   .landing-nav-logo {
-    width: 30px;
-    height: 30px;
+    width: 26px;
+    height: 26px;
     flex-shrink: 0;
   }
   .landing-nav-brand h1 {
-    font-size: 1.1rem;
+    font-size: 1.02rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -1191,7 +1191,7 @@ body.landing-open {
     display: none !important;
   }
   .landing-nav-actions {
-    gap: 6px;
+    gap: 5px;
     flex-shrink: 0;
   }
   .landing-theme-toggle {
@@ -1208,76 +1208,87 @@ body.landing-open {
     height: 14px !important;
   }
   .landing-btn-login {
-    padding: 6px 10px;
-    font-size: 0.78rem;
-    border-radius: 8px;
+    padding: 5px 9px;
+    font-size: 0.74rem;
+    border-radius: 7px;
     white-space: nowrap;
   }
   .landing-btn-signup {
-    padding: 6px 12px;
-    font-size: 0.78rem;
-    border-radius: 8px;
+    padding: 5px 11px;
+    font-size: 0.74rem;
+    border-radius: 7px;
     white-space: nowrap;
   }
 
-  /* Hero */
+  /* Hero Section */
   .landing-hero {
-    padding: 16px 0 28px;
+    padding: 8px 0 20px;
     width: 100%;
     box-sizing: border-box;
   }
   .landing-badge {
-    font-size: 0.7rem;
-    padding: 4px 10px;
+    font-size: 0.64rem;
+    padding: 3px 8px;
     max-width: 100%;
     box-sizing: border-box;
     text-align: center;
-    margin-bottom: 16px;
+    margin-bottom: 10px;
+    border-radius: 20px;
   }
   .landing-title {
-    font-size: clamp(1.45rem, 6.5vw, 1.85rem);
-    line-height: 1.2;
-    letter-spacing: -0.5px;
-    margin-bottom: 12px;
-    padding: 0 4px;
+    font-size: 1.35rem;
+    line-height: 1.22;
+    letter-spacing: -0.4px;
+    margin-bottom: 8px;
+    padding: 0;
     box-sizing: border-box;
   }
   .landing-desc {
-    font-size: 0.88rem;
-    line-height: 1.5;
-    margin-bottom: 22px;
-    padding: 0 4px;
+    font-size: 0.78rem;
+    line-height: 1.45;
+    margin-bottom: 16px;
+    padding: 0;
     box-sizing: border-box;
+    max-width: 95%;
   }
   .landing-cta-row {
     flex-direction: column;
     width: 100%;
-    max-width: 100%;
-    margin: 0 auto 28px;
-    gap: 10px;
+    max-width: 280px;
+    margin: 0 auto 20px;
+    gap: 8px;
     box-sizing: border-box;
   }
   .landing-btn-primary,
   .landing-btn-secondary {
     width: 100%;
     max-width: 100%;
-    height: 46px;
-    padding: 0 16px;
-    font-size: 0.92rem;
+    height: 38px;
+    padding: 0 14px;
+    font-size: 0.84rem;
+    font-weight: 600;
+    border-radius: 9px;
     justify-content: center;
     box-sizing: border-box;
   }
+  .landing-btn-primary svg,
+  .landing-btn-secondary svg {
+    width: 15px !important;
+    height: 15px !important;
+    max-width: 15px !important;
+    max-height: 15px !important;
+  }
 
-  /* Floating Cards (Claude / ServiceNow mobile style) */
+  /* Floating Cards (Notification Pill Style) */
   .landing-floating-wrap {
     display: flex !important;
     flex-direction: column !important;
     height: auto !important;
     width: 100% !important;
     max-width: 100% !important;
-    gap: 10px !important;
-    margin-top: 8px !important;
-    margin-bottom: 40px !important;
+    gap: 7px !important;
+    margin-top: 4px !important;
+    margin-bottom: 30px !important;
     box-sizing: border-box !important;
   }
   .landing-float-card {
@@ -1289,9 +1300,9 @@ body.landing-open {
     width: 100% !important;
     max-width: 100% !important;
     box-sizing: border-box !important;
-    padding: 10px 12px !important;
-    gap: 10px !important;
-    border-radius: 14px !important;
+    padding: 8px 10px !important;
+    gap: 8px !important;
+    border-radius: 11px !important;
     overflow: hidden !important;
     left: auto !important;
     right: auto !important;
@@ -1299,14 +1310,14 @@ body.landing-open {
     bottom: auto !important;
   }
   .float-card-icon {
-    width: 36px !important;
-    height: 36px !important;
-    border-radius: 8px !important;
+    width: 30px !important;
+    height: 30px !important;
+    border-radius: 7px !important;
     flex-shrink: 0 !important;
   }
   .float-card-icon svg {
-    width: 18px !important;
-    height: 18px !important;
+    width: 15px !important;
+    height: 15px !important;
   }
   .float-card-info {
     flex: 1 1 auto !important;
@@ -1315,102 +1326,201 @@ body.landing-open {
     text-align: left !important;
   }
   .float-card-lbl {
-    font-size: 0.65rem !important;
+    font-size: 0.58rem !important;
+    letter-spacing: 0.3px !important;
     white-space: nowrap !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
-    margin-bottom: 2px !important;
+    margin-bottom: 1px !important;
   }
   .float-card-val {
-    font-size: 0.82rem !important;
+    font-size: 0.76rem !important;
     line-height: 1.2 !important;
     white-space: normal !important;
     word-break: break-word !important;
     overflow: hidden !important;
   }
   .float-card-badge {
-    font-size: 0.65rem !important;
-    padding: 3px 6px !important;
-    border-radius: 6px !important;
+    font-size: 0.6rem !important;
+    padding: 2px 5px !important;
+    border-radius: 5px !important;
     flex-shrink: 0 !important;
     margin-left: 4px !important;
     white-space: nowrap !important;
-    max-width: 40% !important;
+    max-width: 42% !important;
     text-align: center !important;
   }
   .float-card-dot {
+    width: 6px !important;
+    height: 6px !important;
     flex-shrink: 0 !important;
     margin-left: 4px !important;
   }
 
   /* Grid & Step Cards */
+  .landing-sec-tag {
+    font-size: 0.62rem !important;
+    letter-spacing: 1px !important;
+    margin-bottom: 4px !important;
+  }
   .landing-sec-title {
-    font-size: 1.55rem;
-    letter-spacing: -0.4px;
+    font-size: 1.22rem !important;
+    letter-spacing: -0.3px !important;
+    margin-bottom: 6px !important;
+  }
+  .landing-sec-sub {
+    font-size: 0.78rem !important;
+    line-height: 1.45 !important;
+    margin-bottom: 16px !important;
   }
   .landing-grid {
-    grid-template-columns: 1fr;
-    gap: 14px;
-    margin-bottom: 44px;
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+    margin-bottom: 32px !important;
   }
   .landing-card {
-    padding: 20px 16px;
+    padding: 14px 12px !important;
+    border-radius: 12px !important;
   }
+  .landing-card-icon {
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 8px !important;
+    margin-bottom: 8px !important;
+  }
+  .landing-card-icon svg {
+    width: 16px !important;
+    height: 16px !important;
+  }
+  .landing-card-title {
+    font-size: 0.95rem !important;
+    margin-bottom: 4px !important;
+  }
+  .landing-card-desc {
+    font-size: 0.76rem !important;
+    line-height: 1.45 !important;
+  }
+
   .landing-steps-row {
-    grid-template-columns: 1fr;
-    gap: 14px;
-    margin-bottom: 44px;
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+    margin-bottom: 32px !important;
   }
   .landing-step-card {
-    padding: 22px 16px;
+    padding: 14px 12px !important;
+    border-radius: 12px !important;
   }
+  .landing-step-num {
+    font-size: 1.15rem !important;
+    margin-bottom: 3px !important;
+  }
+  .landing-step-title {
+    font-size: 0.92rem !important;
+    margin-bottom: 4px !important;
+  }
+  .landing-step-desc {
+    font-size: 0.76rem !important;
+    line-height: 1.45 !important;
+  }
+
+  /* Developer Spotlight */
   .landing-dev-spotlight {
-    padding: 24px 16px;
-    margin-bottom: 44px;
+    padding: 16px 12px !important;
+    border-radius: 14px !important;
+    margin-bottom: 30px !important;
+  }
+  .dev-spotlight-inner {
+    gap: 12px !important;
+  }
+  .dev-avatar-box {
+    width: 54px !important;
+    height: 54px !important;
+    margin-bottom: 6px !important;
+  }
+  .dev-avatar-inner {
+    font-size: 1.25rem !important;
+  }
+  .dev-badge-tag {
+    font-size: 0.62rem !important;
+    padding: 2px 7px !important;
+    margin-bottom: 4px !important;
   }
   .dev-name {
-    font-size: 1.35rem;
+    font-size: 1.12rem !important;
+    margin-bottom: 2px !important;
+  }
+  .dev-role {
+    font-size: 0.76rem !important;
+    margin-bottom: 6px !important;
   }
   .dev-quote {
-    font-size: 0.86rem;
+    font-size: 0.76rem !important;
+    line-height: 1.45 !important;
+    padding-left: 8px !important;
+    margin-bottom: 10px !important;
   }
+  .dev-chips {
+    gap: 5px !important;
+  }
+  .dev-chip {
+    padding: 3px 7px !important;
+    font-size: 0.68rem !important;
+    border-radius: 6px !important;
+  }
+
+  /* Bottom CTA Banner */
   .landing-bottom-cta {
-    padding: 30px 16px;
-    margin-bottom: 36px;
+    padding: 20px 14px !important;
+    border-radius: 14px !important;
+    margin-bottom: 26px !important;
   }
   .landing-bottom-cta h2 {
-    font-size: 1.45rem;
+    font-size: 1.22rem !important;
+    margin-bottom: 6px !important;
   }
   .landing-bottom-cta p {
-    font-size: 0.88rem;
+    font-size: 0.76rem !important;
+    line-height: 1.45 !important;
+    margin-bottom: 14px !important;
   }
+
+  /* Footer */
   .landing-footer {
-    flex-direction: column;
-    text-align: center;
-    gap: 14px;
+    flex-direction: column !important;
+    text-align: center !important;
+    padding-top: 18px !important;
+    gap: 10px !important;
   }
   .landing-footer-l {
-    flex-direction: column;
-    text-align: center;
-    gap: 8px;
+    flex-direction: column !important;
+    text-align: center !important;
+    gap: 6px !important;
+  }
+  .landing-footer-copy {
+    font-size: 0.7rem !important;
   }
   .landing-footer-r {
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 12px;
+    justify-content: center !important;
+    flex-wrap: wrap !important;
+    gap: 10px !important;
   }
+  .landing-footer-r a {
+    font-size: 0.72rem !important;
+  }
+
+  /* Background Wheel */
   .landing-bg-wheel-wrap {
     position: fixed !important;
-    top: 50px !important;
+    top: 40px !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
-    width: 540px !important;
-    height: 540px !important;
+    width: 480px !important;
+    height: 480px !important;
     opacity: 0.35 !important;
     display: flex !important;
     pointer-events: none !important;
     z-index: 0 !important;
-    filter: drop-shadow(0 0 30px rgba(91, 108, 255, 0.4)) !important;
+    filter: drop-shadow(0 0 30px rgba(91, 108, 255, 0.45)) !important;
   }
   .light-theme .landing-bg-wheel-wrap {
     opacity: 0.22 !important;
