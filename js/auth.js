@@ -123,8 +123,8 @@ function saveUser() {
 }
 
 const AppState = {
-  isLoggedIn: false,
-  isGuest: false,
+  isLoggedIn: localStorage.getItem('pe_loggedIn') === 'true',
+  isGuest: localStorage.getItem('pe_isGuest') === 'true',
   user: Object.assign({}, DEFAULT_USER, loadPersistedUser()),
   streak: 0,
   xp: 0,
@@ -157,13 +157,19 @@ async function initSplash() {
     window.applyTheme(AppState.settings.theme || 'dark');
   }
 
-  const path = window.location.pathname.replace(/^\/+/g, '').replace(/\/+$/g, '').trim();
+  let path = window.location.pathname.replace(/^\/+/g, '').replace(/\/+$/g, '').trim();
+  if (path.includes('/')) {
+    const parts = path.split('/');
+    path = parts[parts.length - 1];
+  }
 
   // Check login state from localStorage
   const isLoggedInLocally = localStorage.getItem('pe_loggedIn') === 'true';
   const isGuest = localStorage.getItem('pe_isGuest') === 'true';
 
   if (isLoggedInLocally) {
+    AppState.isLoggedIn = true;
+    AppState.isGuest = isGuest;
     const persisted = loadPersistedUser();
     if (persisted) {
       AppState.user = Object.assign({}, DEFAULT_USER, persisted);
@@ -196,8 +202,12 @@ async function initSplash() {
         const appScreen = document.getElementById('app-screen');
         if (appScreen) appScreen.style.display = 'flex';
 
+        const landing = document.getElementById('landing-screen');
+        if (landing) landing.style.display = 'none';
+        document.body.classList.remove('landing-open');
+
         let targetRoute = path;
-        if (!targetRoute || targetRoute === 'verified' || targetRoute === 'index.html') {
+        if (!targetRoute || targetRoute === 'verified' || targetRoute === 'index.html' || targetRoute.toLowerCase() === 'interedge') {
           targetRoute = 'home';
         }
         if (window.Router) {

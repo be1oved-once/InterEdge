@@ -3588,6 +3588,7 @@ async function claimGoalReward() {
   }, 600);
 }
 
+window.renderHome = renderHome;
 window.initHome = initHome;
 window.renderPractice = renderPractice;
 window.initPractice = initPractice;

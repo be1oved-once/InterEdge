@@ -134,17 +134,21 @@
     if (authScreen) authScreen.style.display = 'none';
     if (appScreen) appScreen.style.display = 'none';
 
+    document.body.classList.add('landing-open');
+
     if (landing) {
       landing.style.display = 'block';
       landing.style.opacity = '1';
-      window.scrollTo(0, 0);
+      landing.scrollTop = 0;
     }
+    window.scrollTo(0, 0);
   }
 
   /**
    * Hide the Landing Page.
    */
   function hideLandingPage() {
+    document.body.classList.remove('landing-open');
     const landing = document.getElementById('landing-screen');
     if (landing) {
       landing.style.display = 'none';
@@ -183,8 +187,16 @@
    */
   function scrollToSection(sectionId) {
     const el = document.getElementById(sectionId);
+    const landing = document.getElementById('landing-screen');
     if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (landing && landing.scrollHeight > landing.clientHeight) {
+        const landingRect = landing.getBoundingClientRect();
+        const elRect = el.getBoundingClientRect();
+        const targetScrollTop = landing.scrollTop + (elRect.top - landingRect.top) - 64;
+        landing.scrollTo({ top: Math.max(0, targetScrollTop), behavior: 'smooth' });
+      } else {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     }
   }
 

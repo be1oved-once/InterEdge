@@ -31,8 +31,14 @@ const Router = (function() {
 
   function parseUrl() {
     let path = window.location.pathname.replace(/^\/+/g, '').replace(/\/+$/g, '').trim();
-    if (!path || path === 'index.html' || path === 'verified') return { route: 'home', params: {} };
-    const route = path;
+    if (path.includes('/')) {
+      const parts = path.split('/');
+      path = parts[parts.length - 1];
+    }
+    if (!path || path === 'index.html' || path === 'verified' || path.toLowerCase() === 'interedge') {
+      return { route: 'home', params: {} };
+    }
+    const route = routes[path] ? path : 'home';
     const params = {};
     const searchParams = new URLSearchParams(window.location.search);
     for (const [key, value] of searchParams.entries()) {
@@ -52,23 +58,25 @@ const Router = (function() {
   }
 
   function navigate(route, params) {
-    if (!route) route = 'home';
+    if (!route || route === 'index.html' || route.toLowerCase() === 'interedge') route = 'home';
     const newUrl = buildUrl(route, params || {});
     if (window.location.pathname + window.location.search === newUrl) {
-      handleRoute();
+      handleRoute(true);
     } else {
-      window.history.pushState({}, '', newUrl);
-      handleRoute();
+      try {
+        window.history.pushState({}, '', newUrl);
+      } catch(e) {}
+      handleRoute(true);
     }
   }
 
   function goBack() { window.history.back(); }
 
   function isAuthenticated() {
-    return window.AppState && AppState.isLoggedIn;
+    return (window.AppState && AppState.isLoggedIn) || localStorage.getItem('pe_loggedIn') === 'true';
   }
 
-  function handleRoute() {
+  function handleRoute(forceRender) {
     const { route, params } = parseUrl();
     const routeConfig = routes[route];
 
@@ -82,18 +90,21 @@ const Router = (function() {
 
     closeAllOverlays();
 
+    const mainContent = document.getElementById('main-content');
+    const isContentEmpty = !mainContent || !mainContent.children.length || !mainContent.innerHTML.trim();
+
     // Handle home panel param
     if (route === 'home' && params.panel) {
       showMainApp();
       updateNav(0);
-      if (previousRoute !== 'home') {
-        const mainContent = document.getElementById('main-content');
-        if (mainContent && window.renderHome) {
-          mainContent.innerHTML = '<div class="view-content">' + window.renderHome(params) + '</div>';
+      if (forceRender || previousRoute !== 'home' || isContentEmpty) {
+        const renderFn = window.renderHome || (typeof renderHome === 'function' ? renderHome : null);
+        if (mainContent && renderFn) {
+          mainContent.innerHTML = '<div class="view-content">' + renderFn(params) + '</div>';
         }
       }
       setTimeout(() => {
-        if (previousRoute !== 'home' && window.initHome) window.initHome();
+        if ((forceRender || previousRoute !== 'home' || isContentEmpty) && window.initHome) window.initHome();
         if (window.openFs) window.openFs(params.panel, false);
       }, 100);
       currentRoute = route;
@@ -104,14 +115,14 @@ const Router = (function() {
     if (route === 'profile' && params.panel) {
       showMainApp();
       updateNav(4);
-      if (previousRoute !== 'profile') {
-        const mainContent = document.getElementById('main-content');
-        if (mainContent && window.renderProfile) {
-          mainContent.innerHTML = '<div class="view-content">' + window.renderProfile(params) + '</div>';
+      if (forceRender || previousRoute !== 'profile' || isContentEmpty) {
+        const renderFn = window.renderProfile || (typeof renderProfile === 'function' ? renderProfile : null);
+        if (mainContent && renderFn) {
+          mainContent.innerHTML = '<div class="view-content">' + renderFn(params) + '</div>';
         }
       }
       setTimeout(() => {
-        if (previousRoute !== 'profile' && window.initProfile) window.initProfile();
+        if ((forceRender || previousRoute !== 'profile' || isContentEmpty) && window.initProfile) window.initProfile();
         if (window.openFs) window.openFs(params.panel, false);
       }, 100);
       currentRoute = route;
@@ -134,10 +145,10 @@ const Router = (function() {
     showMainApp();
     updateNav(routeConfig.navIdx);
 
-    if (previousRoute !== route) {
-      const mainContent = document.getElementById('main-content');
-      if (mainContent && window[routeConfig.view]) {
-        mainContent.innerHTML = '<div class="view-content">' + window[routeConfig.view](params) + '</div>';
+    if (forceRender || previousRoute !== route || isContentEmpty) {
+      const renderFn = window[routeConfig.view] || (route === 'home' ? (window.renderHome || (typeof renderHome === 'function' ? renderHome : null)) : null);
+      if (mainContent && typeof renderFn === 'function') {
+        mainContent.innerHTML = '<div class="view-content">' + renderFn(params) + '</div>';
         if (route === 'home' && window.initHome) setTimeout(window.initHome, 10);
         if (route === 'practice' && window.initPractice) setTimeout(window.initPractice, 10);
         if (route === 'profile' && window.initProfile) setTimeout(window.initProfile, 10);
@@ -148,6 +159,9 @@ const Router = (function() {
   function showMainApp() {
     const appScreen = document.getElementById('app-screen');
     const authScreen = document.getElementById('auth-screen');
+    const landingScreen = document.getElementById('landing-screen');
+    if (landingScreen) landingScreen.style.display = 'none';
+    if (document.body) document.body.classList.remove('landing-open');
     if (appScreen) { appScreen.style.display = 'flex'; setTimeout(() => { showBottomNav(); showTopbar(); }, 10); }
     if (authScreen) authScreen.style.display = 'none';
   }
@@ -194,8 +208,8 @@ const Router = (function() {
   }
 
   function init() {
-    window.addEventListener('popstate', handleRoute);
-    window.addEventListener('DOMContentLoaded', () => { setTimeout(handleRoute, 100); });
+    window.addEventListener('popstate', () => handleRoute(true));
+    window.addEventListener('DOMContentLoaded', () => { setTimeout(() => handleRoute(true), 100); });
   }
 
   return {
