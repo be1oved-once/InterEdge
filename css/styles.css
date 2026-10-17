@@ -428,8 +428,9 @@ body {
   position: relative;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 0 16px 20px;
+  padding: 0 16px 88px;
   scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
 }
 
 .main::-webkit-scrollbar { display: none; }
@@ -3588,6 +3589,7 @@ body {
   gap: 6px;
   cursor: pointer;
   transition: all 0.2s;
+  flex-shrink: 0;
 }
 .tier-filter-btn:hover {
   background: var(--bg2);
@@ -3632,6 +3634,21 @@ body {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(91,108,255,0.3) transparent;
+}
+.frame-modal-body::-webkit-scrollbar {
+  width: 5px;
+}
+.frame-modal-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+.frame-modal-body::-webkit-scrollbar-thumb {
+  background: rgba(91,108,255,0.3);
+  border-radius: 10px;
+}
+.frame-modal-body::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
 }
 
 /* ============================================

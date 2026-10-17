@@ -118,6 +118,8 @@ const Router = (function() {
       if (forceRender || previousRoute !== 'profile' || isContentEmpty) {
         const renderFn = window.renderProfile || (typeof renderProfile === 'function' ? renderProfile : null);
         if (mainContent && renderFn) {
+          mainContent.scrollTop = 0;
+          window.scrollTo(0, 0);
           mainContent.innerHTML = '<div class="view-content">' + renderFn(params) + '</div>';
         }
       }
@@ -148,6 +150,8 @@ const Router = (function() {
     if (forceRender || previousRoute !== route || isContentEmpty) {
       const renderFn = window[routeConfig.view] || (route === 'home' ? (window.renderHome || (typeof renderHome === 'function' ? renderHome : null)) : null);
       if (mainContent && typeof renderFn === 'function') {
+        mainContent.scrollTop = 0;
+        window.scrollTo(0, 0);
         mainContent.innerHTML = '<div class="view-content">' + renderFn(params) + '</div>';
         if (route === 'home' && window.initHome) setTimeout(window.initHome, 10);
         if (route === 'practice' && window.initPractice) setTimeout(window.initPractice, 10);

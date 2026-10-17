@@ -128,7 +128,7 @@ const AppState = {
   user: Object.assign({}, DEFAULT_USER, loadPersistedUser()),
   streak: 0,
   xp: 0,
-  rank: 1,
+  rank: 12,
   last_xp_date: '',
   questionsAttempted: 0,
   correctAnswers: 0,

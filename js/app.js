@@ -796,12 +796,12 @@ function renderRanks() {
       <!-- User Active Rank Pill -->
       <div style="background:var(--card); border:1px solid var(--border); padding:6px 12px; border-radius:100px; font-size:0.75rem; font-weight:700; color:var(--accent2); display:flex; align-items:center; gap:6px;">
         <span>Your Rank:</span>
-        <strong style="color:var(--txt); font-size:0.85rem;">#${AppState.rank || 12}</strong>
+        <strong id="user-rank-val" style="color:var(--txt); font-size:0.85rem;">#${AppState.rank || 12}</strong>
       </div>
     </div>
 
     <!-- 5 Tiers Filter Strip (No Emojis, Pure 3D Badges) -->
-    <div class="rank-tier-filters" style="display:flex; gap:6px; overflow-x:auto; padding-bottom:8px; margin-bottom:16px; scrollbar-width:none;">
+    <div class="rank-tier-filters" style="display:flex; gap:8px; overflow-x:auto; padding-bottom:8px; margin-bottom:16px; scrollbar-width:none; -webkit-overflow-scrolling:touch;">
       <button class="tier-filter-btn ${window.selectedLeaderboardTier==='all'?'active':''}" onclick="filterRanksTier('all', this)">All (20)</button>
       <button class="tier-filter-btn ${window.selectedLeaderboardTier==='zone'?'active':''}" onclick="filterRanksTier('zone', this)">${getTierSvg('In The Zone', 14)} In The Zone</button>
       <button class="tier-filter-btn ${window.selectedLeaderboardTier==='focus'?'active':''}" onclick="filterRanksTier('focus', this)">${getTierSvg('Focused', 14)} Focused</button>
@@ -860,12 +860,16 @@ function populateRanks() {
   // Sort descending by XP
   board.sort((a, b) => b.xp - a.xp);
 
-  // Take top 20 and reassign ranks 1 to 20
-  board = board.slice(0, 20).map((u, i) => {
+  // Compute rank for all users
+  board.forEach((u, i) => {
     u.rank = i + 1;
     if (u.isMe) AppState.rank = u.rank;
-    return u;
   });
+
+  const rankBadge = document.getElementById('user-rank-val');
+  if (rankBadge) {
+    rankBadge.textContent = '#' + (AppState.rank || 12);
+  }
 
   // Filter if tier filter active
   const tierFilter = window.selectedLeaderboardTier || 'all';
@@ -881,6 +885,16 @@ function generateBoardHtml(displayBoard, fullBoard = []) {
   if (!displayBoard || displayBoard.length === 0) {
     return `<div style="text-align:center; padding:40px; color:var(--txt3);">No students in this tier yet. Keep grinding!</div>`;
   }
+
+  // Helper to format long names in podium so they never clip awkwardly with ellipsis
+  const formatPodiumName = (name) => {
+    if (!name) return '';
+    const parts = name.trim().split(/\s+/);
+    if (parts.length > 1 && name.length > 11) {
+      return `${parts[0]} ${parts[1][0]}.`;
+    }
+    return name;
+  };
 
   // Check if viewing all ranks to render Top 3 Podium
   const showPodium = window.selectedLeaderboardTier === 'all' && displayBoard.length >= 3;
@@ -907,9 +921,9 @@ function generateBoardHtml(displayBoard, fullBoard = []) {
           <div style="margin-bottom:6px;">${silverMedal}</div>
           <div style="width:62px; height:62px; border-radius:18px; border:3px solid #94a3b8; box-shadow:0 6px 18px rgba(148,163,184,0.3); padding:2px; background:var(--card); position:relative;">
             ${renderAv(podium[1])}
-            <div style="position:absolute; bottom:-6px; right:-6px;">${getTierSvg(podium[1].tier, 18)}</div>
+            <div style="position:absolute; bottom:-4px; right:-4px; width:22px; height:22px; border-radius:50%; background:var(--card); display:grid; place-items:center; box-shadow:0 2px 6px rgba(0,0,0,0.5);">${getTierSvg(podium[1].tier, 15)}</div>
           </div>
-          <div style="font-weight:700; font-size:0.85rem; color:var(--txt); margin-top:8px; text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100px;">${escapeHtml(podium[1].name)}</div>
+          <div style="font-weight:700; font-size:0.85rem; color:var(--txt); margin-top:8px; text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:105px;">${escapeHtml(formatPodiumName(podium[1].name))}</div>
           <div style="font-size:0.75rem; font-weight:700; color:var(--accent2);">${formatXP(podium[1].xp)} XP</div>
           <div style="margin-top:6px; width:100%; height:45px; background:linear-gradient(180deg, rgba(148,163,184,0.2), rgba(148,163,184,0.05)); border:1px solid rgba(148,163,184,0.3); border-radius:12px 12px 0 0; display:grid; place-items:center; font-weight:800; color:#94a3b8; font-size:1.1rem;">2</div>
         </div>
@@ -919,9 +933,9 @@ function generateBoardHtml(displayBoard, fullBoard = []) {
           <div style="margin-bottom:8px; transform:scale(1.2);">${crownGold}</div>
           <div style="width:74px; height:74px; border-radius:20px; border:3.5px solid #fbbf24; box-shadow:0 10px 25px rgba(251,191,36,0.45); padding:2px; background:var(--card); position:relative;">
             ${renderAv(podium[0])}
-            <div style="position:absolute; bottom:-6px; right:-6px;">${getTierSvg(podium[0].tier, 22)}</div>
+            <div style="position:absolute; bottom:-4px; right:-4px; width:24px; height:24px; border-radius:50%; background:var(--card); display:grid; place-items:center; box-shadow:0 2px 6px rgba(0,0,0,0.5);">${getTierSvg(podium[0].tier, 18)}</div>
           </div>
-          <div style="font-weight:800; font-size:0.92rem; color:var(--txt); margin-top:8px; text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:115px;">${escapeHtml(podium[0].name)}</div>
+          <div style="font-weight:800; font-size:0.92rem; color:var(--txt); margin-top:8px; text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:120px;">${escapeHtml(formatPodiumName(podium[0].name))}</div>
           <div style="font-size:0.8rem; font-weight:800; color:#fbbf24;">${formatXP(podium[0].xp)} XP</div>
           <div style="margin-top:6px; width:100%; height:65px; background:linear-gradient(180deg, rgba(251,191,36,0.25), rgba(251,191,36,0.05)); border:1.5px solid rgba(251,191,36,0.4); border-radius:14px 14px 0 0; display:grid; place-items:center; font-weight:900; color:#fbbf24; font-size:1.3rem;">1</div>
         </div>
@@ -931,9 +945,9 @@ function generateBoardHtml(displayBoard, fullBoard = []) {
           <div style="margin-bottom:6px;">${bronzeMedal}</div>
           <div style="width:62px; height:62px; border-radius:18px; border:3px solid #b45309; box-shadow:0 6px 18px rgba(180,83,9,0.3); padding:2px; background:var(--card); position:relative;">
             ${renderAv(podium[2])}
-            <div style="position:absolute; bottom:-6px; right:-6px;">${getTierSvg(podium[2].tier, 18)}</div>
+            <div style="position:absolute; bottom:-4px; right:-4px; width:22px; height:22px; border-radius:50%; background:var(--card); display:grid; place-items:center; box-shadow:0 2px 6px rgba(0,0,0,0.5);">${getTierSvg(podium[2].tier, 15)}</div>
           </div>
-          <div style="font-weight:700; font-size:0.85rem; color:var(--txt); margin-top:8px; text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100px;">${escapeHtml(podium[2].name)}</div>
+          <div style="font-weight:700; font-size:0.85rem; color:var(--txt); margin-top:8px; text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:105px;">${escapeHtml(formatPodiumName(podium[2].name))}</div>
           <div style="font-size:0.75rem; font-weight:700; color:var(--accent2);">${formatXP(podium[2].xp)} XP</div>
           <div style="margin-top:6px; width:100%; height:35px; background:linear-gradient(180deg, rgba(180,83,9,0.2), rgba(180,83,9,0.05)); border:1px solid rgba(180,83,9,0.3); border-radius:12px 12px 0 0; display:grid; place-items:center; font-weight:800; color:#d97706; font-size:1.05rem;">3</div>
         </div>
@@ -948,7 +962,7 @@ function generateBoardHtml(displayBoard, fullBoard = []) {
     const meClass = isMe ? 'me-highlight' : '';
 
     html += `
-      <div class="rank-row ${meClass}" style="background:var(--card); border:${isMe ? '1.5px solid var(--accent)' : '1px solid var(--border)'}; border-radius:14px; padding:12px 14px; display:flex; align-items:center; gap:12px; transition:transform 0.2s;">
+      <div class="rank-row ${meClass}" style="background:var(--card); border:${isMe ? '1.5px solid var(--accent)' : '1px solid var(--border)'}; border-radius:14px; padding:12px 16px; display:flex; align-items:center; gap:12px; transition:transform 0.2s;">
         <div style="width:24px; font-weight:800; font-size:0.9rem; color:${isMe ? 'var(--accent2)' : 'var(--txt3)'}; text-align:center;">
           ${u.rank}
         </div>
@@ -970,7 +984,7 @@ function generateBoardHtml(displayBoard, fullBoard = []) {
             <span style="font-size:0.72rem; color:var(--txt3);">${u.streak || 1}d streak</span>
           </div>
         </div>
-        <div style="text-align:right;">
+        <div style="text-align:right; flex-shrink:0;">
           <div style="font-weight:800; font-size:0.95rem; color:${isMe ? 'var(--accent2)' : 'var(--txt)'};">${formatXP(u.xp)}</div>
           <div style="font-size:0.68rem; color:var(--txt3); text-transform:uppercase;">XP</div>
         </div>
@@ -1129,6 +1143,10 @@ function openFrameModal() {
   const userLvl = calculateUserLevel(AppState.xp).level;
   const equippedId = AppState.user.equippedFrame || 'frame_1';
   const frames = window.AVATAR_FRAMES || [];
+  const userAvatar = AppState.user.avatar;
+  const avHtml = userAvatar 
+    ? `<img src="${userAvatar}" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">` 
+    : window.getDefaultAvatarSVG();
 
   grid.innerHTML = frames.map(f => {
     const isUnlocked = userLvl >= f.minLevel;
@@ -1138,7 +1156,7 @@ function openFrameModal() {
       <div class="frame-item-card ${isEquipped ? 'equipped' : ''} ${!isUnlocked ? 'locked' : ''}" style="background:var(--card); border:${isEquipped ? '2px solid var(--accent)' : '1px solid var(--border)'}; border-radius:14px; padding:12px; display:flex; align-items:center; gap:12px; position:relative;">
         <div style="width:48px; height:48px; border-radius:14px; border:${f.border}; box-shadow:0 0 10px ${f.glow}; background:var(--bg2); padding:2px; flex-shrink:0;">
           <div style="width:100%; height:100%; border-radius:10px; overflow:hidden;">
-            ${window.getDefaultAvatarSVG()}
+            ${avHtml}
           </div>
         </div>
         <div style="flex:1;">
@@ -1172,9 +1190,13 @@ function equipFrame(frameId) {
   saveUser();
   closeFrameModal();
   
-  // Refresh profile view
+  // Refresh profile view and reset scroll
   const main = document.getElementById('main-content');
-  if (main) main.innerHTML = renderProfile();
+  if (main) {
+    main.scrollTop = 0;
+    main.innerHTML = '<div class="view-content">' + renderProfile() + '</div>';
+  }
+  if (window.initProfile) window.initProfile();
   showToast('Avatar frame equipped successfully!');
 }
 
