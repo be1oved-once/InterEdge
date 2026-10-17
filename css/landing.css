@@ -210,14 +210,14 @@ body.landing-open {
 }
 
 .landing-theme-toggle {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: transparent;
+  border: none;
   color: var(--txt2);
   cursor: pointer;
   transition: all 0.2s;
@@ -226,14 +226,14 @@ body.landing-open {
 }
 
 .landing-theme-toggle:hover {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.1);
   color: #fff;
-  transform: translateY(-1px);
+  transform: none;
 }
 
 .landing-theme-toggle svg {
-  width: 17px;
-  height: 17px;
+  width: 15px;
+  height: 15px;
 }
 
 .landing-theme-toggle .sun-icon {
@@ -922,14 +922,14 @@ body.landing-open {
 }
 
 .light-theme .landing-theme-toggle {
-  background: #ffffff;
+  background: transparent;
   color: var(--txt2);
-  border: 1px solid rgba(0, 0, 0, 0.14);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  border: none;
+  box-shadow: none;
 }
 
 .light-theme .landing-theme-toggle:hover {
-  background: #f1f5f9;
+  background: rgba(0, 0, 0, 0.06);
   color: var(--accent);
 }
 
@@ -1195,13 +1195,17 @@ body.landing-open {
     flex-shrink: 0;
   }
   .landing-theme-toggle {
-    width: 30px;
-    height: 30px;
-    border-radius: 8px;
+    width: 26px !important;
+    height: 26px !important;
+    border-radius: 50% !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
   }
   .landing-theme-toggle svg {
-    width: 15px;
-    height: 15px;
+    width: 14px !important;
+    height: 14px !important;
   }
   .landing-btn-login {
     padding: 6px 10px;
@@ -1396,10 +1400,20 @@ body.landing-open {
     gap: 12px;
   }
   .landing-bg-wheel-wrap {
-    width: 340px;
-    height: 340px;
-    top: -40px;
-    right: -80px;
-    opacity: 0.10;
+    position: fixed !important;
+    top: 50px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 540px !important;
+    height: 540px !important;
+    opacity: 0.35 !important;
+    display: flex !important;
+    pointer-events: none !important;
+    z-index: 0 !important;
+    filter: drop-shadow(0 0 30px rgba(91, 108, 255, 0.4)) !important;
+  }
+  .light-theme .landing-bg-wheel-wrap {
+    opacity: 0.22 !important;
+    filter: drop-shadow(0 0 25px rgba(79, 93, 230, 0.25)) !important;
   }
 }
