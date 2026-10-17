@@ -200,6 +200,21 @@
     }
   }
 
+  /**
+   * Global Theme Toggle for Landing Page & App
+   */
+  function toggleThemeGlobal() {
+    const isLight = document.body.classList.contains('light-theme');
+    const targetTheme = isLight ? 'dark' : 'light';
+    if (typeof window.setTheme === 'function') {
+      window.setTheme(targetTheme);
+    } else if (typeof window.applyTheme === 'function') {
+      window.applyTheme(targetTheme);
+    } else {
+      document.body.classList.toggle('light-theme', !isLight);
+    }
+  }
+
   // Expose landing controller to window
   window.LandingPage = {
     getLogoSVG: getInterEdgeLogoSVG,
@@ -207,12 +222,14 @@
     show: showLandingPage,
     hide: hideLandingPage,
     openAuth: openAuthFromLanding,
-    scrollToSection: scrollToSection
+    scrollToSection: scrollToSection,
+    toggleTheme: toggleThemeGlobal
   };
 
   // Global convenience bindings
   window.showLandingPage = showLandingPage;
   window.openAuthFromLanding = openAuthFromLanding;
   window.scrollToLandingSection = scrollToSection;
+  window.toggleThemeGlobal = toggleThemeGlobal;
 
 })();
