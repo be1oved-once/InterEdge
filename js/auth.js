@@ -204,15 +204,21 @@ async function initSplash() {
           Router.navigate(targetRoute);
         }
       } else {
-        showAuthScreen();
+        if (typeof showLandingPage === 'function') {
+          showLandingPage();
+        } else {
+          showAuthScreen();
+        }
       }
     }, FADE_DURATION);
   }, remaining);
 }
 
 function showAuthScreen() {
+  const landing = document.getElementById('landing-screen');
   const authScreen = document.getElementById('auth-screen');
   const appScreen = document.getElementById('app-screen');
+  if (landing) landing.style.display = 'none';
   if (authScreen) {
     authScreen.style.display = 'flex';
     authScreen.style.animation = 'authSlideIn 0.4s cubic-bezier(.22,1,.36,1)';
@@ -457,6 +463,11 @@ function completeLogin(isGuest) {
   localStorage.setItem('pe_loggedIn', 'true');
   localStorage.setItem('pe_isGuest', isGuest ? 'true' : 'false');
 
+  const landingScreen = document.getElementById('landing-screen');
+  if (landingScreen) {
+    landingScreen.style.display = 'none';
+  }
+
   const splash = document.getElementById('splash-screen');
   if (splash && splash.style.display !== 'none') {
     splash.style.transition = `opacity ${FADE_DURATION}ms ease`;
@@ -507,7 +518,11 @@ async function handleSignout() {
   const appScreen = document.getElementById('app-screen');
   if (appScreen) appScreen.style.display = 'none';
   window.history.pushState({}, '', '/');
-  showAuthScreen();
+  if (typeof showLandingPage === 'function') {
+    showLandingPage();
+  } else {
+    showAuthScreen();
+  }
   showToast('Signed out successfully');
 }
 

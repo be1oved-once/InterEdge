@@ -14,6 +14,7 @@
 <link rel="stylesheet" href="css/styles.css">
 <link rel="stylesheet" href="css/additions.css">
 <link rel="stylesheet" href="css/paige.css">
+<link rel="stylesheet" href="css/landing.css">
   <!-- Confetti -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
@@ -27,12 +28,420 @@
   </div>
 </div>
 
+<!-- ========== LANDING SCREEN (Entry Flow for New / Unauthenticated Visitors) ========== -->
+<div id="landing-screen" class="landing-screen" style="display:none;">
+
+  <!-- Minimal Bigger Continuous Rotating Background Wheel (Lightweight & Smooth) -->
+  <div class="landing-bg-wheel-wrap">
+    <svg class="landing-bg-wheel-svg" viewBox="0 0 700 700" fill="none" xmlns="http://www.w3.org/2000/svg" style="color: #7f8cff;">
+      <!-- Outer Orbit Ring -->
+      <circle cx="350" cy="350" r="340" stroke="currentColor" stroke-width="1" stroke-dasharray="8 8" opacity="0.25"/>
+      <!-- Ticked Outer Dial Ring -->
+      <circle cx="350" cy="350" r="300" stroke="currentColor" stroke-width="1.2" opacity="0.4"/>
+      <!-- Precision Radial Ticks -->
+      <g stroke="currentColor" opacity="0.6">
+        <line x1="650.0" y1="350.0" x2="670.0" y2="350.0" stroke-width="1.5"/>
+        <line x1="639.8" y1="427.6" x2="651.4" y2="430.7" stroke-width="1"/>
+        <line x1="609.8" y1="500.0" x2="627.1" y2="510.0" stroke-width="1.5"/>
+        <line x1="562.1" y1="562.1" x2="570.6" y2="570.6" stroke-width="1"/>
+        <line x1="500.0" y1="609.8" x2="510.0" y2="627.1" stroke-width="1.5"/>
+        <line x1="427.6" y1="639.8" x2="430.7" y2="651.4" stroke-width="1"/>
+        <line x1="350.0" y1="650.0" x2="350.0" y2="670.0" stroke-width="1.5"/>
+        <line x1="272.4" y1="639.8" x2="269.3" y2="651.4" stroke-width="1"/>
+        <line x1="200.0" y1="609.8" x2="190.0" y2="627.1" stroke-width="1.5"/>
+        <line x1="137.9" y1="562.1" x2="129.4" y2="570.6" stroke-width="1"/>
+        <line x1="90.2" y1="500.0" x2="72.9" y2="510.0" stroke-width="1.5"/>
+        <line x1="60.2" y1="427.6" x2="48.6" y2="430.7" stroke-width="1"/>
+        <line x1="50.0" y1="350.0" x2="30.0" y2="350.0" stroke-width="1.5"/>
+        <line x1="60.2" y1="272.4" x2="48.6" y2="269.3" stroke-width="1"/>
+        <line x1="90.2" y1="200.0" x2="72.9" y2="190.0" stroke-width="1.5"/>
+        <line x1="137.9" y1="137.9" x2="129.4" y2="129.4" stroke-width="1"/>
+        <line x1="200.0" y1="90.2" x2="190.0" y2="72.9" stroke-width="1.5"/>
+        <line x1="272.4" y1="60.2" x2="269.3" y2="48.6" stroke-width="1"/>
+        <line x1="350.0" y1="50.0" x2="350.0" y2="30.0" stroke-width="1.5"/>
+        <line x1="427.6" y1="60.2" x2="430.7" y2="48.6" stroke-width="1"/>
+        <line x1="500.0" y1="90.2" x2="510.0" y2="72.9" stroke-width="1.5"/>
+        <line x1="562.1" y1="137.9" x2="570.6" y2="129.4" stroke-width="1"/>
+        <line x1="609.8" y1="200.0" x2="627.1" y2="190.0" stroke-width="1.5"/>
+        <line x1="639.8" y1="272.4" x2="651.4" y2="269.3" stroke-width="1"/>
+      </g>
+      <circle cx="350" cy="350" r="320" stroke="currentColor" stroke-width="0.8" opacity="0.3"/>
+      <!-- Mid Orbit with Geometric Dots -->
+      <circle cx="350" cy="350" r="240" stroke="currentColor" stroke-width="1" stroke-dasharray="3 12" opacity="0.5"/>
+      <circle cx="590" cy="350" r="4" fill="currentColor" opacity="0.7"/>
+      <circle cx="110" cy="350" r="4" fill="currentColor" opacity="0.7"/>
+      <circle cx="350" cy="590" r="4" fill="currentColor" opacity="0.7"/>
+      <circle cx="350" cy="110" r="4" fill="currentColor" opacity="0.7"/>
+      <!-- Inner Rings -->
+      <circle cx="350" cy="350" r="180" stroke="currentColor" stroke-width="1.5" stroke-dasharray="24 16" opacity="0.6"/>
+      <circle cx="350" cy="350" r="140" stroke="currentColor" stroke-width="1" opacity="0.3"/>
+      <circle cx="350" cy="350" r="100" stroke="currentColor" stroke-width="1.5" stroke-dasharray="10 10" opacity="0.45"/>
+      <!-- Astrolabe Center Core -->
+      <circle cx="350" cy="350" r="45" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+      <circle cx="350" cy="350" r="6" fill="currentColor" opacity="0.8"/>
+      <!-- Cross Axes -->
+      <line x1="350" y1="50" x2="350" y2="650" stroke="currentColor" stroke-width="0.75" stroke-dasharray="6 6" opacity="0.2"/>
+      <line x1="50" y1="350" x2="650" y2="350" stroke="currentColor" stroke-width="0.75" stroke-dasharray="6 6" opacity="0.2"/>
+    </svg>
+  </div>
+
+  <!-- Ambient Glow Gradients -->
+  <div class="landing-ambient-glow-1"></div>
+  <div class="landing-ambient-glow-2"></div>
+
+  <!-- Landing Container -->
+  <div class="landing-content">
+
+    <!-- Top Sticky Navbar -->
+    <header class="landing-nav">
+      <div class="landing-nav-brand" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+        <div class="landing-nav-logo">
+          <!-- 100% SVG Logo for InterEdge -->
+          <svg class="interedge-svg-logo" width="36" height="36" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="ie_fl_nav" x1="12" y1="88" x2="48" y2="12" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#ff1e56"/>
+                <stop offset="50%" stop-color="#ff7b00"/>
+                <stop offset="100%" stop-color="#ffd000"/>
+              </linearGradient>
+              <linearGradient id="ie_fr_nav" x1="88" y1="88" x2="52" y2="12" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#e11d48"/>
+                <stop offset="60%" stop-color="#ff6b35"/>
+                <stop offset="100%" stop-color="#ffba08"/>
+              </linearGradient>
+              <linearGradient id="ie_pt_nav" x1="30" y1="92" x2="70" y2="8" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#3b82f6"/>
+                <stop offset="45%" stop-color="#5b6cff"/>
+                <stop offset="100%" stop-color="#00f2fe"/>
+              </linearGradient>
+            </defs>
+            <path d="M 22 78 L 38 48 L 48 64 L 32 86 Z" fill="url(#ie_fl_nav)" opacity="0.95" />
+            <path d="M 16 62 L 34 32 L 38 48 L 22 78 Z" fill="#ff4d00" opacity="0.85" />
+            <path d="M 34 32 L 48 14 L 46 36 L 38 48 Z" fill="#ffd000" />
+            <path d="M 78 78 L 62 48 L 52 64 L 68 86 Z" fill="url(#ie_fr_nav)" opacity="0.95" />
+            <path d="M 84 62 L 66 32 L 62 48 L 78 78 Z" fill="#e11d48" opacity="0.85" />
+            <path d="M 66 32 L 52 14 L 54 36 L 62 48 Z" fill="#ffba08" />
+            <path d="M 46 88 L 36 60 L 58 38 L 50 10 L 64 36 L 42 62 L 54 88 Z" fill="url(#ie_pt_nav)" />
+            <path d="M 50 10 L 58 38 L 48 42 Z" fill="#ffffff" opacity="0.85" />
+            <path d="M 42 62 L 54 88 L 46 88 Z" fill="#1d4ed8" opacity="0.9" />
+            <line x1="50" y1="10" x2="36" y2="60" stroke="#00f2fe" stroke-width="1.2" stroke-linecap="round" opacity="0.75"/>
+            <line x1="50" y1="10" x2="64" y2="36" stroke="#ffffff" stroke-width="1" stroke-linecap="round" opacity="0.85"/>
+          </svg>
+        </div>
+        <h1>InterEdge</h1>
+        <span class="landing-tier-pill">CA INTER</span>
+      </div>
+
+      <nav class="landing-nav-links">
+        <a onclick="scrollToLandingSection('landing-why-us')">Why InterEdge</a>
+        <a onclick="scrollToLandingSection('landing-how-works')">How It Works</a>
+        <a onclick="scrollToLandingSection('landing-developer')">Creator</a>
+      </nav>
+
+      <!-- Top Right Corner Actions: 2 Buttons (Login and Signup) -->
+      <div class="landing-nav-actions">
+        <button class="landing-btn-login" onclick="openAuthFromLanding('login')">Login</button>
+        <button class="landing-btn-signup" onclick="openAuthFromLanding('signup')">Sign Up</button>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="landing-hero">
+      <div class="landing-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        Aligned with ICAI New Scheme • May 2027 & Beyond
+      </div>
+
+      <h1 class="landing-title">
+        Master CA Intermediate with <span class="landing-title-grad">Razor-Sharp Edge</span>
+      </h1>
+
+      <p class="landing-desc">
+        The high-yield exam platform built specifically for CA Intermediate aspirants. Drill chapter-wise MCQs, master subjective Law answer drafting, get instant clarity with Paige AI, and track your All-India percentile benchmark.
+      </p>
+
+      <!-- In-Page CTA Row: 2 Buttons (Get Started and Login) -->
+      <div class="landing-cta-row">
+        <button class="landing-btn-primary" onclick="openAuthFromLanding('signup')">
+          <span>Get Started</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </button>
+        <button class="landing-btn-secondary" onclick="openAuthFromLanding('login')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+          <span>Login</span>
+        </button>
+      </div>
+
+      <!-- Floating Detail Boxes (Claude / ServiceNow Style) -->
+      <div class="landing-floating-wrap">
+        <!-- Floating Card 1: Streak -->
+        <div class="landing-float-card card-pos-1">
+          <div class="float-card-icon icon-fire">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+          </div>
+          <div class="float-card-info">
+            <div class="float-card-lbl">Daily Consistency</div>
+            <div class="float-card-val">14 Days Streak 🔥</div>
+          </div>
+          <span class="float-card-badge gold">+100 XP Target</span>
+        </div>
+
+        <!-- Floating Card 2: Paige AI Doubt Assistant -->
+        <div class="landing-float-card card-pos-2">
+          <div class="float-card-icon icon-ai">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>
+          </div>
+          <div class="float-card-info">
+            <div class="float-card-lbl">Paige AI Assistant</div>
+            <div class="float-card-val">Sec 135 CSR Resolved</div>
+          </div>
+          <span class="float-card-dot" title="Active AI Mentor"></span>
+        </div>
+
+        <!-- Floating Card 3: All-India Test Simulator -->
+        <div class="landing-float-card card-pos-3">
+          <div class="float-card-icon icon-test">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.45 1-1 1H7v4h10v-4h-2c-.55 0-1-.45-1-1v-2.34"/><path d="M18 4H6v7a6 6 0 0 0 12 0V4Z"/></svg>
+          </div>
+          <div class="float-card-info">
+            <div class="float-card-lbl">All-India MTP Simulator</div>
+            <div class="float-card-val">AIR 1 • GST Mock 1</div>
+          </div>
+          <span class="float-card-badge">94% Accuracy</span>
+        </div>
+
+        <!-- Floating Card 4: Subjective Law Drafter -->
+        <div class="landing-float-card card-pos-4">
+          <div class="float-card-icon icon-offline">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg>
+          </div>
+          <div class="float-card-info">
+            <div class="float-card-lbl">3-Step Law Drafter</div>
+            <div class="float-card-val">Provision & Analysis Ready</div>
+          </div>
+          <span class="float-card-badge">Offline Mode</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: Why Shall They Use Us -->
+    <section id="landing-why-us" class="landing-section" style="padding-top: 40px;">
+      <div class="landing-sec-hdr">
+        <div class="landing-sec-tag">Why InterEdge</div>
+        <h2 class="landing-sec-title">Built Specially for CA Inter Aspirants</h2>
+        <p class="landing-sec-sub">
+          CA Intermediate requires moving beyond rote memorization. InterEdge bridges the gap with active recall, legal drafting structures, and immediate conceptual clarity.
+        </p>
+      </div>
+
+      <div class="landing-grid">
+        <!-- Feature 1 -->
+        <div class="landing-card">
+          <div class="landing-card-icon card-ico-blue">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          </div>
+          <h3 class="landing-card-title">ICAI-Aligned Question Bank</h3>
+          <p class="landing-card-desc">
+            Extensive practice repository spanning Group 1 and Group 2 — Corporate & Other Laws, Taxation, Advanced Accounting, Costing, Audit & Ethics, and FM-SM.
+          </p>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="landing-card">
+          <div class="landing-card-icon card-ico-amber">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg>
+          </div>
+          <h3 class="landing-card-title">Subjective Law Drafting</h3>
+          <p class="landing-card-desc">
+            Never lose marks on paper presentation. Train with the standard 3-tier ICAI format: Applicable Legal Provision, Facts Analysis, and Decisive Legal Conclusion.
+          </p>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="landing-card">
+          <div class="landing-card-icon card-ico-green">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>
+          </div>
+          <h3 class="landing-card-title">Paige AI CA Mentor</h3>
+          <p class="landing-card-desc">
+            Stuck on a tricky tax exemption or Companies Act section? Paige AI provides instant, contextual explanations referenced directly from ICAI study material.
+          </p>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="landing-card">
+          <div class="landing-card-icon card-ico-red">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          </div>
+          <h3 class="landing-card-title">Gamified Daily Streaks & AIR</h3>
+          <p class="landing-card-desc">
+            Build unshakeable study momentum. Earn XP for every chapter mastered, defend your streak, and see your rank climb the nationwide student leaderboard.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: How It Works -->
+    <section id="landing-how-works" class="landing-section">
+      <div class="landing-sec-hdr">
+        <div class="landing-sec-tag">How It Works</div>
+        <h2 class="landing-sec-title">From Concept to Rank in 3 Steps</h2>
+        <p class="landing-sec-sub">
+          A razor-sharp routine designed to fit your daily study schedule without clutter.
+        </p>
+      </div>
+
+      <div class="landing-steps-row">
+        <div class="landing-step-card">
+          <div class="landing-step-num">01</div>
+          <h3 class="landing-step-title">Chapter-Wise Rapid Drills</h3>
+          <p class="landing-step-desc">
+            Select your target paper and chapter. Solve curated MCQs and practical problems designed to test subtle provisions and computational traps.
+          </p>
+        </div>
+
+        <div class="landing-step-card">
+          <div class="landing-step-num">02</div>
+          <h3 class="landing-step-title">Simulate ICAI Mock Exams</h3>
+          <p class="landing-step-desc">
+            Attempt full-length, timed MTP simulations under exam conditions. Track your speed per question, negative marking penalties, and AIR percentile.
+          </p>
+        </div>
+
+        <div class="landing-step-card">
+          <div class="landing-step-num">03</div>
+          <h3 class="landing-step-title">Analyze & Retain</h3>
+          <p class="landing-step-desc">
+            Review detailed breakdowns of incorrect answers. Let Paige AI clarify underlying concepts and bookmark key sections for high-yield revision before exams.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: Developer Spotlight (Who Built It) -->
+    <section id="landing-developer" class="landing-section">
+      <div class="landing-sec-hdr">
+        <div class="landing-sec-tag">Who Built It</div>
+        <h2 class="landing-sec-title">Built By A Fellow Aspirant</h2>
+      </div>
+
+      <div class="landing-dev-spotlight">
+        <div class="dev-spotlight-inner">
+          <div class="dev-avatar-wrap">
+            <div class="dev-avatar-box">
+              <div class="dev-avatar-inner">KC</div>
+            </div>
+          </div>
+          <div class="dev-details">
+            <div class="dev-badge-tag">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              Creator & Developer
+            </div>
+            <h3 class="dev-name">Kanhaiya Chaudhary</h3>
+            <div class="dev-role">CA Intermediate Student • May 2027 Attempt</div>
+            <p class="dev-quote">
+              "CA Intermediate is a test of discipline and structured recall. I built InterEdge because generic test platforms don't understand the nuance of ICAI evaluation — the strict 3-step law answer format, subtle tax amendments, and the need for daily consistency. As a fellow student preparing for the May 2027 exams, I designed this platform to be the exact high-yield training ground every CA Inter student needs."
+            </p>
+            <div class="dev-chips">
+              <div class="dev-chip">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                May 2027 Attempt Focus
+              </div>
+              <div class="dev-chip">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                Both Groups Preparedness
+              </div>
+              <div class="dev-chip">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                ICAI New Syllabus Aligned
+              </div>
+              <div class="dev-chip">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                100% Student-First Architecture
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bottom Call To Action Banner -->
+    <section class="landing-bottom-cta">
+      <h2>Ready to Gain Your InterEdge?</h2>
+      <p>
+        Join your fellow aspirants, lock in your daily study streak, and master the ICAI syllabus today.
+      </p>
+      <div class="landing-cta-row" style="margin-bottom:0;">
+        <button class="landing-btn-primary" onclick="openAuthFromLanding('signup')">
+          <span>Get Started Now</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </button>
+        <button class="landing-btn-secondary" onclick="openAuthFromLanding('login')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+          <span>Sign In</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Landing Footer -->
+    <footer class="landing-footer">
+      <div class="landing-footer-l">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <!-- SVG Logo -->
+          <svg width="22" height="22" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 22 78 L 38 48 L 48 64 L 32 86 Z" fill="#ff7b00"/>
+            <path d="M 78 78 L 62 48 L 52 64 L 68 86 Z" fill="#e11d48"/>
+            <path d="M 46 88 L 36 60 L 58 38 L 50 10 L 64 36 L 42 62 L 54 88 Z" fill="#5b6cff"/>
+          </svg>
+          <span style="font-weight:700; color:#fff; font-size: 0.95rem;">InterEdge</span>
+        </div>
+        <div class="landing-footer-copy">© 2026 InterEdge. Built by Kanhaiya Chaudhary (May 2027 CA Inter Attempt).</div>
+      </div>
+      <div class="landing-footer-r">
+        <a onclick="showToast('ICAI New Scheme Aligned for CA Intermediate')">Syllabus Guide</a>
+        <a onclick="openAuthFromLanding('login')">Sign In</a>
+        <a onclick="openAuthFromLanding('signup')">Create Account</a>
+      </div>
+    </footer>
+
+  </div>
+</div>
+
 <!-- ========== AUTH SCREEN ========== -->
 <div id="auth-screen" class="auth-screen" style="display:none;">
   <div class="auth-container">
     <div class="auth-logo-wrap">
-      <div class="auth-logo-box" style="background: transparent; box-shadow: none;">
-        <img src="img/logo.png" alt="InterEdge Logo" style="width: 100%; height: 100%; object-fit: contain;">
+      <div class="auth-logo-box" style="background: transparent; box-shadow: none; display: flex; align-items: center; justify-content: center; cursor: pointer;" onclick="showLandingPage()">
+        <svg class="interedge-svg-logo" width="48" height="48" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="ie_fl_auth" x1="12" y1="88" x2="48" y2="12" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#ff1e56"/>
+              <stop offset="50%" stop-color="#ff7b00"/>
+              <stop offset="100%" stop-color="#ffd000"/>
+            </linearGradient>
+            <linearGradient id="ie_fr_auth" x1="88" y1="88" x2="52" y2="12" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#e11d48"/>
+              <stop offset="60%" stop-color="#ff6b35"/>
+              <stop offset="100%" stop-color="#ffba08"/>
+            </linearGradient>
+            <linearGradient id="ie_pt_auth" x1="30" y1="92" x2="70" y2="8" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#3b82f6"/>
+              <stop offset="45%" stop-color="#5b6cff"/>
+              <stop offset="100%" stop-color="#00f2fe"/>
+            </linearGradient>
+          </defs>
+          <path d="M 22 78 L 38 48 L 48 64 L 32 86 Z" fill="url(#ie_fl_auth)" opacity="0.95" />
+          <path d="M 16 62 L 34 32 L 38 48 L 22 78 Z" fill="#ff4d00" opacity="0.85" />
+          <path d="M 34 32 L 48 14 L 46 36 L 38 48 Z" fill="#ffd000" />
+          <path d="M 78 78 L 62 48 L 52 64 L 68 86 Z" fill="url(#ie_fr_auth)" opacity="0.95" />
+          <path d="M 84 62 L 66 32 L 62 48 L 78 78 Z" fill="#e11d48" opacity="0.85" />
+          <path d="M 66 32 L 52 14 L 54 36 L 62 48 Z" fill="#ffba08" />
+          <path d="M 46 88 L 36 60 L 58 38 L 50 10 L 64 36 L 42 62 L 54 88 Z" fill="url(#ie_pt_auth)" />
+          <path d="M 50 10 L 58 38 L 48 42 Z" fill="#ffffff" opacity="0.85" />
+          <path d="M 42 62 L 54 88 L 46 88 Z" fill="#1d4ed8" opacity="0.9" />
+          <line x1="50" y1="10" x2="36" y2="60" stroke="#00f2fe" stroke-width="1.2" stroke-linecap="round" opacity="0.75"/>
+          <line x1="50" y1="10" x2="64" y2="36" stroke="#ffffff" stroke-width="1" stroke-linecap="round" opacity="0.85"/>
+        </svg>
       </div>
     </div>
 
@@ -65,6 +474,12 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         Sign In as Guest
       </button>
+      <div style="text-align: center; margin-top: 14px;">
+        <a style="color: var(--txt3); font-size: 0.82rem; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;" onclick="showLandingPage()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+          Back to Overview
+        </a>
+      </div>
     </div>
 
     <!-- Signup Form -->
@@ -93,6 +508,12 @@
       </div>
       <button class="auth-btn-primary" onclick="handleSignup()">Sign Up</button>
       <div class="auth-switch">Already have an account? <a onclick="showLogin()">Sign In</a></div>
+      <div style="text-align: center; margin-top: 14px;">
+        <a style="color: var(--txt3); font-size: 0.82rem; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;" onclick="showLandingPage()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+          Back to Overview
+        </a>
+      </div>
     </div>
   </div>
 </div>
@@ -466,6 +887,7 @@ pattern="[0-9]*" />
 <script src="js/data.js?v=5"></script>
 <script src="js/api.js?v=5"></script>
 <script src="js/router.js?v=5"></script>
+<script src="js/landing.js?v=5"></script>
 <script src="js/auth.js?v=5"></script>
 <script src="js/mcq.js?v=5"></script>
 <script src="js/law.js?v=5"></script>
