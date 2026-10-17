@@ -377,351 +377,858 @@ function generateStreakWarningBox() {
   return boxHtml;
 }
 
-// ===== PRACTICE =====
+// ============================================
+// 5 CUSTOM 3D VECTOR TIER BADGES (NO EMOJIS)
+// 1. Rookie (🌱 3D Seedling Crystal)
+// 2. Grinder (⚡ 3D Lightning Prism)
+// 3. Hustler (🔥 3D Flame Crest)
+// 4. Focused (🎯 3D Bullseye Shield)
+// 5. In The Zone (🧠 3D Neural Matrix Core)
+// ============================================
+function getTierSvg(tier, size = 18) {
+  const t = (tier || '').toLowerCase();
+  
+  if (t.includes('zone')) {
+    // 5. In The Zone — 3D Neural Brain Matrix Crystal
+    return `<svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" style="filter:drop-shadow(0 2px 6px rgba(168,85,247,0.5));">
+      <defs>
+        <linearGradient id="tz_base" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#c084fc"/>
+          <stop offset="50%" stop-color="#9333ea"/>
+          <stop offset="100%" stop-color="#581c87"/>
+        </linearGradient>
+        <linearGradient id="tz_glow" x1="50%" y1="0%" x2="50%" y2="100%">
+          <stop offset="0%" stop-color="#f3e8ff"/>
+          <stop offset="100%" stop-color="#a855f7"/>
+        </linearGradient>
+      </defs>
+      <circle cx="16" cy="16" r="14" fill="url(#tz_base)" stroke="#e9d5ff" stroke-width="1.2"/>
+      <path d="M16 6 C12 6 9 9 9 13 C9 15 10 17 11 18 C10 19 10 21 11 23 C12 25 14 26 16 26 C18 26 20 25 21 23 C22 21 22 19 21 18 C22 17 23 15 23 13 C23 9 20 6 16 6 Z" fill="url(#tz_glow)" opacity="0.95"/>
+      <circle cx="16" cy="12" r="2.2" fill="#ffffff"/>
+      <circle cx="13" cy="18" r="1.8" fill="#ffffff"/>
+      <circle cx="19" cy="18" r="1.8" fill="#ffffff"/>
+      <line x1="16" y1="12" x2="13" y2="18" stroke="#7e22ce" stroke-width="1.2"/>
+      <line x1="16" y1="12" x2="19" y2="18" stroke="#7e22ce" stroke-width="1.2"/>
+      <line x1="13" y1="18" x2="19" y2="18" stroke="#7e22ce" stroke-width="1.2"/>
+      <circle cx="16" cy="22" r="1.5" fill="#fdf4ff"/>
+      <line x1="13" y1="18" x2="16" y2="22" stroke="#7e22ce" stroke-width="1.2"/>
+      <line x1="19" y1="18" x2="16" y2="22" stroke="#7e22ce" stroke-width="1.2"/>
+    </svg>`;
+  }
+  
+  if (t.includes('focus')) {
+    // 4. Focused — 3D Concentric Bullseye Shield & Arrow Vector
+    return `<svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" style="filter:drop-shadow(0 2px 6px rgba(6,182,212,0.45));">
+      <defs>
+        <linearGradient id="fc_out" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#38bdf8"/>
+          <stop offset="60%" stop-color="#0284c7"/>
+          <stop offset="100%" stop-color="#0369a1"/>
+        </linearGradient>
+        <radialGradient id="fc_mid" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#ffffff"/>
+          <stop offset="40%" stop-color="#38bdf8"/>
+          <stop offset="100%" stop-color="#0284c7"/>
+        </radialGradient>
+      </defs>
+      <circle cx="16" cy="16" r="14" fill="url(#fc_out)" stroke="#bae6fd" stroke-width="1.2"/>
+      <circle cx="16" cy="16" r="10" fill="#0c4a6e" stroke="#38bdf8" stroke-width="1"/>
+      <circle cx="16" cy="16" r="6.5" fill="url(#fc_mid)"/>
+      <circle cx="16" cy="16" r="3" fill="#ffffff"/>
+      <line x1="16" y1="4" x2="16" y2="8" stroke="#e0f2fe" stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="16" y1="24" x2="16" y2="28" stroke="#e0f2fe" stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="4" y1="16" x2="8" y2="16" stroke="#e0f2fe" stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="24" y1="16" x2="28" y2="16" stroke="#e0f2fe" stroke-width="1.4" stroke-linecap="round"/>
+    </svg>`;
+  }
+  
+  if (t.includes('hustle')) {
+    // 3. Hustler — 3D Faceted Fire Flame Crest
+    return `<svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" style="filter:drop-shadow(0 2px 6px rgba(239,68,68,0.5));">
+      <defs>
+        <linearGradient id="hs_out" x1="50%" y1="0%" x2="50%" y2="100%">
+          <stop offset="0%" stop-color="#f87171"/>
+          <stop offset="50%" stop-color="#ef4444"/>
+          <stop offset="100%" stop-color="#991b1b"/>
+        </linearGradient>
+        <linearGradient id="hs_core" x1="50%" y1="0%" x2="50%" y2="100%">
+          <stop offset="0%" stop-color="#fef08a"/>
+          <stop offset="50%" stop-color="#f97316"/>
+          <stop offset="100%" stop-color="#ef4444"/>
+        </linearGradient>
+      </defs>
+      <circle cx="16" cy="16" r="14" fill="#450a0a" stroke="#fca5a5" stroke-width="1.2"/>
+      <path d="M16 4 C14 8 10 11 10 16 C10 21 13 25 16 26 C19 25 22 21 22 16 C22 11 18 8 16 4 Z" fill="url(#hs_out)"/>
+      <path d="M16 11 C14 14 12 16 12 19 C12 22 14 24 16 24 C18 24 20 22 20 19 C20 16 18 14 16 11 Z" fill="url(#hs_core)"/>
+      <ellipse cx="16" cy="20" rx="2" ry="2.5" fill="#ffffff" opacity="0.9"/>
+    </svg>`;
+  }
+  
+  if (t.includes('grind')) {
+    // 2. Grinder — 3D Lightning Thunderbolt Prism
+    return `<svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" style="filter:drop-shadow(0 2px 6px rgba(245,158,11,0.5));">
+      <defs>
+        <linearGradient id="gr_out" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#fde047"/>
+          <stop offset="60%" stop-color="#f59e0b"/>
+          <stop offset="100%" stop-color="#b45309"/>
+        </linearGradient>
+        <linearGradient id="gr_facet" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#ffffff"/>
+          <stop offset="100%" stop-color="#fde047"/>
+        </linearGradient>
+      </defs>
+      <circle cx="16" cy="16" r="14" fill="#451a03" stroke="#fde68a" stroke-width="1.2"/>
+      <polygon points="17 4 9 16 15 16 13 28 23 14 17 14" fill="url(#gr_out)"/>
+      <polygon points="17 4 15 14 15 16 17 14 23 14" fill="url(#gr_facet)" opacity="0.8"/>
+    </svg>`;
+  }
+  
+  // 1. Rookie (Default) — 3D Emerald Sprout Seedling
+  return `<svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" style="filter:drop-shadow(0 2px 6px rgba(16,185,129,0.45));">
+    <defs>
+      <linearGradient id="rk_out" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#34d399"/>
+        <stop offset="50%" stop-color="#10b981"/>
+        <stop offset="100%" stop-color="#065f46"/>
+      </linearGradient>
+      <linearGradient id="rk_leaf" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#a7f3d0"/>
+        <stop offset="100%" stop-color="#059669"/>
+      </linearGradient>
+    </defs>
+    <circle cx="16" cy="16" r="14" fill="#064e3b" stroke="#6ee7b7" stroke-width="1.2"/>
+    <path d="M16 26 C16 18 16 14 16 12" stroke="#6ee7b7" stroke-width="2" stroke-linecap="round"/>
+    <path d="M16 14 C13 9 7 11 8 16 C9 20 15 17 16 14 Z" fill="url(#rk_leaf)"/>
+    <path d="M16 12 C19 7 25 9 24 14 C23 18 17 15 16 12 Z" fill="url(#rk_out)"/>
+    <ellipse cx="16" cy="25" rx="3.5" ry="1.2" fill="#a7f3d0" opacity="0.7"/>
+  </svg>`;
+}
+
+// User level calculation (1 to 50 levels)
+function calculateUserLevel(xp) {
+  const lvl = Math.min(50, Math.max(1, Math.floor((xp || 0) / 150) + 1));
+  const currentLvlBaseXP = (lvl - 1) * 150;
+  const progressInLvl = Math.max(0, (xp || 0) - currentLvlBaseXP);
+  const pct = lvl >= 50 ? 100 : Math.min(100, Math.round((progressInLvl / 150) * 100));
+  const xpToNext = lvl >= 50 ? 0 : Math.max(0, 150 - progressInLvl);
+  return {
+    level: lvl,
+    progressInLvl,
+    pct,
+    xpToNext
+  };
+}
+
+// ===== PRACTICE SECTION (All 6 CA Intermediate Papers) =====
+window.practiceMode = 'mcq'; // 'mcq' or 'flashcards'
+
 function renderPractice() {
-  const maths = MCQ_DATA.maths;
-  const eco = MCQ_DATA.economics;
+  const subjects = Object.values(MCQ_DATA).filter(s => s && s.paper);
+  const grp1 = subjects.filter(s => s.group === 'Group 1');
+  const grp2 = subjects.filter(s => s.group === 'Group 2');
+
+  const activeMode = window.practiceMode || 'mcq';
+
   return getPausedPracticeBanner() + `
-    <h2 style="font-size:1.3rem;font-weight:700;margin-bottom:4px;">Let's Practice</h2>
-    <div style="font-size:.82rem;color:var(--txt3);margin-bottom:16px;">Pick a subject and get started</div>
-    <div class="stat-row">
+    <!-- Top Header -->
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
+      <div>
+        <h2 style="font-size:1.4rem;font-weight:700;letter-spacing:-0.3px;">CA Inter Practice</h2>
+        <div style="font-size:.82rem;color:var(--txt3);margin-top:2px;">ICAI New Scheme &bull; 6 Core Subjects</div>
+      </div>
+      <div style="background:rgba(91,108,255,0.12); border:1px solid rgba(91,108,255,0.3); padding:4px 10px; border-radius:100px; font-size:0.75rem; font-weight:700; color:var(--accent2); display:flex; align-items:center; gap:6px;">
+        <span style="width:6px;height:6px;border-radius:50%;background:var(--accent2);"></span>
+        ${AppState.user.attempt || 'May 2027'}
+      </div>
+    </div>
+
+    <!-- Mode Switcher Tabs: MCQs vs Long Answer Flashcards -->
+    <div class="practice-mode-tabs" style="display:flex; background:var(--card); border:1px solid var(--border); border-radius:14px; padding:4px; margin-bottom:18px;">
+      <button class="mode-tab-btn ${activeMode === 'mcq' ? 'active' : ''}" onclick="switchPracticeMode('mcq')" style="flex:1; padding:10px 12px; border-radius:10px; border:none; background:${activeMode === 'mcq' ? 'var(--accent)' : 'transparent'}; color:${activeMode === 'mcq' ? '#fff' : 'var(--txt2)'}; font-weight:700; font-size:0.85rem; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; transition:all 0.2s;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        ICAI MCQs &amp; Case Scenarios
+      </button>
+      <button class="mode-tab-btn ${activeMode === 'flashcards' ? 'active' : ''}" onclick="switchPracticeMode('flashcards')" style="flex:1; padding:10px 12px; border-radius:10px; border:none; background:${activeMode === 'flashcards' ? 'var(--accent)' : 'transparent'}; color:${activeMode === 'flashcards' ? '#fff' : 'var(--txt2)'}; font-weight:700; font-size:0.85rem; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; transition:all 0.2s;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        Long Answer Flashcards
+      </button>
+    </div>
+
+    <!-- Exam Pattern Info Box -->
+    <div style="background:linear-gradient(135deg, rgba(91,108,255,0.08), rgba(91,108,255,0.02)); border:1px solid rgba(91,108,255,0.2); border-radius:14px; padding:12px 14px; margin-bottom:20px; display:flex; align-items:center; gap:12px;">
+      <div style="width:36px; height:36px; border-radius:10px; background:rgba(91,108,255,0.15); display:grid; place-items:center; color:var(--accent); flex-shrink:0;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+      <div style="font-size:0.8rem; color:var(--txt2); line-height:1.4;">
+        <strong style="color:var(--txt);">ICAI Exam Architecture:</strong> 15 MCQs &bull; 2 marks each = 30 marks total. Practice both comprehensive Case Scenarios and chapter-wise recall.
+      </div>
+    </div>
+
+    <!-- Performance Stats Strip -->
+    <div class="stat-row" style="margin-bottom:24px;">
       <div class="stat-card"><div class="stat-val indigo">${AppState.questionsAttempted.toLocaleString()}</div><div class="stat-lbl">Qs Attempted</div></div>
       <div class="stat-card"><div class="stat-val green">${AppState.accuracy}%</div><div class="stat-lbl">Accuracy</div></div>
       <div class="stat-card"><div class="stat-val amber">${formatXP(AppState.xp)}</div><div class="stat-lbl">XP Earned</div></div>
     </div>
-    <div class="sec-label">MCQ Subjects</div>
-    <div class="sub-grid">
-      <div class="sub-card" style="background:rgba(255,181,52,.1);border:1px solid rgba(255,181,52,.18);" onclick="Router.navigate('chapters', {subject:'maths'})">
-        <div class="sub-icon" style="color:${maths.color};">${maths.icon}</div>
-        <div class="sub-name">${maths.name}</div>
-        <div class="sub-count">${maths.chapters.length} chapters &bull; ${maths.chapters.reduce((a,c)=>a+(c.questions ? c.questions.length : (c.units ? c.units.reduce((ua,uc)=>ua+(uc.questions ? uc.questions.length : 0),0) : 0)),0)} questions</div>
-        <div class="sub-bar"><div class="sub-fill" style="width:0%;background:${maths.color};"></div></div>
-      </div>
-      <div class="sub-card" style="background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.15);" onclick="Router.navigate('chapters', {subject:'economics'})">
-        <div class="sub-icon" style="color:${eco.color};">${eco.icon}</div>
-        <div class="sub-name">${eco.name}</div>
-        <div class="sub-count">${eco.chapters.length} chapters &bull; ${eco.chapters.reduce((a,c)=>a+(c.questions ? c.questions.length : (c.units ? c.units.reduce((ua,uc)=>ua+(uc.questions ? uc.questions.length : 0),0) : 0)),0)} questions</div>
-        <div class="sub-bar"><div class="sub-fill" style="width:0%;background:${eco.color};"></div></div>
-      </div>
-      </div>
+
+    <!-- GROUP 1 SUBJECTS -->
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+      <div class="sec-label" style="margin:0;">Group 1 &bull; Core Papers</div>
+      <span style="font-size:0.75rem; color:var(--txt3);">Papers 1, 2, 3</span>
     </div>
-    <div class="sec-label" style="margin-top:20px;">Descriptive Subjects</div>
-    <div class="sub-grid">
-      <div class="sub-card" style="background:rgba(232,93,93,.08);border:1px solid rgba(232,93,93,.15);grid-column:1 / -1;" onclick="Router.navigate('law')">
-        <div class="sub-icon" style="color:#e85d5d;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
-        </div>
-        <div class="sub-name">Business Laws</div>
-        <div class="sub-count">6 chapters &bull; Answer Writing Mode</div>
-        <div class="sub-bar"><div class="sub-fill" style="width:0%;background:#e85d5d;"></div></div>
-      </div>
+    <div class="sub-grid" style="margin-bottom:24px;">
+      ${grp1.map(sub => renderSubjectCard(sub)).join('')}
     </div>
-    <div class="sec-label">Practice Modes</div>
+
+    <!-- GROUP 2 SUBJECTS -->
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+      <div class="sec-label" style="margin:0;">Group 2 &bull; Applied Papers</div>
+      <span style="font-size:0.75rem; color:var(--txt3);">Papers 4, 5, 6</span>
+    </div>
+    <div class="sub-grid" style="margin-bottom:24px;">
+      ${grp2.map(sub => renderSubjectCard(sub)).join('')}
+    </div>
+
+    <!-- High-Yield Practice Shortcuts -->
+    <div class="sec-label">Rapid ICAI Modules</div>
     <div class="recent-list">
-      <div class="recent-item" onclick="openMtpRtp('rtp')">
-        <div class="ri-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
-        <div class="ri-text"><div class="ri-title">RTP Practice</div><div class="ri-sub">Revision Test Papers — ICAI</div></div>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--txt4);flex-shrink:0;"><polyline points="9 18 15 12 9 6"/></svg>
-      </div>
       <div class="recent-item" onclick="openMtpRtp('mtp')">
-        <div class="ri-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>
-        <div class="ri-text"><div class="ri-title">MTP Practice</div><div class="ri-sub">Mock Test Papers — ICAI</div></div>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--txt4);flex-shrink:0;"><polyline points="9 18 15 12 9 6"/></svg>
+        <div class="ri-icon" style="background:rgba(91,108,255,0.1); color:var(--accent);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>
+        <div class="ri-text"><div class="ri-title">ICAI MTP Simulator</div><div class="ri-sub">Full-length timed exam papers with AIR benchmark</div></div>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+      <div class="recent-item" onclick="openMtpRtp('rtp')">
+        <div class="ri-icon" style="background:rgba(16,185,129,0.1); color:var(--green);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+        <div class="ri-text"><div class="ri-title">Revision Test Papers (RTP)</div><div class="ri-sub">May 2027 amendments &amp; case studies</div></div>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
       </div>
       <div class="recent-item" onclick="openFs('bookmarks')">
-        <div class="ri-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></div>
-        <div class="ri-text"><div class="ri-title">Bookmarked Qs</div><div class="ri-sub">14 questions saved</div></div>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--txt4);flex-shrink:0;"><polyline points="9 18 15 12 9 6"/></svg>
+        <div class="ri-icon" style="background:rgba(245,158,11,0.1); color:var(--amber);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></div>
+        <div class="ri-text"><div class="ri-title">Bookmarked Case Scenarios</div><div class="ri-sub">${(window.BOOKMARKS_DATA||[]).length} saved questions for active revision</div></div>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
       </div>
     </div>
   `;
 }
 
-function initPractice() {}
-
-// ===== TESTS =====
-function renderTests() {
-  const data = TESTS_DATA;
-  let html = `
-    <div style="display:flex; align-items:center; gap:12px; margin-bottom:4px;">
-      <div style="width:32px; height:32px; border-radius:10px; background:linear-gradient(135deg, var(--accent), #a78bfa); display:grid; place-items:center; color:#fff;">
-         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-      </div>
-      <h2 style="font-size:1.4rem; font-weight:700; letter-spacing:-0.3px;">Live Tests</h2>
-    </div>
-    <div style="font-size:.82rem;color:var(--txt3);margin-bottom:16px;">Scheduled mock exams &amp; results</div>
-    <div class="test-live">
-      <div class="test-live-header">
-        <div class="live-dot"></div>
-        <div class="test-live-title">${data.live.title}</div>
-        <div class="test-badge">${data.live.status}</div>
-      </div>
-      <div class="test-info">${data.live.info}</div>
-      <button class="test-btn">Join Test</button>
-    </div>
-    <div class="sec-label">Upcoming</div>
-    <div class="recent-list">`;
-
-  data.upcoming.forEach(t => {
-    html += `<div class="recent-item">
-      <div class="ri-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
-      <div class="ri-text"><div class="ri-title">${t.title}</div><div class="ri-sub">${t.subtitle}</div></div>
-    </div>`;
+function renderSubjectCard(sub) {
+  const chCount = (sub.chapters || []).length;
+  let qCount = 0;
+  let csCount = 0;
+  (sub.chapters || []).forEach(c => {
+    qCount += (c.questions || []).length;
+    csCount += (c.caseScenarios || []).length;
   });
 
-  html += `</div><div class="sec-label">Past Results</div><div class="recent-list">`;
-  data.past.forEach(t => {
-    const color = t.score >= 70 ? 'var(--green)' : t.score >= 50 ? 'var(--amber)' : 'var(--red)';
-    html += `<div class="recent-item">
-      <div class="ri-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
-      <div class="ri-text"><div class="ri-title">${t.title}</div><div class="ri-sub">${t.subtitle}</div></div>
-      <div class="ri-prog" style="color:${color};">${t.score}%</div>
-    </div>`;
-  });
-  html += '</div>';
-  return html;
+  return `
+    <div class="sub-card" style="background:var(--card); border:1px solid var(--border); cursor:pointer; position:relative; overflow:hidden;" onclick="openSubjectDrilldown('${sub.id}')">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
+        <div class="sub-icon" style="color:${sub.color}; background:rgba(255,255,255,0.04); padding:10px; border-radius:12px; width:44px; height:44px; display:grid; place-items:center;">
+          ${sub.icon}
+        </div>
+        <span style="font-size:0.7rem; font-weight:700; color:var(--txt3); background:var(--bg2); border:1px solid var(--border); padding:3px 8px; border-radius:6px;">${sub.paper}</span>
+      </div>
+      <div class="sub-name" style="font-size:1rem; font-weight:700; margin-bottom:4px; color:var(--txt);">${sub.name}</div>
+      <div class="sub-count" style="font-size:0.75rem; color:var(--txt3); margin-bottom:12px;">
+        ${chCount} Chapters &bull; ${csCount > 0 ? `${csCount} Case Sets &bull; ` : ''}${qCount} MCQs
+      </div>
+      <div class="sub-bar" style="height:4px; border-radius:2px; background:var(--bg2);"><div class="sub-fill" style="width:25%; background:${sub.color};"></div></div>
+    </div>
+  `;
 }
 
+function switchPracticeMode(mode) {
+  window.practiceMode = mode;
+  const main = document.getElementById('main-content');
+  if (main) main.innerHTML = renderPractice();
+}
+
+// Subject Drilldown Overlay Controller
+function openSubjectDrilldown(subjectId) {
+  const sub = MCQ_DATA[subjectId];
+  if (!sub) return;
+
+  const modal = document.getElementById('subject-drilldown-modal');
+  const container = document.getElementById('drilldown-content');
+  if (!modal || !container) return;
+
+  const isFlashcardMode = window.practiceMode === 'flashcards';
+
+  container.innerHTML = `
+    <!-- Top Nav -->
+    <div style="position:sticky; top:0; z-index:10; background:var(--bg); border-bottom:1px solid var(--border); padding:14px 18px; display:flex; align-items:center; gap:14px;">
+      <button class="back-btn" onclick="closeSubjectDrilldown()" style="width:36px; height:36px; border-radius:10px; background:var(--card); border:1px solid var(--border); color:var(--txt); display:grid; place-items:center; cursor:pointer;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <div style="flex:1;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="font-size:0.72rem; font-weight:700; color:${sub.color}; text-transform:uppercase;">${sub.paper} &bull; ${sub.group}</span>
+        </div>
+        <h2 style="font-size:1.15rem; font-weight:700; color:var(--txt); margin:0;">${sub.name}</h2>
+      </div>
+    </div>
+
+    <!-- Content Area -->
+    <div style="padding:20px 16px; max-width:680px; margin:0 auto;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <div style="font-size:0.85rem; font-weight:700; color:var(--txt2);">
+          ${isFlashcardMode ? 'Theory Recall Flashcards' : 'ICAI Case Scenarios &amp; Chapters'}
+        </div>
+        <span style="font-size:0.75rem; color:var(--txt3);">${(sub.chapters||[]).length} Chapters Available</span>
+      </div>
+
+      <div class="drilldown-ch-list" style="display:flex; flex-direction:column; gap:14px;">
+        ${(sub.chapters || []).map((ch, idx) => `
+          <div class="drilldown-ch-card" style="background:var(--card); border:1px solid var(--border); border-radius:16px; padding:16px; transition:transform 0.2s, border-color 0.2s;">
+            <div style="display:flex; gap:12px; align-items:flex-start; margin-bottom:12px;">
+              <div style="width:36px; height:36px; border-radius:10px; background:rgba(91,108,255,0.1); color:${sub.color}; font-weight:800; font-size:0.95rem; display:grid; place-items:center; flex-shrink:0;">
+                ${ch.num || (idx + 1)}
+              </div>
+              <div style="flex:1;">
+                <h3 style="font-size:1rem; font-weight:700; color:var(--txt); margin-bottom:4px; line-height:1.3;">${ch.title}</h3>
+                <div style="display:flex; flex-wrap:wrap; gap:6px; margin-top:6px;">
+                  ${(ch.concepts || []).map(cp => `<span style="font-size:0.7rem; background:var(--bg2); border:1px solid var(--border); padding:2px 8px; border-radius:6px; color:var(--txt3);">${cp}</span>`).join('')}
+                </div>
+              </div>
+            </div>
+
+            <!-- Action Buttons for this Chapter -->
+            <div style="display:flex; gap:8px; margin-top:14px; padding-top:12px; border-top:1px solid var(--border);">
+              ${(ch.caseScenarios && ch.caseScenarios.length > 0) ? `
+                <button onclick="launchCaseScenario('${subjectId}', '${ch.id}', 0)" style="flex:1; padding:9px 12px; border-radius:9px; border:1px solid rgba(91,108,255,0.3); background:rgba(91,108,255,0.1); color:var(--accent2); font-weight:700; font-size:0.8rem; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  Case Scenario (10M)
+                </button>
+              ` : ''}
+
+              <button onclick="launchChapterMCQs('${subjectId}', '${ch.id}')" style="flex:1; padding:9px 12px; border-radius:9px; border:none; background:var(--accent); color:#fff; font-weight:700; font-size:0.8rem; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                Practice MCQs (${(ch.questions || []).length})
+              </button>
+
+              ${(ch.flashcards && ch.flashcards.length > 0) ? `
+                <button onclick="launchFlashcardDeck('${subjectId}', '${ch.id}')" style="padding:9px 12px; border-radius:9px; border:1px solid var(--border); background:var(--bg2); color:var(--txt2); font-weight:600; font-size:0.8rem; cursor:pointer; display:flex; align-items:center; gap:4px;" title="Flashcard Recall">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                  Recall
+                </button>
+              ` : ''}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+
+  modal.style.display = 'block';
+  modal.scrollTop = 0;
+}
+
+function closeSubjectDrilldown() {
+  const modal = document.getElementById('subject-drilldown-modal');
+  if (modal) modal.style.display = 'none';
+}
+
+function launchChapterMCQs(subjectId, chapterId) {
+  closeSubjectDrilldown();
+  Router.navigate('chapter', { subject: subjectId, chapter: chapterId });
+}
+
+function launchCaseScenario(subjectId, chapterId, caseIdx = 0) {
+  const sub = MCQ_DATA[subjectId];
+  if (!sub) return;
+  const ch = (sub.chapters || []).find(c => c.id === chapterId);
+  if (!ch || !ch.caseScenarios || !ch.caseScenarios[caseIdx]) return;
+
+  const cs = ch.caseScenarios[caseIdx];
+  closeSubjectDrilldown();
+
+  // Load into quiz engine with case scenario narrative metadata
+  if (window.startQuiz) {
+    const questionsWithNarrative = cs.questions.map((q, idx) => ({
+      ...q,
+      caseNarrative: cs.narrative,
+      caseTitle: cs.caseTitle,
+      marks: 2,
+      xp: 25
+    }));
+
+    window.startQuiz(questionsWithNarrative, cs.caseTitle, `${sub.name} \u2022 Case Scenario`);
+  }
+}
+
+function launchFlashcardDeck(subjectId, chapterId) {
+  const sub = MCQ_DATA[subjectId];
+  if (!sub) return;
+  const ch = (sub.chapters || []).find(c => c.id === chapterId);
+  if (!ch || !ch.flashcards || ch.flashcards.length === 0) return;
+
+  const fc = ch.flashcards[0];
+  alert(`ICAI Theory Recall:\n\n[Topic]: ${fc.topic}\n\n[Question]: ${fc.prompt}\n\n[Provision]: ${fc.provision}\n\n[Analysis]: ${fc.analysis}\n\n[Conclusion]: ${fc.conclusion}`);
+}
+
+function initPractice() {}
+
+// ===== LEADERBOARD SECTION (20 Users, 5 Tiers with 3D Vectors) =====
+window.selectedLeaderboardTier = 'all';
+
 function renderRanks() {
-  window._lastRanksHtml = null;
   setTimeout(populateRanks, 0);
-  const ranksHtml = `
-    <div style="display:flex; align-items:center; gap:12px; margin-bottom:4px;">
-      <div style="width:32px; height:32px; border-radius:10px; background:linear-gradient(135deg, #f59e0b, #fbbf24); display:grid; place-items:center; color:#fff; box-shadow: 0 4px 10px rgba(245,158,11,0.3);">
-         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+  return `
+    <!-- Top Header -->
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <div style="width:36px; height:36px; border-radius:10px; background:linear-gradient(135deg, #f59e0b, #fbbf24); display:grid; place-items:center; color:#fff; box-shadow: 0 4px 10px rgba(245,158,11,0.3);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
             <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
             <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
             <path d="M4 22h16"></path>
             <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path>
             <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path>
             <path d="M18 2H6v7c0 3.31 2.69 6 6 6s6-2.69 6-6V2z"></path>
-         </svg>
+          </svg>
+        </div>
+        <div>
+          <h2 style="font-size:1.4rem; font-weight:700; letter-spacing:-0.3px;">Leaderboard</h2>
+          <div style="font-size:.82rem;color:var(--txt3);">All-India CA Intermediate Standings</div>
+        </div>
       </div>
-      <h2 style="font-size:1.4rem; font-weight:700; letter-spacing:-0.3px;">Leaderboard</h2>
+
+      <!-- User Active Rank Pill -->
+      <div style="background:var(--card); border:1px solid var(--border); padding:6px 12px; border-radius:100px; font-size:0.75rem; font-weight:700; color:var(--accent2); display:flex; align-items:center; gap:6px;">
+        <span>Your Rank:</span>
+        <strong style="color:var(--txt); font-size:0.85rem;">#${AppState.rank || 12}</strong>
+      </div>
     </div>
-    <div style="font-size:.82rem;color:var(--txt3);margin-bottom:16px;">This week's top performers</div>
-    <div id="ranks-container" style="position:relative; min-height: 200px;">
-       <div style="text-align:center; padding: 40px; color: var(--txt3);">Loading ranks...</div>
+
+    <!-- 5 Tiers Filter Strip (No Emojis, Pure 3D Badges) -->
+    <div class="rank-tier-filters" style="display:flex; gap:6px; overflow-x:auto; padding-bottom:8px; margin-bottom:16px; scrollbar-width:none;">
+      <button class="tier-filter-btn ${window.selectedLeaderboardTier==='all'?'active':''}" onclick="filterRanksTier('all', this)">All (20)</button>
+      <button class="tier-filter-btn ${window.selectedLeaderboardTier==='zone'?'active':''}" onclick="filterRanksTier('zone', this)">${getTierSvg('In The Zone', 14)} In The Zone</button>
+      <button class="tier-filter-btn ${window.selectedLeaderboardTier==='focus'?'active':''}" onclick="filterRanksTier('focus', this)">${getTierSvg('Focused', 14)} Focused</button>
+      <button class="tier-filter-btn ${window.selectedLeaderboardTier==='hustle'?'active':''}" onclick="filterRanksTier('hustle', this)">${getTierSvg('Hustler', 14)} Hustler</button>
+      <button class="tier-filter-btn ${window.selectedLeaderboardTier==='grind'?'active':''}" onclick="filterRanksTier('grind', this)">${getTierSvg('Grinder', 14)} Grinder</button>
+      <button class="tier-filter-btn ${window.selectedLeaderboardTier==='rookie'?'active':''}" onclick="filterRanksTier('rookie', this)">${getTierSvg('Rookie', 14)} Rookie</button>
+    </div>
+
+    <!-- Container for dynamic ranks -->
+    <div id="ranks-container" style="position:relative; min-height: 250px;">
+      <div style="text-align:center; padding: 40px; color: var(--txt3);">Loading rankings...</div>
     </div>
   `;
-  return ranksHtml;
 }
 
-async function populateRanks() {
+function filterRanksTier(tierKey, el) {
+  window.selectedLeaderboardTier = tierKey;
+  document.querySelectorAll('.rank-tier-filters .tier-filter-btn').forEach(b => b.classList.remove('active'));
+  if (el) el.classList.add('active');
+  populateRanks();
+}
+
+function populateRanks() {
   const container = document.getElementById('ranks-container');
   if (!container) return;
-  
-  let board = null;
-  if (window.API && window.API.getLeaderboard) {
-    board = await window.API.getLeaderboard();
-  }
-  if (!board) board = [];
-  
-  if (board.length < 3) {
-    const dummyBoard = LEADERBOARD_DATA.map(e => e.isMe ? Object.assign({}, e, { xp: AppState.xp }) : e);
-    const html = generateBoardHtml(dummyBoard) + `
-      <div style="position:absolute; inset:0; background:rgba(0,0,0,0.5); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); border-radius:16px; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:20px; z-index:10;">
-         <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="48" height="48" style="margin-bottom:16px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-         <h3 style="font-size:1.2rem;font-weight:700;margin-bottom:8px;color:#fff;">Not enough users yet!</h3>
-         <p style="font-size:0.9rem;color:var(--txt2);max-width:280px;line-height:1.5;">Earn some XP and invite your friends to start the leaderboard competition.</p>
-      </div>
-    `;
-    if (window._lastRanksHtml !== html) {
-      container.innerHTML = html;
-      window._lastRanksHtml = html;
-    }
+
+  // Clone 20 users and inject current user based on their current XP
+  let board = (window.LEADERBOARD_DATA || []).map(u => ({ ...u }));
+
+  // Ensure current user is in the list
+  const userXp = AppState.xp || 50;
+  const userName = AppState.user.firstName || AppState.user.username || 'You';
+  const userTier = getTierFromXP(userXp);
+  const userFrame = AppState.user.equippedFrame || 'frame_1';
+
+  // Replace or update user's position
+  const existingIdx = board.findIndex(u => u.isMe || u.email === AppState.user.email);
+  if (existingIdx !== -1) {
+    board[existingIdx].xp = userXp;
+    board[existingIdx].tier = userTier;
+    board[existingIdx].frame = userFrame;
   } else {
-    const realBoard = board.map((u, i) => {
-       return {
-         rank: i + 1,
-         name: u.first_name || u.username || 'User',
-         initials: ((u.first_name || u.username || '?')[0]).toUpperCase(),
-         xp: u.xp || 0,
-         isMe: AppState.user && u.email === AppState.user.email,
-         avatar: u.avatar
-       };
+    // Slot into board at appropriate XP
+    board.push({
+      rank: 21,
+      name: userName,
+      initials: (userName[0] || 'U').toUpperCase(),
+      xp: userXp,
+      tier: userTier,
+      frame: userFrame,
+      isMe: true,
+      streak: AppState.streak || 1
     });
-    const html = generateBoardHtml(realBoard);
-    if (window._lastRanksHtml !== html) {
-      container.innerHTML = html;
-      window._lastRanksHtml = html;
-    }
   }
 
-  if (!window.ranksPollInterval) {
-    window.ranksPollInterval = setInterval(async () => {
-      const currentContainer = document.getElementById('ranks-container');
-      if (!currentContainer) {
-        clearInterval(window.ranksPollInterval);
-        window.ranksPollInterval = null;
-        return;
-      }
-      if (window.API && window.API.getLeaderboard) {
-        const newBoard = await window.API.getLeaderboard();
-        if (newBoard && newBoard.length >= 3) {
-          const realBoard = newBoard.map((u, i) => {
-             return {
-               rank: i + 1,
-               name: u.first_name || u.username || 'User',
-               initials: ((u.first_name || u.username || '?')[0]).toUpperCase(),
-               xp: u.xp || 0,
-               isMe: AppState.user && u.email === AppState.user.email,
-               avatar: u.avatar
-             };
-          });
-          const html = generateBoardHtml(realBoard);
-          if (window._lastRanksHtml !== html) {
-            currentContainer.innerHTML = html;
-            window._lastRanksHtml = html;
-          }
-        }
-      }
-    }, 5000);
+  // Sort descending by XP
+  board.sort((a, b) => b.xp - a.xp);
+
+  // Take top 20 and reassign ranks 1 to 20
+  board = board.slice(0, 20).map((u, i) => {
+    u.rank = i + 1;
+    if (u.isMe) AppState.rank = u.rank;
+    return u;
+  });
+
+  // Filter if tier filter active
+  const tierFilter = window.selectedLeaderboardTier || 'all';
+  let filteredBoard = board;
+  if (tierFilter !== 'all') {
+    filteredBoard = board.filter(u => (u.tier || '').toLowerCase().includes(tierFilter));
   }
+
+  container.innerHTML = generateBoardHtml(filteredBoard, board);
 }
 
-function generateBoardHtml(board) {
-  const podium = board.slice(0,3);
-  const rest = board.slice(3);
-  
+function generateBoardHtml(displayBoard, fullBoard = []) {
+  if (!displayBoard || displayBoard.length === 0) {
+    return `<div style="text-align:center; padding:40px; color:var(--txt3);">No students in this tier yet. Keep grinding!</div>`;
+  }
+
+  // Check if viewing all ranks to render Top 3 Podium
+  const showPodium = window.selectedLeaderboardTier === 'all' && displayBoard.length >= 3;
+  const podium = showPodium ? displayBoard.slice(0, 3) : [];
+  const listRows = showPodium ? displayBoard.slice(3) : displayBoard;
+
   const renderAv = (u) => {
-    if (u.avatar && u.avatar !== 'img/default_avatar.svg') {
-      return `<img src="${escapeHtml(u.avatar)}" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;opacity:0;transition:opacity 0.4s ease-out;" onload="this.style.opacity=1" onerror="this.onerror=null; this.outerHTML=window.getDefaultAvatarSVG();">`;
-    }
-    return window.getDefaultAvatarSVG();
+    return `<div style="width:100%; height:100%; border-radius:inherit; display:grid; place-items:center; background:var(--bg2); overflow:hidden;">
+      ${window.getDefaultAvatarSVG()}
+    </div>`;
   };
 
-  const crownSvg = `<svg viewBox="0 0 24 24" fill="#fbbf24" stroke="#d97706" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" style="filter:drop-shadow(0 2px 4px rgba(217,119,6,0.4))"><path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"/></svg>`;
-  const silverMedal = `<svg viewBox="0 0 24 24" fill="#94a3b8" stroke="#475569" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>`;
-  const bronzeMedal = `<svg viewBox="0 0 24 24" fill="#b45309" stroke="#78350f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>`;
+  const crownGold = `<svg viewBox="0 0 24 24" fill="#fbbf24" stroke="#d97706" stroke-width="1.5" width="22" height="22" style="filter:drop-shadow(0 2px 4px rgba(251,191,36,0.5));"><path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"/></svg>`;
+  const silverMedal = `<svg viewBox="0 0 24 24" fill="#94a3b8" stroke="#475569" stroke-width="1.5" width="20" height="20" style="filter:drop-shadow(0 2px 4px rgba(148,163,184,0.4));"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>`;
+  const bronzeMedal = `<svg viewBox="0 0 24 24" fill="#b45309" stroke="#78350f" stroke-width="1.5" width="20" height="20" style="filter:drop-shadow(0 2px 4px rgba(180,83,9,0.4));"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>`;
 
-  let html = `
-    <div class="podium">
-      <div class="podium-spot"><div class="podium-medal silver" style="background:transparent;box-shadow:none;">${silverMedal}</div><div class="podium-av">${renderAv(podium[1])}</div><div class="podium-name">${escapeHtml(podium[1].name)}</div><div class="podium-xp">${formatXP(podium[1].xp)} XP</div></div>
-      <div class="podium-spot"><div class="podium-medal gold" style="background:transparent;box-shadow:none;top:-25px;transform:scale(1.2);">${crownSvg}</div><div class="podium-av" style="box-shadow:0 0 0 4px #fbbf24, 0 10px 25px rgba(251,191,36,0.4);">${renderAv(podium[0])}</div><div class="podium-name">${escapeHtml(podium[0].name)}</div><div class="podium-xp" style="color:var(--accent);">${formatXP(podium[0].xp)} XP</div></div>
-      <div class="podium-spot"><div class="podium-medal bronze" style="background:transparent;box-shadow:none;">${bronzeMedal}</div><div class="podium-av" style="background:linear-gradient(135deg,#7c3aed,#a78bfa);">${renderAv(podium[2])}</div><div class="podium-name">${escapeHtml(podium[2].name)}</div><div class="podium-xp">${formatXP(podium[2].xp)} XP</div></div>
-    </div>
-    <div class="rank-list">`;
+  let html = '';
 
-  rest.forEach(entry => {
-    const meClass = entry.isMe ? 'me' : '';
-    const numColor = entry.isMe ? 'color:var(--accent2);' : '';
-    const nameExtra = entry.isMe ? ' <span style="font-size:.6rem;background:rgba(91,108,255,.1);padding:2px 6px;border-radius:4px;color:var(--accent2);">You</span>' : '';
-    html += `<div class="rank-row ${meClass}">
-      <div class="rank-num" style="${numColor}">${entry.rank}</div>
-      <div class="rank-av-sm">${renderAv(entry)}</div>
-      <div class="rank-info"><div class="rank-name">${escapeHtml(entry.name)}${nameExtra}</div><div class="rank-xp">${formatXP(entry.xp)} XP</div></div>
-    </div>`;
+  if (showPodium) {
+    html += `
+      <div class="podium-3d-wrap" style="display:flex; justify-content:center; align-items:flex-end; gap:10px; margin-bottom:28px; padding-top:20px;">
+        <!-- Rank 2: Silver -->
+        <div class="podium-3d-spot silver" style="flex:1; max-width:110px; display:flex; flex-direction:column; align-items:center;">
+          <div style="margin-bottom:6px;">${silverMedal}</div>
+          <div style="width:62px; height:62px; border-radius:18px; border:3px solid #94a3b8; box-shadow:0 6px 18px rgba(148,163,184,0.3); padding:2px; background:var(--card); position:relative;">
+            ${renderAv(podium[1])}
+            <div style="position:absolute; bottom:-6px; right:-6px;">${getTierSvg(podium[1].tier, 18)}</div>
+          </div>
+          <div style="font-weight:700; font-size:0.85rem; color:var(--txt); margin-top:8px; text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100px;">${escapeHtml(podium[1].name)}</div>
+          <div style="font-size:0.75rem; font-weight:700; color:var(--accent2);">${formatXP(podium[1].xp)} XP</div>
+          <div style="margin-top:6px; width:100%; height:45px; background:linear-gradient(180deg, rgba(148,163,184,0.2), rgba(148,163,184,0.05)); border:1px solid rgba(148,163,184,0.3); border-radius:12px 12px 0 0; display:grid; place-items:center; font-weight:800; color:#94a3b8; font-size:1.1rem;">2</div>
+        </div>
+
+        <!-- Rank 1: Gold (Center Elevated) -->
+        <div class="podium-3d-spot gold" style="flex:1; max-width:125px; display:flex; flex-direction:column; align-items:center;">
+          <div style="margin-bottom:8px; transform:scale(1.2);">${crownGold}</div>
+          <div style="width:74px; height:74px; border-radius:20px; border:3.5px solid #fbbf24; box-shadow:0 10px 25px rgba(251,191,36,0.45); padding:2px; background:var(--card); position:relative;">
+            ${renderAv(podium[0])}
+            <div style="position:absolute; bottom:-6px; right:-6px;">${getTierSvg(podium[0].tier, 22)}</div>
+          </div>
+          <div style="font-weight:800; font-size:0.92rem; color:var(--txt); margin-top:8px; text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:115px;">${escapeHtml(podium[0].name)}</div>
+          <div style="font-size:0.8rem; font-weight:800; color:#fbbf24;">${formatXP(podium[0].xp)} XP</div>
+          <div style="margin-top:6px; width:100%; height:65px; background:linear-gradient(180deg, rgba(251,191,36,0.25), rgba(251,191,36,0.05)); border:1.5px solid rgba(251,191,36,0.4); border-radius:14px 14px 0 0; display:grid; place-items:center; font-weight:900; color:#fbbf24; font-size:1.3rem;">1</div>
+        </div>
+
+        <!-- Rank 3: Bronze -->
+        <div class="podium-3d-spot bronze" style="flex:1; max-width:110px; display:flex; flex-direction:column; align-items:center;">
+          <div style="margin-bottom:6px;">${bronzeMedal}</div>
+          <div style="width:62px; height:62px; border-radius:18px; border:3px solid #b45309; box-shadow:0 6px 18px rgba(180,83,9,0.3); padding:2px; background:var(--card); position:relative;">
+            ${renderAv(podium[2])}
+            <div style="position:absolute; bottom:-6px; right:-6px;">${getTierSvg(podium[2].tier, 18)}</div>
+          </div>
+          <div style="font-weight:700; font-size:0.85rem; color:var(--txt); margin-top:8px; text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100px;">${escapeHtml(podium[2].name)}</div>
+          <div style="font-size:0.75rem; font-weight:700; color:var(--accent2);">${formatXP(podium[2].xp)} XP</div>
+          <div style="margin-top:6px; width:100%; height:35px; background:linear-gradient(180deg, rgba(180,83,9,0.2), rgba(180,83,9,0.05)); border:1px solid rgba(180,83,9,0.3); border-radius:12px 12px 0 0; display:grid; place-items:center; font-weight:800; color:#d97706; font-size:1.05rem;">3</div>
+        </div>
+      </div>
+    `;
+  }
+
+  // List Rows for Ranks 4 to 20
+  html += '<div class="rank-list" style="display:flex; flex-direction:column; gap:8px;">';
+  listRows.forEach(u => {
+    const isMe = u.isMe || (AppState.user && u.email === AppState.user.email);
+    const meClass = isMe ? 'me-highlight' : '';
+
+    html += `
+      <div class="rank-row ${meClass}" style="background:var(--card); border:${isMe ? '1.5px solid var(--accent)' : '1px solid var(--border)'}; border-radius:14px; padding:12px 14px; display:flex; align-items:center; gap:12px; transition:transform 0.2s;">
+        <div style="width:24px; font-weight:800; font-size:0.9rem; color:${isMe ? 'var(--accent2)' : 'var(--txt3)'}; text-align:center;">
+          ${u.rank}
+        </div>
+        <div style="width:40px; height:40px; border-radius:12px; border:2px solid rgba(255,255,255,0.08); background:var(--bg2); padding:1px; flex-shrink:0;">
+          ${renderAv(u)}
+        </div>
+        <div style="flex:1; min-width:0;">
+          <div style="display:flex; align-items:center; gap:6px;">
+            <span style="font-weight:700; font-size:0.9rem; color:var(--txt); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+              ${escapeHtml(u.name)}
+            </span>
+            ${isMe ? '<span style="font-size:0.65rem; font-weight:800; background:var(--accent); color:#fff; padding:2px 6px; border-radius:4px;">YOU</span>' : ''}
+            ${u.isDev ? '<span style="font-size:0.65rem; font-weight:700; background:rgba(91,108,255,0.15); color:var(--accent2); padding:2px 6px; border-radius:4px;">CREATOR</span>' : ''}
+          </div>
+          <div style="display:flex; align-items:center; gap:6px; margin-top:2px;">
+            ${getTierSvg(u.tier, 13)}
+            <span style="font-size:0.72rem; color:var(--txt3); font-weight:600;">${u.tier}</span>
+            <span style="font-size:0.72rem; color:var(--txt4);">&bull;</span>
+            <span style="font-size:0.72rem; color:var(--txt3);">${u.streak || 1}d streak</span>
+          </div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-weight:800; font-size:0.95rem; color:${isMe ? 'var(--accent2)' : 'var(--txt)'};">${formatXP(u.xp)}</div>
+          <div style="font-size:0.68rem; color:var(--txt3); text-transform:uppercase;">XP</div>
+        </div>
+      </div>
+    `;
   });
   html += '</div>';
+
   return html;
 }
-window.populateRanks = populateRanks;
-window.generateBoardHtml = generateBoardHtml;
 
-// ===== PROFILE (read-only — editing only via Edit Profile overlay) =====
+// ===== PROFILE SECTION (eSports Gaming User Card with 50 Levels & 10 Frames) =====
 function renderProfile() {
   const user = AppState.user;
-  const initials = user.initials || ((user.firstName||'?')[0]).toUpperCase();
+  const levelInfo = calculateUserLevel(AppState.xp);
+  
+  // Find equipped frame or fallback to Frame 1
+  const equippedFrameId = user.equippedFrame || 'frame_1';
+  const frames = window.AVATAR_FRAMES || [];
+  const equippedFrame = frames.find(f => f.id === equippedFrameId) || frames[0];
+  const userTier = getTierFromXP(AppState.xp);
 
-  const profileHtml = `
-    <div class="profile-head">
-      <div class="profile-av" id="profAv">
-        <div id="profAvText" style="width:100%;height:100%;">${window.getDefaultAvatarSVG()}</div>
-       <img id="profAvImg"
-     style="display:none;width:100%;height:100%;object-fit:cover;transition:opacity 0.3s;"
-     alt="" onerror="this.onerror=null; this.outerHTML=window.getDefaultAvatarSVG().replace(/\\\"/g, '&quot;');">
+  return `
+    <!-- Top Header -->
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+      <h2 style="font-size:1.4rem; font-weight:700; letter-spacing:-0.3px;">Student Profile</h2>
+      <button onclick="openFrameModal()" style="background:rgba(91,108,255,0.12); border:1px solid rgba(91,108,255,0.25); color:var(--accent2); font-weight:700; font-size:0.75rem; padding:6px 12px; border-radius:100px; cursor:pointer; display:flex; align-items:center; gap:6px;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        Equip Frame
+      </button>
+    </div>
+
+    <!-- eSports Gaming User Card -->
+    <div class="esports-profile-card" style="background:linear-gradient(135deg, var(--card), var(--bg2)); border:1.5px solid var(--border); border-radius:20px; padding:20px; position:relative; overflow:hidden; box-shadow:0 12px 30px rgba(0,0,0,0.25); margin-bottom:20px;">
+      
+      <!-- Ambient Card Glow -->
+      <div style="position:absolute; top:-60px; right:-60px; width:160px; height:160px; background:radial-gradient(circle, ${equippedFrame.color} 0%, transparent 70%); opacity:0.18; pointer-events:none;"></div>
+
+      <div style="display:flex; gap:16px; align-items:center; position:relative; z-index:1;">
+        
+        <!-- PFP Box with Equipped Tier Frame -->
+        <div class="profile-pfp-wrap" onclick="openAvatarSheet()" style="position:relative; cursor:pointer;" title="Click to change photo">
+          <div style="width:78px; height:78px; border-radius:18px; border:${equippedFrame.border}; box-shadow:0 0 15px ${equippedFrame.glow}; padding:2px; background:var(--card); display:grid; place-items:center; overflow:hidden;">
+            <div id="profAvText" style="width:100%; height:100%; border-radius:14px; overflow:hidden;">
+              ${window.getDefaultAvatarSVG()}
+            </div>
+            <img id="profAvImg" style="display:none; width:100%; height:100%; object-fit:cover; border-radius:14px;" alt="">
+          </div>
+          <!-- Frame Badge Pin -->
+          <div style="position:absolute; bottom:-6px; right:-6px; background:${equippedFrame.color}; color:#fff; font-size:0.6rem; font-weight:800; padding:2px 6px; border-radius:6px; box-shadow:0 2px 6px rgba(0,0,0,0.3);">
+            ${equippedFrame.badge}
+          </div>
+        </div>
+
+        <!-- User Identity Info -->
+        <div style="flex:1; min-width:0;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <h3 style="font-size:1.2rem; font-weight:800; color:var(--txt); margin:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+              ${escapeHtml(user.firstName || user.username)}
+            </h3>
+            <svg viewBox="0 0 24 24" fill="#38bdf8" width="16" height="16" style="flex-shrink:0;"><path d="M12 2L15 8L21 9L17 14L18 20L12 17L6 20L7 14L3 9L9 8L12 2Z"/></svg>
+          </div>
+          <div style="font-size:0.8rem; color:var(--txt3); margin-top:2px;">@${escapeHtml(user.username || 'student')}</div>
+          
+          <div style="display:flex; align-items:center; gap:6px; margin-top:8px;">
+            <span style="background:rgba(91,108,255,0.12); color:var(--accent2); font-size:0.72rem; font-weight:700; padding:3px 8px; border-radius:6px;">
+              CA Intermediate &bull; ${user.attempt || 'May 2027'}
+            </span>
+            <div style="display:flex; align-items:center; gap:4px; background:var(--bg2); border:1px solid var(--border); padding:2px 8px; border-radius:6px;">
+              ${getTierSvg(userTier, 13)}
+              <span style="font-size:0.7rem; font-weight:700; color:var(--txt2);">${userTier}</span>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="profile-name" id="profName">${escapeHtml(user.firstName)}</div>
-      <div class="profile-course">${user.course}<span class="profile-dot"></span>${user.attempt}</div>
+
+      <!-- Level 1 to 50 Progress Bar -->
+      <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--border); position:relative; z-index:1;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+          <div style="display:flex; align-items:center; gap:6px;">
+            <span style="font-size:0.85rem; font-weight:800; color:var(--txt);">LEVEL ${levelInfo.level}</span>
+            <span style="font-size:0.72rem; color:var(--txt3);">/ 50 Max</span>
+          </div>
+          <div style="font-size:0.75rem; font-weight:700; color:var(--accent2);">
+            ${levelInfo.progressInLvl} / 150 XP &bull; ${levelInfo.pct}%
+          </div>
+        </div>
+        <div style="width:100%; height:7px; background:var(--bg2); border-radius:4px; overflow:hidden; border:1px solid var(--border);">
+          <div style="height:100%; width:${levelInfo.pct}%; background:linear-gradient(90deg, var(--accent), ${equippedFrame.color}); border-radius:4px; transition:width 0.4s ease;"></div>
+        </div>
+        <div style="font-size:0.7rem; color:var(--txt3); margin-top:6px; text-align:right;">
+          ${levelInfo.level >= 50 ? 'Max Platform Tier Reached' : `${levelInfo.xpToNext} XP needed for Level ${levelInfo.level + 1}`}
+        </div>
+      </div>
     </div>
 
-    <div class="profile-stats">
-      <div class="p-stat-card"><div class="p-stat-val indigo" data-xp-display>${formatXP(AppState.xp)}</div><div class="p-stat-lbl">Total XP</div></div>
-      <div class="p-stat-card" onclick="if(window.openGoalModal) window.openGoalModal(true)" style="cursor:pointer;"><div class="p-stat-val amber">${AppState.streak}</div><div class="p-stat-lbl">Streak</div></div>
-      <div class="p-stat-card"><div class="p-stat-val green" id="profRankVal">${AppState.rank ? '#' + AppState.rank : '–'}</div><div class="p-stat-lbl">Rank</div></div>
+    <!-- 3 Big Trophy Stats Cards -->
+    <div class="profile-stats" style="display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; margin-bottom:24px;">
+      
+      <!-- Fire Streak Card with animated flame SVG -->
+      <div class="p-stat-card" onclick="if(window.openGoalModal) window.openGoalModal(true)" style="background:var(--card); border:1px solid var(--border); border-radius:16px; padding:16px 12px; text-align:center; cursor:pointer;">
+        <div style="display:flex; justify-content:center; margin-bottom:4px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" width="22" height="22" style="filter:drop-shadow(0 2px 5px rgba(245,158,11,0.5));"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+        </div>
+        <div class="p-stat-val amber" style="font-size:1.35rem; font-weight:800; color:#f59e0b;">${AppState.streak}d</div>
+        <div class="p-stat-lbl" style="font-size:0.72rem; color:var(--txt3); text-transform:uppercase; margin-top:2px;">Streak</div>
+      </div>
+
+      <!-- Total XP Card -->
+      <div class="p-stat-card" style="background:var(--card); border:1px solid var(--border); border-radius:16px; padding:16px 12px; text-align:center;">
+        <div style="display:flex; justify-content:center; margin-bottom:4px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" width="22" height="22" style="filter:drop-shadow(0 2px 5px rgba(91,108,255,0.5));"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <div class="p-stat-val indigo" data-xp-display style="font-size:1.35rem; font-weight:800; color:var(--accent2);">${formatXP(AppState.xp)}</div>
+        <div class="p-stat-lbl" style="font-size:0.72rem; color:var(--txt3); text-transform:uppercase; margin-top:2px;">Total XP</div>
+      </div>
+
+      <!-- Leaderboard Rank Card -->
+      <div class="p-stat-card" onclick="Router.navigate('ranks')" style="background:var(--card); border:1px solid var(--border); border-radius:16px; padding:16px 12px; text-align:center; cursor:pointer;">
+        <div style="display:flex; justify-content:center; margin-bottom:4px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" width="22" height="22" style="filter:drop-shadow(0 2px 5px rgba(16,185,129,0.5));"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+        </div>
+        <div class="p-stat-val green" id="profRankVal" style="font-size:1.35rem; font-weight:800; color:#10b981;">#${AppState.rank || 12}</div>
+        <div class="p-stat-lbl" style="font-size:0.72rem; color:var(--txt3); text-transform:uppercase; margin-top:2px;">Rank</div>
+      </div>
     </div>
 
-    <div class="sec-label">Account</div>
-    <div class="menu-list">
+    <!-- Account & Platform Actions -->
+    <div class="sec-label">Account Controls</div>
+    <div class="menu-list" style="background:var(--card); border:1px solid var(--border); border-radius:16px; overflow:hidden; margin-bottom:20px;">
+      
+      <div class="menu-item" onclick="openFrameModal()">
+        <div class="menu-left">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <span>Equip Profile Frame (10 Tiers)</span>
+        </div>
+        <span style="font-size:0.72rem; font-weight:700; color:${equippedFrame.color}; margin-right:8px;">${equippedFrame.name}</span>
+        <svg class="menu-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+
       <div class="menu-item" onclick="openProfileOverlay('editProfile')">
         <div class="menu-left">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          <span>Edit Profile</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>Edit Profile &bull; Target Attempt</span>
         </div>
-        <svg class="menu-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-      </div>
-      <div class="menu-item" onclick="openProfileOverlay('performance')">
-        <div class="menu-left">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-          <span>Performance Analytics</span>
-        </div>
-        <svg class="menu-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-      </div>
-      <div class="menu-item" onclick="openProfileOverlay('bookmarks')">
-        <div class="menu-left">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
-          <span>Bookmarks</span>
-        </div>
-        <svg class="menu-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        <svg class="menu-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
       </div>
 
+      <div class="menu-item" onclick="openProfileOverlay('performance')">
+        <div class="menu-left">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          <span>Performance Analytics</span>
+        </div>
+        <svg class="menu-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+
+      <div class="menu-item" onclick="openProfileOverlay('bookmarks')">
+        <div class="menu-left">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+          <span>Saved Bookmarks</span>
+        </div>
+        <svg class="menu-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
 
       <div class="menu-item" onclick="openProfileOverlay('settings')">
         <div class="menu-left">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-          <span>Settings</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <span>App Settings</span>
         </div>
-        <svg class="menu-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        <svg class="menu-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
       </div>
-      ${AppState.user.telegram_chat_id 
-        ? `<div class="telegram-linked-container" onclick="toggleTelegramMenu()">
-             <div class="menu-item telegram-item linked">
-               <div class="menu-left">
-                 <svg viewBox="0 0 24 24" fill="none" stroke="#0088cc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2L2.5 10L9.5 13L12.5 21L16 15.5L21.5 2Z"/></svg>
-                 <span style="color:#0088cc; font-weight:600;">Telegram is linked</span>
-               </div>
-               <svg class="menu-arrow tg-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transition: transform 0.3s;"><polyline points="6 9 12 15 18 9"/></svg>
-             </div>
-             <div class="telegram-expand" id="tgExpand" style="max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out;">
-               <button class="tg-unlink-btn" onclick="unlinkTelegram(event)" style="width:100%; padding:12px; background:rgba(239,68,68,0.1); color:#ef4444; border:none; border-radius:8px; font-weight:600; cursor:pointer; margin-top:8px;">Logout from Telegram</button>
-             </div>
-           </div>`
-        : `<div class="menu-item telegram-item" onclick="openProfileOverlay('telegramLink')">
-             <div class="menu-left">
-               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2L2.5 10L9.5 13L12.5 21L16 15.5L21.5 2Z"/></svg>
-               <span>Click to Link telegram</span>
-             </div>
-           </div>`
-      }
+
       <div class="menu-item logout" onclick="handleSignout()">
         <div class="menu-left">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
           <span>Sign Out</span>
         </div>
       </div>
     </div>
   `;
-  return profileHtml;
 }
 
 function initProfile() {
   updateProfileAvatar();
-  
-  // Dynamically fetch actual rank for profile display
-  if (window.API && window.API.getLeaderboard && AppState.user && AppState.user.email) {
-    window.API.getLeaderboard().then(board => {
-      if (board && board.length > 0) {
-        const myIdx = board.findIndex(u => u.email === AppState.user.email);
-        if (myIdx !== -1) {
-          AppState.rank = myIdx + 1;
-          const rankEl = document.getElementById('profRankVal');
-          if (rankEl) rankEl.textContent = '#' + AppState.rank;
-        }
-      }
-    }).catch(err => console.error("Error fetching leaderboard for profile rank:", err));
-  }
 }
+
+// Avatar Frame Selector Overlay Functions
+function openFrameModal() {
+  const modal = document.getElementById('frame-selector-modal');
+  const grid = document.getElementById('frame-modal-grid');
+  if (!modal || !grid) return;
+
+  const userLvl = calculateUserLevel(AppState.xp).level;
+  const equippedId = AppState.user.equippedFrame || 'frame_1';
+  const frames = window.AVATAR_FRAMES || [];
+
+  grid.innerHTML = frames.map(f => {
+    const isUnlocked = userLvl >= f.minLevel;
+    const isEquipped = equippedId === f.id;
+
+    return `
+      <div class="frame-item-card ${isEquipped ? 'equipped' : ''} ${!isUnlocked ? 'locked' : ''}" style="background:var(--card); border:${isEquipped ? '2px solid var(--accent)' : '1px solid var(--border)'}; border-radius:14px; padding:12px; display:flex; align-items:center; gap:12px; position:relative;">
+        <div style="width:48px; height:48px; border-radius:14px; border:${f.border}; box-shadow:0 0 10px ${f.glow}; background:var(--bg2); padding:2px; flex-shrink:0;">
+          <div style="width:100%; height:100%; border-radius:10px; overflow:hidden;">
+            ${window.getDefaultAvatarSVG()}
+          </div>
+        </div>
+        <div style="flex:1;">
+          <div style="font-weight:700; font-size:0.9rem; color:var(--txt);">${f.name}</div>
+          <div style="font-size:0.75rem; color:${isUnlocked ? f.color : 'var(--txt3)'}; font-weight:600; margin-top:2px;">
+            ${isUnlocked ? `Unlocked &bull; ${f.badge}` : `Unlocks at Level ${f.minLevel}`}
+          </div>
+        </div>
+        <div>
+          ${isEquipped 
+            ? `<span style="font-size:0.7rem; font-weight:800; background:var(--accent); color:#fff; padding:4px 8px; border-radius:6px;">EQUIPPED</span>`
+            : isUnlocked 
+              ? `<button onclick="equipFrame('${f.id}')" style="background:var(--bg2); border:1px solid var(--border); color:var(--txt); font-weight:700; font-size:0.75rem; padding:6px 12px; border-radius:8px; cursor:pointer;">Equip</button>`
+              : `<span style="font-size:0.7rem; color:var(--txt4); display:flex; align-items:center; gap:4px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Locked</span>`
+          }
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  modal.style.display = 'flex';
+}
+
+function closeFrameModal() {
+  const modal = document.getElementById('frame-selector-modal');
+  if (modal) modal.style.display = 'none';
+}
+
+function equipFrame(frameId) {
+  AppState.user.equippedFrame = frameId;
+  saveUser();
+  closeFrameModal();
+  
+  // Refresh profile view
+  const main = document.getElementById('main-content');
+  if (main) main.innerHTML = renderProfile();
+  showToast('Avatar frame equipped successfully!');
+}
+
+window.getTierSvg = getTierSvg;
+window.calculateUserLevel = calculateUserLevel;
+window.openSubjectDrilldown = openSubjectDrilldown;
+window.closeSubjectDrilldown = closeSubjectDrilldown;
+window.launchChapterMCQs = launchChapterMCQs;
+window.launchCaseScenario = launchCaseScenario;
+window.launchFlashcardDeck = launchFlashcardDeck;
+window.switchPracticeMode = switchPracticeMode;
+window.openFrameModal = openFrameModal;
+window.closeFrameModal = closeFrameModal;
+window.equipFrame = equipFrame;
+window.populateRanks = populateRanks;
+window.filterRanksTier = filterRanksTier;
 
 // ===== PROFILE OVERLAY URL SYSTEM =====
 // All profile sub-screens use query params: /profile?panel=editProfile

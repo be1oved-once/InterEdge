@@ -385,28 +385,28 @@ async function handleSignup() {
       password: password,
       first_name: username.charAt(0).toUpperCase() + username.slice(1),
       course: 'CA Intermediate',
-      attempt: generateUpcomingAttempts()[0],
+      attempt: 'May 2027',
       avatar: null,
       xp: 50,
       streak: 1,
-      rank: 1,
+      rank: 12,
       last_xp_date: new Date().toISOString().split('T')[0],
       provider: 'local'
     });
 
-    // Populate pending state for OTP overlay
+    // Populate pending state for 4-digit OTP overlay
     window.pendingVerificationEmail = email;
     window.pendingVerificationUser = newUser;
     window.pendingVerificationType = 'signup';
 
     const titleEl = document.getElementById('verification-title');
     const subEl = document.getElementById('verification-subtitle');
-    if (titleEl) titleEl.textContent = 'Trial Verification';
-    if (subEl) subEl.textContent = "Trial Mode: Enter any 6-digit code (e.g. 123456) to verify your account instantly.";
+    if (titleEl) titleEl.textContent = 'Account Verification';
+    if (subEl) subEl.textContent = "Trial Mode: Enter any 4-digit code (e.g. 1234) to activate your InterEdge account.";
 
-    // Pre-fill dummy OTP boxes for trial convenience
+    // Pre-fill dummy OTP boxes (4 digits)
     const otpBoxes = document.querySelectorAll('.otp-box');
-    const demoCode = '123456';
+    const demoCode = '1234';
     otpBoxes.forEach((b, i) => { b.value = demoCode[i] || ''; });
 
     const verifOverlay = document.getElementById('verification-overlay');
@@ -430,11 +430,11 @@ async function handleGoogleAuth() {
     username: 'GoogleStudent',
     first_name: 'Google User',
     course: 'CA Intermediate',
-    attempt: generateUpcomingAttempts()[0],
+    attempt: 'May 2027',
     avatar: null,
     xp: 100,
     streak: 1,
-    rank: 1,
+    rank: 12,
     last_xp_date: new Date().toISOString().split('T')[0],
     provider: 'google'
   };
@@ -449,8 +449,9 @@ async function handleGoogleAuth() {
   AppState.streak = 1;
 
   saveUser();
-  completeLogin(false);
-  showToast('Signed in with Google (Trial Mode)');
+  const isNew = !localStorage.getItem('pe_onboarding_done');
+  completeLogin(false, isNew);
+  showToast('Signed in with Google');
 }
 
 function handleGuestLogin() {
@@ -463,10 +464,10 @@ function handleGuestLogin() {
   AppState.xp = 0;
   AppState.streak = 0;
   saveUser();
-  completeLogin(true);
+  completeLogin(true, false);
 }
 
-function completeLogin(isGuest) {
+function completeLogin(isGuest, isNewUser) {
   AppState.isLoggedIn = true;
   AppState.isGuest = isGuest;
 
@@ -497,12 +498,23 @@ function completeLogin(isGuest) {
       authScreen.style.opacity = '1';
       const appScreen = document.getElementById('app-screen');
       if (appScreen) appScreen.style.display = 'flex';
-      Router.navigate('home');
+      
+      const onboardingDone = localStorage.getItem('pe_onboarding_done') === 'true';
+      if (!isGuest && (!onboardingDone || isNewUser)) {
+        startOnboardingTour();
+      } else {
+        Router.navigate('home');
+      }
     }, 300);
   } else {
     const appScreen = document.getElementById('app-screen');
     if (appScreen) appScreen.style.display = 'flex';
-    Router.navigate('home');
+    const onboardingDone = localStorage.getItem('pe_onboarding_done') === 'true';
+    if (!isGuest && (!onboardingDone || isNewUser)) {
+      startOnboardingTour();
+    } else {
+      Router.navigate('home');
+    }
   }
   showToast(isGuest ? 'Welcome, Guest!' : `Welcome, ${AppState.user.firstName || AppState.user.username}!`);
 }
@@ -617,8 +629,8 @@ async function verifyOtpAction() {
   const inputs = Array.from(document.querySelectorAll('.otp-box'));
   const otpCode = inputs.map(input => input.value).join('');
   
-  if (otpCode.length !== 6) {
-    showToast('Please enter the 6-digit OTP');
+  if (otpCode.length !== 4) {
+    showToast('Please enter the 4-digit OTP');
     return;
   }
   
@@ -652,7 +664,7 @@ async function verifyOtpAction() {
         AppState.xp = u.xp || 50;
         AppState.streak = 1;
         saveUser();
-        completeLogin(false);
+        completeLogin(false, true);
       } else {
         showToast('Account verified! Please sign in.');
         showLogin();
@@ -663,9 +675,9 @@ async function verifyOtpAction() {
 
 async function resendOtpAction() {
   const otpBoxes = document.querySelectorAll('.otp-box');
-  const demoCode = '123456';
+  const demoCode = '1234';
   otpBoxes.forEach((b, i) => { b.value = demoCode[i] || ''; });
-  showToast('Trial OTP: 123456 (auto-filled)');
+  showToast('Trial OTP: 1234 (auto-filled)');
 }
 
 function openForgotPassword() {
@@ -698,13 +710,13 @@ async function handleSendResetLink() {
   const titleEl = document.getElementById('verification-title');
   const subEl = document.getElementById('verification-subtitle');
   if (titleEl) titleEl.textContent = 'Password Reset Code';
-  if (subEl) subEl.textContent = "Trial Mode: Enter any 6-digit code (e.g. 123456) to reset your password.";
+  if (subEl) subEl.textContent = "Trial Mode: Enter any 4-digit code (e.g. 1234) to reset your password.";
 
   const otpBoxes = document.querySelectorAll('.otp-box');
-  const demoCode = '123456';
+  const demoCode = '1234';
   otpBoxes.forEach((b, i) => { b.value = demoCode[i] || ''; });
 
-  showToast('Trial reset code: 123456');
+  showToast('Trial reset code: 1234');
   closeForgotPassword();
   
   const overlay = document.getElementById('verification-overlay');
@@ -743,7 +755,7 @@ async function handleChangePassword() {
   }
 }
 
-// Setup OTP Inputs behavior
+// Setup 4-digit OTP Inputs behavior
 document.addEventListener('DOMContentLoaded', () => {
   const inputs = document.querySelectorAll('.otp-box');
   
@@ -751,7 +763,7 @@ document.addEventListener('DOMContentLoaded', () => {
     input.addEventListener('input', (e) => {
       const value = e.target.value.replace(/\D/g,'');
       if (value.length > 1) {
-        value.slice(0, 6).split('').forEach((digit, i) => {
+        value.slice(0, 4).split('').forEach((digit, i) => {
           if (inputs[index + i]) inputs[index + i].value = digit;
         });
         inputs[Math.min(index + value.length, inputs.length - 1)].focus();
@@ -771,14 +783,200 @@ document.addEventListener('DOMContentLoaded', () => {
     
     input.addEventListener('paste', (e) => {
       e.preventDefault();
-      const numbers = e.clipboardData.getData('text').replace(/\D/g,'').slice(0, 6);
+      const numbers = e.clipboardData.getData('text').replace(/\D/g,'').slice(0, 4);
       numbers.split('').forEach((digit, i) => {
         if (inputs[i]) inputs[i].value = digit;
       });
-      inputs[Math.min(numbers.length - 1, 5)].focus();
+      inputs[Math.min(numbers.length - 1, 3)].focus();
     });
   });
 });
+
+// ============================================
+// ONBOARDING QUESTIONNAIRE TOUR CONTROLLER
+// ============================================
+window.onboardingState = {
+  selectedAttempt: 'May 2027',
+  discovery: {},
+  challenges: {}
+};
+
+function startOnboardingTour() {
+  const overlay = document.getElementById('onboarding-overlay');
+  if (!overlay) {
+    Router.navigate('home');
+    return;
+  }
+
+  // Populate Step 1 options: Jan 27, May 27, Sept 27
+  const attempts = [
+    { id: 'Jan 27', label: 'Jan 27', sub: 'January 2027 Attempt • Fast Track' },
+    { id: 'May 27', label: 'May 27', sub: 'May 2027 Attempt • Standard Track (Recommended)' },
+    { id: 'Sept 27', label: 'Sept 27', sub: 'Sept 2027 Attempt • Extended Prep' }
+  ];
+
+  const attemptCont = document.getElementById('attempt-opts-container');
+  if (attemptCont) {
+    attemptCont.innerHTML = attempts.map(att => `
+      <div class="onboard-opt-card ${att.id === 'May 27' ? 'selected' : ''}" onclick="selectOnboardingAttempt('${att.id}', this)">
+        <div class="opt-card-radio">
+          <div class="radio-inner"></div>
+        </div>
+        <div class="opt-card-body">
+          <div class="opt-card-title">${att.label}</div>
+          <div class="opt-card-sub">${att.sub}</div>
+        </div>
+        <div class="opt-card-check">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  window.onboardingState.selectedAttempt = 'May 2027';
+  const btn1 = document.getElementById('btn-onboard-next-1');
+  if (btn1) btn1.disabled = false;
+
+  // Populate Step 2: Discovery Channels
+  const discoveryChannels = [
+    { id: 'twitter', label: 'Twitter / X', sub: 'Posts & Updates' },
+    { id: 'telegram', label: 'Telegram', sub: 'CA Student Groups' },
+    { id: 'whatsapp', label: 'WhatsApp', sub: 'Study Communities' },
+    { id: 'google', label: 'Google Search', sub: 'CA Intermediate Portal' },
+    { id: 'senior', label: 'Peer / Senior CA', sub: 'Word of mouth' },
+    { id: 'other', label: 'Other', sub: 'Other channels' }
+  ];
+
+  const discCont = document.getElementById('discovery-opts-container');
+  if (discCont) {
+    discCont.innerHTML = discoveryChannels.map(ch => `
+      <div class="onboard-chip-card" onclick="toggleOnboardingDiscovery('${ch.id}', this)">
+        <div class="chip-checkbox">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div>
+          <div class="chip-title">${ch.label}</div>
+          <div class="chip-sub">${ch.sub}</div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // Populate Step 3: Challenges / Pain Points
+  const challenges = [
+    { id: 'distracted', label: 'Too Distracted', sub: 'Phone, notifications & short attention spans' },
+    { id: 'lazy_book', label: 'Lazy to Open Bulky Books', sub: 'Hesitant to tackle massive ICAI modules directly' },
+    { id: 'focus_time', label: "Can't Focus for Long Hours", sub: 'Mental fatigue and burnout during 8+ hr study days' },
+    { id: 'procrastination', label: 'Chronic Procrastination', sub: 'Delaying difficult subjects like Law and Costing' },
+    { id: 'lack_recall', label: 'Lack of Daily Active Recall', sub: 'Forgetting legal provisions & standards within weeks' },
+    { id: 'law_drafting', label: 'Unsure of ICAI Answer Format', sub: 'Losing marks on presentation & legal analysis structure' }
+  ];
+
+  const chalCont = document.getElementById('challenges-opts-container');
+  if (chalCont) {
+    chalCont.innerHTML = challenges.map(ch => `
+      <div class="onboard-opt-card" onclick="toggleOnboardingChallenge('${ch.id}', this)">
+        <div class="opt-card-checkbox">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="opt-card-body">
+          <div class="opt-card-title">${ch.label}</div>
+          <div class="opt-card-sub">${ch.sub}</div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // Reset steps display
+  showOnboardStep(1);
+  overlay.style.display = 'block';
+  setTimeout(() => overlay.classList.add('open'), 10);
+}
+
+function showOnboardStep(stepNum) {
+  [1, 2, 3].forEach(s => {
+    const p = document.getElementById(`onboard-step-${s}`);
+    if (p) p.style.display = s === stepNum ? 'block' : 'none';
+  });
+
+  const lbl = document.getElementById('onboarding-step-lbl');
+  if (lbl) lbl.textContent = `Step ${stepNum} of 3`;
+
+  const bar = document.getElementById('onboarding-progress-fill');
+  if (bar) bar.style.width = (stepNum * 33.33) + '%';
+}
+
+function selectOnboardingAttempt(attempt, el) {
+  window.onboardingState.selectedAttempt = attempt;
+  document.querySelectorAll('#attempt-opts-container .onboard-opt-card').forEach(c => c.classList.remove('selected'));
+  if (el) el.classList.add('selected');
+  const btn = document.getElementById('btn-onboard-next-1');
+  if (btn) btn.disabled = false;
+}
+
+function toggleOnboardingDiscovery(channel, el) {
+  window.onboardingState.discovery[channel] = !window.onboardingState.discovery[channel];
+  if (el) el.classList.toggle('selected', !!window.onboardingState.discovery[channel]);
+}
+
+function toggleOnboardingChallenge(chId, el) {
+  window.onboardingState.challenges[chId] = !window.onboardingState.challenges[chId];
+  if (el) el.classList.toggle('selected', !!window.onboardingState.challenges[chId]);
+}
+
+function onboardingNext(currStep) {
+  showOnboardStep(currStep + 1);
+}
+
+function onboardingPrev(currStep) {
+  showOnboardStep(currStep - 1);
+}
+
+function finishOnboarding() {
+  const chosenAttempt = window.onboardingState.selectedAttempt || 'May 2027';
+  AppState.user.attempt = chosenAttempt;
+  
+  localStorage.setItem('pe_onboarding_done', 'true');
+  localStorage.setItem('pe_onboarding_data', JSON.stringify({
+    attempt: chosenAttempt,
+    discovery: window.onboardingState.discovery,
+    challenges: window.onboardingState.challenges,
+    completedAt: new Date().toISOString()
+  }));
+
+  saveUser();
+
+  // Celebration Confetti
+  if (window.confetti) {
+    try {
+      confetti({
+        particleCount: 80,
+        spread: 60,
+        origin: { y: 0.6 }
+      });
+    } catch(e) {}
+  }
+
+  const overlay = document.getElementById('onboarding-overlay');
+  if (overlay) {
+    overlay.classList.remove('open');
+    setTimeout(() => {
+      overlay.style.display = 'none';
+      Router.navigate('home');
+      showToast(`Setup complete! Target: ${chosenAttempt}`);
+    }, 300);
+  } else {
+    Router.navigate('home');
+  }
+}
+
+window.startOnboardingTour = startOnboardingTour;
+window.selectOnboardingAttempt = selectOnboardingAttempt;
+window.toggleOnboardingDiscovery = toggleOnboardingDiscovery;
+window.toggleOnboardingChallenge = toggleOnboardingChallenge;
+window.onboardingNext = onboardingNext;
+window.onboardingPrev = onboardingPrev;
+window.finishOnboarding = finishOnboarding;
 
 // Email change logic (locally managed)
 window.handleSendEmailChangeOtp = async function(newEmail) {

@@ -641,64 +641,152 @@
 
 </div>
 
-<!-- ========== VERIFICATION OVERLAY ========== -->
+<!-- ========== VERIFICATION OVERLAY (4-Digit OTP) ========== -->
 <div id="verification-overlay" class="fs-overlay auth-fs-overlay" style="z-index:9000;background:var(--bg);display:none;">
-  <div class="fs-content" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100dvh;text-align:center;padding:20px;">
-    <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="64" height="64" style="margin-bottom:24px;">
-      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-      <polyline points="22,6 12,13 2,6"/>
-    </svg>
-    <h2 id="verification-title" style="font-size:1.6rem;font-weight:700;margin-bottom:8px;color:var(--txt1);">Check your email</h2>
-    <p id="verification-subtitle" style="font-size:0.95rem;color:var(--txt2);margin-bottom:32px;max-width:280px;line-height:1.5;">
-      We sent a 6-digit verification code. Enter it below to continue.
-    </p>
-    <div id="otp-inputs" style="display:flex;gap:10px;margin-bottom:24px;justify-content:center;">
-      <input
-type="text"
-class="otp-box"
-maxlength="1"
-inputmode="numeric"
-autocomplete="one-time-code"
-pattern="[0-9]*" />
-      <input
-type="text"
-class="otp-box"
-maxlength="1"
-inputmode="numeric"
-autocomplete="one-time-code"
-pattern="[0-9]*" />
-      <input
-type="text"
-class="otp-box"
-maxlength="1"
-inputmode="numeric"
-autocomplete="one-time-code"
-pattern="[0-9]*" />
-      <input
-type="text"
-class="otp-box"
-maxlength="1"
-inputmode="numeric"
-autocomplete="one-time-code"
-pattern="[0-9]*" />
-      <input
-type="text"
-class="otp-box"
-maxlength="1"
-inputmode="numeric"
-autocomplete="one-time-code"
-pattern="[0-9]*" />
-      <input
-type="text"
-class="otp-box"
-maxlength="1"
-inputmode="numeric"
-autocomplete="one-time-code"
-pattern="[0-9]*" />
+  <div class="fs-content" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100dvh;text-align:center;padding:24px 20px;">
+    <div style="width:72px; height:72px; border-radius:20px; background:rgba(91,108,255,0.12); display:grid; place-items:center; margin-bottom:20px; border:1px solid rgba(91,108,255,0.25);">
+      <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="36" height="36">
+        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+        <polyline points="22,6 12,13 2,6"/>
+      </svg>
     </div>
-    <button class="btn-primary" id="btn-verify-otp" onclick="verifyOtpAction()" style="margin-bottom:16px;width:100%;max-width:300px;">Verify & Continue</button>
-    <button class="btn-secondary" id="btn-resend-otp" onclick="resendOtpAction()" style="margin-bottom:12px;width:100%;max-width:300px;">Resend OTP</button>
-    <a href="javascript:void(0)" onclick="showLogin(); document.getElementById('verification-overlay').classList.remove('open');" style="color:var(--accent);font-size:0.9rem;text-decoration:none;">Back to Login</a>
+    <h2 id="verification-title" style="font-size:1.6rem;font-weight:700;margin-bottom:8px;color:var(--txt);">Verify Your Email</h2>
+    <p id="verification-subtitle" style="font-size:0.92rem;color:var(--txt3);margin-bottom:28px;max-width:300px;line-height:1.5;">
+      We sent a 4-digit verification code to your email. Enter it below to activate your InterEdge account.
+    </p>
+    <div id="otp-inputs" style="display:flex;gap:12px;margin-bottom:26px;justify-content:center;">
+      <input type="text" class="otp-box" maxlength="1" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]*" />
+      <input type="text" class="otp-box" maxlength="1" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]*" />
+      <input type="text" class="otp-box" maxlength="1" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]*" />
+      <input type="text" class="otp-box" maxlength="1" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]*" />
+    </div>
+    <button class="btn-primary" id="btn-verify-otp" onclick="verifyOtpAction()" style="margin-bottom:14px;width:100%;max-width:320px;padding:14px;border-radius:12px;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--accent2));">Verify &amp; Continue</button>
+    <button class="btn-secondary" id="btn-resend-otp" onclick="resendOtpAction()" style="margin-bottom:14px;width:100%;max-width:320px;padding:12px;border-radius:12px;">Resend OTP</button>
+    <a href="javascript:void(0)" onclick="showLogin(); document.getElementById('verification-overlay').classList.remove('open'); setTimeout(()=>document.getElementById('verification-overlay').style.display='none',300);" style="color:var(--accent2);font-size:0.9rem;text-decoration:none;font-weight:500;">Back to Login</a>
+  </div>
+</div>
+
+<!-- ========== ONBOARDING QUESTIONNAIRE TOUR OVERLAY ========== -->
+<div id="onboarding-overlay" class="fs-overlay" style="z-index:9500;background:var(--bg);display:none;position:fixed;inset:0;overflow-y:auto;">
+  <div class="onboarding-wrap">
+    
+    <!-- Top Progress Header -->
+    <div class="onboarding-header">
+      <div class="onboarding-brand">
+        <img src="img/logo.png" alt="InterEdge Logo" style="width:26px;height:26px;object-fit:contain;">
+        <span>InterEdge Setup</span>
+      </div>
+      <div class="onboarding-steps-indicator">
+        <span id="onboarding-step-lbl">Step 1 of 3</span>
+      </div>
+    </div>
+    <div class="onboarding-progress-bar">
+      <div id="onboarding-progress-fill" style="width: 33.33%;"></div>
+    </div>
+
+    <!-- Container for dynamic steps -->
+    <div class="onboarding-content-card">
+
+      <!-- STEP 1: Attempt Selection -->
+      <div id="onboard-step-1" class="onboard-step-panel">
+        <div class="onboard-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          CA Intermediate Target
+        </div>
+        <h2 class="onboard-title">When is your CA Inter Attempt?</h2>
+        <p class="onboard-sub">
+          ICAI conducts CA Intermediate examinations thrice a year. Choose your upcoming target attempt window:
+        </p>
+
+        <div class="onboard-opts-list" id="attempt-opts-container">
+          <!-- Populated by JS: Jan 27, May 27, Sept 27 -->
+        </div>
+
+        <button class="btn-primary onboard-btn-next" id="btn-onboard-next-1" onclick="onboardingNext(1)" disabled>
+          <span>Continue</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+
+      <!-- STEP 2: Discovery Channel -->
+      <div id="onboard-step-2" class="onboard-step-panel" style="display:none;">
+        <div class="onboard-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+          Community Discovery
+        </div>
+        <h2 class="onboard-title">Where did you find InterEdge?</h2>
+        <p class="onboard-sub">
+          Select one or multiple channels that helped you discover our student platform:
+        </p>
+
+        <div class="onboard-opts-grid" id="discovery-opts-container">
+          <!-- Populated by JS: Twitter, Telegram, WhatsApp, Google, Other -->
+        </div>
+
+        <div class="onboard-nav-row">
+          <button class="btn-secondary onboard-btn-back" onclick="onboardingPrev(2)">Back</button>
+          <button class="btn-primary onboard-btn-next" id="btn-onboard-next-2" onclick="onboardingNext(2)">
+            <span>Continue</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 3: Challenges / Lack -->
+      <div id="onboard-step-3" class="onboard-step-panel" style="display:none;">
+        <div class="onboard-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          Targeted Growth
+        </div>
+        <h2 class="onboard-title">What challenges do you face?</h2>
+        <p class="onboard-sub">
+          Select what holds you back. We'll tailor your practice drills and daily study reminders accordingly:
+        </p>
+
+        <div class="onboard-opts-list" id="challenges-opts-container">
+          <!-- Populated by JS: Too distracted, Lazy to open book, Can't focus for long time, Procrastination, etc. -->
+        </div>
+
+        <div class="onboard-nav-row">
+          <button class="btn-secondary onboard-btn-back" onclick="onboardingPrev(3)">Back</button>
+          <button class="btn-primary onboard-btn-finish" onclick="finishOnboarding()">
+            <span>Complete Setup &amp; Enter</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ========== AVATAR FRAME SELECTOR MODAL ========== -->
+<div id="frame-selector-modal" class="fs-overlay" style="z-index:9200;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);display:none;position:fixed;inset:0;align-items:center;justify-content:center;padding:16px;">
+  <div class="frame-modal-box">
+    <div class="frame-modal-head">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="width:34px;height:34px;border-radius:10px;background:rgba(91,108,255,0.15);display:grid;place-items:center;color:var(--accent);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <div>
+          <h3 style="font-size:1.15rem;font-weight:700;color:var(--txt);">Avatar Frames</h3>
+          <p style="font-size:0.75rem;color:var(--txt3);">10 Tier Frames &bull; Unlocked every 5 Levels (1 to 50)</p>
+        </div>
+      </div>
+      <button class="close-x" onclick="closeFrameModal()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="frame-modal-body" id="frame-modal-grid">
+      <!-- Populated by JS: 10 frames with lock/unlock status & equip button -->
+    </div>
+  </div>
+</div>
+
+<!-- ========== SUBJECT CHAPTERS & CONCEPTS DRILLDOWN OVERLAY ========== -->
+<div id="subject-drilldown-modal" class="fs-overlay" style="z-index:9100;background:var(--bg);display:none;position:fixed;inset:0;overflow-y:auto;">
+  <div class="drilldown-container" id="drilldown-content">
+    <!-- Populated dynamically when user clicks any of the 6 CA Inter subjects -->
   </div>
 </div>
 

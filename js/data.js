@@ -1,338 +1,657 @@
 // ============================================
-// InterEdge - Dummy Data
-// CA Intermediate MCQs & Questions
+// InterEdge - Core CA Intermediate Data Engine
+// Aligned with ICAI New Scheme (May 2027 & Beyond)
 // ============================================
 
+// ===== 6 CA INTERMEDIATE PAPERS & QUESTION BANK =====
 const MCQ_DATA = {
-  maths: {
-    id: 'maths',
-    name: 'Maths & Stats',
-    color: '#ffb534',
-    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="17" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="17" cy="7" r="1.5"/><line x1="8.5" y1="15.5" x2="10.5" y2="13.5"/><line x1="13.5" y1="10.5" x2="15.5" y2="8.5"/></svg>`,
+  // Paper 1: Advanced Accounting
+  adv_acc: {
+    id: 'adv_acc',
+    paper: 'Paper 1',
+    group: 'Group 1',
+    name: 'Advanced Accounting',
+    shortName: 'Accounts',
+    color: '#3b82f6',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="9" y1="7" x2="15" y2="7"/><line x1="9" y1="11" x2="13" y2="11"/></svg>`,
     chapters: [
       {
-        id: 'm1',
+        id: 'acc_ch1',
         num: 1,
-        title: 'Ratio and Proportion',
-        questionCount: 5,
+        title: 'Accounting Standards & Framework (AS 1, 2, 3, 10, 16)',
+        concepts: ['Disclosure of Policies (AS 1)', 'Inventory Valuation (AS 2)', 'Cash Flow Statement (AS 3)', 'PPE (AS 10)', 'Borrowing Costs (AS 16)'],
         questions: [
           {
-            q: 'If a:b = 2:3 and b:c = 4:5, then a:c is equal to:',
-            options: ['8:15', '6:20', '5:8', '7:12'],
-            correct: 0,
-            explanation: 'a:b = 2:3 and b:c = 4:5. Making b common: a:b = 8:12 and b:c = 12:15. Therefore a:c = 8:15.'
+            q: 'As per AS 2 (Revised), which of the following costs should NOT be included in the valuation of inventory?',
+            options: ['Cost of purchase and freight inward', 'Abnormal amounts of wasted materials and labour', 'Direct labour costs', 'Fixed production overheads based on normal capacity'],
+            correct: 1,
+            explanation: 'Under AS 2, abnormal amounts of wasted material, labour, or other production costs, storage costs (unless necessary in production process), and administrative/selling overheads are excluded from inventory costs.',
+            marks: 2,
+            xp: 20
           },
           {
-            q: 'The ratio of incomes of A and B is 5:4 and the ratio of their expenditures is 3:2. If each saves Rs. 1600 at the end of the year, the income of A is:',
-            options: ['Rs. 4000', 'Rs. 3600', 'Rs. 3200', 'Rs. 4800'],
-            correct: 0,
-            explanation: 'Let incomes be 5x and 4x. Expenditures be 3y and 2y. Savings: 5x-3y = 1600, 4x-2y = 1600. Solving: x = 800, so A\'s income = 5 × 800 = Rs. 4000.'
+            q: 'Under AS 16 "Borrowing Costs", capitalization of borrowing costs should be suspended during:',
+            options: ['Brief temporary delays', 'Extended periods in which active development of qualifying asset is interrupted', 'Periods when substantial technical and administrative work is underway', 'Normal seasonal delays'],
+            correct: 1,
+            explanation: 'Capitalization of borrowing costs shall be suspended during extended periods in which active development of a qualifying asset is interrupted, as mandated by AS 16.',
+            marks: 2,
+            xp: 20
           },
           {
-            q: 'If 20% of A = 30% of B, then A:B equals:',
-            options: ['3:2', '2:3', '3:4', '4:3'],
-            correct: 0,
-            explanation: '0.20A = 0.30B → A/B = 0.30/0.20 = 3/2 → A:B = 3:2.'
-          },
+            q: 'In Cash Flow Statement (AS 3), interest paid by a manufacturing enterprise is classified as:',
+            options: ['Operating activity', 'Financing activity', 'Investing activity', 'Cash and Cash Equivalents'],
+            correct: 1,
+            explanation: 'For a non-financial enterprise, interest paid and dividend paid are cash flows from financing activities because they are costs of obtaining capital resources.',
+            marks: 2,
+            xp: 20
+          }
+        ],
+        caseScenarios: [
           {
-            q: 'The third proportional to 9 and 12 is:',
-            options: ['16', '15', '18', '20'],
-            correct: 0,
-            explanation: 'If x is the third proportional to 9 and 12: 9:12 = 12:x → 9x = 144 → x = 16.'
-          },
+            caseId: 'cs_acc_1',
+            caseTitle: 'Apex Manufacturing Ltd — Inventory Valuation & PPE Capitalization',
+            narrative: 'Apex Manufacturing Ltd is a leading chemical processor in Gujarat. During FY 2025-26, the company purchased raw materials for ₹50,00,000 (inclusive of recoverable GST of ₹6,00,000). Freight inward paid was ₹1,50,000, and non-refundable import duties paid were ₹2,50,000. Due to a boiler leakage, raw material worth ₹3,00,000 was damaged and written off as abnormal wastage. Storage costs of finished goods incurred were ₹1,20,000. Additionally, the company constructed a specialized warehouse (a qualifying asset) costing ₹80,00,000 using specific borrowed funds at 10% p.a. Construction took 14 months, but work was completely halted for 3 months due to local community protests unrelated to technical readiness.',
+            questions: [
+              {
+                q: 'What is the correct cost of raw material inventory to be recognized under AS 2?',
+                options: ['₹48,00,000', '₹45,00,000', '₹54,00,000', '₹51,00,000'],
+                correct: 0,
+                explanation: 'Purchase price (excl. recoverable GST): ₹44,00,000 + Freight inward: ₹1,50,000 + Import duty: ₹2,50,000 = ₹48,00,000. Abnormal waste is excluded.',
+                marks: 2,
+                xp: 25
+              },
+              {
+                q: 'How should the storage cost of ₹1,20,000 of finished goods be treated in financial statements?',
+                options: ['Added to inventory cost', 'Expensed in Profit & Loss Account', 'Capitalized under Property, Plant & Equipment', 'Deferred to next financial year'],
+                correct: 1,
+                explanation: 'Storage costs are expensed in Profit & Loss unless those costs are necessary in the production process prior to a further production stage.',
+                marks: 2,
+                xp: 25
+              },
+              {
+                q: 'Under AS 16, should borrowing costs during the 3-month protest stoppage be capitalized?',
+                options: ['Yes, fully capitalized into warehouse asset', 'No, capitalization must be suspended and interest expensed to P&L', '50% capitalized and 50% expensed', 'Capitalized only if approved by Board'],
+                correct: 1,
+                explanation: 'Active development was interrupted by protests (not a necessary temporary step). Hence capitalization must be suspended for 3 months and charged to P&L.',
+                marks: 2,
+                xp: 25
+              }
+            ]
+          }
+        ],
+        flashcards: [
           {
-            q: 'In a mixture of 60 litres, the ratio of milk to water is 2:1. If this ratio is to be changed to 1:2, the quantity of water to be added is:',
-            options: ['40 litres', '30 litres', '60 litres', '50 litres'],
-            correct: 2,
-            explanation: 'Milk = 40L, Water = 20L. For 1:2 ratio with 40L milk, water needed = 80L. Water to add = 80 - 20 = 60 litres.'
+            topic: 'AS 2 — Net Realizable Value (NRV) Rule',
+            prompt: 'Explain the valuation principle for raw materials when finished goods are expected to be sold at or below cost.',
+            provision: 'AS 2 (Revised) stipulates that materials and supplies held for use in the production of inventories are NOT written down below cost if the finished products in which they will be incorporated are expected to be sold at or above cost.',
+            analysis: 'However, when there has been a decline in the price of materials and it is estimated that the cost of finished products will exceed net realizable value, the materials are written down to net realizable value. In such cases, replacement cost may be the best available measure of their NRV.',
+            conclusion: 'Write down raw material to replacement cost ONLY if finished goods are sold below total cost.'
           }
         ]
       },
       {
-        id: 'm2',
+        id: 'acc_ch2',
         num: 2,
-        title: 'Indices and Logarithms',
-        questionCount: 5,
+        title: 'Company Accounts: Buyback of Shares & Internal Reconstruction',
+        concepts: ['Sec 68 Buy Back Conditions', 'Solvency Declarations', 'Capital Reduction Account', 'Scheme of Reconstruction'],
         questions: [
           {
-            q: 'If 2^x = 3^y = 6^z, then 1/x + 1/y equals:',
-            options: ['1/z', '2/z', 'z', '3/z'],
-            correct: 0,
-            explanation: 'Let 2^x = 3^y = 6^z = k. Then x = logk/log2, y = logk/log3, z = logk/log6. 1/x + 1/y = log2/logk + log3/logk = (log2+log3)/logk = log6/logk = 1/z.'
+            q: 'Under Section 68 of the Companies Act 2013, the maximum buyback of equity shares in any financial year is capped at:',
+            options: ['25% of total paid up equity capital and free reserves', '25% of total paid up equity capital only', '10% of total paid up capital without special resolution', '15% of net worth'],
+            correct: 1,
+            explanation: 'Under Sec 68(2)(c), the buyback of equity shares in any financial year cannot exceed 25% of its total paid-up equity capital in that financial year.',
+            marks: 2,
+            xp: 20
           },
           {
-            q: 'The value of log₂(log₃81) is:',
-            options: ['2', '3', '4', '1'],
-            correct: 0,
-            explanation: 'log₃81 = log₃(3⁴) = 4. Then log₂(4) = log₂(2²) = 2.'
-          },
-          {
-            q: 'If log₁₀2 = 0.3010 and log₁₀3 = 0.4771, then log₁₀12 equals:',
-            options: ['1.0791', '1.1771', '1.2781', '0.9542'],
-            correct: 0,
-            explanation: 'log₁₀12 = log₁₀(4×3) = log₁₀4 + log₁₀3 = 2log₁₀2 + log₁₀3 = 2(0.3010) + 0.4771 = 0.6020 + 0.4771 = 1.0791.'
-          },
-          {
-            q: 'The value of (27)^(2/3) is:',
-            options: ['9', '6', '12', '18'],
-            correct: 0,
-            explanation: '(27)^(2/3) = (3³)^(2/3) = 3² = 9.'
-          },
-          {
-            q: 'If a^x = b^y = c^z and abc = 1, then xy + yz + zx equals:',
-            options: ['0', '1', 'xyz', '-1'],
+            q: 'In an internal reconstruction scheme, any balance remaining in Capital Reduction Account after writing off accumulated losses is transferred to:',
+            options: ['General Reserve', 'Securities Premium Account', 'Capital Reserve', 'Profit & Loss Account'],
             correct: 2,
-            explanation: 'Let a^x = b^y = c^z = k. Then x = lnk/lna, y = lnk/lnb, z = lnk/lnc. Since abc=1, lna+lnb+lnc=0. After substitution, xy+yz+zx = (lnk)²(lna+lnb+lnc)/(lna·lnb·lnc) × appropriate factors = xyz(lna+lnb+lnc)/lnk = 0. Wait, correct approach gives xy + yz + zx = 0 when abc=1.'
+            explanation: 'Any surplus credit balance remaining in Capital Reduction Account represents a capital profit and must be transferred to Capital Reserve Account.',
+            marks: 2,
+            xp: 20
           }
-        ]
-      },
-      {
-        id: 'm3',
-        num: 3,
-        title: 'Equations and Inequalities',
-        questionCount: 5,
-        questions: [
-          {
-            q: 'If the roots of x² - px + q = 0 are consecutive integers, then:',
-            options: ['p² - 4q - 1 = 0', 'p² - 4q + 1 = 0', 'p² + 4q - 1 = 0', 'p² + 4q + 1 = 0'],
-            correct: 0,
-            explanation: 'Let roots be n and n+1. Sum = 2n+1 = p, Product = n(n+1) = q. From first, n = (p-1)/2. Substituting: q = (p-1)/2 × (p+1)/2 = (p²-1)/4. So 4q = p² - 1, thus p² - 4q - 1 = 0.'
-          },
-          {
-            q: 'The solution of |2x - 3| < 5 is:',
-            options: ['-1 < x < 4', '1 < x < 4', '-1 < x < 3', '0 < x < 4'],
-            correct: 0,
-            explanation: '|2x-3| < 5 → -5 < 2x-3 < 5 → -2 < 2x < 8 → -1 < x < 4.'
-          },
-          {
-            q: 'If α and β are roots of 2x² + 5x - 3 = 0, then α² + β² equals:',
-            options: ['37/4', '25/4', '31/4', '19/4'],
-            correct: 0,
-            explanation: 'α+β = -5/2, αβ = -3/2. α²+β² = (α+β)² - 2αβ = 25/4 + 3 = 25/4 + 12/4 = 37/4.'
-          },
-          {
-            q: 'The number of real solutions of x² + |x| + 1 = 0 is:',
-            options: ['0', '1', '2', 'Infinite'],
-            correct: 0,
-            explanation: 'For all real x, x² ≥ 0 and |x| ≥ 0. So x² + |x| + 1 ≥ 1 > 0. No real solutions exist.'
-          },
-          {
-            q: 'If 2^(x+1) + 2^(x-1) = 320, then x equals:',
-            options: ['7', '6', '8', '5'],
-            correct: 0,
-            explanation: '2^(x+1) + 2^(x-1) = 2^x(2 + 1/2) = 2^x × 5/2 = 320 → 2^x = 128 = 2^7 → x = 7.'
-          }
-        ]
-      },
-      {
-        id: 'm4',
-        num: 4,
-        title: 'Time Value of Money',
-        questionCount: 5,
-        questions: [
-          {
-            q: 'The present value of Rs. 1000 due in 2 years at 10% p.a. compound interest is:',
-            options: ['Rs. 826.45', 'Rs. 800', 'Rs. 833.33', 'Rs. 810'],
-            correct: 0,
-            explanation: 'PV = 1000/(1.10)² = 1000/1.21 = Rs. 826.45.'
-          },
-          {
-            q: 'The compound interest on Rs. 5000 for 3 years at 8% p.a. compounded annually is:',
-            options: ['Rs. 1298.56', 'Rs. 1200', 'Rs. 1300', 'Rs. 1250'],
-            correct: 0,
-            explanation: 'Amount = 5000(1.08)³ = 5000 × 1.259712 = 6298.56. CI = 6298.56 - 5000 = Rs. 1298.56.'
-          },
-          {
-            q: 'An annuity of Rs. 5000 is received annually for 5 years. The future value at 10% p.a. is:',
-            options: ['Rs. 30,525.50', 'Rs. 25,000', 'Rs. 27,500', 'Rs. 32,000'],
-            correct: 0,
-            explanation: 'FVA = 5000 × [(1.10)^5 - 1]/0.10 = 5000 × 0.61051/0.10 = 5000 × 6.1051 = Rs. 30,525.50.'
-          },
-          {
-            q: 'The effective annual rate for 12% p.a. compounded quarterly is:',
-            options: ['12.55%', '12.36%', '12.68%', '12%'],
-            correct: 0,
-            explanation: 'EAR = (1 + 0.12/4)^4 - 1 = (1.03)^4 - 1 = 1.1255 - 1 = 12.55%.'
-          },
-          {
-            q: 'A sum doubles in 8 years at compound interest. The rate of interest is approximately:',
-            options: ['9%', '10%', '8%', '12%'],
-            correct: 0,
-            explanation: '2P = P(1+r)^8 → (1+r)^8 = 2 → 1+r = 2^(1/8) ≈ 1.0905 → r ≈ 9%.'
-          }
-        ]
-      },
-      {
-        id: 'm5',
-        num: 5,
-        title: 'Permutations and Combinations',
-        questionCount: 5,
-        questions: [
-          {
-            q: 'The number of ways to arrange 6 people in a row is:',
-            options: ['720', '600', '120', '360'],
-            correct: 0,
-            explanation: '6! = 6 × 5 × 4 × 3 × 2 × 1 = 720 ways.'
-          },
-          {
-            q: 'The number of diagonals in a decagon (10-sided polygon) is:',
-            options: ['35', '45', '30', '40'],
-            correct: 0,
-            explanation: 'Number of diagonals = n(n-3)/2 = 10(7)/2 = 35.'
-          },
-          {
-            q: 'If C(n,8) = C(n,6), then n equals:',
-            options: ['14', '13', '12', '15'],
-            correct: 0,
-            explanation: 'C(n,8) = C(n,6) → n = 8+6 = 14 (since C(n,r) = C(n,n-r)).'
-          },
-          {
-            q: 'The number of 3-letter words that can be formed from "MATHS" (no repetition) is:',
-            options: ['60', '30', '120', '20'],
-            correct: 0,
-            explanation: 'P(5,3) = 5!/(5-3)! = 5 × 4 × 3 = 60.'
-          },
-          {
-            q: 'In how many ways can 4 people be selected from 8 people?',
-            options: ['70', '56', '1680', '35'],
-            correct: 0,
-            explanation: 'C(8,4) = 8!/(4!×4!) = (8×7×6×5)/(4×3×2×1) = 70.'
-          }
-        ]
-      },
-      {
-        id: 'm6',
-        num: 6,
-        title: 'Measures of Central Tendency',
-        questionCount: 5,
-        questions: [
-          {
-            q: 'The mean of first n natural numbers is:',
-            options: ['(n+1)/2', 'n/2', '(n-1)/2', 'n(n+1)/2'],
-            correct: 0,
-            explanation: 'Sum = n(n+1)/2, Count = n. Mean = [n(n+1)/2]/n = (n+1)/2.'
-          },
-          {
-            q: 'If the mean of 5, 8, 12, x, 15 is 10, then x equals:',
-            options: ['10', '12', '8', '15'],
-            correct: 0,
-            explanation: '(5+8+12+x+15)/5 = 10 → 40+x = 50 → x = 10.'
-          },
-          {
-            q: 'The median of 12, 15, 10, 18, 8, 20, 14 is:',
-            options: ['14', '12', '15', '10'],
-            correct: 0,
-            explanation: 'Sorted: 8, 10, 12, 14, 15, 18, 20. Median (4th value) = 14.'
-          },
-          {
-            q: 'The mode of 2, 3, 4, 2, 5, 2, 6, 2, 7 is:',
-            options: ['2', '3', '4', 'No mode'],
-            correct: 0,
-            explanation: '2 appears 4 times, more frequent than any other. Mode = 2.'
-          },
-          {
-            q: 'The geometric mean of 4 and 9 is:',
-            options: ['6', '5', '6.5', '7'],
-            correct: 0,
-            explanation: 'GM = √(4×9) = √36 = 6.'
-          }
-        ]
+        ],
+        caseScenarios: [],
+        flashcards: []
       }
     ]
   },
-  economics: window.ECONOMICS_DATA,
-  maths: window.MATHS_DATA
+
+  // Paper 2: Corporate and Other Laws
+  law: {
+    id: 'law',
+    paper: 'Paper 2',
+    group: 'Group 1',
+    name: 'Corporate and Other Laws',
+    shortName: 'Law',
+    color: '#ef4444',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg>`,
+    chapters: [
+      {
+        id: 'law_ch1',
+        num: 1,
+        title: 'Company Incorporation & Incidental Matters (Sec 1-22)',
+        concepts: ['Doctrine of Ultra Vires', 'Doctrine of Indoor Management', 'Alteration of MOA/AOA', 'Section 8 Companies'],
+        questions: [
+          {
+            q: 'Under Section 8 of the Companies Act 2013, a non-profit company is prohibited from:',
+            options: ['Investing funds in government bonds', 'Paying any dividend to its members', 'Accepting donations from overseas', 'Amending its object clause with Central Government approval'],
+            correct: 1,
+            explanation: 'A Section 8 company must apply its profits solely in promoting its objectives and is strictly prohibited from paying any dividend to its members.',
+            marks: 2,
+            xp: 20
+          },
+          {
+            q: 'The doctrine that protects outsiders against irregularities inside the internal management of a company is known as:',
+            options: ['Doctrine of Constructive Notice', 'Doctrine of Ultra Vires', 'Doctrine of Indoor Management (Turquand Rule)', 'Doctrine of Subrogation'],
+            correct: 2,
+            explanation: 'The Rule in Royal British Bank v. Turquand protects third parties acting in good faith from irregularities in internal company approvals.',
+            marks: 2,
+            xp: 20
+          }
+        ],
+        caseScenarios: [
+          {
+            caseId: 'cs_law_1',
+            caseTitle: 'Zenith Logistics Ltd — Unauthorized Borrowing & Turquand Defense',
+            narrative: 'The Articles of Association of Zenith Logistics Ltd authorized the Board of Directors to borrow funds up to ₹1,00,00,000 on behalf of the company, with borrowing beyond that sum requiring prior approval by an Ordinary Resolution at a General Meeting. The Directors, without convening a General Meeting or obtaining shareholder approval, approached Pioneer Finance Ltd and executed a mortgage bond for ₹1,80,00,000 under the common seal of the company. Pioneer Finance Ltd did not inspect the register of resolutions but verified that borrowing was within the general power of the company as per the MOA. When Zenith Logistics Ltd defaulted, the company denied liability for the excess ₹80,00,000, arguing the mortgage was ultra vires the directors.',
+            questions: [
+              {
+                q: 'Can Pioneer Finance Ltd enforce the mortgage against Zenith Logistics Ltd under the Doctrine of Indoor Management?',
+                options: ['Yes, fully enforceable because internal procedural compliance is presumed', 'No, unenforceable because external lenders have constructive notice of AOA borrowing limits', 'Only enforceable up to ₹1,00,00,000', 'Void ab initio against both parties'],
+                correct: 0,
+                explanation: 'Under Royal British Bank v. Turquand, lenders who observe the public documents (AOA allows borrowing with a resolution) are entitled to assume the internal resolution was duly passed.',
+                marks: 2,
+                xp: 25
+              },
+              {
+                q: 'Which exception to the Turquand Rule would have invalidated Pioneer Finance’s defense?',
+                options: ['Constructive notice of public documents', 'Actual knowledge of the irregularity or suspicious circumstances', 'Company seal was slightly faded', 'Absence of notary attestation'],
+                correct: 1,
+                explanation: 'The protection of Indoor Management is lost if the outsider has actual knowledge of non-compliance or if circumstances put a prudent person on inquiry.',
+                marks: 2,
+                xp: 25
+              }
+            ]
+          }
+        ],
+        flashcards: [
+          {
+            topic: 'Royal British Bank v. Turquand (Indoor Management)',
+            prompt: 'Explain the 3-step ICAI presentation when an outsider deals with a company whose directors breached an internal limit.',
+            provision: 'Section 399 of Companies Act 2013 deals with inspection of documents. While outsiders have constructive notice of MOA/AOA, the Doctrine of Indoor Management protects them regarding internal management regularity.',
+            analysis: 'Outsiders are bound to read public documents to ensure transactions conform to the company constitution, but they are not bound to inquire whether internal secret resolutions have been satisfied.',
+            conclusion: 'The transaction is valid and binding on the company unless the outsider acted with forgery, negligence, or actual knowledge.'
+          }
+        ]
+      },
+      {
+        id: 'law_ch2',
+        num: 2,
+        title: 'Management & Administration (Sec 88-122: AGM, EGM, Resolutions)',
+        concepts: ['Annual General Meeting (Sec 96)', 'Notice Period & Short Notice (Sec 101)', 'Quorum for Meetings (Sec 103)', 'Postal Ballot (Sec 110)'],
+        questions: [
+          {
+            q: 'Under Section 96, the gap between two Annual General Meetings of a company shall not exceed:',
+            options: ['12 months', '15 months', '18 months', '6 months'],
+            correct: 1,
+            explanation: 'Under Sec 96(1), not more than 15 months shall elapse between the date of one AGM of a company and that of the next.',
+            marks: 2,
+            xp: 20
+          }
+        ],
+        caseScenarios: [],
+        flashcards: []
+      }
+    ]
+  },
+
+  // Paper 3: Taxation (Income Tax & GST)
+  tax: {
+    id: 'tax',
+    paper: 'Paper 3',
+    group: 'Group 1',
+    name: 'Taxation (Income Tax & GST)',
+    shortName: 'Taxation',
+    color: '#10b981',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/><line x1="6" y1="15" x2="10" y2="15"/></svg>`,
+    chapters: [
+      {
+        id: 'tax_ch1',
+        num: 1,
+        title: 'Basic Concepts & Residential Status (Sec 1 to 6)',
+        concepts: ['Sec 6(1) Basic Conditions', 'Sec 6(6) Additional Conditions', 'Deemed Resident Sec 6(1A)', 'Scope of Total Income Sec 5'],
+        questions: [
+          {
+            q: 'An Indian citizen who leaves India during the previous year for the purpose of employment outside India is a resident if he stays in India for at least:',
+            options: ['60 days', '120 days', '182 days', '90 days'],
+            correct: 2,
+            explanation: 'In the case of an Indian citizen leaving India for employment abroad, the 60-day condition in Sec 6(1)(c) is substituted by 182 days.',
+            marks: 2,
+            xp: 20
+          },
+          {
+            q: 'Under Section 115BAC (Default Tax Regime), what is the basic exemption limit for FY 2025-26?',
+            options: ['₹2,50,000', '₹3,00,000', '₹5,00,000', '₹7,00,000'],
+            correct: 1,
+            explanation: 'Under the default concessional tax regime u/s 115BAC, income up to ₹3,00,000 is taxed at Nil rate.',
+            marks: 2,
+            xp: 20
+          }
+        ],
+        caseScenarios: [
+          {
+            caseId: 'cs_tax_1',
+            caseTitle: 'Mr. Rohan Mehta — Cross-Border Consultancy & NRI Status',
+            narrative: 'Mr. Rohan Mehta, an Indian citizen and software consultant, resided continuously in India until 15th August 2025, when he left India to join an IT firm in Singapore. His total physical stay in India during FY 2025-26 was 137 days. In the preceding 4 financial years, his stay in India was 410 days. During FY 2025-26, he earned salary in Singapore equivalent to ₹28,00,000 (credited to his Singapore bank account). He also earned dividend of ₹80,000 from Indian companies and rental income of ₹3,60,000 from a commercial property in Bangalore.',
+            questions: [
+              {
+                q: 'What is the residential status of Mr. Rohan Mehta for FY 2025-26?',
+                options: ['Resident and Ordinarily Resident (ROR)', 'Resident but Not Ordinarily Resident (RNOR)', 'Non-Resident (NR)', 'Deemed Resident u/s 6(1A)'],
+                correct: 2,
+                explanation: 'Since he left India for employment, only the 182-day rule applies under Sec 6(1). His stay of 137 days is less than 182 days, so he is a Non-Resident.',
+                marks: 2,
+                xp: 25
+              },
+              {
+                q: 'Is his Singapore salary of ₹28,00,000 taxable in India?',
+                options: ['Yes, Indian citizens are taxed on worldwide income', 'No, income accrued and received outside India is not taxable for a Non-Resident', 'Taxable at flat 20%', 'Taxable only if remitted to India'],
+                correct: 1,
+                explanation: 'For a Non-Resident, income which accrues or arises outside India and is received outside India is NOT included in total income u/s 5.',
+                marks: 2,
+                xp: 25
+              }
+            ]
+          }
+        ],
+        flashcards: [
+          {
+            topic: 'Deemed Resident u/s 6(1A)',
+            prompt: 'When is an Indian citizen deemed to be resident in India under Section 6(1A)?',
+            provision: 'Section 6(1A) provides that an Indian citizen having total income (other than foreign source income) exceeding ₹15 Lakhs during the previous year shall be deemed to be resident in India.',
+            analysis: 'This applies if he is not liable to tax in any other country or territory by reason of his domicile, residence, or similar criteria. Such deemed resident is ALWAYS treated as Resident but Not Ordinarily Resident (RNOR).',
+            conclusion: 'Condition: Citizen + Indian Income > ₹15L + Not liable to tax anywhere globally.'
+          }
+        ]
+      },
+      {
+        id: 'tax_ch2',
+        num: 2,
+        title: 'GST: Input Tax Credit (ITC) & Supply Concepts',
+        concepts: ['Sec 16 Eligibility for ITC', 'Sec 17(5) Blocked Credits', 'Time of Supply', 'Value of Supply'],
+        questions: [
+          {
+            q: 'Under Section 17(5) of the CGST Act, Input Tax Credit is BLOCKED in respect of:',
+            options: ['Motor vehicles for transportation of goods', 'Motor vehicles for transportation of persons having approved seating capacity up to 13 persons', 'Plant and machinery used in factory', 'Computers used in office'],
+            correct: 1,
+            explanation: 'Sec 17(5)(a) blocks ITC on motor vehicles for transportation of persons having approved seating capacity of not more than 13 persons (including driver), unless used for specific passenger transport/driving school purposes.',
+            marks: 2,
+            xp: 20
+          }
+        ],
+        caseScenarios: [],
+        flashcards: []
+      }
+    ]
+  },
+
+  // Paper 4: Cost and Management Accounting
+  cost: {
+    id: 'cost',
+    paper: 'Paper 4',
+    group: 'Group 2',
+    name: 'Cost and Management Accounting',
+    shortName: 'Costing',
+    color: '#f59e0b',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>`,
+    chapters: [
+      {
+        id: 'cost_ch1',
+        num: 1,
+        title: 'Material Cost & Inventory Optimization (EOQ, Stock Levels)',
+        concepts: ['Economic Order Quantity (EOQ)', 'Reorder Level & Safety Stock', 'Inventory Valuation (FIFO/WAC)', 'ABC & VED Analysis'],
+        questions: [
+          {
+            q: 'Annual demand for raw material is 10,000 units. Ordering cost per order is ₹50, and carrying cost per unit p.a. is ₹4. The Economic Order Quantity (EOQ) is:',
+            options: ['500 units', '400 units', '250 units', '600 units'],
+            correct: 0,
+            explanation: 'EOQ = √(2 × Annual Demand × Ordering Cost / Carrying Cost) = √(2 × 10,000 × 50 / 4) = √(250,000) = 500 units.',
+            marks: 2,
+            xp: 20
+          },
+          {
+            q: 'At the Economic Order Quantity (EOQ), which relationship holds true?',
+            options: ['Total Ordering Cost > Total Carrying Cost', 'Total Ordering Cost = Total Carrying Cost', 'Total Ordering Cost < Total Carrying Cost', 'Total Cost is at its maximum'],
+            correct: 1,
+            explanation: 'At EOQ, total annual ordering costs exactly equal total annual carrying costs, and total annual inventory cost is minimized.',
+            marks: 2,
+            xp: 20
+          }
+        ],
+        caseScenarios: [
+          {
+            caseId: 'cs_cost_1',
+            caseTitle: 'Zenon Electronics — Discount Policy vs EOQ Evaluation',
+            narrative: 'Zenon Electronics manufactures LED controllers. It purchases components at ₹200 per unit. Annual consumption is 18,000 units. Cost of placing each order is ₹300, and inventory holding cost is 12% per annum of purchase price. The supplier offers an order-size discount: if Zenon orders in lots of 3,000 units or more, a discount of 2% on the purchase price will be granted.',
+            questions: [
+              {
+                q: 'What is the Economic Order Quantity (EOQ) without supplier discount?',
+                options: ['671 units', '750 units', '600 units', '800 units'],
+                correct: 0,
+                explanation: 'Carrying cost = 12% of ₹200 = ₹24. EOQ = √(2 × 18,000 × 300 / 24) = √(450,000) ≈ 670.82 ≈ 671 units.',
+                marks: 2,
+                xp: 25
+              },
+              {
+                q: 'Should Zenon accept the 2% discount offer for order quantity of 3,000 units?',
+                options: ['Yes, net annual savings exceed additional holding costs', 'No, carrying cost drastically outweighs discount', 'Indifferent at both volumes', 'Data insufficient to compute'],
+                correct: 0,
+                explanation: '2% discount on ₹36,00,000 total purchase value is ₹72,000. Total annual cost with discount is lower, so the offer should be accepted.',
+                marks: 2,
+                xp: 25
+              }
+            ]
+          }
+        ],
+        flashcards: [
+          {
+            topic: 'Reorder Level & Safety Stock',
+            prompt: 'State the formulas for Reorder Level (ROL) and Maximum Stock Level in Cost Accounting.',
+            provision: 'Re-order Level = Maximum Consumption Rate × Maximum Lead Time.',
+            analysis: 'Maximum Level = Re-order Level + Re-order Quantity (EOQ) - (Minimum Consumption Rate × Minimum Lead Time).',
+            conclusion: 'Safety stock buffers against unexpected production spikes and supplier shipping delays.'
+          }
+        ]
+      },
+      {
+        id: 'cost_ch2',
+        num: 2,
+        title: 'Marginal Costing & CVP Analysis',
+        concepts: ['Contribution & PV Ratio', 'Break-even Point (BEP)', 'Margin of Safety', 'Key Factor Analysis'],
+        questions: [
+          {
+            q: 'If Selling Price is ₹20, Variable Cost is ₹12, and Fixed Costs are ₹80,000, what is the Break-even Point in units?',
+            options: ['10,000 units', '8,000 units', '12,000 units', '6,667 units'],
+            correct: 0,
+            explanation: 'Contribution = SP - VC = ₹20 - ₹12 = ₹8. BEP (units) = Fixed Cost / Contribution per unit = 80,000 / 8 = 10,000 units.',
+            marks: 2,
+            xp: 20
+          }
+        ],
+        caseScenarios: [],
+        flashcards: []
+      }
+    ]
+  },
+
+  // Paper 5: Auditing and Ethics
+  audit: {
+    id: 'audit',
+    paper: 'Paper 5',
+    group: 'Group 2',
+    name: 'Auditing and Ethics',
+    shortName: 'Audit',
+    color: '#8b5cf6',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>`,
+    chapters: [
+      {
+        id: 'audit_ch1',
+        num: 1,
+        title: 'Nature, Objective and Scope of Audit (SA 200, 210)',
+        concepts: ['Professional Skepticism', 'Inherent Limitations of Audit', 'Preconditions for Audit (SA 210)', 'Auditor Independence'],
+        questions: [
+          {
+            q: 'As per SA 200, "Professional Skepticism" requires the auditor to:',
+            options: ['Assume management is always dishonest', 'Maintain a questioning mind and be alert to conditions indicating possible misstatement', 'Rely solely on oral management representations', 'Guarantee 100% fraud detection in financial statements'],
+            correct: 1,
+            explanation: 'SA 200 defines Professional Skepticism as an attitude that includes a questioning mind, being alert to conditions which may indicate possible misstatement due to error or fraud, and a critical assessment of audit evidence.',
+            marks: 2,
+            xp: 20
+          },
+          {
+            q: 'Which of the following is NOT an inherent limitation of an audit according to SA 200?',
+            options: ['Nature of financial reporting involving management judgment', 'Nature of audit procedures (sampling and non-cooperation)', 'Auditor negligence and failure to adhere to standards', 'Timeliness of financial reporting and balance between benefit and cost'],
+            correct: 2,
+            explanation: 'Auditor negligence is a personal breach of professional duty, NOT an inherent limitation of the audit process.',
+            marks: 2,
+            xp: 20
+          }
+        ],
+        caseScenarios: [
+          {
+            caseId: 'cs_audit_1',
+            caseTitle: 'M/s Sharma & Associates — Appointment Conflict & Independence',
+            narrative: 'M/s Sharma & Associates, Chartered Accountants, were approached for appointment as statutory auditors of Delta Steels Ltd for FY 2025-26. CA Rahul Sharma is the senior partner. During preliminary independence verification, it was discovered that CA Rahul’s brother-in-law holds shares in Delta Steels Ltd having a face value of ₹1,20,000 (market value ₹8,50,000). The firm also provides internal book-keeping and IT consulting services to a subsidiary of Delta Steels Ltd.',
+            questions: [
+              {
+                q: 'Under Section 141(3)(d) of the Companies Act 2013, can CA Rahul’s relative hold shares in the company?',
+                options: ['Relative can hold shares having face value up to ₹1,00,000', 'Relative cannot hold any shares whatsoever', 'Relative can hold shares up to market value ₹5,00,000', 'No restrictions on brother-in-law'],
+                correct: 0,
+                explanation: 'Under Sec 141(3)(d)(i) read with Rule 10, a relative of an auditor may hold securities in the company of face value not exceeding ₹1,00,000.',
+                marks: 2,
+                xp: 25
+              },
+              {
+                q: 'Can the firm provide internal book-keeping services to the client subsidiary under Section 144?',
+                options: ['Yes, because it is a separate legal entity', 'No, Section 144 strictly prohibits accounting and book-keeping services to the company and its subsidiaries', 'Permitted if audit committee approves', 'Permitted if fees are less than 10%'],
+                correct: 1,
+                explanation: 'Section 144 prohibits statutory auditors from providing accounting, internal audit, and IT consulting services to the company, its holding, or its subsidiary companies.',
+                marks: 2,
+                xp: 25
+              }
+            ]
+          }
+        ],
+        flashcards: [
+          {
+            topic: 'SA 210 — Agreement on Audit Terms',
+            prompt: 'What must an auditor establish to verify the preconditions for an audit?',
+            provision: 'SA 210 mandates that to establish preconditions, the auditor shall determine whether the financial reporting framework is acceptable and obtain management acknowledgement of its responsibilities.',
+            analysis: 'Management must acknowledge responsibility for preparation of FS in accordance with the framework, internal controls necessary to enable FS free from material misstatement, and providing unrestricted access to all information and personnel.',
+            conclusion: 'If preconditions are not present, the auditor shall not accept the proposed audit engagement.'
+          }
+        ]
+      },
+      {
+        id: 'audit_ch2',
+        num: 2,
+        title: 'Audit Evidence & Risk Assessment (SA 500, SA 315)',
+        concepts: ['Sufficiency & Appropriateness (SA 500)', 'External Confirmations (SA 505)', 'Risk of Material Misstatement', 'Internal Control Evaluation'],
+        questions: [
+          {
+            q: 'Under SA 500, which form of audit evidence is generally considered most reliable?',
+            options: ['Oral statements by client management', 'Documentary evidence obtained directly from knowledgeable independent third parties', 'Photocopies of internal purchase orders', 'Self-prepared client spreadsheets'],
+            correct: 1,
+            explanation: 'Audit evidence is more reliable when it is obtained from independent sources outside the entity in documentary or electronic form directly by the auditor.',
+            marks: 2,
+            xp: 20
+          }
+        ],
+        caseScenarios: [],
+        flashcards: []
+      }
+    ]
+  },
+
+  // Paper 6: Financial Management and Strategic Management (FM-SM)
+  fmsm: {
+    id: 'fmsm',
+    paper: 'Paper 6',
+    group: 'Group 2',
+    name: 'FM & Strategic Management',
+    shortName: 'FM-SM',
+    color: '#06b6d4',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m16 12-4-4-4 4"/><path d="M12 16V8"/></svg>`,
+    chapters: [
+      {
+        id: 'fmsm_ch1',
+        num: 1,
+        title: 'Capital Budgeting & Investment Decisions (NPV, IRR)',
+        concepts: ['Net Present Value (NPV)', 'Internal Rate of Return (IRR)', 'Profitability Index (PI)', 'Payback & Discounted Payback'],
+        questions: [
+          {
+            q: 'When evaluating mutually exclusive projects with unequal initial outlays, the theoretically superior criterion is:',
+            options: ['Highest Internal Rate of Return (IRR)', 'Highest Net Present Value (NPV)', 'Shortest Payback Period', 'Highest Accounting Rate of Return'],
+            correct: 1,
+            explanation: 'NPV directly measures absolute wealth addition to shareholders and is superior in mutually exclusive choices, avoiding IRR reinvestment rate conflicts.',
+            marks: 2,
+            xp: 20
+          },
+          {
+            q: 'A project has an initial cost of ₹1,00,000 and generates cash inflows of ₹40,000 p.a. for 4 years. If discount rate is 10% (PVIFA @ 10%, 4 yrs = 3.170), the NPV is:',
+            options: ['₹26,800', '₹32,400', '₹20,000', '₹28,500'],
+            correct: 0,
+            explanation: 'Present Value of Inflows = ₹40,000 × 3.170 = ₹1,26,800. NPV = PV of Inflows - Initial Outflow = ₹1,26,800 - ₹1,00,000 = ₹26,800.',
+            marks: 2,
+            xp: 20
+          }
+        ],
+        caseScenarios: [
+          {
+            caseId: 'cs_fm_1',
+            caseTitle: 'Solaris Energy Ltd — Solar Farm Expansion Decision',
+            narrative: 'Solaris Energy Ltd is considering installing an automated rooftop solar array costing ₹50,00,000. Useful life is 5 years with zero salvage value. The project is expected to generate operational cash savings (before tax and depreciation) of ₹18,00,000 each year. Straight-line depreciation is used for tax purposes. Corporate tax rate is 30%. Company’s cost of capital (WACC) is 12%. Present Value Factors at 12%: Y1=0.893, Y2=0.797, Y3=0.712, Y4=0.636, Y5=0.567 (Total PVIFA = 3.605).',
+            questions: [
+              {
+                q: 'What is the annual operating cash flow after tax (CFAT) for the solar array?',
+                options: ['₹15,60,000', '₹12,60,000', '₹18,00,000', '₹14,20,000'],
+                correct: 0,
+                explanation: 'Depreciation = 50L / 5 = 10L. Profit before tax = 18L - 10L = 8L. Tax @ 30% = 2.4L. Profit after tax = 5.6L. CFAT = PAT + Depreciation = 5.6L + 10L = ₹15,60,000.',
+                marks: 2,
+                xp: 25
+              },
+              {
+                q: 'What is the Net Present Value (NPV) of this investment?',
+                options: ['₹6,23,800', '₹8,45,200', '₹5,12,000', '₹7,15,000'],
+                correct: 0,
+                explanation: 'PV of Cash Inflows = ₹15,60,000 × 3.605 = ₹56,23,800. NPV = ₹56,23,800 - ₹50,00,000 = ₹6,23,800. Accept project.',
+                marks: 2,
+                xp: 25
+              }
+            ]
+          }
+        ],
+        flashcards: [
+          {
+            topic: 'Michael Porter’s 5 Competitive Forces (Strategic Management)',
+            prompt: 'Name Porter’s Five Forces that shape industry competition.',
+            provision: 'Porter’s model identifies five structural forces determining industry attractiveness and long-term profitability.',
+            analysis: '1. Threat of new entrants, 2. Bargaining power of buyers, 3. Bargaining power of suppliers, 4. Threat of substitute products/services, 5. Rivalry among existing competitors.',
+            conclusion: 'Understanding these forces enables CA students to evaluate strategic business risk.'
+          }
+        ]
+      },
+      {
+        id: 'fmsm_ch2',
+        num: 2,
+        title: 'Leverages: Operating, Financial and Combined',
+        concepts: ['Operating Leverage (DOL)', 'Financial Leverage (DFL)', 'Combined Leverage (DCL)', 'EBIT-EPS Analysis'],
+        questions: [
+          {
+            q: 'Degree of Combined Leverage (DCL) measures the sensitivity of:',
+            options: ['EPS to changes in Sales', 'EBIT to changes in Sales', 'EPS to changes in EBIT', 'Sales to changes in Fixed Costs'],
+            correct: 0,
+            explanation: 'Combined Leverage (DOL × DFL) measures the percentage change in Earnings Per Share (EPS) resulting from a percentage change in Sales.',
+            marks: 2,
+            xp: 20
+          }
+        ],
+        caseScenarios: [],
+        flashcards: []
+      }
+    ]
+  }
 };
 
-// CA Intermediate exam attempts (cyclical pattern)
-const FOUNDATION_ATTEMPTS = [
-  'Sept 2026',
-  'Jan 2027',
-  'May 2027',
-  'Sept 2027',
-  'Jan 2028',
-  'May 2028',
-  'Sept 2028',
-  'Jan 2029',
-  'May 2029',
-  'Sept 2029',
-  'Jan 2030',
-  'May 2030'
+// Aliases for legacy router compatibility
+MCQ_DATA.maths = MCQ_DATA.cost;
+MCQ_DATA.economics = MCQ_DATA.fmsm;
+
+// ===== 20 REALISTIC CA INTERMEDIATE STUDENTS & 5 TIERS =====
+// Tiers:
+// 1. In The Zone (Ranks 1-3, XP 4,800+)
+// 2. Focused (Ranks 4-8, XP 3,500 - 4,799)
+// 3. Hustler (Ranks 9-12, XP 2,500 - 3,499)
+// 4. Grinder (Ranks 13-16, XP 1,600 - 2,499)
+// 5. Rookie (Ranks 17-20, XP 600 - 1,599)
+const LEADERBOARD_DATA = [
+  { rank: 1, name: 'Priya Malhotra', initials: 'PM', xp: 5640, tier: 'In The Zone', frame: 'frame_10', streak: 28, attempt: 'May 2027' },
+  { rank: 2, name: 'Ananya Rao', initials: 'AR', xp: 5210, tier: 'In The Zone', frame: 'frame_9', streak: 24, attempt: 'May 2027' },
+  { rank: 3, name: 'Rahul Khandelwal', initials: 'RK', xp: 4920, tier: 'In The Zone', frame: 'frame_8', streak: 21, attempt: 'Jan 2027' },
+  { rank: 4, name: 'Sanya Kapoor', initials: 'SK', xp: 4680, tier: 'Focused', frame: 'frame_7', streak: 19, attempt: 'May 2027' },
+  { rank: 5, name: 'Virat Tiwari', initials: 'VT', xp: 4450, tier: 'Focused', frame: 'frame_7', streak: 18, attempt: 'May 2027' },
+  { rank: 6, name: 'Neha Singhania', initials: 'NS', xp: 4180, tier: 'Focused', frame: 'frame_6', streak: 15, attempt: 'Sept 2027' },
+  { rank: 7, name: 'Aditya Sharma', initials: 'AS', xp: 3920, tier: 'Focused', frame: 'frame_6', streak: 14, attempt: 'May 2027' },
+  { rank: 8, name: 'Ishaan Verma', initials: 'IV', xp: 3650, tier: 'Focused', frame: 'frame_5', streak: 12, attempt: 'Jan 2027' },
+  { rank: 9, name: 'Tanvi Desai', initials: 'TD', xp: 3380, tier: 'Hustler', frame: 'frame_5', streak: 11, attempt: 'May 2027' },
+  { rank: 10, name: 'Rohan Joshi', initials: 'RJ', xp: 3150, tier: 'Hustler', frame: 'frame_4', streak: 10, attempt: 'May 2027' },
+  { rank: 11, name: 'Pooja Nair', initials: 'PN', xp: 2920, tier: 'Hustler', frame: 'frame_4', streak: 9, attempt: 'Sept 2027' },
+  { rank: 12, name: 'Kanhaiya Chaudhary', initials: 'KC', xp: 2740, tier: 'Hustler', frame: 'frame_3', streak: 16, attempt: 'May 2027', isDev: true },
+  { rank: 13, name: 'Devansh Gupta', initials: 'DG', xp: 2450, tier: 'Grinder', frame: 'frame_3', streak: 8, attempt: 'May 2027' },
+  { rank: 14, name: 'Meera Iyer', initials: 'MI', xp: 2210, tier: 'Grinder', frame: 'frame_2', streak: 7, attempt: 'Jan 2027' },
+  { rank: 15, name: 'Shreya Agarwal', initials: 'SA', xp: 1980, tier: 'Grinder', frame: 'frame_2', streak: 6, attempt: 'May 2027' },
+  { rank: 16, name: 'Harshit Bansal', initials: 'HB', xp: 1750, tier: 'Grinder', frame: 'frame_2', streak: 5, attempt: 'May 2027' },
+  { rank: 17, name: 'Varun Mehta', initials: 'VM', xp: 1480, tier: 'Rookie', frame: 'frame_1', streak: 4, attempt: 'Sept 2027' },
+  { rank: 18, name: 'Riya Sen', initials: 'RS', xp: 1220, tier: 'Rookie', frame: 'frame_1', streak: 3, attempt: 'May 2027' },
+  { rank: 19, name: 'Aman Patel', initials: 'AP', xp: 960, tier: 'Rookie', frame: 'frame_1', streak: 2, attempt: 'May 2027' },
+  { rank: 20, name: 'Divya Shah', initials: 'DS', xp: 720, tier: 'Rookie', frame: 'frame_1', streak: 2, attempt: 'Jan 2027' }
 ];
 
+// Helper to determine tier from XP
+function getTierFromXP(xp) {
+  if (xp >= 4800) return 'In The Zone';
+  if (xp >= 3500) return 'Focused';
+  if (xp >= 2500) return 'Hustler';
+  if (xp >= 1600) return 'Grinder';
+  return 'Rookie';
+}
 
-
-// Static data for app
-const LEADERBOARD_DATA = [
-  { rank: 1, name: 'Priya M.', initials: 'PM', xp: 4080 },
-  { rank: 2, name: 'Ananya R.', initials: 'AR', xp: 3210 },
-  { rank: 3, name: 'Rahul K.', initials: 'RK', xp: 2990 },
-  { rank: 4, name: 'Sanya K.', initials: 'SK', xp: 2740 },
-  { rank: 5, name: 'Virat T.', initials: 'VT', xp: 2580 },
-  { rank: 6, name: 'Neha S.', initials: 'NS', xp: 2340 },
-  { rank: 7, name: 'You', initials: 'YO', xp: 2150, isMe: true },
-  { rank: 8, name: 'Amit P.', initials: 'AP', xp: 1980 },
-  { rank: 9, name: 'Riya D.', initials: 'RD', xp: 1750 },
-  { rank: 10, name: 'Karan M.', initials: 'KM', xp: 1620 }
+// 10 AVATAR FRAMES SPECIFICATION (Unlocked every 5 levels from 1 to 50)
+const AVATAR_FRAMES = [
+  { id: 'frame_1', name: 'Cadet Bronze', minLevel: 1, color: '#cd7f32', border: '2px solid #cd7f32', glow: 'rgba(205,127,50,0.3)', badge: 'Lvl 1' },
+  { id: 'frame_2', name: 'Emerald Apprentice', minLevel: 5, color: '#10b981', border: '2px solid #10b981', glow: 'rgba(16,185,129,0.4)', badge: 'Lvl 5' },
+  { id: 'frame_3', name: 'Cobalt Guardian', minLevel: 10, color: '#3b82f6', border: '2.5px solid #3b82f6', glow: 'rgba(59,130,246,0.45)', badge: 'Lvl 10' },
+  { id: 'frame_4', name: 'Amber Vanguard', minLevel: 15, color: '#f59e0b', border: '2.5px solid #f59e0b', glow: 'rgba(245,158,11,0.5)', badge: 'Lvl 15' },
+  { id: 'frame_5', name: 'Crimson Challenger', minLevel: 20, color: '#ef4444', border: '3px solid #ef4444', glow: 'rgba(239,68,68,0.55)', badge: 'Lvl 20' },
+  { id: 'frame_6', name: 'Amethyst Striker', minLevel: 25, color: '#8b5cf6', border: '3px solid #8b5cf6', glow: 'rgba(139,92,246,0.6)', badge: 'Lvl 25' },
+  { id: 'frame_7', name: 'Cyberpunk Neon', minLevel: 30, color: '#06b6d4', border: '3px dashed #06b6d4', glow: 'rgba(6,182,212,0.65)', badge: 'Lvl 30' },
+  { id: 'frame_8', name: 'Titanium Elite', minLevel: 35, color: '#94a3b8', border: '3px double #e2e8f0', glow: 'rgba(226,232,240,0.7)', badge: 'Lvl 35' },
+  { id: 'frame_9', name: 'Obsidian Overlord', minLevel: 40, color: '#ec4899', border: '3.5px solid #ec4899', glow: 'rgba(236,72,153,0.75)', badge: 'Lvl 40' },
+  { id: 'frame_10', name: 'Radiant Grandmaster', minLevel: 50, color: '#fbbf24', border: '4px solid #fbbf24', glow: 'rgba(251,191,36,0.85)', badge: 'Lvl 50 (MAX)' }
 ];
 
 const NOTIFICATIONS_DATA = [
-  { text: '<strong>Mock Test starts in 15 minutes</strong> — Paper 1: Accounts. Don\'t miss it!', time: 'Just now', dot: 'blue' },
-  { text: '<strong>New RTP Questions Added</strong> for Nov 2025 batch — Maths & Stats.', time: '2 hours ago', dot: 'blue' },
-  { text: 'You\'ve moved up to <strong>Rank #7</strong> on the leaderboard!', time: 'Yesterday', dot: 'gray' },
-  { text: '<strong>5 Day Streak!</strong> Keep going — you\'re on a roll.', time: '2 days ago', dot: 'gray' }
+  { text: '<strong>ICAI MTP Practice Active:</strong> Paper 1 Advanced Accounting Mock Test 1 is now available.', time: 'Just now', dot: 'blue' },
+  { text: '<strong>Law Case Scenario Added:</strong> Section 135 CSR & Turquand Rule drafting drills.', time: '2 hours ago', dot: 'blue' },
+  { text: 'You are currently in <strong>#12 Rank</strong> on the nationwide CA Inter leaderboard!', time: 'Yesterday', dot: 'gray' },
+  { text: '<strong>Active Streak Flame:</strong> Consistent study momentum maintained.', time: '2 days ago', dot: 'gray' }
 ];
 
 const TESTS_DATA = {
-  live: { title: 'Mock Test — Paper 1 (Accounts)', info: '100 MCQs \u00b7 2 hours \u00b7 Starts at 11:30 AM', status: 'LIVE SOON' },
+  live: { title: 'ICAI Full Mock 1 — Paper 1 (Adv Accounts)', info: '15 Case Scenario MCQs & 85 Descriptive Marks \u00b7 3 Hours', status: 'LIVE SOON' },
   upcoming: [
-    { title: 'Mock Test — Paper 2 (Law)', subtitle: 'Tomorrow \u00b7 10:00 AM \u00b7 100 Qs' },
-    { title: 'Full Mock — All Papers', subtitle: 'Sun, Jun 15 \u00b7 9:00 AM' }
+    { title: 'MTP 1 — Paper 2 (Corporate & Other Laws)', subtitle: 'Tomorrow \u00b7 2:00 PM \u00b7 100 Marks' },
+    { title: 'Grand Mock Series — Group 1', subtitle: 'Sun, May 10 \u00b7 2:00 PM' }
   ],
   past: [
-    { title: 'Mock — Accounts \u00b7 Jun 8', subtitle: 'Score: 68/100 \u00b7 Rank #12', score: 68 },
-    { title: 'Mock — Maths \u00b7 Jun 5', subtitle: 'Score: 81/100 \u00b7 Rank #4', score: 81 }
+    { title: 'Taxation GST Mock 1', subtitle: 'Score: 78/100 \u00b7 AIR #4', score: 78 },
+    { title: 'Cost & Management Acct Mock', subtitle: 'Score: 84/100 \u00b7 AIR #2', score: 84 }
   ]
 };
 
 const BOOKMARKS_DATA = [
-  { q: 'What is the treatment of goodwill in case of admission of a new partner?', tag: 'Accounts', meta: 'Ch 3 \u00b7 Partnership' },
-  { q: 'Explain the doctrine of ultra vires with relevant case laws.', tag: 'Law', meta: 'Ch 6 \u00b7 Contract Act' },
-  { q: 'Calculate the coefficient of variation for the given data set.', tag: 'Maths', meta: 'Ch 8 \u00b7 Statistics' },
-  { q: 'Distinguish between micro and macro economics with examples.', tag: 'Economics', meta: 'Ch 2 \u00b7 Basics' },
-  { q: 'Journal entries for dissolution of partnership firm.', tag: 'Accounts', meta: 'Ch 4 \u00b7 Dissolution' }
+  { q: 'What are the preconditions for an audit under SA 210?', tag: 'Audit', meta: 'SA 210 \u00b7 Ch 1' },
+  { q: 'Explain the Turquand Rule and its exceptions under Companies Act 2013.', tag: 'Law', meta: 'Sec 399 \u00b7 Ch 1' },
+  { q: 'Inventory valuation when finished goods are expected to sell below cost.', tag: 'Accounts', meta: 'AS 2 \u00b7 Ch 1' },
+  { q: 'Tax treatment of foreign income for a Deemed Resident u/s 6(1A).', tag: 'Taxation', meta: 'Sec 6(1A) \u00b7 Ch 1' }
 ];
 
-const COMMUNITY_DATA = [
-  {
-    id: 1, user: 'Priya M.', initials: 'PM', time: '2 hours ago',
-    body: 'Just completed the Accounts mock test! The partnership questions were tricky but managed to score 85%. How did everyone else do?',
-    likes: 24, dislikes: 2, comments: [
-      { user: 'Ananya R.', initials: 'AR', text: 'Great score! I got 78% but struggled with the revaluation questions.' },
-      { user: 'Rahul K.', initials: 'RK', text: 'Same here! Partnership admission was the toughest part for me.' }
-    ]
-  },
-  {
-    id: 2, user: 'Ananya R.', initials: 'AR', time: '5 hours ago',
-    body: 'Can someone explain the difference between contingent and quasi-contracts? I\'m getting confused between the two concepts.',
-    likes: 15, dislikes: 0, comments: [
-      { user: 'Sanya K.', initials: 'SK', text: 'Contingent depends on a future event, quasi-contract is imposed by law to prevent unjust enrichment.' },
-      { user: 'Virat T.', initials: 'VT', text: 'Think of quasi-contract as "as if" there was a contract. Contingent is real but conditional.' }
-    ]
-  },
-  {
-    id: 3, user: 'You', initials: 'YO', time: 'Yesterday',
-    body: 'Sharing my notes on Time Value of Money. These formulas are crucial for the exam. Hope it helps everyone!',
-    likes: 32, dislikes: 1, comments: [
-      { user: 'Priya M.', initials: 'PM', text: 'Thanks for sharing! The annuity formulas were especially helpful.' }
-    ],
-    isMe: true
-  }
-];
-
-const PDF_LIBRARY_DATA = [
-  { name: 'RTP Nov 2025 - All Subjects', size: '4.2 MB', org: 'ICAI Official' },
-  { name: 'MTP May 2025 - Paper 1 & 2', size: '2.8 MB', org: 'ICAI Official' },
-  { name: 'Maths Formula Sheet', size: '856 KB', org: 'Compiled' },
-  { name: 'CA Intermediate Syllabus 2025', size: '1.1 MB', org: 'ICAI' }
-];
+// Attach to window
+window.MCQ_DATA = MCQ_DATA;
+window.LEADERBOARD_DATA = LEADERBOARD_DATA;
+window.getTierFromXP = getTierFromXP;
+window.AVATAR_FRAMES = AVATAR_FRAMES;
+window.NOTIFICATIONS_DATA = NOTIFICATIONS_DATA;
+window.TESTS_DATA = TESTS_DATA;
+window.BOOKMARKS_DATA = BOOKMARKS_DATA;
