@@ -1,5 +1,5 @@
 // ============================================
-// PathEdge - MCQ Quiz System
+// InterEdge - MCQ Quiz System
 // Per-question timer · Option labels · Negative marking · Auto-next
 // ============================================
 
@@ -144,7 +144,7 @@ function renderChapters(params) {
         </button>
         <div>
           <h2 style="font-size:1.2rem;font-weight:700;">${subject.name}</h2>
-          <div style="font-size:.75rem;color:var(--txt3);margin-top:2px;">${subject.chapters.length} Chapters &bull; CA Foundation</div>
+          <div style="font-size:.75rem;color:var(--txt3);margin-top:2px;">${subject.chapters.length} Chapters &bull; CA Intermediate</div>
         </div>
       </div>
       <div class="chapter-list">`;
@@ -228,7 +228,7 @@ function renderChapterDetail(params) {
       <div class="chapter-detail-header">
         <div class="chapter-detail-num" style="background:linear-gradient(135deg,${subject.color},var(--accent2));">${chapter.num || '1'}</div>
         <div class="chapter-detail-title">${chapter.title}</div>
-        <div class="chapter-detail-meta">${subject.name} &bull; CA Foundation</div>
+        <div class="chapter-detail-meta">${subject.name} &bull; CA Intermediate</div>
       </div>
 
       <div class="chapter-stats-row">

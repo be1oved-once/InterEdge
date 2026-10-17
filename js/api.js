@@ -1,5 +1,5 @@
 // ============================================
-// PathEdge - LocalStorage & Dummy API Layer
+// InterEdge - LocalStorage & Dummy API Layer
 // Completely self-contained, no external servers
 // ============================================
 
@@ -146,7 +146,7 @@ const API = {
     } catch (e) {}
 
     return [
-      { id: 'n1', type: 'all', message: 'Welcome to PathEdge Trial Mode! Practice MCQs, test your skills, and track progress locally.', created_at: new Date().toISOString() },
+      { id: 'n1', type: 'all', message: 'Welcome to InterEdge Trial Mode! Practice MCQs, test your skills, and track progress locally.', created_at: new Date().toISOString() },
       { id: 'n2', type: 'all', message: 'Daily Study Streak reminder: Complete at least one quiz today to keep your streak alive 🔥', created_at: new Date(Date.now() - 3600000).toISOString() },
       { id: 'n3', type: 'all', message: 'New Chapter Tests available for Business Economics and Maths.', created_at: new Date(Date.now() - 86400000).toISOString() }
     ];

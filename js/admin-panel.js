@@ -158,7 +158,7 @@ function seedUsers() {
       qs_attempted: attempts,
       correct_answers: correct,
       device: pick(DEVICES),
-      course: 'CA Foundation',
+      course: 'CA Intermediate',
       subject: pick(SUBJECTS)
     });
   }
@@ -167,16 +167,16 @@ function seedUsers() {
 
 function seedBlog() {
   const posts = [
-    { title: 'Top 7 Mistakes Students Make in CA Foundation Maths', category: 'Exam Tips', status: 'published', days: 18,
-      html: '<p>Every attempt, thousands of CA Foundation students lose easy marks in Maths &amp; Stats — not because the concepts are hard, but because of small, repeatable mistakes.</p><h2>1. Skipping the formula sheet revision</h2><p>Most students jump straight into practice questions without revising the core formulas first. A quick 10-minute formula recap before every practice session can save you from silly errors.</p><blockquote>"I started scoring 15 marks higher just by revising formulas before every mock test." — a PathEdge student</blockquote><h2>2. Ignoring negative marking</h2><p>Many students attempt every question even when unsure, forgetting that wrong answers cost marks too. Build the habit of marking for review instead of guessing blindly.</p><ul><li>Attempt questions you are sure about first</li><li>Mark uncertain ones for review</li><li>Come back only if time permits</li></ul><p>Small habit changes compound into big score improvements over a few months of consistent practice.</p>' },
-    { title: 'PathEdge November 2026 Batch — What\'s New', category: 'Announcements', status: 'published', days: 4,
-      html: '<p>We\'re rolling out a refreshed test series for the November 2026 attempt. Here\'s a quick rundown of what changes.</p><h2>New MTP series</h2><p>Three new Mock Test Papers covering the latest ICAI pattern have been added across all three subjects.</p><h2>Faster sync</h2><p>Your progress, bookmarks and XP now sync instantly the moment you switch devices.</p><p>As always, keep an eye on the notification bell for live test alerts.</p>' },
+    { title: 'Top 7 Mistakes Students Make in CA Intermediate Tax & Costing', category: 'Exam Tips', status: 'published', days: 18,
+      html: '<p>Every attempt, thousands of CA Intermediate students lose easy marks in Tax &amp; Costing — not because the concepts are hard, but because of small, repeatable mistakes.</p><h2>1. Skipping the formula sheet revision</h2><p>Most students jump straight into practice questions without revising the core formulas first. A quick 10-minute formula recap before every practice session can save you from silly errors.</p><blockquote>"I started scoring 15 marks higher just by revising formulas before every mock test." — an InterEdge student</blockquote><h2>2. Ignoring negative marking</h2><p>Many students attempt every question even when unsure, forgetting that wrong answers cost marks too. Build the habit of marking for review instead of guessing blindly.</p><ul><li>Attempt questions you are sure about first</li><li>Mark uncertain ones for review</li><li>Come back only if time permits</li></ul><p>Small habit changes compound into big score improvements over a few months of consistent practice.</p>' },
+    { title: 'InterEdge November 2026 Batch — What\'s New', category: 'Announcements', status: 'published', days: 4,
+      html: '<p>We\'re rolling out a refreshed test series for the November 2026 attempt. Here\'s a quick rundown of what changes.</p><h2>New MTP series</h2><p>Three new Mock Test Papers covering the latest ICAI pattern have been added across all subjects.</p><h2>Faster sync</h2><p>Your progress, bookmarks and XP now sync instantly the moment you switch devices.</p><p>As always, keep an eye on the notification bell for live test alerts.</p>' },
     { title: 'How to Build a Daily Study Streak That Actually Sticks', category: 'Motivation', status: 'published', days: 31,
-      html: '<p>A streak is only useful if it survives your worst days, not your best ones.</p><h2>Start absurdly small</h2><p>On your busiest college days, commit to just one chapter quiz — five minutes is enough to keep the streak alive and the habit intact.</p><blockquote>Consistency beats intensity, especially over a six-month CA Foundation prep cycle.</blockquote><p>Students who maintain a 20+ day streak on PathEdge consistently report higher mock test scores than those who study in long, irregular bursts.</p>' },
+      html: '<p>A streak is only useful if it survives your worst days, not your best ones.</p><h2>Start absurdly small</h2><p>On your busiest college days, commit to just one chapter quiz — five minutes is enough to keep the streak alive and the habit intact.</p><blockquote>Consistency beats intensity, especially over a six-month CA Intermediate prep cycle.</blockquote><p>Students who maintain a 20+ day streak on InterEdge consistently report higher mock test scores than those who study in long, irregular bursts.</p>' },
     { title: 'Law Paper: How to Remember Section Numbers Without Cramming', category: 'Study Guide', status: 'published', days: 9,
-      html: '<p>Section numbers feel impossible to remember until you stop trying to memorise them in isolation.</p><h2>Link, don\'t list</h2><p>Attach every section number to a real scenario or case you\'ve practiced. Your brain remembers stories far better than numbers.</p><h3>Quick drill</h3><p>Spend 10 minutes daily on the Law chapter quizzes inside PathEdge — short, repeated recall beats one long cram session before the exam.</p>' },
+      html: '<p>Section numbers feel impossible to remember until you stop trying to memorise them in isolation.</p><h2>Link, don\'t list</h2><p>Attach every section number to a real scenario or case you\'ve practiced. Your brain remembers stories far better than numbers.</p><h3>Quick drill</h3><p>Spend 10 minutes daily on the Law chapter quizzes inside InterEdge — short, repeated recall beats one long cram session before the exam.</p>' },
     { title: 'Scheduled Maintenance — Sunday Night', category: 'Updates', status: 'draft', days: 1,
-      html: '<p>PathEdge will be briefly unavailable this Sunday between 11:00 PM and 12:30 AM IST while we roll out backend improvements.</p><p>No data or progress will be affected. We recommend finishing any in-progress mock test before the window begins.</p>' },
+      html: '<p>InterEdge will be briefly unavailable this Sunday between 11:00 PM and 12:30 AM IST while we roll out backend improvements.</p><p<No data or progress will be affected. We recommend finishing any in-progress mock test before the window begins.</p>' },
     { title: 'Business Economics Paper 4: Demand Theory in 10 Minutes', category: 'Study Guide', status: 'draft', days: 2,
       html: '<p>Demand theory shows up in some form in almost every Business Economics paper — here\'s the fastest way to revise it the night before an exam.</p><h2>The core idea</h2><p>Everything in demand theory traces back to one relationship: price changes, and quantity demanded responds, all else held equal.</p><ul><li>Law of demand</li><li>Elasticity basics</li><li>Common exceptions (Veblen goods, necessities)</li></ul>' }
   ];
@@ -256,9 +256,9 @@ function seedQuestionBank() {
 
 function seedRoles() {
   dbSet('roles', [
-    { id: 'r1', username: 'admin', email: 'admin@pathedge.app', role: 'Superior', password: 'admin' },
-    { id: 'r2', username: 'moderator', email: 'ops@pathedge.app', role: 'Moderator', password: 'admin' },
-    { id: 'r3', username: 'viewer', email: 'reviewer@pathedge.app', role: 'Viewer', password: 'admin' }
+    { id: 'r1', username: 'admin', email: 'admin@interedge.app', role: 'Superior', password: 'admin' },
+    { id: 'r2', username: 'moderator', email: 'ops@interedge.app', role: 'Moderator', password: 'admin' },
+    { id: 'r3', username: 'viewer', email: 'reviewer@interedge.app', role: 'Viewer', password: 'admin' }
   ]);
 }
 
@@ -275,10 +275,10 @@ function seedTestLogs() {
 function seedActivityLog() {
   const log = [
     { id: uid(), type: 'test', action: 'Published MTP Paper 2 — Business Economics', detail: '240 questions · 60 min', time: isoDaysAgo(4) },
-    { id: uid(), type: 'blog', action: 'Published "PathEdge November 2026 Batch — What\'s New"', detail: 'Announcements', time: isoDaysAgo(4) },
+    { id: uid(), type: 'blog', action: 'Published "InterEdge November 2026 Batch — What\'s New"', detail: 'Announcements', time: isoDaysAgo(4) },
     { id: uid(), type: 'user', action: 'Flagged user Karan Singh', detail: 'Suspicious activity reported', time: isoDaysAgo(6) },
     { id: uid(), type: 'notif', action: 'Sent broadcast notification', detail: 'New RTP added for Law', time: isoDaysAgo(3) },
-    { id: uid(), type: 'role', action: 'Added admin ops@pathedge.app', detail: 'Role: Admin', time: isoDaysAgo(10) },
+    { id: uid(), type: 'role', action: 'Added admin ops@interedge.app', detail: 'Role: Admin', time: isoDaysAgo(10) },
     { id: uid(), type: 'question', action: 'Added 12 questions to bank', detail: 'Maths & Stats, Business Economics, Business Laws', time: isoDaysAgo(12) }
   ];
   dbSet('activitylog', log);
@@ -507,7 +507,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('moreThemeBtn').addEventListener('click', toggleTheme);
   document.getElementById('moreLogoutBtn').addEventListener('click', () => {
     closeMoreSheet();
-    const p = dbGet('profile', { email: 'admin@pathedge.app' });
+    const p = dbGet('profile', { email: 'admin@interedge.app' });
     confirmDialog('Log out of ' + p.email + '?', () => { closeConfirm(); doLogout(); });
   });
 
@@ -1009,7 +1009,7 @@ function userDetailHtml(u) {
       <div class="ap-kv"><div class="ap-kv-lbl">Accuracy</div><div class="ap-kv-val">${accuracy}%</div></div>
       <div class="ap-kv"><div class="ap-kv-lbl">Streak</div><div class="ap-kv-val">${u.streak || 0} days</div></div>
       <div class="ap-kv"><div class="ap-kv-lbl">Attempts</div><div class="ap-kv-val">${u.qs_attempted || u.attempts || 0}</div></div>
-      <div class="ap-kv"><div class="ap-kv-lbl">Most active in</div><div class="ap-kv-val">${esc(u.course || u.subject || 'CA Foundation')}</div></div>
+      <div class="ap-kv"><div class="ap-kv-lbl">Most active in</div><div class="ap-kv-val">${esc(u.course || u.subject || 'CA Intermediate')}</div></div>
       <div class="ap-kv"><div class="ap-kv-lbl">Device</div><div class="ap-kv-val" style="font-size:.7rem">${esc(u.device || 'Unknown')}</div></div>
       <div class="ap-kv"><div class="ap-kv-lbl">Joined</div><div class="ap-kv-val" style="font-size:.72rem">${u.created_at || u.joined ? fmtDate(u.created_at || u.joined) : '-'}</div></div>
       <div class="ap-kv"><div class="ap-kv-lbl">Last active</div><div class="ap-kv-val" style="font-size:.72rem">${u.last_active || u.lastActive ? relTime(u.last_active || u.lastActive) : '-'}</div></div>
@@ -2726,7 +2726,7 @@ function exportLogCsv() {
   const blob = new Blob([csv], { type: 'text/csv' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = 'pathedge-activity-log.csv';
+  a.download = 'interedge-activity-log.csv';
   document.body.appendChild(a); a.click(); a.remove();
   toast('CSV exported', 'success');
 }
@@ -2883,7 +2883,7 @@ function exportLogPdf() {
     </table>
   `;
 
-  generateHtmlPdf('Activity Log Report', html, 'pathedge-activity-log.pdf');
+  generateHtmlPdf('Activity Log Report', html, 'interedge-activity-log.pdf');
 }
 
 /* ---------- Test History ---------- */
@@ -2950,7 +2950,7 @@ function exportTestHistoryPdf() {
     </table>
   `;
 
-  generateHtmlPdf('Test History Report', html, 'pathedge-test-history.pdf');
+  generateHtmlPdf('Test History Report', html, 'interedge-test-history.pdf');
 }
 
 /* ---------- Master Export — everything ---------- */
@@ -3027,7 +3027,7 @@ function exportMasterPdf() {
     </table>
   `;
 
-  generateHtmlPdf('Master Export — All Data', html, 'pathedge-master-export.pdf', true);
+  generateHtmlPdf('Master Export — All Data', html, 'interedge-master-export.pdf', true);
   logActivity('test', 'Ran a master data export', 'PDF · all datasets');
 }
 

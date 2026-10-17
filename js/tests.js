@@ -1,5 +1,5 @@
 // ============================================
-// PathEdge - Live Test Bridge + Attempt Engine
+// InterEdge - Live Test Bridge + Attempt Engine
 // ============================================
 
 const TEST_ADMIN_LSP = 'pe_admin_';

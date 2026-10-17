@@ -28,9 +28,9 @@ function initPaigeAI() {
   // Ensure welcome message exists
   if (!paigeMessages.length) {
     const welcomes = [
-      "Hi! I'm **Paige AI** — your study companion for CA Foundation. Ask me anything about your subjects or practice questions!",
-      "Hello there! **Paige AI** here. Ready to crush your CA Foundation prep? What can I help you with today?",
-      "Welcome! I'm **Paige AI**. Whether it's Accounts, Law, Maths or Eco, I'm here to help you study smarter.",
+      "Hi! I'm **Paige AI** — your study companion for CA Intermediate. Ask me anything about your subjects or practice questions!",
+      "Hello there! **Paige AI** here. Ready to crush your CA Intermediate prep? What can I help you with today?",
+      "Welcome! I'm **Paige AI**. Whether it's Advanced Accounts, Law, Tax, Costing or FM, I'm here to help you study smarter.",
       "Hey! It's **Paige AI**. Got a tricky question or concept you're stuck on? Let's solve it together!"
     ];
     paigeMessages.push({
@@ -384,9 +384,9 @@ async function sendPaigeMessage() {
     const userPrompt = typeof apiMessage.content === 'string' ? apiMessage.content : (apiMessage.content?.[0]?.text || '');
     
     if (userPrompt.toLowerCase().includes('option') || userPrompt.toLowerCase().includes('which') || userPrompt.toLowerCase().includes('question') || userPrompt.toLowerCase().includes('answer')) {
-      fullText = `### Solution & Explanation\n\n1. **Key Concept:** In CA Foundation examinations, precision is key. Pay attention to specific phrasing, statutory definitions, and calculation steps.\n2. **Why this answer is right:** It strictly adheres to the prescribed ICAI syllabus standards and established principles.\n3. **Common Pitfalls:** Watch out for standard exam traps like misinterpreting negative markings or overlooking qualifying words like *'except'*, *'always'*, or *'not'*.\n\n*Pro-tip:* Bookmark this question to review it during your revision cycle!`;
+      fullText = `### Solution & Explanation\n\n1. **Key Concept:** In CA Intermediate examinations, precision is key. Pay attention to specific phrasing, statutory definitions, and calculation steps.\n2. **Why this answer is right:** It strictly adheres to the prescribed ICAI syllabus standards and established principles.\n3. **Common Pitfalls:** Watch out for standard exam traps like misinterpreting negative markings or overlooking qualifying words like *'except'*, *'always'*, or *'not'*.\n\n*Pro-tip:* Bookmark this question to review it during your revision cycle!`;
     } else {
-      fullText = `Hello! I'm **Paige AI** (PathEdge Study Assistant - Trial Mode).\n\nRegarding your query about **"${userPrompt.slice(0, 50)}${userPrompt.length > 50 ? '...' : ''}"**:\n- Focus on the core ICAI study material concepts.\n- Work through practical illustrations and mock tests.\n- Maintain your daily practice streak for optimal recall.\n\nAsk me about any MCQ, definition, or formula!`;
+      fullText = `Hello! I'm **Paige AI** (InterEdge Study Assistant - Trial Mode).\n\nRegarding your query about **"${userPrompt.slice(0, 50)}${userPrompt.length > 50 ? '...' : ''}"**:\n- Focus on the core ICAI study material concepts.\n- Work through practical illustrations and mock tests.\n- Maintain your daily practice streak for optimal recall.\n\nAsk me about any MCQ, definition, or formula!`;
     }
 
     const aiBubble = _createBubble(area, 'assistant', '');

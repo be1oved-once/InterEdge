@@ -1,5 +1,5 @@
 // ============================================
-// PathEdge - Law.js PATCH (URL param system)
+// InterEdge - Law.js PATCH (URL param system)
 // Replace the following functions in your law.js
 // ============================================
 

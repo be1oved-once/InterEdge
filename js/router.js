@@ -1,5 +1,5 @@
 // ============================================
-// PathEdge - Pure JavaScript Router
+// InterEdge - Pure JavaScript Router
 // Hash-based routing · Law param support · Profile panel params
 // ============================================
 

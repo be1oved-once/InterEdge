@@ -1,5 +1,5 @@
 // ============================================
-// PathEdge - Main Application Logic
+// InterEdge - Main Application Logic
 // ============================================
 
 window.formatXP = function(xp) {
@@ -2249,7 +2249,7 @@ function openFs(name, pushState = true) {
           <div class="logo-box" style="background:transparent;padding:0;width:24px;height:24px;">
             <img src="img/logo.png" alt="Logo" style="width:100%;height:100%;object-fit:contain;border-radius:20%;">
           </div>
-          <h1 style="font-size:1.05rem;font-weight:700;">PathEdge <span style="font-weight:500;color:var(--txt3);">| ${titleText}</span></h1>
+          <h1 style="font-size:1.05rem;font-weight:700;">InterEdge <span style="font-weight:500;color:var(--txt3);">| ${titleText}</span></h1>
         </div>
       `;
     }
@@ -3127,7 +3127,7 @@ function openMtpRtp(mode) {
         </button>
         <div>
           <h2 style="font-size:1.05rem;font-weight:700;">${mode === 'mtp' ? 'Mock Test Papers' : 'Revision Test Papers'}</h2>
-          <div style="font-size:.72rem;color:var(--txt3);">ICAI CA Foundation</div>
+          <div style="font-size:.72rem;color:var(--txt3);">ICAI CA Intermediate</div>
         </div>
         <div style="margin-left:auto;">
           <div class="mtprtp-mode-badge">${mode.toUpperCase()}</div>
@@ -3667,11 +3667,11 @@ window.renderTelegramLink = function() {
       <div class="fs-content" style="padding-top:20px;">
         <div style="text-align:center; margin-bottom:20px;">
           <svg viewBox="0 0 24 24" fill="none" stroke="#0088cc" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="48" height="48" style="margin-bottom:12px;"><path d="M21.5 2L2.5 10L9.5 13L12.5 21L16 15.5L21.5 2Z"/></svg>
-          <p style="color:var(--txt2); font-size:0.9rem; line-height:1.5;">Enter the unique code provided by <b>PathEdgeBot</b> on Telegram to link your account.</p>
+          <p style="color:var(--txt2); font-size:0.9rem; line-height:1.5;">Enter the unique code provided by <b>InterEdgeBot</b> on Telegram to link your account.</p>
         </div>
         <div class="form-group">
           <label class="form-label">Link Code</label>
-          <input type="text" class="form-input" id="inpTelegramCode" placeholder="PE-A1B2C3" style="text-transform:uppercase; text-align:center; letter-spacing:2px; font-weight:600; font-size:1.1rem;">
+          <input type="text" class="form-input" id="inpTelegramCode" placeholder="IE-A1B2C3" style="text-transform:uppercase; text-align:center; letter-spacing:2px; font-weight:600; font-size:1.1rem;">
         </div>
         <button class="btn-save" id="btnLinkTelegram" onclick="linkTelegram()">Link Account</button>
       </div>
@@ -3967,10 +3967,10 @@ window.filterPdfs = function() {
 // ============================================
 window.CRUX_ARTICLES = {
   article1: {
-    title: 'Screen Time & Your Brain: The Perfect CA Foundation Management Routine',
+    title: 'Screen Time & Your Brain: The Perfect CA Intermediate Management Routine',
     category: 'Focus',
     categoryColor: '#a78bfa',
-    author: 'PathEdge Team',
+    author: 'InterEdge Team',
     date: 'July 15, 2026',
     readTime: '6 min read',
     tags: ['Productivity', 'Screen Time', 'Routine', 'Focus'],
@@ -3978,7 +3978,7 @@ window.CRUX_ARTICLES = {
     heroBg: 'linear-gradient(135deg, #1a0a3e 0%, #2d1b69 50%, #4c2a9e 100%)',
     body: `
       <div class="article-body">
-        <p>In the digital age, screen time isn't just an eye strain issue—it's a massive drain on your cognitive load. When preparing for CA Foundation, how you manage your devices is just as important as how you manage your textbooks.</p>
+        <p>In the digital age, screen time isn't just an eye strain issue—it's a massive drain on your cognitive load. When preparing for CA Intermediate, how you manage your devices is just as important as how you manage your textbooks.</p>
         
         <h2>The "Context Switching" Tax</h2>
         <p>Every time you switch from solving a Partnership Account problem to checking a WhatsApp notification, your brain pays a "switching tax." It takes an average of 23 minutes to fully regain deep focus. If you check your phone every 15 minutes, you are theoretically <strong>never</strong> in a state of deep work.</p>
@@ -4007,7 +4007,7 @@ window.CRUX_ARTICLES = {
     title: 'The Science of Active Recall: Stop Passive Reading',
     category: 'Strategy',
     categoryColor: '#ef4444',
-    author: 'PathEdge Team',
+    author: 'InterEdge Team',
     date: 'July 12, 2026',
     readTime: '5 min read',
     tags: ['Active Recall', 'Study Tactics', 'Memory'],
@@ -4034,7 +4034,7 @@ window.CRUX_ARTICLES = {
     title: 'Mastering the 15-Minute Reading Time Strategy',
     category: 'Strategy',
     categoryColor: '#f59e0b',
-    author: 'PathEdge Team',
+    author: 'InterEdge Team',
     date: 'July 10, 2026',
     readTime: '4 min read',
     tags: ['Exam Hall', 'Reading Time', 'Strategy'],
@@ -4172,7 +4172,7 @@ window.closeCruxArticle = function() {
         <div class="logo-box" style="background:transparent;padding:0;width:24px;height:24px;">
           <img src="img/logo.png" alt="Logo" style="width:100%;height:100%;object-fit:contain;border-radius:20%;">
         </div>
-        <h1 style="font-size:1.05rem;font-weight:700;">PathEdge <span style="font-weight:500;color:var(--txt3);">| Crux</span></h1>
+        <h1 style="font-size:1.05rem;font-weight:700;">InterEdge <span style="font-weight:500;color:var(--txt3);">| Crux</span></h1>
       </div>
     `;
   }

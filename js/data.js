@@ -1,6 +1,6 @@
 // ============================================
-// PathEdge - Dummy Data
-// CA Foundation MCQs for Maths & Economics
+// InterEdge - Dummy Data
+// CA Intermediate MCQs & Questions
 // ============================================
 
 const MCQ_DATA = {
@@ -244,7 +244,7 @@ const MCQ_DATA = {
   maths: window.MATHS_DATA
 };
 
-// CA Foundation exam attempts (cyclical pattern)
+// CA Intermediate exam attempts (cyclical pattern)
 const FOUNDATION_ATTEMPTS = [
   'Sept 2026',
   'Jan 2027',
@@ -334,5 +334,5 @@ const PDF_LIBRARY_DATA = [
   { name: 'RTP Nov 2025 - All Subjects', size: '4.2 MB', org: 'ICAI Official' },
   { name: 'MTP May 2025 - Paper 1 & 2', size: '2.8 MB', org: 'ICAI Official' },
   { name: 'Maths Formula Sheet', size: '856 KB', org: 'Compiled' },
-  { name: 'CA Foundation Syllabus 2025', size: '1.1 MB', org: 'ICAI' }
+  { name: 'CA Intermediate Syllabus 2025', size: '1.1 MB', org: 'ICAI' }
 ];

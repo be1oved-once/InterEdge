@@ -1,5 +1,5 @@
 // ============================================
-// PathEdge - Law Answer Writing Module
+// InterEdge - Law Answer Writing Module
 // ============================================
 
 var lawState = {
@@ -49,7 +49,7 @@ const LAW_DATA = {
             
             {
               "_no": 1,
-              "q": "Rahul, a 17-year-old student, entered into an agreement with a coaching institute to pay Rs. 50,000 for a CA Foundation course. After attending classes for two months, Rahul stopped paying the remaining fees. The institute sued Rahul for breach of contract. Decide.",
+              "q": "Rahul, a 17-year-old student, entered into an agreement with a coaching institute to pay Rs. 50,000 for a CA Intermediate course. After attending classes for two months, Rahul stopped paying the remaining fees. The institute sued Rahul for breach of contract. Decide.",
               "keywords": [
                 "minor",
                 "void",

@@ -1,5 +1,5 @@
 // ============================================
-// PathEdge - Admin <-> Student Bridge
+// InterEdge - Admin <-> Student Bridge
 // Reads what the Admin Console writes to localStorage (pe_admin_*) and
 // surfaces it live inside the student app: notifications + blog posts.
 // Also adds the Privacy Policy / Disclaimer / Contact Us pages.
@@ -255,19 +255,19 @@ function renderPrivacyPolicy() {
       <div class="legal-updated">Last updated: June 2026</div>
 
       <h3>1. Overview</h3>
-      <p>PathEdge is built to run entirely on your device. There is no backend server for your exam-prep data — everything you see (your profile, XP, bookmarks, quiz history, settings) is stored locally in your browser's storage and never leaves your device unless you choose to export it.</p>
+      <p>InterEdge is built to run entirely on your device. There is no backend server for your exam-prep data — everything you see (your profile, XP, bookmarks, quiz history, settings) is stored locally in your browser's storage and never leaves your device unless you choose to export it.</p>
 
       <h3>2. Information We Collect</h3>
-      <p>We don't collect or transmit personal data to any server. The only information PathEdge stores is what you enter yourself — name, course details, quiz answers, bookmarks and preferences — and it stays in your browser's local storage.</p>
+      <p>We don't collect or transmit personal data to any server. The only information InterEdge stores is what you enter yourself — name, course details, quiz answers, bookmarks and preferences — and it stays in your browser's local storage.</p>
 
       <h3>3. Notifications, Tests &amp; Blogs</h3>
-      <p>Announcements, scheduled tests and blog posts you see inside the app are published by the PathEdge admin and read directly from local storage on the same device/browser — no network request is made to fetch them.</p>
+      <p>Announcements, scheduled tests and blog posts you see inside the app are published by the InterEdge admin and read directly from local storage on the same device/browser — no network request is made to fetch them.</p>
 
       <h3>4. Cookies &amp; Local Storage</h3>
-      <p>PathEdge uses your browser's local storage (not cookies) purely to remember your progress between visits. Clearing your browser data will reset the app.</p>
+      <p>InterEdge uses your browser's local storage (not cookies) purely to remember your progress between visits. Clearing your browser data will reset the app.</p>
 
       <h3>5. Children's Privacy</h3>
-      <p>PathEdge is an exam-prep tool for CA Foundation students and does not knowingly target or collect data from children under 13.</p>
+      <p>InterEdge is an exam-prep tool for CA Intermediate students and does not knowingly target or collect data from children under 13.</p>
 
       <h3>6. Changes to this Policy</h3>
       <p>If this policy changes, the updated version will be reflected here with a new "Last updated" date.</p>
@@ -284,19 +284,19 @@ function renderDisclaimer() {
       <div class="legal-updated">Last updated: June 2026</div>
 
       <h3>Educational Use Only</h3>
-      <p>PathEdge is an independent, self-built study companion for CA Foundation aspirants. It is <strong>not affiliated with, endorsed by, or connected to ICAI</strong> (The Institute of Chartered Accountants of India) in any official capacity.</p>
+      <p>InterEdge is an independent, self-built study companion for CA Intermediate aspirants. It is <strong>not affiliated with, endorsed by, or connected to ICAI</strong> (The Institute of Chartered Accountants of India) in any official capacity.</p>
 
       <h3>Accuracy of Content</h3>
       <p>Questions, explanations, RTPs/MTPs and other material are prepared with care, but may contain errors or become outdated as syllabi change. Always cross-check important concepts against official ICAI study material before your exam.</p>
 
       <h3>No Guarantee of Results</h3>
-      <p>Practicing on PathEdge does not guarantee any particular score or outcome in your CA Foundation exam. It's meant to supplement, not replace, structured study.</p>
+      <p>Practicing on InterEdge does not guarantee any particular score or outcome in your CA Intermediate exam. It's meant to supplement, not replace, structured study.</p>
 
       <h3>Live Tests &amp; Notifications</h3>
-      <p>Mock tests, schedules and announcements are created by the PathEdge admin for practice purposes only and do not represent official exam dates, papers or results.</p>
+      <p>Mock tests, schedules and announcements are created by the InterEdge admin for practice purposes only and do not represent official exam dates, papers or results.</p>
 
       <h3>Use at Your Own Discretion</h3>
-      <p>By using this app, you agree that PathEdge and its creator are not liable for any decisions made based on its content.</p>
+      <p>By using this app, you agree that InterEdge and its creator are not liable for any decisions made based on its content.</p>
     </div>
   `);
 }

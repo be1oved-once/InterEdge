@@ -1,5 +1,5 @@
 // ============================================
-// PathEdge - Authentication System (LocalStorage & Trial Mode)
+// InterEdge - Authentication System (LocalStorage & Trial Mode)
 // Completely local, no external servers
 // ============================================
 
@@ -79,9 +79,9 @@ const DEFAULT_USER = {
   id: 'usr_trial',
   firstName: 'Trial Student',
   username: 'student',
-  email: 'student@pathedge.app',
+  email: 'student@interedge.app',
   phone: '',
-  course: 'CA Foundation',
+  course: 'CA Intermediate',
   attempt: generateUpcomingAttempts()[0],
   avatar: null,
   initials: 'TS',
@@ -287,7 +287,7 @@ async function handleLogin() {
     if (!finalUser) {
       // First time trial user - auto register
       const isEmail = identifier.includes('@');
-      const email = isEmail ? identifier : `${identifier}@pathedge.app`;
+      const email = isEmail ? identifier : `${identifier}@interedge.app`;
       const username = isEmail ? identifier.split('@')[0] : identifier;
       const firstName = username.charAt(0).toUpperCase() + username.slice(1);
 
@@ -297,7 +297,7 @@ async function handleLogin() {
         username: username,
         password: password,
         first_name: firstName,
-        course: 'CA Foundation',
+        course: 'CA Intermediate',
         attempt: generateUpcomingAttempts()[0],
         avatar: null,
         xp: 0,
@@ -316,7 +316,7 @@ async function handleLogin() {
     AppState.user.username = finalUser.username;
     AppState.user.firstName = finalUser.first_name || finalUser.username;
     AppState.user.phone = finalUser.phone || '';
-    AppState.user.course = finalUser.course || 'CA Foundation';
+    AppState.user.course = finalUser.course || 'CA Intermediate';
     AppState.user.attempt = finalUser.attempt || generateUpcomingAttempts()[0];
     AppState.user.avatar = finalUser.avatar || null;
     AppState.user.initials = (finalUser.first_name?.[0] || finalUser.username?.[0] || 'U').toUpperCase();
@@ -368,7 +368,7 @@ async function handleSignup() {
       username: username,
       password: password,
       first_name: username.charAt(0).toUpperCase() + username.slice(1),
-      course: 'CA Foundation',
+      course: 'CA Intermediate',
       attempt: generateUpcomingAttempts()[0],
       avatar: null,
       xp: 50,
@@ -410,10 +410,10 @@ async function handleGoogleAuth() {
   // 1-Click Trial Google Auth simulation
   const googleUser = {
     id: 'u_google_' + Date.now(),
-    email: 'google.student@pathedge.app',
+    email: 'google.student@interedge.app',
     username: 'GoogleStudent',
     first_name: 'Google User',
-    course: 'CA Foundation',
+    course: 'CA Intermediate',
     attempt: generateUpcomingAttempts()[0],
     avatar: null,
     xp: 100,
@@ -441,7 +441,7 @@ function handleGuestLogin() {
   AppState.isGuest = true;
   AppState.user.firstName = 'Guest';
   AppState.user.username = 'guest';
-  AppState.user.email = 'guest@pathedge.app';
+  AppState.user.email = 'guest@interedge.app';
   AppState.user.initials = 'GU';
   AppState.user.provider = 'guest';
   AppState.xp = 0;
