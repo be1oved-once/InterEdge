@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>PathEdge Admin Console</title>
+<link rel="icon" href="img/favicon.ico" sizes="any">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<link rel="stylesheet" href="css/admin-panel.css">
+<style>
+  [data-role="Viewer"] .require-admin,
+  [data-role="Viewer"] .require-super { display: none !important; }
+  
+  [data-role="Moderator"] .require-super { display: none !important; }
+</style>
+</head>
+<body>
+
+<!-- ========== SPLASH ========== -->
+<div id="apSplash" class="ap-splash">
+  <div class="ap-splash-box">
+    <img src="img/logo.png" alt="Logo" style="width: 100%; height: 100%; object-fit: contain;">
+  </div>
+</div>
+
+<!-- ========== LOGIN GATE ========== -->
+<div id="apLogin" class="ap-login">
+  <div class="ap-login-box">
+    <div class="ap-login-logo-wrap">
+      <div class="ap-login-logo">
+        <img src="img/logo.png" alt="Logo" style="width: 100%; height: 100%; object-fit: contain;">
+      </div>
+    </div>
+    <div class="ap-field">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <input type="text" id="apLoginUsername" placeholder="Username">
+    </div>
+    <div class="ap-field">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      <input type="password" id="apLoginPass" placeholder="Password">
+      <button type="button" class="ap-pw-toggle" id="apPwToggle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+      </button>
+    </div>
+    <button class="ap-btn-primary" id="apLoginBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+      Sign in to console
+    </button>
+  </div>
+</div>
+
+<!-- ========== APP SHELL ========== -->
+<div class="ap-shell" id="apShell">
+
+  <header class="ap-topbar">
+    <div class="ap-tb-brand">
+      <div class="ap-tb-logo"><img src="img/logo.png" alt="Logo" style="width: 100%; height: 100%; object-fit: contain;"></div>
+      <div class="ap-tb-word"><strong>PathEdge</strong><small>Console</small></div>
+    </div>
+    <div class="ap-tb-divider"></div>
+    <div class="ap-tb-page">
+      <svg id="apPageIco" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+      <span class="ap-tb-page-title" id="apPageTitle">Dashboard</span>
+      <span class="ap-tb-page-crumb" id="apPageCrumb">/ overview</span>
+    </div>
+    <div class="ap-tb-actions">
+      <button class="ap-tb-btn" id="apBellBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><div class="ap-tb-dot" id="apBellDot"></div></button>
+    </div>
+  </header>
+
+  <main class="ap-main" id="apMain">
+    <!-- ═══════════ DASHBOARD ═══════════ -->
+    <section class="ap-page active" id="page-dashboard">
+      <div class="ap-phdr">
+        <div class="ap-phdr-l">
+          <div class="ap-phdr-ico"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+          <div>
+            <div class="ap-phdr-title" id="dashWelcome">Good day, Admin</div>
+            <div class="ap-phdr-sub">Here's what's happening on PathEdge right now.</div>
+          </div>
+        </div>
+      </div>
+      <div class="ap-stats-row">
+        <div class="ap-stat"><div class="ap-stat-ico ic-acc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><div class="ap-stat-val" id="dashStatUsers">—</div><div class="ap-stat-lbl">Total Users</div></div>
+        <div class="ap-stat"><div class="ap-stat-ico ic-grn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 7h7l-5.5 4.5L18.5 21 12 16.5 5.5 21l2-7.5L2 9h7z"/></svg></div><div class="ap-stat-val" id="dashStatPremium">—</div><div class="ap-stat-lbl">Premium Users</div></div>
+        <div class="ap-stat"><div class="ap-stat-ico ic-amb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div><div class="ap-stat-val" id="dashStatTests">—</div><div class="ap-stat-lbl">Tests Published</div></div>
+        <div class="ap-stat"><div class="ap-stat-ico ic-acc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></div><div class="ap-stat-val" id="dashStatPosts">—</div><div class="ap-stat-lbl">Blog Posts</div></div>
+        <div class="ap-stat"><div class="ap-stat-ico ic-red"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div><div class="ap-stat-val" id="dashStatNotif">—</div><div class="ap-stat-lbl">Notifications Sent</div></div>
+        <div class="ap-stat"><div class="ap-stat-ico ic-amb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg></div><div class="ap-stat-val" id="dashStatFlag">—</div><div class="ap-stat-lbl">Flagged Users</div></div>
+      </div>
+      <p style="font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--txt4);margin-bottom:10px">Quick actions</p>
+      <div class="ap-qa-grid ap-mb12">
+        <button class="ap-qa-btn" data-goto="users"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><span>Users</span></button>
+        <button class="ap-qa-btn" data-goto="tests"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Live Tests</span></button>
+        <button class="ap-qa-btn" data-goto="blog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg><span>Blog</span></button>
+        <button class="ap-qa-btn" data-goto="notifications"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><span>Notify</span></button>
+        <button class="ap-qa-btn" data-goto="analytics"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg><span>Analytics</span></button>
+        <button class="ap-qa-btn" data-goto="testhistory"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8v13H3V8"/><path d="M1 3h22v5H1z"/><path d="M10 12h4"/></svg><span>History</span></button>
+        <button class="ap-qa-btn" data-goto="questionbank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><span>Q. Bank</span></button>
+        <button class="ap-qa-btn" data-goto="roles"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span>Roles</span></button>
+        <button class="ap-qa-btn" data-goto="activitylog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><span>Activity</span></button>
+      </div>
+      <div class="ap-card">
+        <div class="ap-card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Recent activity</div>
+        <div id="dashRecentActivity"></div>
+      </div>
+    </section>
+    <!-- ═══════════ USERS ═══════════ -->
+    <section class="ap-page" id="page-users">
+      <div class="ap-phdr">
+        <div class="ap-phdr-l">
+          <div class="ap-phdr-ico"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
+          <div><div class="ap-phdr-title">User manager</div><div class="ap-phdr-sub">View, flag and manage registered students</div></div>
+        </div>
+      </div>
+      <div class="ap-stats-row" style="grid-template-columns:repeat(auto-fit,minmax(115px,1fr))">
+        <div class="ap-stat"><div class="ap-stat-val" id="uStatTotal">—</div><div class="ap-stat-lbl">Total</div></div>
+        <div class="ap-stat"><div class="ap-stat-val" id="uStatPremium">—</div><div class="ap-stat-lbl">Premium</div></div>
+        <div class="ap-stat"><div class="ap-stat-val" id="uStatFlagged">—</div><div class="ap-stat-lbl">Flagged</div></div>
+        <div class="ap-stat"><div class="ap-stat-val" id="uStatNew">—</div><div class="ap-stat-lbl">New (7d)</div></div>
+      </div>
+      <div class="ap-ctrl-row">
+        <div class="ap-srch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" id="userSearch" placeholder="Search name or email…"></div>
+        <select class="ap-fsel-sm" id="userProviderFilter"><option value="all">All providers</option><option value="google">Google</option><option value="email">Email</option></select>
+        <select class="ap-fsel-sm" id="userPremFilter"><option value="all">All users</option><option value="premium">Premium only</option><option value="free">Free only</option><option value="flagged">Flagged only</option></select>
+      </div>
+      <div class="ap-bulk-bar" id="userBulkBar">
+        <span class="ap-bulk-count" id="userBulkCount">0 selected</span>
+        <div class="ap-bulk-acts">
+          <button class="ap-btn ap-btn-out ap-btn-sm" id="userBulkFlagBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>Flag all</button>
+          <button class="ap-btn ap-btn-danger ap-btn-sm" id="userBulkDeleteBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>Delete</button>
+          <button class="ap-btn ap-btn-out ap-btn-sm" id="userBulkClearBtn">Clear</button>
+        </div>
+      </div>
+      <div class="ap-table-wrap">
+        <table class="ap-table">
+          <thead><tr><th><label class="ap-check"><input type="checkbox" id="userSelectAll"><span class="ap-check-ui"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></label></th><th>User</th><th>Email</th><th>Provider</th><th>XP</th><th>Flag</th><th></th></tr></thead>
+          <tbody id="userTableBody"></tbody>
+        </table>
+      </div>
+      <div class="ap-pager" id="userPager"></div>
+    </section>
+    <!-- ═══════════ LIVE TESTS ═══════════ -->
+    <section class="ap-page" id="page-tests">
+      <div class="ap-phdr">
+        <div class="ap-phdr-l">
+          <div class="ap-phdr-ico"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+          <div><div class="ap-phdr-title">Live tests</div><div class="ap-phdr-sub">Compose MTP / RTP / chapter tests and publish</div></div>
+        </div>
+        <div class="ap-phdr-r"><button class="ap-btn ap-btn-out ap-btn-sm" data-goto="testhistory"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8v13H3V8"/><path d="M1 3h22v5H1z"/><path d="M10 12h4"/></svg>Scheduled &amp; Live Tests</button></div>
+      </div>
+
+      <div class="ap-monitor-row">
+        <div class="ap-mon-card"><div class="ap-mon-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><div><div class="ap-mon-lbl">Joined</div><div class="ap-mon-val" id="monJoined">0</div></div></div>
+        <div class="ap-mon-card"><div class="ap-mon-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div><div><div class="ap-mon-lbl">Submitted</div><div class="ap-mon-val" id="monSubmitted">0</div></div></div>
+        <div class="ap-mon-card"><div class="ap-mon-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><div><div class="ap-mon-lbl">Active now</div><div class="ap-mon-val" id="monActive">0</div></div></div>
+      </div>
+      <div class="ap-livebar" id="liveTimerBar"><span>Live timer running — <b id="liveTimerText">00:00</b></span><button class="ap-btn ap-btn-out ap-btn-sm" id="leaderboardBtn">Leaderboard</button></div>
+      <div class="ap-livebar hidden" id="multipleLiveBar" style="justify-content: center; background: var(--bg2); color: var(--txt3);"><span>Multiple Tests Live (View via History)</span></div>
+
+      <div class="ap-tests-layout">
+        <div>
+          <div class="ap-card">
+            <div class="ap-card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>Test setup</div>
+            <div class="ap-fg"><label class="ap-fl">Subject</label>
+              <div class="ap-chiprow" id="testSubjectChips">
+                <button class="ap-chip active" data-subject="Maths &amp; Stats">Maths &amp; Stats</button>
+                <button class="ap-chip" data-subject="Business Economics">Business Economics</button>
+                <button class="ap-chip" data-subject="Business Laws">Business Laws</button>
+                <button class="ap-chip" data-subject="Other">Other</button>
+              </div>
+            </div>
+            <div class="ap-fg"><label class="ap-fl">Paper / chapter title</label><input class="ap-fi" id="testTitleInput" placeholder="e.g. MTP Paper 3 — Nov 2026 Batch"></div>
+            <div class="ap-fg"><label class="ap-fl">Instructions <span class="opt">(optional)</span></label><textarea class="ap-ft" id="testInstructions" placeholder="Shown to students before they start…" style="min-height:60px"></textarea></div>
+          </div>
+
+          <div class="ap-questions-block">
+            <div class="ap-flex-between ap-mb12">
+              <div class="ap-card-title" style="margin-bottom:0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>Questions <span class="ap-mono" id="testQCount" style="margin-left:6px">0</span></div>
+              <button class="ap-btn ap-btn-out ap-btn-sm" id="testFromBankBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>From bank</button>
+            </div>
+            <div class="ap-typetabs" id="qTypeTabs" style="margin-bottom: 15px;">
+              <button class="ap-typetab active" data-qtype="mcq">With options (MCQ)</button>
+              <button class="ap-typetab" data-qtype="direct">Direct answer</button>
+            </div>
+            <div id="testQuestionsContainer"></div>
+            <button class="ap-btn ap-btn-out ap-btn-full" id="testAddQBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add question</button>
+          </div>
+
+          <div class="ap-card">
+            <div class="ap-card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Timing &amp; publish mode</div>
+            <div class="ap-row">
+              <div class="ap-fg"><label class="ap-fl">Timer (minutes)</label><input class="ap-fi" type="number" id="testTimer" min="1" max="180" placeholder="e.g. 60"></div>
+              <div class="ap-fg"><label class="ap-fl">Negative marks / wrong</label><input class="ap-fi" type="number" id="testPenalty" min="0" max="1" step="0.25" placeholder="0.25"></div>
+            </div>
+            <div class="ap-fg"><label class="ap-fl">Publish</label>
+              <div class="ap-typetabs">
+                <button class="ap-typetab active" data-mode="live">Go live now</button>
+                <button class="ap-typetab" data-mode="schedule">Schedule</button>
+              </div>
+            </div>
+            <div class="ap-sched-dt" id="testSchedBox" style="margin-top:-2px">
+              <div class="ap-dp-wrap" id="testDateWrap">
+                <button type="button" class="ap-dp-btn" id="testDateBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="ph" id="testDateDisplay">Pick date</span></button>
+                <div class="ap-dp-popup" id="testDatePopup">
+                  <div class="ap-dp-hdr"><button type="button" class="ap-dp-nav" id="testPrevMonth"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><span class="ap-dp-month" id="testMonthLbl"></span><button type="button" class="ap-dp-nav" id="testNextMonth"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button></div>
+                  <div class="ap-dp-wd"><span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span></div>
+                  <div class="ap-dp-days" id="testDaysGrid"></div>
+                </div>
+              </div>
+              <div class="ap-tp-wrap" id="testTimeWrap">
+                <button type="button" class="ap-dp-btn" id="testTimeBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="ph" id="testTimeDisplay">Pick time</span></button>
+                <div class="ap-tp-popup" id="testTimePopup">
+                  <div class="ap-tp-presets" id="testTimePresets"></div>
+                  <div class="ap-tp-wheels">
+                    <div class="ap-tp-band"></div>
+                    <div class="ap-tp-wheel" id="testTimeHourWheel"></div>
+                    <div class="ap-tp-colon">:</div>
+                    <div class="ap-tp-wheel" id="testTimeMinWheel"></div>
+                    <div class="ap-tp-wheel ap-tp-wheel-narrow" id="testTimeAmpmWheel"></div>
+                    <div class="ap-tp-fade ap-tp-fade-top"></div>
+                    <div class="ap-tp-fade ap-tp-fade-bot"></div>
+                  </div>
+                  <button type="button" class="ap-btn ap-btn-acc ap-btn-full ap-btn-sm" id="testTimeSetBtn" style="margin-top:10px">Set time</button>
+                </div>
+              </div>
+            </div>
+            <div class="ap-fg" style="margin-top:10px"><div class="ap-secnote" id="testScheduleInfo">Will publish immediately and run for the timer duration.</div></div>
+            <button class="ap-btn ap-btn-acc ap-btn-full require-admin" id="testPublishBtn" style="margin-top:6px"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>Publish test</button>
+            <button class="ap-btn ap-btn-out ap-btn-full" id="testClearBtn" style="margin-top:8px">Clear draft</button>
+          </div>
+        </div>
+
+        <div>
+          <div class="ap-card">
+            <div class="ap-flex-between ap-mb12">
+              <div class="ap-card-title" style="margin-bottom:0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>System logs</div>
+              <button class="ap-iconbtn" id="testClearLogsBtn" title="Clear logs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg></button>
+            </div>
+            <div class="ap-logs-panel" id="testLogsContainer" style="font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; background: #000; color: #0f0; border-radius: 8px; padding: 12px; height: 150px; overflow-y: auto;"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- ═══════════ BLOG ═══════════ -->
+    <section class="ap-page" id="page-blog">
+      <div class="ap-phdr">
+        <div class="ap-phdr-l">
+          <div class="ap-phdr-ico"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></div>
+          <div><div class="ap-phdr-title">Blog</div><div class="ap-phdr-sub">Write and publish posts for PathEdge students</div></div>
+        </div>
+        <div class="ap-phdr-r"><button class="ap-btn ap-btn-acc require-admin" id="blogNewBtn"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Write new post</button></div>
+      </div>
+      <div class="ap-stats-row" style="grid-template-columns:repeat(auto-fit,minmax(115px,1fr))">
+        <div class="ap-stat"><div class="ap-stat-val" id="bStatTotal">—</div><div class="ap-stat-lbl">Total Posts</div></div>
+        <div class="ap-stat"><div class="ap-stat-val" id="bStatPub">—</div><div class="ap-stat-lbl">Published</div></div>
+        <div class="ap-stat"><div class="ap-stat-val" id="bStatDraft">—</div><div class="ap-stat-lbl">Drafts</div></div>
+        <div class="ap-stat"><div class="ap-stat-val" id="bStatViews">—</div><div class="ap-stat-lbl">Total Views</div></div>
+      </div>
+      <div class="ap-ctrl-row">
+        <div class="ap-srch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" id="blogSearch" placeholder="Search posts…"></div>
+        <select class="ap-fsel-sm" id="blogStatusFilter"><option value="all">All status</option><option value="published">Published</option><option value="draft">Drafts</option></select>
+        <select class="ap-fsel-sm" id="blogCatFilter"><option value="all">All categories</option><option value="Exam Tips">Exam Tips</option><option value="Announcements">Announcements</option><option value="Study Guide">Study Guide</option><option value="Motivation">Motivation</option><option value="Updates">Updates</option></select>
+      </div>
+      <div class="ap-blog-grid" id="blogGrid"></div>
+    </section>
+    <!-- ═══════════ NOTIFICATIONS ═══════════ -->
+    <section class="ap-page" id="page-notifications">
+      <div class="ap-phdr">
+        <div class="ap-phdr-l">
+          <div class="ap-phdr-ico"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
+          <div><div class="ap-phdr-title">Notifications</div><div class="ap-phdr-sub">Send and manage platform-wide alerts</div></div>
+        </div>
+      </div>
+      <div class="ap-notif-layout">
+        <div class="ap-card require-admin" style="margin-bottom:0">
+          <div class="ap-card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>Send notification</div>
+          <div class="ap-fg"><label class="ap-fl">Target email <span class="opt">(blank = broadcast to all)</span></label><input class="ap-fi" type="email" id="notifTarget" placeholder="Leave empty for global broadcast"></div>
+          <div class="ap-fg"><label class="ap-fl">Message</label><textarea class="ap-ft" id="notifMsg" maxlength="300" placeholder="Type your notification…"></textarea><div class="ap-charcount"><span id="notifChars">0</span> / 300</div></div>
+          <div class="ap-sched-toggle" id="notifSchedToggle">
+            <span class="ap-toggle" id="notifSchedSwitch"><span class="ap-toggle-knob"></span></span>
+            <span class="ap-sched-label">Schedule for later</span>
+            <span class="ap-sched-hint" id="notifSchedHint">Off</span>
+          </div>
+          <div class="ap-sched-dt" id="notifSchedDT">
+            <div class="ap-dp-wrap" id="notifDateWrap">
+              <button type="button" class="ap-dp-btn" id="notifDateBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="ph" id="notifDateDisplay">Pick date</span></button>
+              <div class="ap-dp-popup" id="notifDatePopup">
+                <div class="ap-dp-hdr"><button type="button" class="ap-dp-nav" id="notifPrevMonth"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><span class="ap-dp-month" id="notifMonthLbl"></span><button type="button" class="ap-dp-nav" id="notifNextMonth"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button></div>
+                <div class="ap-dp-wd"><span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span></div>
+                <div class="ap-dp-days" id="notifDaysGrid"></div>
+              </div>
+            </div>
+            <div class="ap-tp-wrap" id="notifTimeWrap">
+              <button type="button" class="ap-dp-btn" id="notifTimeBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="ph" id="notifTimeDisplay">Pick time</span></button>
+              <div class="ap-tp-popup" id="notifTimePopup">
+                <div class="ap-tp-presets" id="notifTimePresets"></div>
+                <div class="ap-tp-wheels">
+                  <div class="ap-tp-band"></div>
+                  <div class="ap-tp-wheel" id="notifTimeHourWheel"></div>
+                  <div class="ap-tp-colon">:</div>
+                  <div class="ap-tp-wheel" id="notifTimeMinWheel"></div>
+                  <div class="ap-tp-wheel ap-tp-wheel-narrow" id="notifTimeAmpmWheel"></div>
+                  <div class="ap-tp-fade ap-tp-fade-top"></div>
+                  <div class="ap-tp-fade ap-tp-fade-bot"></div>
+                </div>
+                <button type="button" class="ap-btn ap-btn-acc ap-btn-full ap-btn-sm" id="notifTimeSetBtn" style="margin-top:10px">Set time</button>
+              </div>
+            </div>
+          </div>
+          <button class="ap-btn ap-btn-acc ap-btn-full" id="notifSendBtn" style="margin-top:13px"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>Send notification</button>
+          <div class="ap-flex-between" style="margin-top:16px;padding-top:13px;border-top:1px solid var(--border)">
+            <span style="font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--txt4)">Local history</span>
+            <button class="ap-iconbtn" id="notifClearHistBtn" title="Clear history"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg></button>
+          </div>
+          <div id="notifHistoryList" style="margin-top:8px"></div>
+        </div>
+        <div>
+          <div class="ap-card">
+            <div class="ap-flex-between ap-mb12"><div class="ap-card-title" style="margin-bottom:0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/></svg>Active notifications</div><span class="ap-badge bg-acc" id="notifActiveCount">0</span></div>
+            <div id="notifActiveList"></div>
+          </div>
+          <div class="ap-card">
+            <div class="ap-flex-between ap-mb12"><div class="ap-card-title" style="margin-bottom:0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Scheduled queue</div><span class="ap-badge bg-amb" id="notifQueueCount">0</span></div>
+            <div id="notifQueueList"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- ═══════════ ANALYTICS ═══════════ -->
+    <section class="ap-page" id="page-analytics">
+      <div class="ap-phdr">
+        <div class="ap-phdr-l">
+          <div class="ap-phdr-ico"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+          <div><div class="ap-phdr-title">Analytics</div><div class="ap-phdr-sub">Platform-wide performance insights</div></div>
+        </div>
+      </div>
+      <div class="ap-asumm">
+        <div class="ap-asumm-card"><div class="ap-asumm-val" id="anTotalUsers">—</div><div class="ap-asumm-lbl">Total Users</div></div>
+        <div class="ap-asumm-card"><div class="ap-asumm-val" id="anPremium">—</div><div class="ap-asumm-lbl">Premium Users</div></div>
+        <div class="ap-asumm-card"><div class="ap-asumm-val" id="anAttempts">—</div><div class="ap-asumm-lbl">Total Attempts</div></div>
+        <div class="ap-asumm-card"><div class="ap-asumm-val" id="anAvgXp">—</div><div class="ap-asumm-lbl">Avg XP / User</div></div>
+        <div class="ap-asumm-card"><div class="ap-asumm-val" id="anTopSubject">—</div><div class="ap-asumm-lbl">Top Subject</div></div>
+        <div class="ap-asumm-card"><div class="ap-asumm-val" id="anAvgAcc">—</div><div class="ap-asumm-lbl">Avg Accuracy</div></div>
+      </div>
+      <div class="ap-chart-grid">
+        <div class="ap-chart-card"><div class="ap-card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>User registrations (monthly)</div><div class="ap-chart-canvas-wrap"><canvas id="chartUserReg"></canvas></div></div>
+        <div class="ap-chart-card"><div class="ap-card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>Attempts by subject</div><div class="ap-chart-canvas-wrap"><canvas id="chartSubjectAttempts"></canvas></div></div>
+        <div class="ap-chart-card"><div class="ap-card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>Avg accuracy by subject</div><div class="ap-chart-canvas-wrap"><canvas id="chartAccuracy"></canvas></div></div>
+        <div class="ap-chart-card"><div class="ap-card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 7h7l-5.5 4.5L18.5 21 12 16.5 5.5 21l2-7.5L2 9h7z"/></svg>XP distribution</div><div class="ap-chart-canvas-wrap"><canvas id="chartXpDist"></canvas></div></div>
+      </div>
+    </section>
+
+    <!-- ═══════════ TEST HISTORY ═══════════ -->
+    <section class="ap-page" id="page-testhistory">
+      <div class="ap-phdr">
+        <div class="ap-phdr-l">
+          <div class="ap-phdr-ico"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8v13H3V8"/><path d="M1 3h22v5H1z"/><path d="M10 12h4"/></svg></div>
+          <div><div class="ap-phdr-title">Test history</div><div class="ap-phdr-sub">Archive of past MTP / RTP / chapter tests</div></div>
+        </div>
+        <div class="ap-phdr-r">
+          <button class="ap-btn ap-btn-out ap-btn-sm" id="thExportPdfBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/><line x1="9" y1="11" x2="13" y2="11"/></svg>Export PDF</button>
+        </div>
+      </div>
+      <div class="ap-ctrl-row">
+        <div class="ap-srch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" id="thSearch" placeholder="Search by title…"></div>
+        <select class="ap-fsel-sm" id="thTypeFilter"><option value="all">All types</option><option value="MTP">MTP</option><option value="RTP">RTP</option><option value="Chapter">Chapter</option></select>
+        <select class="ap-fsel-sm" id="thSubjectFilter"><option value="all">All subjects</option><option value="Maths &amp; Stats">Maths &amp; Stats</option><option value="Business Economics">Business Economics</option><option value="Business Laws">Business Laws</option></select>
+        <select class="ap-fsel-sm" id="thStatusFilter"><option value="all">All status</option><option value="live">Live now</option><option value="scheduled">Scheduled</option><option value="ended">Ended</option></select>
+        <select class="ap-fsel-sm" id="thSort"><option value="newest">Newest first</option><option value="oldest">Oldest first</option><option value="score">Highest avg score</option></select>
+      </div>
+      <div id="thList"></div>
+    </section>
+    <!-- ═══════════ LEADERBOARD ═══════════ -->
+    <section class="ap-page" id="page-leaderboard">
+      <div class="ap-phdr">
+        <div class="ap-phdr-l">
+          <div class="ap-phdr-ico"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8"/><path d="M12 17v4"/><path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4a2 2 0 0 0 2 4"/><path d="M17 6h3a2 2 0 0 1-2 4"/></svg></div>
+          <div><div class="ap-phdr-title">Leaderboard</div><div class="ap-phdr-sub" id="lbUpdatedSub">Top students ranked by XP</div></div>
+        </div>
+      </div>
+      <div class="ap-ctrl-row">
+        <select class="ap-fsel-sm" id="lbSubjectFilter"><option value="all">All subjects</option><option value="Maths &amp; Stats">Maths &amp; Stats</option><option value="Business Economics">Business Economics</option><option value="Business Laws">Business Laws</option></select>
+        <select class="ap-fsel-sm" id="lbPeriodFilter"><option value="today">Today</option><option value="week">This week</option><option value="month">This month</option><option value="allTime" selected>All time</option></select>
+      </div>
+      <div class="ap-lb-podium" id="lbPodium"></div>
+      <div id="lbList"></div>
+    </section>
+    <!-- ═══════════ QUESTION BANK ═══════════ -->
+    <section class="ap-page" id="page-questionbank">
+      <div class="ap-phdr">
+        <div class="ap-phdr-l">
+          <div class="ap-phdr-ico"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
+          <div><div class="ap-phdr-title">Question bank</div><div class="ap-phdr-sub">Save and reuse questions across tests</div></div>
+        </div>
+        <div class="ap-phdr-r">
+          <button class="ap-iconbtn" id="qbFormatHelpBtn" title="TXT format guide"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></button>
+          <button class="ap-btn ap-btn-out" id="qbImportBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Import .txt</button>
+          <input type="file" id="qbFileInput" accept=".txt,.text" hidden>
+        </div>
+      </div>
+      <div class="ap-secnote ap-mb12" style="margin-top:-10px">Importing adds questions to: whichever subject is selected in the "Add question" form on the right.</div>
+      <div class="ap-qb-layout">
+        <div>
+          <div class="ap-ctrl-row">
+            <div class="ap-srch" style="flex:1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" id="qbSearch" placeholder="Search questions…"></div>
+            <select class="ap-fsel-sm" id="qbSubjFilter"><option value="all">All subjects</option><option value="Maths &amp; Stats">Maths &amp; Stats</option><option value="Business Economics">Business Economics</option><option value="Business Laws">Business Laws</option></select>
+            <select class="ap-fsel-sm" id="qbTypeFilter"><option value="all">All types</option><option value="mcq">MCQ</option><option value="direct">Direct</option></select>
+          </div>
+          <div class="ap-secnote ap-mb12"><span id="qbCount">0</span> questions saved</div>
+          <div id="qbList"></div>
+        </div>
+        <div>
+          <div class="ap-card ap-qb-sticky">
+            <div class="ap-card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add question</div>
+            <div class="ap-fg"><label class="ap-fl">Question text</label><textarea class="ap-ft" id="qbManualQ" style="min-height:65px" placeholder="Enter the question…"></textarea></div>
+            <div class="ap-row">
+              <div class="ap-fg"><label class="ap-fl">Subject</label><select class="ap-fsel" id="qbManualSubj"><option>Maths &amp; Stats</option><option>Business Economics</option><option>Business Laws</option></select></div>
+              <div class="ap-fg"><label class="ap-fl">Type</label><select class="ap-fsel" id="qbManualType"><option value="mcq">MCQ</option><option value="direct">Direct</option></select></div>
+            </div>
+            <div id="qbManualOptsWrap">
+              <div class="ap-fg"><label class="ap-fl">Options</label>
+                <div class="ap-qopt-row" style="margin-bottom:6px"><input type="radio" name="qbCorrect" value="0" checked><input type="text" class="qbOptInput" placeholder="Option A"></div>
+                <div class="ap-qopt-row" style="margin-bottom:6px"><input type="radio" name="qbCorrect" value="1"><input type="text" class="qbOptInput" placeholder="Option B"></div>
+                <div class="ap-qopt-row" style="margin-bottom:6px"><input type="radio" name="qbCorrect" value="2"><input type="text" class="qbOptInput" placeholder="Option C"></div>
+                <div class="ap-qopt-row"><input type="radio" name="qbCorrect" value="3"><input type="text" class="qbOptInput" placeholder="Option D"></div>
+              </div>
+            </div>
+            <div class="ap-fg hidden" id="qbDirectAnsWrap"><label class="ap-fl">Correct answer</label><input class="ap-fi" id="qbDirectAns" placeholder="Expected answer"></div>
+            <button class="ap-btn ap-btn-acc ap-btn-full" id="qbAddBtn"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Save to bank</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ ROLES ═══════════ -->
+    <section class="ap-page" id="page-roles">
+      <div class="ap-phdr">
+        <div class="ap-phdr-l">
+          <div class="ap-phdr-ico"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <div><div class="ap-phdr-title">Roles &amp; access</div><div class="ap-phdr-sub">Manage who can administer PathEdge</div></div>
+        </div>
+      </div>
+      <div class="ap-card">
+        <div class="ap-card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Admin users</div>
+        <div id="rolesList"></div>
+        <div class="require-super" style="border-top:1px solid var(--border);padding-top:13px;margin-top:8px">
+          <label class="ap-fl">Add new admin</label>
+          <div class="ap-row" style="margin-top:6px">
+            <input type="text" class="ap-fi" id="newRoleUsername" placeholder="Username" style="flex:2">
+            <input type="password" class="ap-fi" id="newRolePass" placeholder="Password" style="flex:2">
+            <select class="ap-fsel" id="newRoleLevel" style="flex:1"><option value="Viewer">Viewer</option><option value="Moderator" selected>Moderator</option><option value="Superior">Superior</option></select>
+          </div>
+          <button class="ap-btn ap-btn-acc ap-btn-full" id="addRoleBtn" style="margin-top:9px"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add admin</button>
+        </div>
+      </div>
+      <div class="ap-card">
+        <div class="ap-card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>Permission matrix</div>
+        <div class="ap-matrix-wrap">
+          <table class="ap-matrix">
+            <thead><tr><th>Permission</th><th>Viewer</th><th>Moderator</th><th>Superior</th></tr></thead>
+            <tbody>
+              <tr><td>View users</td><td class="ap-mtick">✓</td><td class="ap-mtick">✓</td><td class="ap-mtick">✓</td></tr>
+              <tr><td>Delete users</td><td class="ap-mcross">✕</td><td class="ap-mcross">✕</td><td class="ap-mtick">✓</td></tr>
+              <tr><td>Publish tests</td><td class="ap-mcross">✕</td><td class="ap-mtick">✓</td><td class="ap-mtick">✓</td></tr>
+              <tr><td>Publish blog posts</td><td class="ap-mcross">✕</td><td class="ap-mtick">✓</td><td class="ap-mtick">✓</td></tr>
+              <tr><td>Send notifications</td><td class="ap-mcross">✕</td><td class="ap-mtick">✓</td><td class="ap-mtick">✓</td></tr>
+              <tr><td>Manage roles</td><td class="ap-mcross">✕</td><td class="ap-mcross">✕</td><td class="ap-mtick">✓</td></tr>
+              <tr><td>View analytics</td><td class="ap-mtick">✓</td><td class="ap-mtick">✓</td><td class="ap-mtick">✓</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ ACTIVITY LOG ═══════════ -->
+    <section class="ap-page" id="page-activitylog">
+      <div class="ap-phdr">
+        <div class="ap-phdr-l">
+          <div class="ap-phdr-ico"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+          <div><div class="ap-phdr-title">Activity log</div><div class="ap-phdr-sub">Audit trail of all admin actions</div></div>
+        </div>
+        <div class="ap-phdr-r">
+          <button class="ap-btn ap-btn-out ap-btn-sm" id="alogExportBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Export CSV</button>
+          <button class="ap-btn ap-btn-out ap-btn-sm" id="alogExportPdfBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/><line x1="9" y1="11" x2="13" y2="11"/></svg>Export PDF</button>
+          <button class="ap-btn ap-btn-danger ap-btn-sm" id="alogClearBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>Clear</button>
+        </div>
+      </div>
+      <div class="ap-ctrl-row">
+        <div class="ap-srch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" id="alogSearch" placeholder="Search actions…"></div>
+        <select class="ap-fsel-sm" id="alogTypeFilter"><option value="all">All types</option><option value="user">User</option><option value="test">Test</option><option value="blog">Blog</option><option value="notif">Notification</option><option value="role">Role</option><option value="question">Question Bank</option></select>
+      </div>
+      <div id="alogList"></div>
+    </section>
+
+  </main>
+
+  <nav class="ap-bottomnav">
+    <div class="ap-nav-pill" id="apNavPill"></div>
+    <button class="ap-navbtn active" data-page="dashboard">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span>Home</span>
+    </button>
+    <button class="ap-navbtn" data-page="users">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      <span>Users</span>
+    </button>
+    <button class="ap-navbtn" data-page="tests">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      <span>Tests</span>
+    </button>
+    <button class="ap-navbtn" data-page="blog">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+      <span>Blog</span>
+    </button>
+    <button class="ap-navbtn" data-page="more">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>
+      <span>More</span>
+    </button>
+  </nav>
+</div>
+
+<!-- ========== MORE SHEET ========== -->
+<div class="ap-sheet-overlay" id="apMoreOverlay">
+  <div class="ap-sheet-backdrop" id="apMoreBackdrop"></div>
+  <div class="ap-sheet-panel">
+    <div class="ap-sheet-handle"></div>
+    <div class="ap-sheet-title">More tools</div>
+    <div class="ap-sheet-grid">
+      <div class="ap-sheet-item" data-goto="notifications">
+        <div class="ap-sheet-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
+        <span>Notifications</span>
+        <div class="ap-sheet-badge hidden" id="moreNotifBadge">0</div>
+      </div>
+      <div class="ap-sheet-item" data-goto="analytics">
+        <div class="ap-sheet-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+        <span>Analytics</span>
+      </div>
+      <div class="ap-sheet-item" data-goto="testhistory">
+        <div class="ap-sheet-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8v13H3V8"/><path d="M1 3h22v5H1z"/><path d="M10 12h4"/></svg></div>
+        <span>Test History</span>
+      </div>
+      <div class="ap-sheet-item" data-goto="leaderboard">
+        <div class="ap-sheet-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8"/><path d="M12 17v4"/><path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4a2 2 0 0 0 2 4"/><path d="M17 6h3a2 2 0 0 1-2 4"/></svg></div>
+        <span>Leaderboard</span>
+      </div>
+      <div class="ap-sheet-item" data-goto="questionbank">
+        <div class="ap-sheet-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
+        <span>Question Bank</span>
+      </div>
+      <div class="ap-sheet-item" data-goto="roles">
+        <div class="ap-sheet-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <span>Roles</span>
+      </div>
+      <div class="ap-sheet-item" data-goto="activitylog">
+        <div class="ap-sheet-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+        <span>Activity Log</span>
+      </div>
+    </div>
+    <div class="ap-sheet-foot" style="flex-direction:column">
+      <button class="ap-btn ap-btn-acc ap-btn-full" id="masterExportBtn"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Master export (everything · PDF)</button>
+      <div style="display:flex;gap:10px;width:100%">
+        <button class="ap-btn ap-btn-out ap-btn-full" id="moreThemeBtn"><span id="moreThemeIco" style="display:flex"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span><span id="moreThemeLabel">Switch to light mode</span></button>
+        <button class="ap-btn ap-btn-danger ap-btn-full" id="moreLogoutBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Log out</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== USER DETAIL SHEET ========== -->
+<div class="ap-detail-overlay" id="apUserDetailOverlay">
+  <div class="ap-sheet-backdrop" id="apUserDetailBackdrop"></div>
+  <div class="ap-detail-panel" id="apUserDetailPanel"></div>
+</div>
+
+<!-- ========== BLOG EDITOR (full screen) ========== -->
+<div class="ap-editor-overlay" id="apBlogEditor">
+  <div class="ap-editor-top">
+    <button class="ap-iconbtn" id="blogEditorClose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></button>
+    <span class="ap-editor-top-title" id="blogEditorMode">Write new post</span>
+    <button class="ap-btn ap-btn-out ap-btn-sm" id="blogSaveDraftBtn">Save draft</button>
+    <button class="ap-btn ap-btn-acc ap-btn-sm" id="blogPublishBtn"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>Publish</button>
+  </div>
+  <div class="ap-editor-body">
+    <input type="text" class="ap-editor-title" id="blogTitleInput" placeholder="Post title…" maxlength="120">
+    <div class="ap-editor-meta-row">
+      <select class="ap-fsel" id="blogCatSelect" style="flex:1;min-width:140px">
+        <option value="Exam Tips">Exam Tips</option>
+        <option value="Announcements">Announcements</option>
+        <option value="Study Guide">Study Guide</option>
+        <option value="Motivation">Motivation</option>
+        <option value="Updates">Updates</option>
+      </select>
+    </div>
+    <div class="ap-feat-drop" id="blogFeatDrop">
+      <button type="button" class="ap-feat-remove" id="blogFeatRemove"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+      <span>Click to add a featured image</span>
+      <img id="blogFeatImg" alt="">
+    </div>
+    <input type="file" id="blogFeatInput" accept="image/jpeg,image/jpg,image/png,image/webp" hidden>
+    <div class="ap-toolbar" id="blogToolbar">
+      <button type="button" class="ap-tb-tool" data-cmd="bold" title="Bold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h8a4 4 0 0 1 0 8H6z"/><path d="M6 12h9a4 4 0 0 1 0 8H6z"/></svg></button>
+      <button type="button" class="ap-tb-tool" data-cmd="italic" title="Italic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="4" x2="10" y2="4"/><line x1="14" y1="20" x2="5" y2="20"/><line x1="15" y1="4" x2="9" y2="20"/></svg></button>
+      <button type="button" class="ap-tb-tool" data-cmd="underline" title="Underline"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v7a6 6 0 0 0 12 0V3"/><line x1="4" y1="21" x2="20" y2="21"/></svg></button>
+      <div class="ap-tb-sep"></div>
+      <button type="button" class="ap-tb-tool" data-block="h2" title="Big heading">H1</button>
+      <button type="button" class="ap-tb-tool" data-block="h3" title="Small heading">H2</button>
+      <button type="button" class="ap-tb-tool" data-block="p" title="Normal text">¶</button>
+      <div class="ap-tb-sep"></div>
+      <button type="button" class="ap-tb-tool" data-size="large" title="Bigger text">A+</button>
+      <button type="button" class="ap-tb-tool" data-size="small" title="Smaller text">A-</button>
+      <div class="ap-tb-sep"></div>
+      <button type="button" class="ap-tb-tool" data-cmd="blockquote" title="Quote"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/></svg></button>
+      <button type="button" class="ap-tb-tool" data-cmd="insertUnorderedList" title="Bullet list"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></button>
+      <button type="button" class="ap-tb-tool" data-cmd="insertOrderedList" title="Numbered list"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="10" y1="6" x2="21" y2="6"/><line x1="10" y1="12" x2="21" y2="12"/><line x1="10" y1="18" x2="21" y2="18"/><path d="M4 6h1v4"/><path d="M4 10h2"/><path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></button>
+      <div class="ap-tb-sep"></div>
+      <button type="button" class="ap-tb-tool" data-cmd="undo" title="Undo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 14 4 9 9 4"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg></button>
+    </div>
+    <div class="ap-editor-canvas" id="blogCanvas" contenteditable="true" data-placeholder="Start writing your post…"></div>
+    <div class="ap-wordcount"><span id="blogWordCount">0</span> words</div>
+  </div>
+</div>
+
+<!-- ========== CONFIRM DIALOG ========== -->
+<div class="ap-confirm-overlay" id="apConfirmOverlay">
+  <div class="ap-confirm-backdrop"></div>
+  <div class="ap-confirm-box">
+    <div class="ap-confirm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+    <div class="ap-confirm-text" id="apConfirmText">Are you sure?</div>
+    <div class="ap-confirm-acts">
+      <button class="ap-btn ap-btn-out" id="apConfirmCancel">Cancel</button>
+      <button class="ap-btn ap-btn-danger" id="apConfirmYes">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== TOASTS ========== -->
+<div class="ap-toast-wrap" id="apToastWrap"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- ========== LEADERBOARD FULL-SCREEN OVERLAY ========== -->
+<div id="lbOverlay" style="position: fixed; top: 60px; right: 0; bottom: 0; left: 0; background: var(--bg); z-index: 8000; transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); display: flex; flex-direction: column;">
+  <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding: 12px 20px; background: var(--card); flex-shrink: 0; box-shadow: 0 2px 10px rgba(0,0,0,0.02);">
+    <div style="display: flex; flex-direction: column; gap: 2px;">
+      <div style="font-size: 1.15rem; font-weight: 800; color: var(--txt);">Leaderboard</div>
+      <div id="lbStatsTitle" style="font-size: 0.75rem; color: var(--txt3); font-weight: 600;">Top performers</div>
+    </div>
+    <button class="ap-iconbtn" id="lbOverlayClose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+  </div>
+  <div id="lbStatsBody" style="padding: 16px; flex: 1; overflow-y: auto; background: var(--bg);">
+    <!-- Populated by JS -->
+  </div>
+</div>
+
+<script src="js/api.js?v=2"></script>
+<script src="js/admin-panel.js?v=2"></script>
+</body>
+</html>

@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>PathEdge</title>
+<link rel="icon" href="img/favicon.ico" sizes="any">
+<link rel="icon" href="img/favicon-16x16.png" type="image/png" sizes="16x16">
+<link rel="icon" href="img/favicon-32x32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="img/favicon-96x96.png" type="image/png" sizes="96x96">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/additions.css">
+<link rel="stylesheet" href="css/paige.css">
+  <!-- Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+</head>
+<body>
+
+<!-- ========== SPLASH SCREEN ========== -->
+<div id="splash-screen" class="splash-screen">
+  <div class="splash-logo-box" style="background: transparent; box-shadow: none;">
+    <img src="img/logo.png" alt="PathEdge Logo" style="width: 100%; height: 100%; object-fit: contain;">
+  </div>
+</div>
+
+<!-- ========== AUTH SCREEN ========== -->
+<div id="auth-screen" class="auth-screen" style="display:none;">
+  <div class="auth-container">
+    <div class="auth-logo-wrap">
+      <div class="auth-logo-box" style="background: transparent; box-shadow: none;">
+        <img src="img/logo.png" alt="PathEdge Logo" style="width: 100%; height: 100%; object-fit: contain;">
+      </div>
+    </div>
+
+    <!-- Login Form -->
+    <div id="login-form" class="auth-form">
+      <div class="auth-title">Welcome back</div>
+      <div class="auth-subtitle">Sign in to continue your journey</div>
+      <button class="auth-btn-google" onclick="handleGoogleAuth()">
+        <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        Continue with Google
+      </button>
+      <div class="auth-divider"><span>or</span></div>
+      <div class="auth-input-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <input type="text" id="login-email" placeholder="Email or Username">
+      </div>
+      <div class="auth-input-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <input type="password" id="login-password" placeholder="Password">
+        <button type="button" class="auth-toggle-pw" onclick="togglePassword('login-password', this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+      </div>
+      <div style="text-align: right; margin-top: -12px; margin-bottom: 16px;">
+        <a style="color: var(--accent); font-size: 0.85rem; text-decoration: none; cursor: pointer; font-weight: 500;" onclick="openForgotPassword()">Forgot Password?</a>
+      </div>
+      <button class="auth-btn-primary" onclick="handleLogin()">Sign In</button>
+      <div class="auth-switch">Don't have an account? <a onclick="showSignup()">Sign Up</a></div>
+      <button class="auth-btn-guest" onclick="handleGuestLogin()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Sign In as Guest
+      </button>
+    </div>
+
+    <!-- Signup Form -->
+    <div id="signup-form" class="auth-form" style="display:none;">
+      <div class="auth-title">Create account</div>
+      <div class="auth-subtitle">Start your CA Foundation journey</div>
+      <button class="auth-btn-google" onclick="handleGoogleAuth()">
+        <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        Continue with Google
+      </button>
+      <div class="auth-divider"><span>or</span></div>
+      <div class="auth-input-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <input type="text" id="signup-username" placeholder="Username">
+      </div>
+      <div class="auth-input-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <input type="email" id="signup-email" placeholder="Email">
+      </div>
+      <div class="auth-input-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <input type="password" id="signup-password" placeholder="Password">
+        <button type="button" class="auth-toggle-pw" onclick="togglePassword('signup-password', this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+      </div>
+      <button class="auth-btn-primary" onclick="handleSignup()">Sign Up</button>
+      <div class="auth-switch">Already have an account? <a onclick="showLogin()">Sign In</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== MAIN APP ========== -->
+<div id="app-screen" class="app-wrap" style="display:none;">
+
+  <!-- TOP BAR -->
+  <div class="topbar" id="topbar">
+    <div class="brand">
+      <div class="logo-box" style="background: transparent; padding: 0;">
+        <img src="img/logo.png" alt="Logo" style="width: 100%; height: 100%; object-fit: contain; border-radius: 20%;">
+      </div>
+      <h1>PathEdge</h1>
+    </div>
+    <button class="bell-btn" id="bellBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      <!-- bell-dot visibility controlled by JS via AppState.hasUnread -->
+      <div class="bell-dot"></div>
+    </button>
+  </div>
+
+  <!-- MAIN CONTENT AREA -->
+  <div class="main" id="main-content"></div>
+
+  <!-- BOTTOM NAV -->
+  <div class="bottom-nav" id="bottom-nav">
+    <div class="active-pill" id="pill"></div>
+    <button class="nav-btn active" data-idx="0" data-route="home">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span>Home</span>
+    </button>
+    <button class="nav-btn" data-idx="1" data-route="practice">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+      <span>Practice</span>
+    </button>
+    <button class="nav-btn" data-idx="2" data-route="tests">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      <span>Tests</span>
+    </button>
+    <button class="nav-btn" data-idx="3" data-route="ranks">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+      <span>Ranks</span>
+    </button>
+    <button class="nav-btn" data-idx="4" data-route="profile">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span>Profile</span>
+    </button>
+  </div>
+
+  <!-- NOTIFICATION OVERLAY -->
+  <div class="notif-overlay" id="notifOverlay">
+    <div class="notif-backdrop" onclick="closeNotif()"></div>
+    <div class="notif-panel">
+      <div class="notif-head">
+        <h3>Notifications</h3>
+        <div class="notif-actions">
+          <span class="mark-read" onclick="markAllRead()">Mark as Read</span>
+          <button class="close-x" onclick="closeNotif()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="notif-body" id="notifBody"></div>
+    </div>
+  </div>
+
+  <!-- FULL SCREEN OVERLAYS CONTAINER -->
+  <div id="fs-overlays"></div>
+
+  <!-- MCQ OVERLAY -->
+  <div class="mcq-overlay" id="mcq-overlay">
+    <div class="mcq-overlay-inner" id="mcq-overlay-inner"></div>
+  </div>
+
+  <!-- AVATAR BOTTOM SHEET -->
+  <div class="avatar-sheet" id="avatarSheet">
+    <div class="avatar-sheet-backdrop" onclick="closeAvatarSheet()"></div>
+    <div class="avatar-sheet-panel">
+      <div class="avatar-sheet-title">Change Profile Photo</div>
+      <button class="avatar-sheet-btn" onclick="chooseFromGallery()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        Choose from Gallery
+      </button>
+      <button class="avatar-sheet-btn danger" onclick="removeAvatar()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+        Remove Photo
+      </button>
+      <button class="avatar-sheet-cancel" onclick="closeAvatarSheet()">Cancel</button>
+    </div>
+  </div>
+
+  <!-- CUSTOM DROPDOWN OVERLAY -->
+  <div class="dropdown-overlay" id="dropdown-overlay" onclick="closeDropdown()"></div>
+
+  <!-- Hidden file input — only jpg/jpeg/png/webp accepted -->
+  <input type="file" id="avatarInput" accept="image/jpeg,image/jpg,image/png,image/webp,image/*" style="display:none;" onchange="handleAvatarSelect(event)">
+
+  <!-- PAIGE AI ── backdrop -->
+  <div class="paige-backdrop" id="paigeBackdrop" onclick="closePaigeModal()"></div>
+
+  <!-- Floating Action Button -->
+  <button class="paige-fab" id="paigeFab" onclick="togglePaigeModal()" aria-label="Ask Paige AI">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/>
+    </svg>
+  </button>
+
+  <!-- Bottom Sheet -->
+  <div class="paige-sheet" id="paigeSheet">
+    <div class="paige-handle"><div class="paige-handle-bar"></div></div>
+
+    <div class="paige-header">
+      <div class="paige-header-left">
+        <div class="paige-ai-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+            <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="paige-title">Paige AI</div>
+          <div class="paige-subtitle">PathEdge study assistant</div>
+        </div>
+      </div>
+      <div style="position:relative;">
+        <button class="paige-menu-btn" id="paigeMenuBtn" onclick="togglePaigeMenu(event)" aria-label="More options">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+            <circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/>
+          </svg>
+        </button>
+        <div class="paige-dropdown" id="paigeDropdown">
+          <button class="paige-dropdown-item" onclick="clearPaigeChat()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>
+            Clear chat
+          </button>
+          <button class="paige-dropdown-item danger" onclick="hidePaigePermanently()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+            Never show again
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="paige-chat-area" id="paigeChatArea"></div>
+
+    <!-- Hidden input for file attachment -->
+    <input type="file" id="paigeFileInput" style="display:none;" accept=".txt,.md,.csv,.pdf,.doc,.docx,image/*" onchange="handlePaigeFileSelect(event)">
+    
+    <div class="paige-input-bar" style="flex-direction: column; align-items: stretch; padding: 12px;">
+      <div id="paigeFilePreview" class="paige-file-preview" style="display:none; align-self: flex-start; margin-left: 40px; margin-bottom: 8px;">
+        <div id="paigeFileIcon"></div>
+        <span id="paigeFileName" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:200px;"></span>
+        <button onclick="removePaigeFile()" aria-label="Remove attachment">&times;</button>
+      </div>
+      
+      <div style="display: flex; gap: 8px; align-items: flex-end;">
+        <button class="paige-attach-btn" onclick="document.getElementById('paigeFileInput').click()" aria-label="Attach file">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+        </button>
+        <div class="paige-input-inner">
+          <textarea class="paige-input" id="paigeInput" placeholder="Ask Paige..." rows="1"
+            onkeydown="handlePaigeInputKey(event)" oninput="paigeAutoResize(this)"></textarea>
+        </div>
+        <button class="paige-action-btn paige-send-btn" id="paigeSendBtn" onclick="sendPaigeMessage()" aria-label="Send">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
+        </button>
+        <button class="paige-action-btn paige-stop-btn" id="paigeStopBtn" onclick="stopPaigeGeneration()" aria-label="Stop">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
+  <!-- IMAGE FULLSCREEN MODAL -->
+  <div id="paigeImageModal" style="display:none; position:fixed; inset:0; z-index:10000; background:rgba(0,0,0,0.85); backdrop-filter:blur(5px); align-items:center; justify-content:center; flex-direction:column;">
+    <button onclick="document.getElementById('paigeImageModal').style.display='none'" style="position:absolute; top:20px; right:20px; background:none; border:none; color:#fff; font-size:2.5rem; cursor:pointer; padding:10px;">&times;</button>
+    <img id="paigeImageModalImg" style="max-width:90%; max-height:90%; object-fit:contain; border-radius:12px; box-shadow:0 10px 40px rgba(0,0,0,0.5);">
+  </div>
+
+</div>
+
+<!-- ========== VERIFICATION OVERLAY ========== -->
+<div id="verification-overlay" class="fs-overlay auth-fs-overlay" style="z-index:9000;background:var(--bg);display:none;">
+  <div class="fs-content" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100dvh;text-align:center;padding:20px;">
+    <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="64" height="64" style="margin-bottom:24px;">
+      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+      <polyline points="22,6 12,13 2,6"/>
+    </svg>
+    <h2 id="verification-title" style="font-size:1.6rem;font-weight:700;margin-bottom:8px;color:var(--txt1);">Check your email</h2>
+    <p id="verification-subtitle" style="font-size:0.95rem;color:var(--txt2);margin-bottom:32px;max-width:280px;line-height:1.5;">
+      We sent a 6-digit verification code. Enter it below to continue.
+    </p>
+    <div id="otp-inputs" style="display:flex;gap:10px;margin-bottom:24px;justify-content:center;">
+      <input
+type="text"
+class="otp-box"
+maxlength="1"
+inputmode="numeric"
+autocomplete="one-time-code"
+pattern="[0-9]*" />
+      <input
+type="text"
+class="otp-box"
+maxlength="1"
+inputmode="numeric"
+autocomplete="one-time-code"
+pattern="[0-9]*" />
+      <input
+type="text"
+class="otp-box"
+maxlength="1"
+inputmode="numeric"
+autocomplete="one-time-code"
+pattern="[0-9]*" />
+      <input
+type="text"
+class="otp-box"
+maxlength="1"
+inputmode="numeric"
+autocomplete="one-time-code"
+pattern="[0-9]*" />
+      <input
+type="text"
+class="otp-box"
+maxlength="1"
+inputmode="numeric"
+autocomplete="one-time-code"
+pattern="[0-9]*" />
+      <input
+type="text"
+class="otp-box"
+maxlength="1"
+inputmode="numeric"
+autocomplete="one-time-code"
+pattern="[0-9]*" />
+    </div>
+    <button class="btn-primary" id="btn-verify-otp" onclick="verifyOtpAction()" style="margin-bottom:16px;width:100%;max-width:300px;">Verify & Continue</button>
+    <button class="btn-secondary" id="btn-resend-otp" onclick="resendOtpAction()" style="margin-bottom:12px;width:100%;max-width:300px;">Resend OTP</button>
+    <a href="javascript:void(0)" onclick="showLogin(); document.getElementById('verification-overlay').classList.remove('open');" style="color:var(--accent);font-size:0.9rem;text-decoration:none;">Back to Login</a>
+  </div>
+</div>
+
+<!-- ========== FORGOT PASSWORD OVERLAY ========== -->
+<div id="forgot-password-overlay" class="fs-overlay auth-fs-overlay" style="z-index:9000;background:var(--bg);display:none;">
+  <div class="fs-content" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100dvh;text-align:center;padding:20px;">
+    <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="64" height="64" style="margin-bottom:24px;">
+      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+      <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+    </svg>
+    <h2 style="font-size:1.5rem;font-weight:700;margin-bottom:12px;">Reset Password</h2>
+    <p style="color:var(--txt3);line-height:1.6;margin-bottom:24px;max-width:400px;">
+      Enter your account email address and we will send you a link to reset your password and a direct login link.
+    </p>
+    <div style="width:100%;max-width:300px;margin-bottom:24px;position:relative;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);width:20px;height:20px;color:var(--txt3);">
+        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+        <polyline points="22,6 12,13 2,6"/>
+      </svg>
+      <input type="email" id="forgot-email" placeholder="Email Address" style="width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:12px 14px 12px 42px;color:var(--txt1);font-family:inherit;font-size:1rem;outline:none;transition:border-color 0.2s;">
+    </div>
+    <button class="btn-primary" id="btn-send-reset" onclick="handleSendResetLink()" style="margin-bottom:16px;width:100%;max-width:300px;">Send Reset Link</button>
+    <a href="javascript:void(0)" onclick="closeForgotPassword()" style="color:var(--accent);font-size:0.9rem;text-decoration:none;">Back to Login</a>
+  </div>
+</div>
+
+<!-- ========== RESET PASSWORD OVERLAY ========== -->
+<div id="reset-password-overlay" class="fs-overlay auth-fs-overlay" style="z-index:9000;background:var(--bg);display:none;">
+  <div class="fs-content" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100dvh;text-align:center;padding:20px;">
+    <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="64" height="64" style="margin-bottom:24px;">
+      <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/>
+    </svg>
+    <h2 style="font-size:1.5rem;font-weight:700;margin-bottom:12px;">Create New Password</h2>
+    <p style="color:var(--txt3);line-height:1.6;margin-bottom:24px;max-width:400px;">
+      Please enter your new password below.
+    </p>
+    <div style="width:100%;max-width:300px;margin-bottom:16px;position:relative;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);width:20px;height:20px;color:var(--txt3);">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+      </svg>
+      <input type="password" id="reset-new-password" placeholder="New Password" style="width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:12px 42px 12px 42px;color:var(--txt1);font-family:inherit;font-size:1rem;outline:none;transition:border-color 0.2s;">
+      <button type="button" class="auth-toggle-pw" onclick="togglePassword('reset-new-password', this)" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--txt3);cursor:pointer;padding:0;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+      </button>
+    </div>
+    <div style="width:100%;max-width:300px;margin-bottom:24px;position:relative;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);width:20px;height:20px;color:var(--txt3);">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+      </svg>
+      <input type="password" id="reset-confirm-password" placeholder="Confirm New Password" style="width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:12px 42px 12px 42px;color:var(--txt1);font-family:inherit;font-size:1rem;outline:none;transition:border-color 0.2s;">
+      <button type="button" class="auth-toggle-pw" onclick="togglePassword('reset-confirm-password', this)" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--txt3);cursor:pointer;padding:0;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+      </button>
+    </div>
+    <button class="btn-primary" id="btn-change-password" onclick="handleChangePassword()" style="width:100%;max-width:300px;">Change Password</button>
+  </div>
+</div>
+
+<!-- ========== STREAK GOAL MODAL ========== -->
+<div id="goal-modal-overlay" style="z-index:9999;background:rgba(0,0,0,0.4);display:none;opacity:0;transition:opacity 0.25s ease;flex-direction:column;justify-content:flex-end;align-items:center;position:fixed;inset:0;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);" onclick="if(event.target===this) { this.classList.remove('open'); setTimeout(() => this.style.display='none', 300); }">
+  <div class="goal-modal-content" style="position:relative;background:var(--bg);width:100%;max-width:400px;margin:0 auto;border-top-left-radius:24px;border-top-right-radius:24px;padding:20px 16px 24px;text-align:center;box-shadow:0 -10px 40px rgba(0,0,0,0.2);transform:translateY(100%);transition:transform 0.25s ease;">
+    <div id="goal-modal-close-btn" onclick="document.getElementById('goal-modal-overlay').click()" style="position:absolute;top:16px;right:16px;width:28px;height:28px;background:var(--bg2);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--txt2);border:1px solid var(--border);"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+    
+    <div style="width:40px;height:4px;background:var(--txt3);border-radius:2px;margin:0 auto 16px auto;opacity:0.4;"></div>
+    
+    <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:6px;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="22" height="22" style="filter:drop-shadow(0 2px 4px rgba(245,158,11,0.4));"><path d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 11-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 002.5 2.5z"/></svg>
+      <h2 style="font-size:1.25rem;font-weight:800;color:var(--txt1);letter-spacing:-0.3px;">Set Streak Goal</h2>
+    </div>
+    
+    <p style="font-size:0.85rem;color:var(--txt2);margin-bottom:20px;">A powerful commitment fuels an unbreakable streak.</p>
+    
+    <div class="goal-quick-opts" style="display:flex;gap:6px;justify-content:center;margin-bottom:24px;">
+      <button class="goal-quick-btn" style="flex:1;max-width:80px;" onclick="setGoalSlider(7)">
+        <div class="gqb-num">7</div><div class="gqb-lbl">Days</div>
+      </button>
+      <button class="goal-quick-btn" style="flex:1;max-width:80px;" onclick="setGoalSlider(14)">
+        <div class="gqb-num">14</div><div class="gqb-lbl">Days</div>
+      </button>
+      <button class="goal-quick-btn" style="flex:1;max-width:80px;" onclick="setGoalSlider(30)">
+        <div class="gqb-num">30</div><div class="gqb-lbl">Days</div>
+      </button>
+      <button class="goal-quick-btn" style="flex:1;max-width:80px;" onclick="setGoalSlider(120)">
+        <div class="gqb-num">120</div><div class="gqb-lbl">Days</div>
+      </button>
+    </div>
+
+    <div class="goal-slider-wrap" style="position:relative;margin:10px 10px 24px 10px;background:var(--bg2);padding:16px;border-radius:16px;border:1px solid var(--border);">
+      <div id="goal-slider-val" style="font-size:1.8rem;font-weight:800;color:var(--accent);margin-bottom:12px;letter-spacing:-0.5px;">7 Days</div>
+      <div class="premium-slider-container">
+        <div class="slider-ticks"></div>
+        <input type="range" id="goal-range" class="premium-range" min="7" max="120" value="7" step="1" oninput="updateGoalSlider(this.value)">
+      </div>
+    </div>
+
+    <button class="btn-primary" onclick="confirmGoal()" style="width:100%;font-size:1rem;padding:14px;border-radius:12px;font-weight:700;background:linear-gradient(135deg, var(--accent), var(--accent2));box-shadow:0 4px 12px rgba(91,108,255,0.3);">Lock In Goal</button>
+  </div>
+</div>
+
+<!-- ========== GOAL CELEBRATION MODAL ========== -->
+<div id="goal-celebration-overlay" style="z-index:9999;background:rgba(0,0,0,0.85);display:none;flex-direction:column;align-items:center;justify-content:center;position:fixed;inset:0;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);">
+  <div class="celebration-content" style="text-align:center;padding:30px;transform:scale(0.8);opacity:0;transition:all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+    <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="80" height="80" style="margin-bottom:20px;filter:drop-shadow(0 0 20px var(--accent));">
+      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+    </svg>
+    <h2 style="font-size:2rem;font-weight:800;color:#fff;margin-bottom:10px;text-shadow:0 2px 10px rgba(0,0,0,0.5);">Goal Achieved!</h2>
+    <p style="font-size:1.1rem;color:#e2e8f0;margin-bottom:20px;">You hit your streak target. Incredible dedication!</p>
+    <div style="background:linear-gradient(135deg, rgba(91,108,255,0.2), rgba(91,108,255,0.05));border:1px solid rgba(91,108,255,0.3);padding:15px;border-radius:16px;display:inline-block;margin-bottom:30px;">
+      <div style="font-size:0.9rem;color:var(--accent2);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:4px;">Bonus Reward</div>
+      <div style="font-size:1.5rem;font-weight:800;color:#fff;">+100 XP</div>
+    </div>
+    <br>
+    <button class="btn-primary" onclick="claimGoalReward()" style="width:100%;max-width:250px;margin:0 auto;display:block;font-size:1.1rem;background:linear-gradient(135deg, var(--accent), var(--accent2));box-shadow:0 4px 15px rgba(91,108,255,0.4);">Claim & Set New Goal</button>
+  </div>
+</div>
+
+<!-- Scripts — order matters -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="js/data_economics.js?v=5"></script>
+<script src="js/data_maths.js?v=5"></script>
+<script src="js/data.js?v=5"></script>
+<script src="js/api.js?v=5"></script>
+<script src="js/router.js?v=5"></script>
+<script src="js/auth.js?v=5"></script>
+<script src="js/mcq.js?v=5"></script>
+<script src="js/law.js?v=5"></script>
+<script src="js/law_patch.js?v=5"></script>
+<script src="js/app.js?v=5"></script>
+<script src="js/bridge.js?v=5"></script>
+<script src="js/tests.js?v=5"></script>
+<script src="js/paige.js?v=5"></script>
+
+</body>
+</html>
