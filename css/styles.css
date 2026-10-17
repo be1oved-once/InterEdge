@@ -3334,6 +3334,22 @@ body {
   align-items: center;
   margin-bottom: 12px;
 }
+.onboard-skip-btn {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  color: var(--txt3);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 5px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.onboard-skip-btn:hover {
+  color: var(--txt);
+  border-color: var(--accent);
+  background: rgba(91,108,255,0.08);
+}
 .onboarding-brand {
   display: flex;
   align-items: center;

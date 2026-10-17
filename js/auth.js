@@ -932,22 +932,24 @@ function onboardingPrev(currStep) {
   showOnboardStep(currStep - 1);
 }
 
-function finishOnboarding() {
-  const chosenAttempt = window.onboardingState.selectedAttempt || 'May 2027';
+function finishOnboarding(skipped = false) {
+  const chosenAttempt = window.onboardingState.selectedAttempt || AppState.user.attempt || 'May 2027';
   AppState.user.attempt = chosenAttempt;
   
   localStorage.setItem('pe_onboarding_done', 'true');
-  localStorage.setItem('pe_onboarding_data', JSON.stringify({
-    attempt: chosenAttempt,
-    discovery: window.onboardingState.discovery,
-    challenges: window.onboardingState.challenges,
-    completedAt: new Date().toISOString()
-  }));
+  if (!skipped) {
+    localStorage.setItem('pe_onboarding_data', JSON.stringify({
+      attempt: chosenAttempt,
+      discovery: window.onboardingState.discovery,
+      challenges: window.onboardingState.challenges,
+      completedAt: new Date().toISOString()
+    }));
+  }
 
   saveUser();
 
-  // Celebration Confetti
-  if (window.confetti) {
+  // Celebration Confetti only if not skipped
+  if (!skipped && window.confetti) {
     try {
       confetti({
         particleCount: 80,
@@ -963,8 +965,8 @@ function finishOnboarding() {
     setTimeout(() => {
       overlay.style.display = 'none';
       Router.navigate('home');
-      showToast(`Setup complete! Target: ${chosenAttempt}`);
-    }, 300);
+      showToast(skipped ? 'Welcome to InterEdge!' : `Setup complete! Target: ${chosenAttempt}`);
+    }, 250);
   } else {
     Router.navigate('home');
   }

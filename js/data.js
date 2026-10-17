@@ -609,16 +609,16 @@ function getTierFromXP(xp) {
 
 // 10 AVATAR FRAMES SPECIFICATION (Unlocked every 5 levels from 1 to 50)
 const AVATAR_FRAMES = [
-  { id: 'frame_1', name: 'Cadet Bronze', minLevel: 1, color: '#cd7f32', border: '2px solid #cd7f32', glow: 'rgba(205,127,50,0.3)', badge: 'Lvl 1' },
-  { id: 'frame_2', name: 'Emerald Apprentice', minLevel: 5, color: '#10b981', border: '2px solid #10b981', glow: 'rgba(16,185,129,0.4)', badge: 'Lvl 5' },
-  { id: 'frame_3', name: 'Cobalt Guardian', minLevel: 10, color: '#3b82f6', border: '2.5px solid #3b82f6', glow: 'rgba(59,130,246,0.45)', badge: 'Lvl 10' },
-  { id: 'frame_4', name: 'Amber Vanguard', minLevel: 15, color: '#f59e0b', border: '2.5px solid #f59e0b', glow: 'rgba(245,158,11,0.5)', badge: 'Lvl 15' },
-  { id: 'frame_5', name: 'Crimson Challenger', minLevel: 20, color: '#ef4444', border: '3px solid #ef4444', glow: 'rgba(239,68,68,0.55)', badge: 'Lvl 20' },
-  { id: 'frame_6', name: 'Amethyst Striker', minLevel: 25, color: '#8b5cf6', border: '3px solid #8b5cf6', glow: 'rgba(139,92,246,0.6)', badge: 'Lvl 25' },
-  { id: 'frame_7', name: 'Cyberpunk Neon', minLevel: 30, color: '#06b6d4', border: '3px dashed #06b6d4', glow: 'rgba(6,182,212,0.65)', badge: 'Lvl 30' },
-  { id: 'frame_8', name: 'Titanium Elite', minLevel: 35, color: '#94a3b8', border: '3px double #e2e8f0', glow: 'rgba(226,232,240,0.7)', badge: 'Lvl 35' },
-  { id: 'frame_9', name: 'Obsidian Overlord', minLevel: 40, color: '#ec4899', border: '3.5px solid #ec4899', glow: 'rgba(236,72,153,0.75)', badge: 'Lvl 40' },
-  { id: 'frame_10', name: 'Radiant Grandmaster', minLevel: 50, color: '#fbbf24', border: '4px solid #fbbf24', glow: 'rgba(251,191,36,0.85)', badge: 'Lvl 50 (MAX)' }
+  { id: 'frame_1', name: 'Bronze Frame', minLevel: 1, color: '#cd7f32', border: '2px solid #cd7f32', glow: 'rgba(205,127,50,0.3)', badge: 'Lvl 1' },
+  { id: 'frame_2', name: 'Emerald Frame', minLevel: 5, color: '#10b981', border: '2px solid #10b981', glow: 'rgba(16,185,129,0.4)', badge: 'Lvl 5' },
+  { id: 'frame_3', name: 'Sapphire Frame', minLevel: 10, color: '#3b82f6', border: '2.5px solid #3b82f6', glow: 'rgba(59,130,246,0.45)', badge: 'Lvl 10' },
+  { id: 'frame_4', name: 'Amber Frame', minLevel: 15, color: '#f59e0b', border: '2.5px solid #f59e0b', glow: 'rgba(245,158,11,0.5)', badge: 'Lvl 15' },
+  { id: 'frame_5', name: 'Ruby Frame', minLevel: 20, color: '#ef4444', border: '3px solid #ef4444', glow: 'rgba(239,68,68,0.55)', badge: 'Lvl 20' },
+  { id: 'frame_6', name: 'Amethyst Frame', minLevel: 25, color: '#8b5cf6', border: '3px solid #8b5cf6', glow: 'rgba(139,92,246,0.6)', badge: 'Lvl 25' },
+  { id: 'frame_7', name: 'Neon Frame', minLevel: 30, color: '#06b6d4', border: '3px dashed #06b6d4', glow: 'rgba(6,182,212,0.65)', badge: 'Lvl 30' },
+  { id: 'frame_8', name: 'Platinum Frame', minLevel: 35, color: '#94a3b8', border: '3px double #e2e8f0', glow: 'rgba(226,232,240,0.7)', badge: 'Lvl 35' },
+  { id: 'frame_9', name: 'Obsidian Frame', minLevel: 40, color: '#ec4899', border: '3.5px solid #ec4899', glow: 'rgba(236,72,153,0.75)', badge: 'Lvl 40' },
+  { id: 'frame_10', name: 'Gold Crown Frame', minLevel: 50, color: '#fbbf24', border: '4px solid #fbbf24', glow: 'rgba(251,191,36,0.85)', badge: 'Lvl 50 (MAX)' }
 ];
 
 const NOTIFICATIONS_DATA = [

@@ -524,7 +524,8 @@ function calculateUserLevel(xp) {
 window.practiceMode = 'mcq'; // 'mcq' or 'flashcards'
 
 function renderPractice() {
-  const subjects = Object.values(MCQ_DATA).filter(s => s && s.paper);
+  const SUBJECT_KEYS = ['adv_acc', 'law', 'tax', 'cost', 'audit', 'fmsm'];
+  const subjects = SUBJECT_KEYS.map(k => MCQ_DATA[k]).filter(Boolean);
   const grp1 = subjects.filter(s => s.group === 'Group 1');
   const grp2 = subjects.filter(s => s.group === 'Group 2');
 
@@ -532,65 +533,55 @@ function renderPractice() {
 
   return getPausedPracticeBanner() + `
     <!-- Top Header -->
-    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px;">
       <div>
-        <h2 style="font-size:1.4rem;font-weight:700;letter-spacing:-0.3px;">CA Inter Practice</h2>
-        <div style="font-size:.82rem;color:var(--txt3);margin-top:2px;">ICAI New Scheme &bull; 6 Core Subjects</div>
+        <h2 style="font-size:1.3rem;font-weight:700;letter-spacing:-0.2px;">Practice</h2>
+        <div style="font-size:.8rem;color:var(--txt3);margin-top:2px;">CA Intermediate &bull; 6 Core Subjects</div>
       </div>
-      <div style="background:rgba(91,108,255,0.12); border:1px solid rgba(91,108,255,0.3); padding:4px 10px; border-radius:100px; font-size:0.75rem; font-weight:700; color:var(--accent2); display:flex; align-items:center; gap:6px;">
+      <div style="background:rgba(91,108,255,0.1); border:1px solid rgba(91,108,255,0.25); padding:4px 10px; border-radius:100px; font-size:0.75rem; font-weight:700; color:var(--accent2); display:flex; align-items:center; gap:6px;">
         <span style="width:6px;height:6px;border-radius:50%;background:var(--accent2);"></span>
         ${AppState.user.attempt || 'May 2027'}
       </div>
     </div>
 
-    <!-- Mode Switcher Tabs: MCQs vs Long Answer Flashcards -->
-    <div class="practice-mode-tabs" style="display:flex; background:var(--card); border:1px solid var(--border); border-radius:14px; padding:4px; margin-bottom:18px;">
-      <button class="mode-tab-btn ${activeMode === 'mcq' ? 'active' : ''}" onclick="switchPracticeMode('mcq')" style="flex:1; padding:10px 12px; border-radius:10px; border:none; background:${activeMode === 'mcq' ? 'var(--accent)' : 'transparent'}; color:${activeMode === 'mcq' ? '#fff' : 'var(--txt2)'}; font-weight:700; font-size:0.85rem; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; transition:all 0.2s;">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-        ICAI MCQs &amp; Case Scenarios
+    <!-- Mode Switcher: MCQs & Case Sets vs Flashcards -->
+    <div class="practice-mode-tabs" style="display:flex; background:var(--card); border:1px solid var(--border); border-radius:12px; padding:3px; margin-bottom:16px;">
+      <button class="mode-tab-btn ${activeMode === 'mcq' ? 'active' : ''}" onclick="switchPracticeMode('mcq')" style="flex:1; padding:9px 12px; border-radius:9px; border:none; background:${activeMode === 'mcq' ? 'var(--accent)' : 'transparent'}; color:${activeMode === 'mcq' ? '#fff' : 'var(--txt2)'}; font-weight:700; font-size:0.82rem; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; transition:all 0.2s;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        ICAI MCQs &amp; Cases
       </button>
-      <button class="mode-tab-btn ${activeMode === 'flashcards' ? 'active' : ''}" onclick="switchPracticeMode('flashcards')" style="flex:1; padding:10px 12px; border-radius:10px; border:none; background:${activeMode === 'flashcards' ? 'var(--accent)' : 'transparent'}; color:${activeMode === 'flashcards' ? '#fff' : 'var(--txt2)'}; font-weight:700; font-size:0.85rem; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; transition:all 0.2s;">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-        Long Answer Flashcards
+      <button class="mode-tab-btn ${activeMode === 'flashcards' ? 'active' : ''}" onclick="switchPracticeMode('flashcards')" style="flex:1; padding:9px 12px; border-radius:9px; border:none; background:${activeMode === 'flashcards' ? 'var(--accent)' : 'transparent'}; color:${activeMode === 'flashcards' ? '#fff' : 'var(--txt2)'}; font-weight:700; font-size:0.82rem; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; transition:all 0.2s;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        Theory Flashcards
       </button>
-    </div>
-
-    <!-- Exam Pattern Info Box -->
-    <div style="background:linear-gradient(135deg, rgba(91,108,255,0.08), rgba(91,108,255,0.02)); border:1px solid rgba(91,108,255,0.2); border-radius:14px; padding:12px 14px; margin-bottom:20px; display:flex; align-items:center; gap:12px;">
-      <div style="width:36px; height:36px; border-radius:10px; background:rgba(91,108,255,0.15); display:grid; place-items:center; color:var(--accent); flex-shrink:0;">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-      </div>
-      <div style="font-size:0.8rem; color:var(--txt2); line-height:1.4;">
-        <strong style="color:var(--txt);">ICAI Exam Architecture:</strong> 15 MCQs &bull; 2 marks each = 30 marks total. Practice both comprehensive Case Scenarios and chapter-wise recall.
-      </div>
     </div>
 
     <!-- Performance Stats Strip -->
-    <div class="stat-row" style="margin-bottom:24px;">
+    <div class="stat-row" style="margin-bottom:20px;">
       <div class="stat-card"><div class="stat-val indigo">${AppState.questionsAttempted.toLocaleString()}</div><div class="stat-lbl">Qs Attempted</div></div>
       <div class="stat-card"><div class="stat-val green">${AppState.accuracy}%</div><div class="stat-lbl">Accuracy</div></div>
       <div class="stat-card"><div class="stat-val amber">${formatXP(AppState.xp)}</div><div class="stat-lbl">XP Earned</div></div>
     </div>
 
     <!-- GROUP 1 SUBJECTS -->
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
       <div class="sec-label" style="margin:0;">Group 1 &bull; Core Papers</div>
-      <span style="font-size:0.75rem; color:var(--txt3);">Papers 1, 2, 3</span>
+      <span style="font-size:0.72rem; color:var(--txt3);">Papers 1, 2, 3</span>
     </div>
-    <div class="sub-grid" style="margin-bottom:24px;">
+    <div style="margin-bottom:20px;">
       ${grp1.map(sub => renderSubjectCard(sub)).join('')}
     </div>
 
     <!-- GROUP 2 SUBJECTS -->
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
       <div class="sec-label" style="margin:0;">Group 2 &bull; Applied Papers</div>
-      <span style="font-size:0.75rem; color:var(--txt3);">Papers 4, 5, 6</span>
+      <span style="font-size:0.72rem; color:var(--txt3);">Papers 4, 5, 6</span>
     </div>
-    <div class="sub-grid" style="margin-bottom:24px;">
+    <div style="margin-bottom:20px;">
       ${grp2.map(sub => renderSubjectCard(sub)).join('')}
     </div>
 
-    <!-- High-Yield Practice Shortcuts -->
+    <!-- Rapid ICAI Modules -->
     <div class="sec-label">Rapid ICAI Modules</div>
     <div class="recent-list">
       <div class="recent-item" onclick="openMtpRtp('mtp')">
@@ -615,25 +606,27 @@ function renderPractice() {
 function renderSubjectCard(sub) {
   const chCount = (sub.chapters || []).length;
   let qCount = 0;
-  let csCount = 0;
   (sub.chapters || []).forEach(c => {
     qCount += (c.questions || []).length;
-    csCount += (c.caseScenarios || []).length;
   });
 
   return `
-    <div class="sub-card" style="background:var(--card); border:1px solid var(--border); cursor:pointer; position:relative; overflow:hidden;" onclick="openSubjectDrilldown('${sub.id}')">
-      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
-        <div class="sub-icon" style="color:${sub.color}; background:rgba(255,255,255,0.04); padding:10px; border-radius:12px; width:44px; height:44px; display:grid; place-items:center;">
-          ${sub.icon}
+    <div class="sub-card-row" onclick="openSubjectDrilldown('${sub.id}')" style="background:var(--card); border:1px solid var(--border); border-radius:14px; padding:12px 14px; display:flex; align-items:center; gap:12px; cursor:pointer; margin-bottom:8px; transition:border-color 0.2s, transform 0.15s;">
+      <div style="width:38px; height:38px; border-radius:10px; background:${sub.color}18; color:${sub.color}; display:grid; place-items:center; font-weight:800; font-size:0.82rem; flex-shrink:0;">
+        ${sub.paper.replace('Paper ', 'P')}
+      </div>
+      <div style="flex:1; min-width:0;">
+        <div style="font-weight:700; font-size:0.92rem; color:var(--txt); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+          ${sub.name}
         </div>
-        <span style="font-size:0.7rem; font-weight:700; color:var(--txt3); background:var(--bg2); border:1px solid var(--border); padding:3px 8px; border-radius:6px;">${sub.paper}</span>
+        <div style="font-size:0.72rem; color:var(--txt3); margin-top:2px;">
+          ${chCount} Chapters &bull; ${qCount} MCQs
+        </div>
       </div>
-      <div class="sub-name" style="font-size:1rem; font-weight:700; margin-bottom:4px; color:var(--txt);">${sub.name}</div>
-      <div class="sub-count" style="font-size:0.75rem; color:var(--txt3); margin-bottom:12px;">
-        ${chCount} Chapters &bull; ${csCount > 0 ? `${csCount} Case Sets &bull; ` : ''}${qCount} MCQs
+      <div style="display:flex; align-items:center; gap:6px; flex-shrink:0;">
+        <span style="font-size:0.75rem; font-weight:700; color:var(--accent2); background:rgba(91,108,255,0.08); padding:4px 10px; border-radius:6px;">Practice</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--txt3);"><polyline points="9 18 15 12 9 6"/></svg>
       </div>
-      <div class="sub-bar" style="height:4px; border-radius:2px; background:var(--bg2);"><div class="sub-fill" style="width:25%; background:${sub.color};"></div></div>
     </div>
   `;
 }
@@ -657,65 +650,62 @@ function openSubjectDrilldown(subjectId) {
 
   container.innerHTML = `
     <!-- Top Nav -->
-    <div style="position:sticky; top:0; z-index:10; background:var(--bg); border-bottom:1px solid var(--border); padding:14px 18px; display:flex; align-items:center; gap:14px;">
-      <button class="back-btn" onclick="closeSubjectDrilldown()" style="width:36px; height:36px; border-radius:10px; background:var(--card); border:1px solid var(--border); color:var(--txt); display:grid; place-items:center; cursor:pointer;">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><polyline points="15 18 9 12 15 6"/></svg>
+    <div style="position:sticky; top:0; z-index:10; background:var(--bg); border-bottom:1px solid var(--border); padding:12px 16px; display:flex; align-items:center; gap:12px;">
+      <button onclick="closeSubjectDrilldown()" style="width:34px; height:34px; border-radius:8px; background:var(--card); border:1px solid var(--border); color:var(--txt); display:grid; place-items:center; cursor:pointer;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="15 18 9 12 15 6"/></svg>
       </button>
-      <div style="flex:1;">
-        <div style="display:flex; align-items:center; gap:8px;">
-          <span style="font-size:0.72rem; font-weight:700; color:${sub.color}; text-transform:uppercase;">${sub.paper} &bull; ${sub.group}</span>
-        </div>
-        <h2 style="font-size:1.15rem; font-weight:700; color:var(--txt); margin:0;">${sub.name}</h2>
+      <div style="flex:1; min-width:0;">
+        <div style="font-size:0.7rem; font-weight:700; color:${sub.color}; text-transform:uppercase;">${sub.paper} &bull; ${sub.group}</div>
+        <h2 style="font-size:1.05rem; font-weight:700; color:var(--txt); margin:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${sub.name}</h2>
       </div>
     </div>
 
-    <!-- Content Area -->
-    <div style="padding:20px 16px; max-width:680px; margin:0 auto;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-        <div style="font-size:0.85rem; font-weight:700; color:var(--txt2);">
-          ${isFlashcardMode ? 'Theory Recall Flashcards' : 'ICAI Case Scenarios &amp; Chapters'}
+    <!-- Chapter List -->
+    <div style="padding:16px; max-width:640px; margin:0 auto;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <div style="font-size:0.78rem; font-weight:700; color:var(--txt3); text-transform:uppercase;">
+          ${isFlashcardMode ? 'Theory Recall Chapters' : 'Select Chapter to Practice'}
         </div>
-        <span style="font-size:0.75rem; color:var(--txt3);">${(sub.chapters||[]).length} Chapters Available</span>
+        <span style="font-size:0.75rem; color:var(--txt3);">${(sub.chapters||[]).length} Chapters</span>
       </div>
 
-      <div class="drilldown-ch-list" style="display:flex; flex-direction:column; gap:14px;">
-        ${(sub.chapters || []).map((ch, idx) => `
-          <div class="drilldown-ch-card" style="background:var(--card); border:1px solid var(--border); border-radius:16px; padding:16px; transition:transform 0.2s, border-color 0.2s;">
-            <div style="display:flex; gap:12px; align-items:flex-start; margin-bottom:12px;">
-              <div style="width:36px; height:36px; border-radius:10px; background:rgba(91,108,255,0.1); color:${sub.color}; font-weight:800; font-size:0.95rem; display:grid; place-items:center; flex-shrink:0;">
-                ${ch.num || (idx + 1)}
-              </div>
-              <div style="flex:1;">
-                <h3 style="font-size:1rem; font-weight:700; color:var(--txt); margin-bottom:4px; line-height:1.3;">${ch.title}</h3>
-                <div style="display:flex; flex-wrap:wrap; gap:6px; margin-top:6px;">
-                  ${(ch.concepts || []).map(cp => `<span style="font-size:0.7rem; background:var(--bg2); border:1px solid var(--border); padding:2px 8px; border-radius:6px; color:var(--txt3);">${cp}</span>`).join('')}
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        ${(sub.chapters || []).map((ch, idx) => {
+          const qCount = (ch.questions || []).length;
+          const hasCase = ch.caseScenarios && ch.caseScenarios.length > 0;
+          const hasFlash = ch.flashcards && ch.flashcards.length > 0;
+
+          return `
+            <div style="background:var(--card); border:1px solid var(--border); border-radius:12px; padding:12px 14px;">
+              <div style="display:flex; gap:10px; align-items:flex-start; margin-bottom:10px;">
+                <div style="width:28px; height:28px; border-radius:8px; background:rgba(91,108,255,0.1); color:${sub.color}; font-weight:800; font-size:0.85rem; display:grid; place-items:center; flex-shrink:0;">
+                  ${ch.num || (idx + 1)}
+                </div>
+                <div style="flex:1; min-width:0;">
+                  <div style="font-size:0.92rem; font-weight:700; color:var(--txt); line-height:1.3;">${ch.title}</div>
+                  <div style="font-size:0.72rem; color:var(--txt3); margin-top:2px;">${qCount} Questions &bull; ICAI Scheme</div>
                 </div>
               </div>
-            </div>
 
-            <!-- Action Buttons for this Chapter -->
-            <div style="display:flex; gap:8px; margin-top:14px; padding-top:12px; border-top:1px solid var(--border);">
-              ${(ch.caseScenarios && ch.caseScenarios.length > 0) ? `
-                <button onclick="launchCaseScenario('${subjectId}', '${ch.id}', 0)" style="flex:1; padding:9px 12px; border-radius:9px; border:1px solid rgba(91,108,255,0.3); background:rgba(91,108,255,0.1); color:var(--accent2); font-weight:700; font-size:0.8rem; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                  Case Scenario (10M)
+              <div style="display:flex; gap:8px;">
+                <button onclick="launchChapterMCQs('${subjectId}', '${ch.id}')" style="flex:1; padding:8px 12px; border-radius:8px; border:none; background:var(--accent); color:#fff; font-weight:700; font-size:0.78rem; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                  Practice MCQs
                 </button>
-              ` : ''}
-
-              <button onclick="launchChapterMCQs('${subjectId}', '${ch.id}')" style="flex:1; padding:9px 12px; border-radius:9px; border:none; background:var(--accent); color:#fff; font-weight:700; font-size:0.8rem; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                Practice MCQs (${(ch.questions || []).length})
-              </button>
-
-              ${(ch.flashcards && ch.flashcards.length > 0) ? `
-                <button onclick="launchFlashcardDeck('${subjectId}', '${ch.id}')" style="padding:9px 12px; border-radius:9px; border:1px solid var(--border); background:var(--bg2); color:var(--txt2); font-weight:600; font-size:0.8rem; cursor:pointer; display:flex; align-items:center; gap:4px;" title="Flashcard Recall">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-                  Recall
-                </button>
-              ` : ''}
+                ${hasCase ? `
+                  <button onclick="launchCaseScenario('${subjectId}', '${ch.id}', 0)" style="padding:8px 12px; border-radius:8px; border:1px solid var(--border); background:var(--bg2); color:var(--accent2); font-weight:700; font-size:0.78rem; cursor:pointer; display:flex; align-items:center; gap:4px;">
+                    Case Set
+                  </button>
+                ` : ''}
+                ${hasFlash ? `
+                  <button onclick="launchFlashcardDeck('${subjectId}', '${ch.id}')" style="padding:8px 12px; border-radius:8px; border:1px solid var(--border); background:var(--bg2); color:var(--txt2); font-weight:600; font-size:0.78rem; cursor:pointer; display:flex; align-items:center; gap:4px;">
+                    Recall
+                  </button>
+                ` : ''}
+              </div>
             </div>
-          </div>
-        `).join('')}
+          `;
+        }).join('')}
       </div>
     </div>
   `;
@@ -731,7 +721,11 @@ function closeSubjectDrilldown() {
 
 function launchChapterMCQs(subjectId, chapterId) {
   closeSubjectDrilldown();
-  Router.navigate('chapter', { subject: subjectId, chapter: chapterId });
+  if (typeof startQuiz === 'function') {
+    startQuiz(subjectId, chapterId);
+  } else {
+    Router.navigate('chapter', { subject: subjectId, chapter: chapterId });
+  }
 }
 
 function launchCaseScenario(subjectId, chapterId, caseIdx = 0) {
@@ -743,17 +737,22 @@ function launchCaseScenario(subjectId, chapterId, caseIdx = 0) {
   const cs = ch.caseScenarios[caseIdx];
   closeSubjectDrilldown();
 
-  // Load into quiz engine with case scenario narrative metadata
-  if (window.startQuiz) {
-    const questionsWithNarrative = cs.questions.map((q, idx) => ({
-      ...q,
-      caseNarrative: cs.narrative,
-      caseTitle: cs.caseTitle,
-      marks: 2,
-      xp: 25
-    }));
+  const questionsWithNarrative = cs.questions.map((q) => ({
+    ...q,
+    caseNarrative: cs.narrative,
+    caseTitle: cs.caseTitle,
+    marks: 2,
+    xp: 25
+  }));
 
-    window.startQuiz(questionsWithNarrative, cs.caseTitle, `${sub.name} \u2022 Case Scenario`);
+  if (typeof startQuizWithQuestions === 'function') {
+    startQuizWithQuestions(questionsWithNarrative, {
+      title: cs.caseTitle,
+      subject: subjectId,
+      chapterId: chapterId
+    });
+  } else if (typeof startQuiz === 'function') {
+    startQuiz(subjectId, chapterId);
   }
 }
 
@@ -983,7 +982,7 @@ function generateBoardHtml(displayBoard, fullBoard = []) {
   return html;
 }
 
-// ===== PROFILE SECTION (eSports Gaming User Card with 50 Levels & 10 Frames) =====
+// ===== PROFILE SECTION (Clean, Senior-Level Design) =====
 function renderProfile() {
   const user = AppState.user;
   const levelInfo = calculateUserLevel(AppState.xp);
@@ -997,105 +996,68 @@ function renderProfile() {
   return `
     <!-- Top Header -->
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-      <h2 style="font-size:1.4rem; font-weight:700; letter-spacing:-0.3px;">Student Profile</h2>
-      <button onclick="openFrameModal()" style="background:rgba(91,108,255,0.12); border:1px solid rgba(91,108,255,0.25); color:var(--accent2); font-weight:700; font-size:0.75rem; padding:6px 12px; border-radius:100px; cursor:pointer; display:flex; align-items:center; gap:6px;">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-        Equip Frame
+      <h2 style="font-size:1.25rem; font-weight:700; letter-spacing:-0.2px;">Profile</h2>
+      <button onclick="openFrameModal()" style="background:var(--card); border:1px solid var(--border); color:var(--txt); font-weight:600; font-size:0.75rem; padding:6px 12px; border-radius:100px; cursor:pointer; display:flex; align-items:center; gap:6px;">
+        <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:${equippedFrame.color};"></span>
+        ${equippedFrame.name}
       </button>
     </div>
 
-    <!-- eSports Gaming User Card -->
-    <div class="esports-profile-card" style="background:linear-gradient(135deg, var(--card), var(--bg2)); border:1.5px solid var(--border); border-radius:20px; padding:20px; position:relative; overflow:hidden; box-shadow:0 12px 30px rgba(0,0,0,0.25); margin-bottom:20px;">
-      
-      <!-- Ambient Card Glow -->
-      <div style="position:absolute; top:-60px; right:-60px; width:160px; height:160px; background:radial-gradient(circle, ${equippedFrame.color} 0%, transparent 70%); opacity:0.18; pointer-events:none;"></div>
-
-      <div style="display:flex; gap:16px; align-items:center; position:relative; z-index:1;">
-        
-        <!-- PFP Box with Equipped Tier Frame -->
-        <div class="profile-pfp-wrap" onclick="openAvatarSheet()" style="position:relative; cursor:pointer;" title="Click to change photo">
-          <div style="width:78px; height:78px; border-radius:18px; border:${equippedFrame.border}; box-shadow:0 0 15px ${equippedFrame.glow}; padding:2px; background:var(--card); display:grid; place-items:center; overflow:hidden;">
-            <div id="profAvText" style="width:100%; height:100%; border-radius:14px; overflow:hidden;">
+    <!-- Clean Compact User Card -->
+    <div style="background:var(--card); border:1px solid var(--border); border-radius:16px; padding:16px; margin-bottom:14px;">
+      <div style="display:flex; gap:14px; align-items:center;">
+        <!-- Compact 52px PFP -->
+        <div class="profile-pfp-wrap" onclick="openAvatarSheet()" style="position:relative; cursor:pointer; flex-shrink:0;" title="Change photo">
+          <div style="width:52px; height:52px; border-radius:14px; border:${equippedFrame.border}; box-shadow:0 0 10px ${equippedFrame.glow}; padding:2px; background:var(--bg2); display:grid; place-items:center; overflow:hidden;">
+            <div id="profAvText" style="width:100%; height:100%; border-radius:10px; overflow:hidden;">
               ${window.getDefaultAvatarSVG()}
             </div>
-            <img id="profAvImg" style="display:none; width:100%; height:100%; object-fit:cover; border-radius:14px;" alt="">
+            <img id="profAvImg" style="display:none; width:100%; height:100%; object-fit:cover; border-radius:10px;" alt="">
           </div>
-          <!-- Frame Badge Pin -->
-          <div style="position:absolute; bottom:-6px; right:-6px; background:${equippedFrame.color}; color:#fff; font-size:0.6rem; font-weight:800; padding:2px 6px; border-radius:6px; box-shadow:0 2px 6px rgba(0,0,0,0.3);">
+          <div style="position:absolute; bottom:-4px; right:-4px; background:${equippedFrame.color}; color:#fff; font-size:0.55rem; font-weight:800; padding:1px 5px; border-radius:4px; line-height:1.2;">
             ${equippedFrame.badge}
           </div>
         </div>
 
-        <!-- User Identity Info -->
+        <!-- Identity -->
         <div style="flex:1; min-width:0;">
-          <div style="display:flex; align-items:center; gap:8px;">
-            <h3 style="font-size:1.2rem; font-weight:800; color:var(--txt); margin:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+          <div style="display:flex; align-items:center; gap:6px;">
+            <h3 style="font-size:1.05rem; font-weight:700; color:var(--txt); margin:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
               ${escapeHtml(user.firstName || user.username)}
             </h3>
-            <svg viewBox="0 0 24 24" fill="#38bdf8" width="16" height="16" style="flex-shrink:0;"><path d="M12 2L15 8L21 9L17 14L18 20L12 17L6 20L7 14L3 9L9 8L12 2Z"/></svg>
+            <svg viewBox="0 0 24 24" fill="#38bdf8" width="14" height="14" style="flex-shrink:0;"><path d="M12 2L15 8L21 9L17 14L18 20L12 17L6 20L7 14L3 9L9 8L12 2Z"/></svg>
           </div>
-          <div style="font-size:0.8rem; color:var(--txt3); margin-top:2px;">@${escapeHtml(user.username || 'student')}</div>
-          
-          <div style="display:flex; align-items:center; gap:6px; margin-top:8px;">
-            <span style="background:rgba(91,108,255,0.12); color:var(--accent2); font-size:0.72rem; font-weight:700; padding:3px 8px; border-radius:6px;">
-              CA Intermediate &bull; ${user.attempt || 'May 2027'}
-            </span>
-            <div style="display:flex; align-items:center; gap:4px; background:var(--bg2); border:1px solid var(--border); padding:2px 8px; border-radius:6px;">
-              ${getTierSvg(userTier, 13)}
-              <span style="font-size:0.7rem; font-weight:700; color:var(--txt2);">${userTier}</span>
-            </div>
-          </div>
+          <div style="font-size:0.75rem; color:var(--txt3); margin-top:2px;">@${escapeHtml(user.username || 'student')} &bull; CA Inter (${user.attempt || 'May 2027'})</div>
         </div>
       </div>
 
-      <!-- Level 1 to 50 Progress Bar -->
-      <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--border); position:relative; z-index:1;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-          <div style="display:flex; align-items:center; gap:6px;">
-            <span style="font-size:0.85rem; font-weight:800; color:var(--txt);">LEVEL ${levelInfo.level}</span>
-            <span style="font-size:0.72rem; color:var(--txt3);">/ 50 Max</span>
-          </div>
-          <div style="font-size:0.75rem; font-weight:700; color:var(--accent2);">
-            ${levelInfo.progressInLvl} / 150 XP &bull; ${levelInfo.pct}%
-          </div>
+      <!-- Level & Progress Bar -->
+      <div style="margin-top:14px; padding-top:12px; border-top:1px solid var(--border);">
+        <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.72rem; margin-bottom:5px;">
+          <span style="font-weight:700; color:var(--txt);">Level ${levelInfo.level}</span>
+          <span style="color:var(--txt3);">${levelInfo.progressInLvl} / 150 XP &bull; ${levelInfo.pct}%</span>
         </div>
-        <div style="width:100%; height:7px; background:var(--bg2); border-radius:4px; overflow:hidden; border:1px solid var(--border);">
-          <div style="height:100%; width:${levelInfo.pct}%; background:linear-gradient(90deg, var(--accent), ${equippedFrame.color}); border-radius:4px; transition:width 0.4s ease;"></div>
-        </div>
-        <div style="font-size:0.7rem; color:var(--txt3); margin-top:6px; text-align:right;">
-          ${levelInfo.level >= 50 ? 'Max Platform Tier Reached' : `${levelInfo.xpToNext} XP needed for Level ${levelInfo.level + 1}`}
+        <div style="width:100%; height:5px; background:var(--bg2); border-radius:3px; overflow:hidden;">
+          <div style="height:100%; width:${levelInfo.pct}%; background:linear-gradient(90deg, var(--accent), ${equippedFrame.color}); border-radius:3px; transition:width 0.4s ease;"></div>
         </div>
       </div>
     </div>
 
-    <!-- 3 Big Trophy Stats Cards -->
-    <div class="profile-stats" style="display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; margin-bottom:24px;">
-      
-      <!-- Fire Streak Card with animated flame SVG -->
-      <div class="p-stat-card" onclick="if(window.openGoalModal) window.openGoalModal(true)" style="background:var(--card); border:1px solid var(--border); border-radius:16px; padding:16px 12px; text-align:center; cursor:pointer;">
-        <div style="display:flex; justify-content:center; margin-bottom:4px;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" width="22" height="22" style="filter:drop-shadow(0 2px 5px rgba(245,158,11,0.5));"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
-        </div>
-        <div class="p-stat-val amber" style="font-size:1.35rem; font-weight:800; color:#f59e0b;">${AppState.streak}d</div>
-        <div class="p-stat-lbl" style="font-size:0.72rem; color:var(--txt3); text-transform:uppercase; margin-top:2px;">Streak</div>
+    <!-- Unified Minimal Stat Bar -->
+    <div style="display:flex; align-items:center; justify-content:space-around; background:var(--card); border:1px solid var(--border); border-radius:14px; padding:12px 8px; margin-bottom:20px;">
+      <div style="flex:1; text-align:center; cursor:pointer;" onclick="if(window.openGoalModal) window.openGoalModal(true)">
+        <div style="font-size:1.15rem; font-weight:800; color:#f59e0b;">🔥 ${AppState.streak}d</div>
+        <div style="font-size:0.7rem; color:var(--txt3); margin-top:2px;">Streak</div>
       </div>
-
-      <!-- Total XP Card -->
-      <div class="p-stat-card" style="background:var(--card); border:1px solid var(--border); border-radius:16px; padding:16px 12px; text-align:center;">
-        <div style="display:flex; justify-content:center; margin-bottom:4px;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" width="22" height="22" style="filter:drop-shadow(0 2px 5px rgba(91,108,255,0.5));"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-        </div>
-        <div class="p-stat-val indigo" data-xp-display style="font-size:1.35rem; font-weight:800; color:var(--accent2);">${formatXP(AppState.xp)}</div>
-        <div class="p-stat-lbl" style="font-size:0.72rem; color:var(--txt3); text-transform:uppercase; margin-top:2px;">Total XP</div>
+      <div style="width:1px; height:24px; background:var(--border);"></div>
+      <div style="flex:1; text-align:center;">
+        <div style="font-size:1.15rem; font-weight:800; color:var(--accent2);">${formatXP(AppState.xp)}</div>
+        <div style="font-size:0.7rem; color:var(--txt3); margin-top:2px;">Total XP</div>
       </div>
-
-      <!-- Leaderboard Rank Card -->
-      <div class="p-stat-card" onclick="Router.navigate('ranks')" style="background:var(--card); border:1px solid var(--border); border-radius:16px; padding:16px 12px; text-align:center; cursor:pointer;">
-        <div style="display:flex; justify-content:center; margin-bottom:4px;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" width="22" height="22" style="filter:drop-shadow(0 2px 5px rgba(16,185,129,0.5));"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
-        </div>
-        <div class="p-stat-val green" id="profRankVal" style="font-size:1.35rem; font-weight:800; color:#10b981;">#${AppState.rank || 12}</div>
-        <div class="p-stat-lbl" style="font-size:0.72rem; color:var(--txt3); text-transform:uppercase; margin-top:2px;">Rank</div>
+      <div style="width:1px; height:24px; background:var(--border);"></div>
+      <div style="flex:1; text-align:center; cursor:pointer;" onclick="Router.navigate('ranks')">
+        <div style="font-size:1.15rem; font-weight:800; color:#10b981;">#${AppState.rank || 12}</div>
+        <div style="font-size:0.7rem; color:var(--txt3); margin-top:2px;">Rank</div>
       </div>
     </div>
 
@@ -1106,7 +1068,7 @@ function renderProfile() {
       <div class="menu-item" onclick="openFrameModal()">
         <div class="menu-left">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          <span>Equip Profile Frame (10 Tiers)</span>
+          <span>Equip Profile Frame</span>
         </div>
         <span style="font-size:0.72rem; font-weight:700; color:${equippedFrame.color}; margin-right:8px;">${equippedFrame.name}</span>
         <svg class="menu-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
@@ -4093,6 +4055,14 @@ async function claimGoalReward() {
   setTimeout(() => {
     if (window.openGoalModal) window.openGoalModal(false);
   }, 600);
+}
+
+function renderTests() {
+  if (typeof renderTestsAsync === 'function') {
+    renderTestsAsync();
+    return typeof _skeleton === 'function' ? _skeleton() : '<div class="loading-state">Loading tests...</div>';
+  }
+  return '<div class="loading-state">Loading tests...</div>';
 }
 
 window.renderHome = renderHome;

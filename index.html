@@ -667,59 +667,48 @@
 </div>
 
 <!-- ========== ONBOARDING QUESTIONNAIRE TOUR OVERLAY ========== -->
-<div id="onboarding-overlay" class="fs-overlay" style="z-index:9500;background:var(--bg);display:none;position:fixed;inset:0;overflow-y:auto;">
+<div id="onboarding-overlay" class="fs-overlay auth-fs-overlay" style="z-index:9500;background:var(--bg);display:none;position:fixed;inset:0;overflow-y:auto;">
   <div class="onboarding-wrap">
     
-    <!-- Top Progress Header -->
+    <!-- Top Progress Header with Skip Button -->
     <div class="onboarding-header">
       <div class="onboarding-brand">
-        <img src="img/logo.png" alt="InterEdge Logo" style="width:26px;height:26px;object-fit:contain;">
-        <span>InterEdge Setup</span>
+        <img src="img/logo.png" alt="InterEdge Logo" style="width:24px;height:24px;object-fit:contain;">
+        <span style="font-weight:700;font-size:0.95rem;color:var(--txt);">InterEdge</span>
       </div>
-      <div class="onboarding-steps-indicator">
-        <span id="onboarding-step-lbl">Step 1 of 3</span>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span id="onboarding-step-lbl" style="font-size:0.75rem;color:var(--txt3);font-weight:600;">Step 1 of 3</span>
+        <button class="onboard-skip-btn" onclick="finishOnboarding(true)">Skip</button>
       </div>
     </div>
     <div class="onboarding-progress-bar">
       <div id="onboarding-progress-fill" style="width: 33.33%;"></div>
     </div>
 
-    <!-- Container for dynamic steps -->
-    <div class="onboarding-content-card">
+    <!-- Solid clean body (No heavy cards) -->
+    <div class="onboarding-solid-body">
 
       <!-- STEP 1: Attempt Selection -->
       <div id="onboard-step-1" class="onboard-step-panel">
-        <div class="onboard-badge">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          CA Intermediate Target
-        </div>
         <h2 class="onboard-title">When is your CA Inter Attempt?</h2>
-        <p class="onboard-sub">
-          ICAI conducts CA Intermediate examinations thrice a year. Choose your upcoming target attempt window:
-        </p>
+        <p class="onboard-sub">Select your target examination window:</p>
 
         <div class="onboard-opts-list" id="attempt-opts-container">
           <!-- Populated by JS: Jan 27, May 27, Sept 27 -->
         </div>
 
-        <button class="btn-primary onboard-btn-next" id="btn-onboard-next-1" onclick="onboardingNext(1)" disabled>
+        <button class="btn-primary onboard-btn-next" id="btn-onboard-next-1" onclick="onboardingNext(1)">
           <span>Continue</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><polyline points="9 18 15 12 9 6"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg>
         </button>
       </div>
 
       <!-- STEP 2: Discovery Channel -->
       <div id="onboard-step-2" class="onboard-step-panel" style="display:none;">
-        <div class="onboard-badge">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
-          Community Discovery
-        </div>
         <h2 class="onboard-title">Where did you find InterEdge?</h2>
-        <p class="onboard-sub">
-          Select one or multiple channels that helped you discover our student platform:
-        </p>
+        <p class="onboard-sub">Select one or multiple channels:</p>
 
-        <div class="onboard-opts-grid" id="discovery-opts-container">
+        <div class="onboard-opts-list" id="discovery-opts-container">
           <!-- Populated by JS: Twitter, Telegram, WhatsApp, Google, Other -->
         </div>
 
@@ -727,31 +716,25 @@
           <button class="btn-secondary onboard-btn-back" onclick="onboardingPrev(2)">Back</button>
           <button class="btn-primary onboard-btn-next" id="btn-onboard-next-2" onclick="onboardingNext(2)">
             <span>Continue</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><polyline points="9 18 15 12 9 6"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg>
           </button>
         </div>
       </div>
 
       <!-- STEP 3: Challenges / Lack -->
       <div id="onboard-step-3" class="onboard-step-panel" style="display:none;">
-        <div class="onboard-badge">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-          Targeted Growth
-        </div>
         <h2 class="onboard-title">What challenges do you face?</h2>
-        <p class="onboard-sub">
-          Select what holds you back. We'll tailor your practice drills and daily study reminders accordingly:
-        </p>
+        <p class="onboard-sub">Select what holds you back in your preparation:</p>
 
         <div class="onboard-opts-list" id="challenges-opts-container">
-          <!-- Populated by JS: Too distracted, Lazy to open book, Can't focus for long time, Procrastination, etc. -->
+          <!-- Populated by JS: Distracted, books, focus, etc. -->
         </div>
 
         <div class="onboard-nav-row">
           <button class="btn-secondary onboard-btn-back" onclick="onboardingPrev(3)">Back</button>
-          <button class="btn-primary onboard-btn-finish" onclick="finishOnboarding()">
-            <span>Complete Setup &amp; Enter</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><polyline points="20 6 9 17 4 12"/></svg>
+          <button class="btn-primary onboard-btn-finish" onclick="finishOnboarding(false)">
+            <span>Enter InterEdge</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg>
           </button>
         </div>
       </div>
@@ -761,7 +744,7 @@
 </div>
 
 <!-- ========== AVATAR FRAME SELECTOR MODAL ========== -->
-<div id="frame-selector-modal" class="fs-overlay" style="z-index:9200;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);display:none;position:fixed;inset:0;align-items:center;justify-content:center;padding:16px;">
+<div id="frame-selector-modal" style="z-index:9999;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);display:none;position:fixed;inset:0;align-items:center;justify-content:center;padding:16px;">
   <div class="frame-modal-box">
     <div class="frame-modal-head">
       <div style="display:flex;align-items:center;gap:10px;">
@@ -784,7 +767,7 @@
 </div>
 
 <!-- ========== SUBJECT CHAPTERS & CONCEPTS DRILLDOWN OVERLAY ========== -->
-<div id="subject-drilldown-modal" class="fs-overlay" style="z-index:9100;background:var(--bg);display:none;position:fixed;inset:0;overflow-y:auto;">
+<div id="subject-drilldown-modal" style="z-index:9100;background:var(--bg);display:none;position:fixed;inset:0;overflow-y:auto;-webkit-overflow-scrolling:touch;">
   <div class="drilldown-container" id="drilldown-content">
     <!-- Populated dynamically when user clicks any of the 6 CA Inter subjects -->
   </div>
