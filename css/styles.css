@@ -3657,37 +3657,77 @@ body {
 }
 
 /* ============================================
-   AVATAR FRAME SELECTOR MODAL
+   AVATAR FRAME SELECTOR BOTTOM SHEET & FRAMES
    ============================================ */
+#frame-selector-modal.frame-sheet-backdrop,
+#frame-selector-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(8px);
+  display: none;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0;
+}
+
 .frame-modal-box {
   background: var(--bg);
-  border: 1.5px solid var(--border);
-  border-radius: 24px;
+  border-top: 1.5px solid rgba(255, 255, 255, 0.14);
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: none;
+  border-radius: 28px 28px 0 0;
   width: 100%;
-  max-width: 480px;
+  max-width: 520px;
   max-height: 85vh;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-  animation: authSlideIn 0.3s cubic-bezier(.22,1,.36,1);
+  box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.75);
+  animation: frameSheetSlideUp 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
+
+@keyframes frameSheetSlideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.frame-sheet-handle {
+  width: 44px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 99px;
+  margin: 12px auto 4px auto;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.frame-sheet-handle:active {
+  background: var(--accent);
+}
+
 .frame-modal-head {
-  padding: 18px 20px;
+  padding: 12px 20px 16px;
   border-bottom: 1px solid var(--border);
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+
 .frame-modal-body {
-  padding: 16px 20px;
+  padding: 16px 18px 48px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
   scrollbar-width: thin;
   scrollbar-color: rgba(91,108,255,0.3) transparent;
+  -webkit-overflow-scrolling: touch;
 }
+
 .frame-modal-body::-webkit-scrollbar {
   width: 5px;
 }
@@ -3701,6 +3741,218 @@ body {
 .frame-modal-body::-webkit-scrollbar-thumb:hover {
   background: var(--accent);
 }
+
+/* ===== CONCENTRIC AVATAR FRAME CORE SYSTEM ===== */
+.avatar-frame-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+.avatar-frame-inner {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  background: var(--bg2);
+  border-radius: inherit;
+  box-sizing: border-box;
+}
+
+.avatar-frame-inner svg,
+.avatar-frame-inner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: inherit;
+}
+
+/* ===== 10 UNIQUE TIER FRAMES WITH VISUAL DIFFERENTIATION ===== */
+
+/* 1. Bronze Cadet (Lvl 1) — Brushed warm bronze metallic rim */
+.frame-style-1 {
+  border: 2.5px solid #cd7f32;
+  box-shadow: 0 0 10px rgba(205,127,50,0.35), inset 0 0 4px rgba(205,127,50,0.25);
+  background: linear-gradient(135deg, rgba(205,127,50,0.18), transparent);
+}
+
+/* 2. Emerald Scholar (Lvl 5) — Double neon emerald border with corner gem pips */
+.frame-style-2 {
+  border: 3px double #10b981;
+  box-shadow: 0 0 14px rgba(16,185,129,0.5), inset 0 0 6px rgba(16,185,129,0.3);
+  background: linear-gradient(135deg, rgba(16,185,129,0.15), transparent);
+}
+
+/* 3. Sapphire Sentinel (Lvl 10) — Cyber shield frame with outer corner brackets */
+.frame-style-3 {
+  border: 2.5px solid #3b82f6;
+  box-shadow: 0 0 16px rgba(59,130,246,0.55), inset 0 0 8px rgba(59,130,246,0.3);
+  background: linear-gradient(135deg, rgba(59,130,246,0.18), transparent);
+}
+.frame-style-3 .cyber-bracket {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-color: #60a5fa;
+  border-style: solid;
+  pointer-events: none;
+  z-index: 2;
+}
+.frame-style-3 .cyber-bracket.tl { top: -2px; left: -2px; border-width: 2px 0 0 2px; border-top-left-radius: 4px; }
+.frame-style-3 .cyber-bracket.tr { top: -2px; right: -2px; border-width: 2px 2px 0 0; border-top-right-radius: 4px; }
+.frame-style-3 .cyber-bracket.bl { bottom: -2px; left: -2px; border-width: 0 0 2px 2px; border-bottom-left-radius: 4px; }
+.frame-style-3 .cyber-bracket.br { bottom: -2px; right: -2px; border-width: 0 2px 2px 0; border-bottom-right-radius: 4px; }
+
+/* 4. Amber Vanguard (Lvl 15) — Dual concentric ring with radiant dashed solar halo */
+.frame-style-4 {
+  border: 2.5px solid #f59e0b;
+  outline: 1.5px dashed rgba(245,158,11,0.7);
+  outline-offset: 3px;
+  box-shadow: 0 0 16px rgba(245,158,11,0.6), inset 0 0 8px rgba(245,158,11,0.35);
+  background: linear-gradient(135deg, rgba(245,158,11,0.18), transparent);
+}
+
+/* 5. Ruby Warlord (Lvl 20) — Crimson dragonflame with chamfered diamond shield crests */
+.frame-style-5 {
+  border: 3px solid #ef4444;
+  box-shadow: 0 0 20px rgba(239,68,68,0.7), inset 0 0 10px rgba(239,68,68,0.4);
+  background: linear-gradient(135deg, rgba(239,68,68,0.22), transparent);
+}
+.frame-style-5 .ruby-crest {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  background: #fca5a5;
+  border: 1px solid #ef4444;
+  transform: rotate(45deg);
+  pointer-events: none;
+  z-index: 2;
+  box-shadow: 0 0 6px #ef4444;
+}
+.frame-style-5 .ruby-crest.tl { top: -1px; left: -1px; }
+.frame-style-5 .ruby-crest.tr { top: -1px; right: -1px; }
+.frame-style-5 .ruby-crest.bl { bottom: -1px; left: -1px; }
+.frame-style-5 .ruby-crest.br { bottom: -1px; right: -1px; }
+
+/* 6. Amethyst Archon (Lvl 25) — Arcane violet dual-ring with 4 cardinal star diamond studs */
+.frame-style-6 {
+  border: 2.5px solid #8b5cf6;
+  box-shadow: 0 0 20px rgba(139,92,246,0.75), inset 0 0 10px rgba(139,92,246,0.45);
+  background: linear-gradient(135deg, rgba(139,92,246,0.2), transparent);
+}
+.frame-style-6 .archon-stud {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: #c084fc;
+  border-radius: 1px;
+  transform: rotate(45deg);
+  box-shadow: 0 0 8px #a855f7;
+  pointer-events: none;
+  z-index: 2;
+}
+.frame-style-6 .archon-stud.top { top: -3px; left: calc(50% - 3px); }
+.frame-style-6 .archon-stud.bottom { bottom: -3px; left: calc(50% - 3px); }
+.frame-style-6 .archon-stud.left { left: -3px; top: calc(50% - 3px); }
+.frame-style-6 .archon-stud.right { right: -3px; top: calc(50% - 3px); }
+
+/* 7. Neon Matrix (Lvl 30) — Cyberpunk cyan dashed border with 4 tactical crosshairs */
+.frame-style-7 {
+  border: 2.5px dashed #06b6d4;
+  box-shadow: 0 0 18px #06b6d4, inset 0 0 8px rgba(6,182,212,0.5);
+  background: linear-gradient(135deg, rgba(6,182,212,0.18), transparent);
+}
+.frame-style-7 .matrix-cross {
+  position: absolute;
+  color: #22d3ee;
+  font-size: 10px;
+  font-weight: 900;
+  line-height: 1;
+  pointer-events: none;
+  z-index: 2;
+  text-shadow: 0 0 6px #06b6d4;
+}
+.frame-style-7 .matrix-cross.tl { top: -3px; left: -2px; }
+.frame-style-7 .matrix-cross.tr { top: -3px; right: -2px; }
+.frame-style-7 .matrix-cross.bl { bottom: -3px; left: -2px; }
+.frame-style-7 .matrix-cross.br { bottom: -3px; right: -2px; }
+
+/* 8. Titanium Elite (Lvl 35) — Brushed aerospace platinum double border + chrome rivets */
+.frame-style-8 {
+  border: 3.5px double #f1f5f9;
+  box-shadow: 0 0 20px rgba(241,245,249,0.7), inset 0 0 6px rgba(241,245,249,0.4);
+  background: linear-gradient(135deg, rgba(226,232,240,0.18), transparent);
+}
+.frame-style-8 .titanium-rivet {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background: #cbd5e1;
+  border: 1px solid #64748b;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 2;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+}
+.frame-style-8 .titanium-rivet.tl { top: 2px; left: 2px; }
+.frame-style-8 .titanium-rivet.tr { top: 2px; right: 2px; }
+.frame-style-8 .titanium-rivet.bl { bottom: 2px; left: 2px; }
+.frame-style-8 .titanium-rivet.br { bottom: 2px; right: 2px; }
+
+/* 9. Obsidian Sovereign (Lvl 40) — Dark void chrome with hot magenta wireframe & stealth wings */
+.frame-style-9 {
+  border: 3px solid #ec4899;
+  box-shadow: 0 0 24px rgba(236,72,153,0.8), inset 0 0 12px rgba(236,72,153,0.5);
+  background: linear-gradient(135deg, rgba(236,72,153,0.25), #090a14);
+}
+.frame-style-9 .obsidian-wing {
+  position: absolute;
+  width: 5px;
+  height: 14px;
+  background: #f472b6;
+  border-radius: 3px;
+  box-shadow: 0 0 10px #ec4899;
+  pointer-events: none;
+  z-index: 2;
+}
+.frame-style-9 .obsidian-wing.left { left: -4px; top: calc(50% - 7px); }
+.frame-style-9 .obsidian-wing.right { right: -4px; top: calc(50% - 7px); }
+
+/* 10. Grandmaster Celestial MAX (Lvl 50) — Legendary chromatic rainbow border + stars + 3D crown! */
+.frame-style-10 {
+  border: 3px solid transparent;
+  background: linear-gradient(#0c1328, #0c1328) padding-box,
+              linear-gradient(135deg, #fbbf24, #f43f5e, #a855f7, #06b6d4, #fbbf24) border-box;
+  box-shadow: 0 0 28px rgba(251,191,36,0.85), 0 0 14px rgba(244,63,94,0.6);
+}
+.frame-style-10 .celestial-crown {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  filter: drop-shadow(0 2px 6px rgba(251,191,36,0.8));
+  z-index: 3;
+  pointer-events: none;
+}
+.frame-style-10 .celestial-star {
+  position: absolute;
+  color: #fde047;
+  font-size: 10px;
+  line-height: 1;
+  pointer-events: none;
+  z-index: 2;
+  text-shadow: 0 0 8px #fbbf24;
+}
+.frame-style-10 .celestial-star.tl { top: -3px; left: -3px; }
+.frame-style-10 .celestial-star.tr { top: -3px; right: -3px; }
+.frame-style-10 .celestial-star.bl { bottom: -3px; left: -3px; }
+.frame-style-10 .celestial-star.br { bottom: -3px; right: -3px; }
 
 /* ============================================
    RESPONSIVE ADJUSTMENTS (MOBILES & TABLETS)

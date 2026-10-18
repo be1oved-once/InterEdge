@@ -8,7 +8,7 @@ const API_BASE_URL = '';
 let _avatarSvgCounter = 0;
 window.getDefaultAvatarSVG = function() {
   const uid = 'av' + (++_avatarSvgCounter);
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%" style="border-radius:inherit;display:block;"><defs><linearGradient id="ag_${uid}" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#8B5CF6"/><stop offset="100%" stop-color="#4F46E5"/></linearGradient><filter id="sh_${uid}" x="-10%" y="-10%" width="120%" height="120%"><feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.3"/></filter></defs><rect width="100" height="100" rx="12" fill="url(#ag_${uid})"/><g fill="#ffffff" filter="url(#sh_${uid})"><circle cx="50" cy="38" r="18"/><path d="M50 62 c -18 0 -30 12 -30 25 v 13 h 60 v -13 c 0 -13 -12 -25 -30 -25 z"/></g></svg>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%" style="border-radius:inherit;overflow:hidden;display:block;"><defs><linearGradient id="ag_${uid}" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#8B5CF6"/><stop offset="100%" stop-color="#4F46E5"/></linearGradient><filter id="sh_${uid}" x="-10%" y="-10%" width="120%" height="120%"><feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.3"/></filter></defs><rect width="100" height="100" fill="url(#ag_${uid})"/><g fill="#ffffff" filter="url(#sh_${uid})"><circle cx="50" cy="38" r="18"/><path d="M50 62 c -18 0 -30 12 -30 25 v 13 h 60 v -13 c 0 -13 -12 -25 -30 -25 z"/></g></svg>`;
 };
 Object.defineProperty(window, 'DEFAULT_AVATAR_SVG', { get: () => window.getDefaultAvatarSVG() });
 

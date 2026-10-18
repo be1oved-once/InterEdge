@@ -892,6 +892,116 @@ function populateRanks() {
   container.innerHTML = generateBoardHtml(filteredBoard, board);
 }
 
+function getFrameConfig(frameId) {
+  const frames = window.AVATAR_FRAMES || [];
+  return frames.find(f => f.id === frameId) || frames[0] || {
+    id: 'frame_1',
+    name: 'Bronze Cadet',
+    styleTitle: 'Brushed Bronze Rim',
+    color: '#cd7f32',
+    badge: 'Lvl 1'
+  };
+}
+
+function renderAvatarWithFrame(avatarData, frameId = 'frame_1', size = 52, showBadge = true) {
+  const f = getFrameConfig(frameId);
+  const frameNum = (f.id || 'frame_1').replace('frame_', '');
+
+  // Exact concentric math: R_inner = R_outer - border_width - padding
+  let outerR, borderW, padding;
+  if (size >= 70) {
+    outerR = 22; borderW = 3.5; padding = 2.5;
+  } else if (size >= 60) {
+    outerR = 19; borderW = 3; padding = 2.5;
+  } else if (size >= 50) {
+    outerR = 16; borderW = 2.5; padding = 2;
+  } else {
+    outerR = 13; borderW = 2; padding = 1.5;
+  }
+  const innerR = Math.max(Math.round(outerR - borderW - padding), 3);
+
+  // Distinct frame ornaments
+  let ornaments = '';
+  if (frameNum === '2') {
+    ornaments = `
+      <span style="position:absolute;top:2px;left:2px;width:5px;height:5px;border-radius:50%;background:#34d399;box-shadow:0 0 6px #10b981;pointer-events:none;z-index:2;"></span>
+      <span style="position:absolute;bottom:2px;right:2px;width:5px;height:5px;border-radius:50%;background:#34d399;box-shadow:0 0 6px #10b981;pointer-events:none;z-index:2;"></span>
+    `;
+  } else if (frameNum === '3') {
+    ornaments = `
+      <span class="cyber-bracket tl"></span>
+      <span class="cyber-bracket tr"></span>
+      <span class="cyber-bracket bl"></span>
+      <span class="cyber-bracket br"></span>
+    `;
+  } else if (frameNum === '5') {
+    ornaments = `
+      <span class="ruby-crest tl"></span>
+      <span class="ruby-crest tr"></span>
+      <span class="ruby-crest bl"></span>
+      <span class="ruby-crest br"></span>
+    `;
+  } else if (frameNum === '6') {
+    ornaments = `
+      <span class="archon-stud top"></span>
+      <span class="archon-stud bottom"></span>
+      <span class="archon-stud left"></span>
+      <span class="archon-stud right"></span>
+    `;
+  } else if (frameNum === '7') {
+    ornaments = `
+      <span class="matrix-cross tl">+</span>
+      <span class="matrix-cross tr">+</span>
+      <span class="matrix-cross bl">+</span>
+      <span class="matrix-cross br">+</span>
+    `;
+  } else if (frameNum === '8') {
+    ornaments = `
+      <span class="titanium-rivet tl"></span>
+      <span class="titanium-rivet tr"></span>
+      <span class="titanium-rivet bl"></span>
+      <span class="titanium-rivet br"></span>
+    `;
+  } else if (frameNum === '9') {
+    ornaments = `
+      <span class="obsidian-wing left"></span>
+      <span class="obsidian-wing right"></span>
+    `;
+  } else if (frameNum === '10') {
+    ornaments = `
+      <div class="celestial-crown">
+        <svg viewBox="0 0 24 24" fill="#fbbf24" stroke="#d97706" stroke-width="1.5" width="${size >= 70 ? 22 : 18}" height="${size >= 70 ? 22 : 18}">
+          <path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"/>
+        </svg>
+      </div>
+      <span class="celestial-star tl">&#10022;</span>
+      <span class="celestial-star tr">&#10022;</span>
+      <span class="celestial-star bl">&#10022;</span>
+      <span class="celestial-star br">&#10022;</span>
+    `;
+  }
+
+  const avInnerHtml = avatarData
+    ? `<img src="${avatarData}" style="width:100%;height:100%;object-fit:cover;border-radius:${innerR}px;display:block;" alt="">`
+    : window.getDefaultAvatarSVG();
+
+  const badgeHtml = showBadge ? `
+    <div style="position:absolute; bottom:-4px; right:-4px; background:${f.color}; color:#fff; font-size:0.55rem; font-weight:800; padding:1px 5px; border-radius:4px; line-height:1.2; box-shadow:0 2px 4px rgba(0,0,0,0.5); z-index:3;">
+      ${f.badge}
+    </div>
+  ` : '';
+
+  return `
+    <div class="avatar-frame-wrap frame-style-${frameNum}" style="width:${size}px; height:${size}px; border-radius:${outerR}px; padding:${padding}px;">
+      ${ornaments}
+      <div class="avatar-frame-inner" style="border-radius:${innerR}px;">
+        ${avInnerHtml}
+      </div>
+      ${badgeHtml}
+    </div>
+  `;
+}
+
 function generateBoardHtml(displayBoard, fullBoard = []) {
   if (!displayBoard || displayBoard.length === 0) {
     return `<div style="text-align:center; padding:40px; color:var(--txt3);">No students in this tier yet. Keep grinding!</div>`;
@@ -912,12 +1022,6 @@ function generateBoardHtml(displayBoard, fullBoard = []) {
   const podium = showPodium ? displayBoard.slice(0, 3) : [];
   const listRows = showPodium ? displayBoard.slice(3) : displayBoard;
 
-  const renderAv = (u) => {
-    return `<div style="width:100%; height:100%; border-radius:inherit; display:grid; place-items:center; background:var(--bg2); overflow:hidden;">
-      ${window.getDefaultAvatarSVG()}
-    </div>`;
-  };
-
   const crownGold = `<svg viewBox="0 0 24 24" fill="#fbbf24" stroke="#d97706" stroke-width="1.5" width="22" height="22" style="filter:drop-shadow(0 2px 4px rgba(251,191,36,0.5));"><path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"/></svg>`;
   const silverMedal = `<svg viewBox="0 0 24 24" fill="#94a3b8" stroke="#475569" stroke-width="1.5" width="20" height="20" style="filter:drop-shadow(0 2px 4px rgba(148,163,184,0.4));"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>`;
   const bronzeMedal = `<svg viewBox="0 0 24 24" fill="#b45309" stroke="#78350f" stroke-width="1.5" width="20" height="20" style="filter:drop-shadow(0 2px 4px rgba(180,83,9,0.4));"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>`;
@@ -930,9 +1034,9 @@ function generateBoardHtml(displayBoard, fullBoard = []) {
         <!-- Rank 2: Silver -->
         <div class="podium-3d-spot silver" style="flex:1; max-width:110px; display:flex; flex-direction:column; align-items:center;">
           <div style="margin-bottom:6px;">${silverMedal}</div>
-          <div style="width:62px; height:62px; border-radius:18px; border:3px solid #94a3b8; box-shadow:0 6px 18px rgba(148,163,184,0.3); padding:2px; background:var(--card); position:relative;">
-            ${renderAv(podium[1])}
-            <div style="position:absolute; bottom:-4px; right:-4px; width:22px; height:22px; border-radius:50%; background:var(--card); display:grid; place-items:center; box-shadow:0 2px 6px rgba(0,0,0,0.5);">${getTierSvg(podium[1].tier, 15)}</div>
+          <div style="position:relative; display:inline-block;">
+            ${renderAvatarWithFrame(podium[1].avatar, podium[1].frame || 'frame_8', 64, false)}
+            <div style="position:absolute; bottom:-4px; right:-4px; width:22px; height:22px; border-radius:50%; background:var(--card); display:grid; place-items:center; box-shadow:0 2px 6px rgba(0,0,0,0.5); z-index:4;">${getTierSvg(podium[1].tier, 15)}</div>
           </div>
           <div style="font-weight:700; font-size:0.85rem; color:var(--txt); margin-top:8px; text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:105px;">${escapeHtml(formatPodiumName(podium[1].name))}</div>
           <div style="font-size:0.75rem; font-weight:700; color:var(--accent2);">${formatXP(podium[1].xp)} XP</div>
@@ -942,9 +1046,9 @@ function generateBoardHtml(displayBoard, fullBoard = []) {
         <!-- Rank 1: Gold (Center Elevated) -->
         <div class="podium-3d-spot gold" style="flex:1; max-width:125px; display:flex; flex-direction:column; align-items:center;">
           <div style="margin-bottom:8px; transform:scale(1.2);">${crownGold}</div>
-          <div style="width:74px; height:74px; border-radius:20px; border:3.5px solid #fbbf24; box-shadow:0 10px 25px rgba(251,191,36,0.45); padding:2px; background:var(--card); position:relative;">
-            ${renderAv(podium[0])}
-            <div style="position:absolute; bottom:-4px; right:-4px; width:24px; height:24px; border-radius:50%; background:var(--card); display:grid; place-items:center; box-shadow:0 2px 6px rgba(0,0,0,0.5);">${getTierSvg(podium[0].tier, 18)}</div>
+          <div style="position:relative; display:inline-block;">
+            ${renderAvatarWithFrame(podium[0].avatar, podium[0].frame || 'frame_10', 74, false)}
+            <div style="position:absolute; bottom:-4px; right:-4px; width:24px; height:24px; border-radius:50%; background:var(--card); display:grid; place-items:center; box-shadow:0 2px 6px rgba(0,0,0,0.5); z-index:4;">${getTierSvg(podium[0].tier, 18)}</div>
           </div>
           <div style="font-weight:800; font-size:0.92rem; color:var(--txt); margin-top:8px; text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:120px;">${escapeHtml(formatPodiumName(podium[0].name))}</div>
           <div style="font-size:0.8rem; font-weight:800; color:#fbbf24;">${formatXP(podium[0].xp)} XP</div>
@@ -954,9 +1058,9 @@ function generateBoardHtml(displayBoard, fullBoard = []) {
         <!-- Rank 3: Bronze -->
         <div class="podium-3d-spot bronze" style="flex:1; max-width:110px; display:flex; flex-direction:column; align-items:center;">
           <div style="margin-bottom:6px;">${bronzeMedal}</div>
-          <div style="width:62px; height:62px; border-radius:18px; border:3px solid #b45309; box-shadow:0 6px 18px rgba(180,83,9,0.3); padding:2px; background:var(--card); position:relative;">
-            ${renderAv(podium[2])}
-            <div style="position:absolute; bottom:-4px; right:-4px; width:22px; height:22px; border-radius:50%; background:var(--card); display:grid; place-items:center; box-shadow:0 2px 6px rgba(0,0,0,0.5);">${getTierSvg(podium[2].tier, 15)}</div>
+          <div style="position:relative; display:inline-block;">
+            ${renderAvatarWithFrame(podium[2].avatar, podium[2].frame || 'frame_5', 64, false)}
+            <div style="position:absolute; bottom:-4px; right:-4px; width:22px; height:22px; border-radius:50%; background:var(--card); display:grid; place-items:center; box-shadow:0 2px 6px rgba(0,0,0,0.5); z-index:4;">${getTierSvg(podium[2].tier, 15)}</div>
           </div>
           <div style="font-weight:700; font-size:0.85rem; color:var(--txt); margin-top:8px; text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:105px;">${escapeHtml(formatPodiumName(podium[2].name))}</div>
           <div style="font-size:0.75rem; font-weight:700; color:var(--accent2);">${formatXP(podium[2].xp)} XP</div>
@@ -977,8 +1081,8 @@ function generateBoardHtml(displayBoard, fullBoard = []) {
         <div style="width:24px; font-weight:800; font-size:0.9rem; color:${isMe ? 'var(--accent2)' : 'var(--txt3)'}; text-align:center;">
           ${u.rank}
         </div>
-        <div style="width:40px; height:40px; border-radius:12px; border:2px solid rgba(255,255,255,0.08); background:var(--bg2); padding:1px; flex-shrink:0;">
-          ${renderAv(u)}
+        <div style="flex-shrink:0;">
+          ${renderAvatarWithFrame(u.avatar, u.frame || 'frame_1', 40, false)}
         </div>
         <div style="flex:1; min-width:0;">
           <div style="display:flex; align-items:center; gap:6px;">
@@ -1031,16 +1135,10 @@ function renderProfile() {
     <!-- Clean Compact User Card -->
     <div style="background:var(--card); border:1px solid var(--border); border-radius:16px; padding:16px; margin-bottom:14px;">
       <div style="display:flex; gap:14px; align-items:center;">
-        <!-- Compact 52px PFP -->
-        <div class="profile-pfp-wrap" onclick="openAvatarSheet()" style="position:relative; cursor:pointer; flex-shrink:0;" title="Change photo">
-          <div style="width:52px; height:52px; border-radius:14px; border:${equippedFrame.border}; box-shadow:0 0 10px ${equippedFrame.glow}; padding:2px; background:var(--bg2); display:grid; place-items:center; overflow:hidden;">
-            <div id="profAvText" style="width:100%; height:100%; border-radius:10px; overflow:hidden;">
-              ${window.getDefaultAvatarSVG()}
-            </div>
-            <img id="profAvImg" style="display:none; width:100%; height:100%; object-fit:cover; border-radius:10px;" alt="">
-          </div>
-          <div style="position:absolute; bottom:-4px; right:-4px; background:${equippedFrame.color}; color:#fff; font-size:0.55rem; font-weight:800; padding:1px 5px; border-radius:4px; line-height:1.2;">
-            ${equippedFrame.badge}
+        <!-- Compact Concentric PFP -->
+        <div class="profile-pfp-wrap" onclick="openAvatarSheet()" style="cursor:pointer; flex-shrink:0;" title="Change photo">
+          <div id="profAvatarFrameHost">
+            ${renderAvatarWithFrame(user.avatar, equippedFrameId, 56, true)}
           </div>
         </div>
 
@@ -1145,7 +1243,7 @@ function initProfile() {
   updateProfileAvatar();
 }
 
-// Avatar Frame Selector Overlay Functions
+// Avatar Frame Selector Overlay Functions (Mobile Bottom Sheet)
 function openFrameModal() {
   const modal = document.getElementById('frame-selector-modal');
   const grid = document.getElementById('frame-modal-grid');
@@ -1155,33 +1253,32 @@ function openFrameModal() {
   const equippedId = AppState.user.equippedFrame || 'frame_1';
   const frames = window.AVATAR_FRAMES || [];
   const userAvatar = AppState.user.avatar;
-  const avHtml = userAvatar 
-    ? `<img src="${userAvatar}" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">` 
-    : window.getDefaultAvatarSVG();
 
   grid.innerHTML = frames.map(f => {
     const isUnlocked = userLvl >= f.minLevel;
     const isEquipped = equippedId === f.id;
 
     return `
-      <div class="frame-item-card ${isEquipped ? 'equipped' : ''} ${!isUnlocked ? 'locked' : ''}" style="background:var(--card); border:${isEquipped ? '2px solid var(--accent)' : '1px solid var(--border)'}; border-radius:14px; padding:12px; display:flex; align-items:center; gap:12px; position:relative;">
-        <div style="width:48px; height:48px; border-radius:14px; border:${f.border}; box-shadow:0 0 10px ${f.glow}; background:var(--bg2); padding:2px; flex-shrink:0;">
-          <div style="width:100%; height:100%; border-radius:10px; overflow:hidden;">
-            ${avHtml}
+      <div class="frame-item-card ${isEquipped ? 'equipped' : ''} ${!isUnlocked ? 'locked' : ''}" style="background:var(--card); border:${isEquipped ? '2px solid var(--accent)' : '1px solid var(--border)'}; border-radius:18px; padding:14px; display:flex; align-items:center; gap:14px; position:relative; box-shadow:${isEquipped ? '0 4px 18px rgba(91,108,255,0.25)' : 'none'};">
+        ${renderAvatarWithFrame(userAvatar, f.id, 52, false)}
+        <div style="flex:1; min-width:0;">
+          <div style="display:flex; align-items:center; gap:6px;">
+            <span style="font-weight:700; font-size:0.92rem; color:var(--txt);">${f.name}</span>
+            <span style="font-size:0.65rem; font-weight:800; background:${f.color}22; color:${f.color}; border:1px solid ${f.color}44; padding:1px 6px; border-radius:4px;">${f.badge}</span>
           </div>
-        </div>
-        <div style="flex:1;">
-          <div style="font-weight:700; font-size:0.9rem; color:var(--txt);">${f.name}</div>
-          <div style="font-size:0.75rem; color:${isUnlocked ? f.color : 'var(--txt3)'}; font-weight:600; margin-top:2px;">
-            ${isUnlocked ? `Unlocked &bull; ${f.badge}` : `Unlocks at Level ${f.minLevel}`}
+          <div style="font-size:0.75rem; color:var(--txt3); margin-top:2px; font-weight:500;">
+            ${f.styleTitle}
+          </div>
+          <div style="font-size:0.7rem; color:${isUnlocked ? 'var(--green)' : 'var(--txt4)'}; margin-top:3px; font-weight:600;">
+            ${isUnlocked ? '&#10003; Unlocked &amp; Ready' : `Unlocks at Level ${f.minLevel}`}
           </div>
         </div>
         <div>
           ${isEquipped 
-            ? `<span style="font-size:0.7rem; font-weight:800; background:var(--accent); color:#fff; padding:4px 8px; border-radius:6px;">EQUIPPED</span>`
+            ? `<span style="font-size:0.72rem; font-weight:800; background:var(--accent); color:#fff; padding:6px 12px; border-radius:8px; display:inline-block;">EQUIPPED</span>`
             : isUnlocked 
-              ? `<button onclick="equipFrame('${f.id}')" style="background:var(--bg2); border:1px solid var(--border); color:var(--txt); font-weight:700; font-size:0.75rem; padding:6px 12px; border-radius:8px; cursor:pointer;">Equip</button>`
-              : `<span style="font-size:0.7rem; color:var(--txt4); display:flex; align-items:center; gap:4px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Locked</span>`
+              ? `<button onclick="equipFrame('${f.id}')" style="background:var(--accent); color:#fff; border:none; font-weight:700; font-size:0.75rem; padding:7px 14px; border-radius:8px; cursor:pointer; box-shadow:0 2px 8px rgba(91,108,255,0.3); transition:all 0.15s;">Equip</button>`
+              : `<span style="font-size:0.72rem; color:var(--txt4); display:flex; align-items:center; gap:4px; background:rgba(255,255,255,0.04); padding:6px 10px; border-radius:8px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Locked</span>`
           }
         </div>
       </div>
@@ -1210,6 +1307,8 @@ function equipFrame(frameId) {
   if (window.initProfile) window.initProfile();
   showToast('Avatar frame equipped successfully!');
 }
+
+window.renderAvatarWithFrame = renderAvatarWithFrame;
 
 window.getTierSvg = getTierSvg;
 window.calculateUserLevel = calculateUserLevel;
@@ -3187,7 +3286,13 @@ function updateProfileAvatar() {
   const user = AppState.user;
   const avatarData = user.avatar || tempAvatarData;
 
-  // Update profile page avatar
+  // Update profile page avatar frame host
+  const profHost = document.getElementById('profAvatarFrameHost');
+  if (profHost) {
+    profHost.innerHTML = renderAvatarWithFrame(avatarData, user.equippedFrame || 'frame_1', 56, true);
+  }
+
+  // Update profile page avatar fallback
   const profText = document.getElementById('profAvText');
   const profImg = document.getElementById('profAvImg');
   if (profText) { profText.innerHTML = window.getDefaultAvatarSVG(); profText.style.display = avatarData ? 'none' : 'block'; }
