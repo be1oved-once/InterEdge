@@ -1145,12 +1145,12 @@ function renderProfile() {
         <!-- Identity -->
         <div style="flex:1; min-width:0;">
           <div style="display:flex; align-items:center; gap:6px;">
-            <h3 style="font-size:1.05rem; font-weight:700; color:var(--txt); margin:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+            <h3 id="profDisplayName" style="font-size:1.05rem; font-weight:700; color:var(--txt); margin:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
               ${escapeHtml(user.firstName || user.username)}
             </h3>
             <svg viewBox="0 0 24 24" fill="#38bdf8" width="14" height="14" style="flex-shrink:0;"><path d="M12 2L15 8L21 9L17 14L18 20L12 17L6 20L7 14L3 9L9 8L12 2Z"/></svg>
           </div>
-          <div style="font-size:0.75rem; color:var(--txt3); margin-top:2px;">@${escapeHtml(user.username || 'student')} &bull; CA Inter (${user.attempt || 'May 2027'})</div>
+          <div id="profDisplayHandle" style="font-size:0.75rem; color:var(--txt3); margin-top:2px;">@${escapeHtml(user.username || 'student')} &bull; CA Inter (${user.attempt || 'May 2027'})</div>
         </div>
       </div>
 
@@ -1193,7 +1193,7 @@ function renderProfile() {
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
           <span>Equip Profile Frame</span>
         </div>
-        <span style="font-size:0.72rem; font-weight:700; color:${equippedFrame.color}; margin-right:8px;">${equippedFrame.name}</span>
+        <span id="profEquippedFrameName" style="font-size:0.72rem; font-weight:700; color:${equippedFrame.color}; margin-right:8px;">${equippedFrame.name}</span>
         <svg class="menu-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
       </div>
 
@@ -1298,15 +1298,28 @@ function equipFrame(frameId) {
   saveUser();
   closeFrameModal();
   
-  // Refresh profile view and reset scroll
-  const main = document.getElementById('main-content');
-  if (main) {
-    main.scrollTop = 0;
-    main.innerHTML = '<div class="view-content">' + renderProfile() + '</div>';
+  // Update avatar frame and menu label in-place without destructive re-render
+  updateProfileAvatar();
+  const f = getFrameConfig(frameId);
+  const frameNameEl = document.getElementById('profEquippedFrameName');
+  if (frameNameEl && f) {
+    frameNameEl.textContent = f.name;
+    frameNameEl.style.color = f.color;
   }
-  if (window.initProfile) window.initProfile();
   showToast('Avatar frame equipped successfully!');
 }
+
+function updateProfileIdentity() {
+  const user = AppState.user;
+  if (!user) return;
+  const nameEl = document.getElementById('profDisplayName');
+  if (nameEl) nameEl.textContent = user.firstName || user.username;
+  const handleEl = document.getElementById('profDisplayHandle');
+  if (handleEl) {
+    handleEl.innerHTML = '@' + escapeHtml(user.username || 'student') + ' &bull; CA Inter (' + escapeHtml(user.attempt || 'May 2027') + ')';
+  }
+}
+window.updateProfileIdentity = updateProfileIdentity;
 
 window.renderAvatarWithFrame = renderAvatarWithFrame;
 
@@ -1337,9 +1350,19 @@ function openProfileOverlay(name) {
 function closeProfileOverlay(name) {
   const el = document.getElementById('fs-' + name);
   if (el) el.classList.remove('open');
-  setTimeout(() => {
-    Router.navigate('profile');
-  }, 350);
+
+  // If this overlay was pushed into history via query params, pop history back cleanly
+  if (window.location.search.includes('panel=')) {
+    if (window.history.length > 1 && window.history.state && window.history.state.isOverlay) {
+      window.history.back();
+      return;
+    }
+  }
+
+  // Fallback: update URL cleanly to /profile without a destructive page rebuild
+  try {
+    window.history.replaceState({ route: 'profile', params: {}, isOverlay: false }, '', '/profile');
+  } catch(e) {}
 }
 
 // Check on load if URL contains a panel param
@@ -1584,12 +1607,9 @@ async function saveProfile() {
 
     saveUser(); // This pushes to Cloudflare D1
     updateProfileAvatar();
+    updateProfileIdentity();
     showToast('Profile saved successfully');
     closeProfileOverlay('editProfile');
-
-    if (Router.getCurrentRoute().route === 'profile') {
-      Router.handleRoute();
-    }
   } catch (e) {
     console.error(e);
     showToast('Failed to save profile. ' + e.message);
@@ -2861,7 +2881,8 @@ function closeFs(name) {
   const el = document.getElementById('fs-' + name);
   if (el) el.classList.remove('open');
   if (PROFILE_OVERLAYS.includes(name)) {
-    setTimeout(() => { Router.navigate('profile'); }, 350);
+    closeProfileOverlay(name);
+    return;
   }
 
   if (name === 'pdfLibrary' || name === 'crux') {
@@ -2870,7 +2891,13 @@ function closeFs(name) {
       topbar.innerHTML = window.originalTopbarHtml;
       if (window.updateBellDot) window.updateBellDot();
     }
-    setTimeout(() => { Router.navigate('home'); }, 350);
+    if (window.location.search.includes('panel=')) {
+      if (window.history.length > 1 && window.history.state && window.history.state.isOverlay) {
+        window.history.back();
+      } else {
+        try { window.history.replaceState({ route: 'home', params: {}, isOverlay: false }, '', '/home'); } catch(e) {}
+      }
+    }
   }
 }
 
@@ -4310,13 +4337,6 @@ window.linkTelegram = async function() {
   saveUser();
   showToast('Telegram linked successfully (Trial Mode)!');
   closeProfileOverlay('telegramLink');
-  if (Router.getCurrentRoute().route === 'profile') {
-    const mainContent = document.getElementById('main-content');
-    if (mainContent && window.renderProfile) {
-      mainContent.innerHTML = '<div class="view-content">' + window.renderProfile() + '</div>';
-      if (window.initProfile) window.initProfile();
-    }
-  }
 };
 
 window.toggleTelegramMenu = function() {
@@ -4340,13 +4360,6 @@ window.unlinkTelegram = async function(e) {
   AppState.user.telegram_chat_id = null;
   saveUser();
   showToast('Telegram unlinked');
-  if (Router.getCurrentRoute().route === 'profile') {
-    const mainContent = document.getElementById('main-content');
-    if (mainContent && window.renderProfile) {
-      mainContent.innerHTML = '<div class="view-content">' + window.renderProfile() + '</div>';
-      if (window.initProfile) window.initProfile();
-    }
-  }
 };
 
 // ============================================

@@ -60,13 +60,14 @@ const Router = (function() {
   function navigate(route, params) {
     if (!route || route === 'index.html' || route.toLowerCase() === 'interedge') route = 'home';
     const newUrl = buildUrl(route, params || {});
+    const isOverlay = !!(params && params.panel);
     if (window.location.pathname + window.location.search === newUrl) {
-      handleRoute(true);
+      handleRoute(false);
     } else {
       try {
-        window.history.pushState({}, '', newUrl);
+        window.history.pushState({ route, params, isOverlay }, '', newUrl);
       } catch(e) {}
-      handleRoute(true);
+      handleRoute(false);
     }
   }
 
@@ -85,49 +86,80 @@ const Router = (function() {
     if (!routeConfig) { navigate('home'); return; }
 
     const previousRoute = currentRoute;
+    const previousParams = currentParams;
     currentRoute = route;
     currentParams = params;
-
-    closeAllOverlays();
 
     const mainContent = document.getElementById('main-content');
     const isContentEmpty = !mainContent || !mainContent.children.length || !mainContent.innerHTML.trim();
 
-    // Handle home panel param
+    // Handle home panel param (e.g. pdfLibrary, crux)
     if (route === 'home' && params.panel) {
       showMainApp();
       updateNav(0);
-      if (forceRender || previousRoute !== 'home' || isContentEmpty) {
+      const isHomeAlreadyRendered = (previousRoute === 'home' && !isContentEmpty);
+      if (!isHomeAlreadyRendered || forceRender) {
         const renderFn = window.renderHome || (typeof renderHome === 'function' ? renderHome : null);
         if (mainContent && renderFn) {
+          mainContent.scrollTop = 0;
+          window.scrollTo(0, 0);
           mainContent.innerHTML = '<div class="view-content">' + renderFn(params) + '</div>';
         }
+        if (window.initHome) window.initHome();
       }
-      setTimeout(() => {
-        if ((forceRender || previousRoute !== 'home' || isContentEmpty) && window.initHome) window.initHome();
-        if (window.openFs) window.openFs(params.panel, false);
-      }, 100);
-      currentRoute = route;
+      if (window.openFs) window.openFs(params.panel, false);
       return;
     }
 
-    // Handle profile panel param
+    if (route === 'home' && !params.panel) {
+      showMainApp();
+      updateNav(0);
+      closeAllOverlays();
+      const isHomeAlreadyRendered = (previousRoute === 'home' && !isContentEmpty);
+      if (!isHomeAlreadyRendered || forceRender) {
+        const renderFn = window.renderHome || (typeof renderHome === 'function' ? renderHome : null);
+        if (mainContent && renderFn) {
+          mainContent.scrollTop = 0;
+          window.scrollTo(0, 0);
+          mainContent.innerHTML = '<div class="view-content">' + renderFn(params) + '</div>';
+        }
+        if (window.initHome) setTimeout(window.initHome, 10);
+      }
+      return;
+    }
+
+    // Handle profile panel param (e.g. editProfile, performance, bookmarks, settings, etc.)
     if (route === 'profile' && params.panel) {
       showMainApp();
       updateNav(4);
-      if (forceRender || previousRoute !== 'profile' || isContentEmpty) {
+      const isProfileAlreadyRendered = (previousRoute === 'profile' && !isContentEmpty);
+      if (!isProfileAlreadyRendered || forceRender) {
         const renderFn = window.renderProfile || (typeof renderProfile === 'function' ? renderProfile : null);
         if (mainContent && renderFn) {
           mainContent.scrollTop = 0;
           window.scrollTo(0, 0);
           mainContent.innerHTML = '<div class="view-content">' + renderFn(params) + '</div>';
         }
+        if (window.initProfile) window.initProfile();
       }
-      setTimeout(() => {
-        if ((forceRender || previousRoute !== 'profile' || isContentEmpty) && window.initProfile) window.initProfile();
-        if (window.openFs) window.openFs(params.panel, false);
-      }, 100);
-      currentRoute = route;
+      if (window.openFs) window.openFs(params.panel, false);
+      return;
+    }
+
+    if (route === 'profile' && !params.panel) {
+      showMainApp();
+      updateNav(4);
+      closeAllOverlays();
+      const isProfileAlreadyRendered = (previousRoute === 'profile' && !isContentEmpty);
+      if (!isProfileAlreadyRendered || forceRender) {
+        const renderFn = window.renderProfile || (typeof renderProfile === 'function' ? renderProfile : null);
+        if (mainContent && renderFn) {
+          mainContent.scrollTop = 0;
+          window.scrollTo(0, 0);
+          mainContent.innerHTML = '<div class="view-content">' + renderFn(params) + '</div>';
+        }
+        if (window.initProfile) setTimeout(window.initProfile, 10);
+      }
       return;
     }
 
@@ -146,8 +178,10 @@ const Router = (function() {
 
     showMainApp();
     updateNav(routeConfig.navIdx);
+    closeAllOverlays();
 
-    if (forceRender || previousRoute !== route || isContentEmpty) {
+    const isCurrentRouteAlreadyRendered = (previousRoute === route && !isContentEmpty);
+    if (!isCurrentRouteAlreadyRendered || forceRender) {
       const renderFn = window[routeConfig.view] || (route === 'home' ? (window.renderHome || (typeof renderHome === 'function' ? renderHome : null)) : null);
       if (mainContent && typeof renderFn === 'function') {
         mainContent.scrollTop = 0;
@@ -205,6 +239,13 @@ const Router = (function() {
     document.querySelectorAll('.fs-overlay').forEach(el => el.classList.remove('open'));
     if (window.closeNotif) closeNotif();
     if (window.closeAvatarSheet) closeAvatarSheet();
+    setTimeout(() => {
+      const anyOpen = document.querySelector('.fs-overlay.open');
+      if (!anyOpen) {
+        const host = document.getElementById('fs-overlays');
+        if (host) host.innerHTML = '';
+      }
+    }, 380);
   }
 
   function getCurrentRoute() {
@@ -212,8 +253,8 @@ const Router = (function() {
   }
 
   function init() {
-    window.addEventListener('popstate', () => handleRoute(true));
-    window.addEventListener('DOMContentLoaded', () => { setTimeout(() => handleRoute(true), 100); });
+    window.addEventListener('popstate', () => handleRoute(false));
+    window.addEventListener('DOMContentLoaded', () => { setTimeout(() => handleRoute(false), 100); });
   }
 
   return {
