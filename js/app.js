@@ -523,66 +523,68 @@ function calculateUserLevel(xp) {
 // ===== PRACTICE SECTION (All 6 CA Intermediate Papers) =====
 window.practiceMode = 'mcq'; // 'mcq' or 'flashcards'
 
+function getSubjectOutlineSvg(subId) {
+  switch (subId) {
+    case 'adv_acc':
+      return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="9" y1="7" x2="15" y2="7"/><line x1="9" y1="11" x2="13" y2="11"/></svg>`;
+    case 'law':
+      return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`;
+    case 'tax':
+      return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1-2-1z"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="16" y2="11"/><line x1="8" y1="15" x2="13" y2="15"/></svg>`;
+    case 'cost':
+      return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="16" y1="14" x2="16" y2="18"/><path d="M8 10h.01"/><path d="M12 10h.01"/><path d="M16 10h.01"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/></svg>`;
+    case 'audit':
+      return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>`;
+    case 'fmsm':
+      return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>`;
+    default:
+      return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>`;
+  }
+}
+
 function renderPractice() {
   const SUBJECT_KEYS = ['adv_acc', 'law', 'tax', 'cost', 'audit', 'fmsm'];
   const subjects = SUBJECT_KEYS.map(k => MCQ_DATA[k]).filter(Boolean);
   const grp1 = subjects.filter(s => s.group === 'Group 1');
   const grp2 = subjects.filter(s => s.group === 'Group 2');
 
-  const activeMode = window.practiceMode || 'mcq';
-
   return getPausedPracticeBanner() + `
-    <!-- Top Header -->
-    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px;">
-      <div>
-        <h2 style="font-size:1.3rem;font-weight:700;letter-spacing:-0.2px;">Practice</h2>
-        <div style="font-size:.8rem;color:var(--txt3);margin-top:2px;">CA Intermediate &bull; 6 Core Subjects</div>
+    <!-- Top Stats Strip (PathEdge Style) -->
+    <div class="stat-row" style="margin-top: 4px; margin-bottom: 20px;">
+      <div class="stat-card">
+        <div class="stat-val indigo">${(AppState.questionsAttempted || 0).toLocaleString()}</div>
+        <div class="stat-lbl">Qs Attempted</div>
       </div>
-      <div style="background:rgba(91,108,255,0.1); border:1px solid rgba(91,108,255,0.25); padding:4px 10px; border-radius:100px; font-size:0.75rem; font-weight:700; color:var(--accent2); display:flex; align-items:center; gap:6px;">
-        <span style="width:6px;height:6px;border-radius:50%;background:var(--accent2);"></span>
-        ${AppState.user.attempt || 'May 2027'}
+      <div class="stat-card">
+        <div class="stat-val green">${AppState.accuracy || 0}%</div>
+        <div class="stat-lbl">Accuracy</div>
       </div>
-    </div>
-
-    <!-- Mode Switcher: MCQs & Case Sets vs Flashcards -->
-    <div class="practice-mode-tabs" style="display:flex; background:var(--card); border:1px solid var(--border); border-radius:12px; padding:3px; margin-bottom:16px;">
-      <button class="mode-tab-btn ${activeMode === 'mcq' ? 'active' : ''}" onclick="switchPracticeMode('mcq')" style="flex:1; padding:9px 12px; border-radius:9px; border:none; background:${activeMode === 'mcq' ? 'var(--accent)' : 'transparent'}; color:${activeMode === 'mcq' ? '#fff' : 'var(--txt2)'}; font-weight:700; font-size:0.82rem; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; transition:all 0.2s;">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-        ICAI MCQs &amp; Cases
-      </button>
-      <button class="mode-tab-btn ${activeMode === 'flashcards' ? 'active' : ''}" onclick="switchPracticeMode('flashcards')" style="flex:1; padding:9px 12px; border-radius:9px; border:none; background:${activeMode === 'flashcards' ? 'var(--accent)' : 'transparent'}; color:${activeMode === 'flashcards' ? '#fff' : 'var(--txt2)'}; font-weight:700; font-size:0.82rem; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; transition:all 0.2s;">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-        Theory Flashcards
-      </button>
-    </div>
-
-    <!-- Performance Stats Strip -->
-    <div class="stat-row" style="margin-bottom:20px;">
-      <div class="stat-card"><div class="stat-val indigo">${AppState.questionsAttempted.toLocaleString()}</div><div class="stat-lbl">Qs Attempted</div></div>
-      <div class="stat-card"><div class="stat-val green">${AppState.accuracy}%</div><div class="stat-lbl">Accuracy</div></div>
-      <div class="stat-card"><div class="stat-val amber">${formatXP(AppState.xp)}</div><div class="stat-lbl">XP Earned</div></div>
+      <div class="stat-card">
+        <div class="stat-val amber">${formatXP(AppState.xp || 0)}</div>
+        <div class="stat-lbl">XP Earned</div>
+      </div>
     </div>
 
     <!-- GROUP 1 SUBJECTS -->
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-      <div class="sec-label" style="margin:0;">Group 1 &bull; Core Papers</div>
-      <span style="font-size:0.72rem; color:var(--txt3);">Papers 1, 2, 3</span>
+    <div class="sec-label" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+      <span>Group 1 &bull; Core Papers</span>
+      <span style="font-size:0.72rem; color:var(--txt3); font-weight:500; text-transform:none; letter-spacing:normal;">Papers 1, 2, 3</span>
     </div>
-    <div style="margin-bottom:20px;">
-      ${grp1.map(sub => renderSubjectCard(sub)).join('')}
+    <div class="sub-grid">
+      ${grp1.map((sub, i) => renderSubjectCard(sub, i === 2)).join('')}
     </div>
 
     <!-- GROUP 2 SUBJECTS -->
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-      <div class="sec-label" style="margin:0;">Group 2 &bull; Applied Papers</div>
-      <span style="font-size:0.72rem; color:var(--txt3);">Papers 4, 5, 6</span>
+    <div class="sec-label" style="display:flex; justify-content:space-between; align-items:center; margin-top:20px; margin-bottom:12px;">
+      <span>Group 2 &bull; Applied Papers</span>
+      <span style="font-size:0.72rem; color:var(--txt3); font-weight:500; text-transform:none; letter-spacing:normal;">Papers 4, 5, 6</span>
     </div>
-    <div style="margin-bottom:20px;">
-      ${grp2.map(sub => renderSubjectCard(sub)).join('')}
+    <div class="sub-grid">
+      ${grp2.map((sub, i) => renderSubjectCard(sub, i === 2)).join('')}
     </div>
 
-    <!-- Rapid ICAI Modules -->
-    <div class="sec-label">Rapid ICAI Modules</div>
+    <!-- PRACTICE MODES -->
+    <div class="sec-label" style="margin-top:24px; margin-bottom:12px;">Practice Modes</div>
     <div class="recent-list">
       <div class="recent-item" onclick="openMtpRtp('mtp')">
         <div class="ri-icon" style="background:rgba(91,108,255,0.1); color:var(--accent);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>
@@ -594,6 +596,11 @@ function renderPractice() {
         <div class="ri-text"><div class="ri-title">Revision Test Papers (RTP)</div><div class="ri-sub">May 2027 amendments &amp; case studies</div></div>
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
       </div>
+      <div class="recent-item" onclick="openSubjectDrilldown('adv_acc')">
+        <div class="ri-icon" style="background:rgba(139,92,246,0.1); color:var(--accent2);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
+        <div class="ri-text"><div class="ri-title">Theory Flashcards &amp; Recall</div><div class="ri-sub">Active recall decks for Accounting Standards &amp; Laws</div></div>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
       <div class="recent-item" onclick="openFs('bookmarks')">
         <div class="ri-icon" style="background:rgba(245,158,11,0.1); color:var(--amber);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></div>
         <div class="ri-text"><div class="ri-title">Bookmarked Case Scenarios</div><div class="ri-sub">${(window.BOOKMARKS_DATA||[]).length} saved questions for active revision</div></div>
@@ -603,29 +610,33 @@ function renderPractice() {
   `;
 }
 
-function renderSubjectCard(sub) {
+function renderSubjectCard(sub, isSpan2 = false) {
   const chCount = (sub.chapters || []).length;
   let qCount = 0;
   (sub.chapters || []).forEach(c => {
     qCount += (c.questions || []).length;
+    (c.caseScenarios || []).forEach(cs => {
+      qCount += (cs.questions || []).length;
+    });
   });
 
+  const completed = (AppState.completedQuestions && AppState.completedQuestions[sub.id]) || 0;
+  const progress = qCount > 0 ? Math.min(Math.round((completed / qCount) * 100), 100) : 0;
+  const iconSvg = getSubjectOutlineSvg(sub.id);
+
+  const displayName = sub.id === 'law' ? 'Corporate & Other Laws' : (sub.id === 'cost' ? 'Cost & Management Accounting' : (sub.id === 'tax' ? 'Taxation (Direct & Indirect)' : sub.name));
+
   return `
-    <div class="sub-card-row" onclick="openSubjectDrilldown('${sub.id}')" style="background:var(--card); border:1px solid var(--border); border-radius:14px; padding:12px 14px; display:flex; align-items:center; gap:12px; cursor:pointer; margin-bottom:8px; transition:border-color 0.2s, transform 0.15s;">
-      <div style="width:38px; height:38px; border-radius:10px; background:${sub.color}18; color:${sub.color}; display:grid; place-items:center; font-weight:800; font-size:0.82rem; flex-shrink:0;">
-        ${sub.paper.replace('Paper ', 'P')}
+    <div class="sub-card ${isSpan2 ? 'span-2' : ''}" onclick="openSubjectDrilldown('${sub.id}')" style="border: 1.5px solid ${sub.color}35;">
+      <div class="sub-icon" style="color: ${sub.color};">
+        ${iconSvg}
       </div>
-      <div style="flex:1; min-width:0;">
-        <div style="font-weight:700; font-size:0.92rem; color:var(--txt); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
-          ${sub.name}
-        </div>
-        <div style="font-size:0.72rem; color:var(--txt3); margin-top:2px;">
-          ${chCount} Chapters &bull; ${qCount} MCQs
-        </div>
+      <div>
+        <div class="sub-name">${displayName}</div>
+        <div class="sub-count">${chCount} chapters &bull; ${qCount} questions</div>
       </div>
-      <div style="display:flex; align-items:center; gap:6px; flex-shrink:0;">
-        <span style="font-size:0.75rem; font-weight:700; color:var(--accent2); background:rgba(91,108,255,0.08); padding:4px 10px; border-radius:6px;">Practice</span>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--txt3);"><polyline points="9 18 15 12 9 6"/></svg>
+      <div class="sub-bar">
+        <div class="sub-fill" style="width: ${progress}%; background: ${sub.color};"></div>
       </div>
     </div>
   `;

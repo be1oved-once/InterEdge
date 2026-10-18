@@ -726,35 +726,86 @@ body {
 
 .sub-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 14px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 18px;
 }
 
 .sub-card {
-  border-radius: 16px;
+  background: var(--card);
+  border-radius: 18px;
   padding: 16px;
   cursor: pointer;
-  transition: transform .15s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 140px;
+  box-sizing: border-box;
+  transition: transform .15s ease, border-color .2s ease, box-shadow .2s ease;
+  position: relative;
 }
 
-.sub-card:active { transform: scale(.97); }
+.sub-card:active {
+  transform: scale(.97);
+}
 
-.sub-icon { margin-bottom: 10px; }
-.sub-icon svg { width: 22px; height: 22px; }
-.sub-name { font-size: .85rem; font-weight: 700; }
-.sub-count { font-size: .72rem; color: var(--txt3); margin-top: 2px; }
+@media (hover: hover) {
+  .sub-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  }
+}
+
+.sub-card.span-2 {
+  grid-column: span 2;
+  min-height: 115px;
+}
+
+.sub-icon {
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.sub-icon svg {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+.sub-name {
+  font-size: 0.96rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--txt);
+  word-break: break-word;
+}
+
+.sub-count {
+  font-size: 0.74rem;
+  color: var(--txt3);
+  margin-top: 5px;
+  font-weight: 500;
+}
+
 .sub-bar {
-  margin-top: 10px;
+  margin-top: 14px;
   height: 4px;
-  background: rgba(255,255,255,.08);
+  background: rgba(255, 255, 255, 0.08);
   border-radius: 99px;
   overflow: hidden;
 }
 
-.light-theme .sub-bar { background: rgba(0,0,0,.06); }
+.light-theme .sub-bar {
+  background: rgba(0, 0, 0, 0.08);
+}
 
-.sub-fill { height: 100%; border-radius: 99px; }
+.sub-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 0.3s ease;
+}
 
 /* ===== TESTS SCREEN ===== */
 .test-live {
