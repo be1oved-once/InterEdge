@@ -1133,43 +1133,51 @@ function renderProfile() {
     </div>
 
     <!-- Clean Compact User Card -->
-    <div style="background:var(--card); border:1px solid var(--border); border-radius:16px; padding:16px; margin-bottom:14px;">
-      <div style="display:flex; gap:14px; align-items:center;">
-        <!-- Compact Concentric PFP -->
+    <div style="background:var(--card); border:1px solid var(--border); border-radius:16px; padding:14px; margin-bottom:10px;">
+      <div style="display:flex; gap:12px; align-items:center;">
         <div class="profile-pfp-wrap" onclick="openAvatarSheet()" style="cursor:pointer; flex-shrink:0;" title="Change photo">
           <div id="profAvatarFrameHost">
-            ${renderAvatarWithFrame(user.avatar, equippedFrameId, 56, true)}
+            ${renderAvatarWithFrame(user.avatar, equippedFrameId, 52, true)}
           </div>
         </div>
-
-        <!-- Identity -->
         <div style="flex:1; min-width:0;">
-          <div style="display:flex; align-items:center; gap:6px;">
-            <h3 id="profDisplayName" style="font-size:1.05rem; font-weight:700; color:var(--txt); margin:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+          <div style="display:flex; align-items:center; gap:5px;">
+            <h3 id="profDisplayName" style="font-size:0.98rem; font-weight:700; color:var(--txt); margin:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
               ${escapeHtml(user.firstName || user.username)}
             </h3>
-            <svg viewBox="0 0 24 24" fill="#38bdf8" width="14" height="14" style="flex-shrink:0;"><path d="M12 2L15 8L21 9L17 14L18 20L12 17L6 20L7 14L3 9L9 8L12 2Z"/></svg>
+            <svg viewBox="0 0 24 24" fill="#38bdf8" width="13" height="13" style="flex-shrink:0;"><path d="M12 2L15 8L21 9L17 14L18 20L12 17L6 20L7 14L3 9L9 8L12 2Z"/></svg>
           </div>
-          <div id="profDisplayHandle" style="font-size:0.75rem; color:var(--txt3); margin-top:2px;">@${escapeHtml(user.username || 'student')} &bull; CA Inter (${user.attempt || 'May 2027'})</div>
-        </div>
-      </div>
-
-      <!-- Level & Progress Bar -->
-      <div style="margin-top:14px; padding-top:12px; border-top:1px solid var(--border);">
-        <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.72rem; margin-bottom:5px;">
-          <span style="font-weight:700; color:var(--txt);">Level ${levelInfo.level}</span>
-          <span style="color:var(--txt3);">${levelInfo.progressInLvl} / 150 XP &bull; ${levelInfo.pct}%</span>
-        </div>
-        <div style="width:100%; height:5px; background:var(--bg2); border-radius:3px; overflow:hidden;">
-          <div style="height:100%; width:${levelInfo.pct}%; background:linear-gradient(90deg, var(--accent), ${equippedFrame.color}); border-radius:3px; transition:width 0.4s ease;"></div>
+          <div id="profDisplayHandle" style="font-size:0.72rem; color:var(--txt3); margin-top:1px;">@${escapeHtml(user.username || 'student')} &bull; CA Inter (${user.attempt || 'May 2027'})</div>
+          <div style="margin-top:10px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.68rem; margin-bottom:4px;">
+              <span style="font-weight:700; color:var(--txt);">Level ${levelInfo.level}</span>
+              <span style="color:var(--txt3);">${levelInfo.progressInLvl} / 150 XP &bull; ${levelInfo.pct}%</span>
+            </div>
+            <div style="width:100%; height:4px; background:var(--bg2); border-radius:2px; overflow:hidden;">
+              <div style="height:100%; width:${levelInfo.pct}%; background:linear-gradient(90deg, var(--accent), ${equippedFrame.color}); border-radius:2px; transition:width 0.4s ease;"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
     <!-- Unified Minimal Stat Bar -->
-    <div style="display:flex; align-items:center; justify-content:space-around; background:var(--card); border:1px solid var(--border); border-radius:14px; padding:12px 8px; margin-bottom:20px;">
+    <div style="display:flex; align-items:center; justify-content:space-around; background:var(--card); border:1px solid var(--border); border-radius:14px; padding:10px 8px; margin-bottom:16px;">
       <div style="flex:1; text-align:center; cursor:pointer;" onclick="if(window.openGoalModal) window.openGoalModal(true)">
-        <div style="font-size:1.15rem; font-weight:800; color:#f59e0b;">🔥 ${AppState.streak}d</div>
+        <div style="display:flex;align-items:center;justify-content:center;gap:5px;">
+          <svg class="flame-svg" viewBox="0 0 24 28" width="18" height="21" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="flameGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" stop-color="#f97316"/>
+                <stop offset="50%" stop-color="#f59e0b"/>
+                <stop offset="100%" stop-color="#fde68a"/>
+              </linearGradient>
+            </defs>
+            <path d="M12 2 C12 2 7 8 7 13 C7 15.5 8.5 17 10 17.5 C9.5 16 10 14 11 13 C11 15 12.5 16.5 13 18 C14.5 17 15.5 15 15 12.5 C16.5 14 17 16.5 16.5 19 C18.5 17.5 19 15 18.5 12 C20 14 20.5 16 20 18.5 C21.5 16.5 22 14 21 11 C20 8 18 5.5 17 4.5 C17.5 6.5 17 8.5 15.5 9.5 C15.5 7 14.5 4.5 12 2Z" fill="url(#flameGrad)" opacity="0.95"/>
+            <path d="M12 14 C12 14 10 16 10 18.5 C10 20.5 11 22 12 22 C13 22 14 20.5 14 18.5 C14 16 12 14 12 14Z" fill="#fde68a" opacity="0.85"/>
+          </svg>
+          <span style="font-size:1.1rem; font-weight:800; color:#f59e0b;">${AppState.streak}d</span>
+        </div>
         <div style="font-size:0.7rem; color:var(--txt3); margin-top:2px;">Streak</div>
       </div>
       <div style="width:1px; height:24px; background:var(--border);"></div>
@@ -1186,55 +1194,84 @@ function renderProfile() {
 
     <!-- Account & Platform Actions -->
     <div class="sec-label">Account Controls</div>
-    <div class="menu-list">
-      
-      <div class="menu-item" onclick="openFrameModal()">
-        <div class="menu-left">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          <span>Equip Profile Frame</span>
+    <div class="prof-menu-list">
+
+      <div class="prof-menu-item" onclick="openFrameModal()">
+        <div class="prof-menu-left">
+          <div class="prof-menu-icon" style="background:rgba(250,204,21,0.12); color:#f59e0b;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <div class="prof-menu-text">
+            <span class="prof-menu-title">Avatar Frame</span>
+            <span class="prof-menu-sub" id="profEquippedFrameName" style="color:${equippedFrame.color};">${equippedFrame.name}</span>
+          </div>
         </div>
-        <span id="profEquippedFrameName" style="font-size:0.72rem; font-weight:700; color:${equippedFrame.color}; margin-right:8px;">${equippedFrame.name}</span>
-        <svg class="menu-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+        <svg class="menu-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
       </div>
 
-      <div class="menu-item" onclick="openProfileOverlay('editProfile')">
-        <div class="menu-left">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          <span>Edit Profile &bull; Target Attempt</span>
+      <div class="prof-menu-item" onclick="openProfileOverlay('editProfile')">
+        <div class="prof-menu-left">
+          <div class="prof-menu-icon" style="background:rgba(99,102,241,0.12); color:var(--accent);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+          <div class="prof-menu-text">
+            <span class="prof-menu-title">Edit Profile</span>
+            <span class="prof-menu-sub">Name, photo, target attempt</span>
+          </div>
         </div>
-        <svg class="menu-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+        <svg class="menu-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
       </div>
 
-      <div class="menu-item" onclick="openProfileOverlay('performance')">
-        <div class="menu-left">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-          <span>Performance Analytics</span>
+      <div class="prof-menu-item" onclick="openProfileOverlay('performance')">
+        <div class="prof-menu-left">
+          <div class="prof-menu-icon" style="background:rgba(16,185,129,0.12); color:#10b981;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          </div>
+          <div class="prof-menu-text">
+            <span class="prof-menu-title">Performance</span>
+            <span class="prof-menu-sub">Analytics & progress</span>
+          </div>
         </div>
-        <svg class="menu-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+        <svg class="menu-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
       </div>
 
-      <div class="menu-item" onclick="openProfileOverlay('bookmarks')">
-        <div class="menu-left">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
-          <span>Saved Bookmarks</span>
+      <div class="prof-menu-item" onclick="openProfileOverlay('bookmarks')">
+        <div class="prof-menu-left">
+          <div class="prof-menu-icon" style="background:rgba(56,189,248,0.12); color:#38bdf8;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <div class="prof-menu-text">
+            <span class="prof-menu-title">Bookmarks</span>
+            <span class="prof-menu-sub">Saved questions</span>
+          </div>
         </div>
-        <svg class="menu-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+        <svg class="menu-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
       </div>
 
-      <div class="menu-item" onclick="openProfileOverlay('settings')">
-        <div class="menu-left">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-          <span>App Settings</span>
+      <div class="prof-menu-item" onclick="openProfileOverlay('settings')">
+        <div class="prof-menu-left">
+          <div class="prof-menu-icon" style="background:rgba(148,163,184,0.1); color:var(--txt2);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          </div>
+          <div class="prof-menu-text">
+            <span class="prof-menu-title">Settings</span>
+            <span class="prof-menu-sub">App preferences</span>
+          </div>
         </div>
-        <svg class="menu-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+        <svg class="menu-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
       </div>
 
-      <div class="menu-item logout" onclick="handleSignout()">
-        <div class="menu-left">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-          <span>Sign Out</span>
+      <div class="prof-menu-item prof-menu-logout" onclick="handleSignout()">
+        <div class="prof-menu-left">
+          <div class="prof-menu-icon" style="background:rgba(239,68,68,0.1); color:#ef4444;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          </div>
+          <div class="prof-menu-text">
+            <span class="prof-menu-title" style="color:#ef4444;">Sign Out</span>
+          </div>
         </div>
       </div>
+
     </div>
   `;
 }
@@ -3031,11 +3068,61 @@ document.addEventListener('fullscreenchange', () => {
 let tempAvatarData = null;
 
 function openAvatarSheet() {
-  const sheet = document.getElementById('avatarSheet');
-  if (sheet) sheet.classList.add('show');
+  const existing = document.getElementById('avatar-change-overlay');
+  if (existing) existing.remove();
+
+  const overlay = document.createElement('div');
+  overlay.id = 'avatar-change-overlay';
+  overlay.className = 'avatar-change-overlay';
+  overlay.innerHTML = `
+    <div class="avatar-change-backdrop" onclick="closeAvatarSheet()"></div>
+    <div class="avatar-change-panel">
+      <div class="avatar-change-handle"></div>
+      <div class="avatar-change-head">
+        <div style="width:40px;height:40px;border-radius:12px;background:var(--accent);display:flex;align-items:center;justify-content:center;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+        </div>
+        <div>
+          <div style="font-size:1rem;font-weight:700;color:var(--txt);">Profile Photo</div>
+          <div style="font-size:0.73rem;color:var(--txt3);margin-top:1px;">JPG, PNG or WEBP · Max 5MB</div>
+        </div>
+        <button onclick="closeAvatarSheet()" style="margin-left:auto;background:var(--bg2);border:1px solid var(--border);color:var(--txt2);width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="avatar-change-body">
+        <button class="avatar-change-btn" onclick="chooseFromGallery()">
+          <div style="width:36px;height:36px;border-radius:10px;background:rgba(99,102,241,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" width="18" height="18"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          </div>
+          <div style="text-align:left;">
+            <div style="font-size:0.88rem;font-weight:600;color:var(--txt);">Choose from Gallery</div>
+            <div style="font-size:0.72rem;color:var(--txt3);margin-top:1px;">Select a photo from your device</div>
+          </div>
+        </button>
+        <button class="avatar-change-btn avatar-change-danger" onclick="removeAvatar()">
+          <div style="width:36px;height:36px;border-radius:10px;background:rgba(239,68,68,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" width="18" height="18"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+          </div>
+          <div style="text-align:left;">
+            <div style="font-size:0.88rem;font-weight:600;color:#ef4444;">Remove Photo</div>
+            <div style="font-size:0.72rem;color:var(--txt3);margin-top:1px;">Revert to default avatar</div>
+          </div>
+        </button>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+  requestAnimationFrame(() => overlay.classList.add('open'));
 }
 
 function closeAvatarSheet() {
+  const overlay = document.getElementById('avatar-change-overlay');
+  if (!overlay) return;
+  overlay.classList.remove('open');
+  setTimeout(() => overlay.remove(), 300);
+  // Also close legacy sheet if present
   const sheet = document.getElementById('avatarSheet');
   if (sheet) sheet.classList.remove('show');
 }
