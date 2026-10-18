@@ -808,17 +808,17 @@ function startOnboardingTour() {
     return;
   }
 
-  // Populate Step 1 options: Jan 27, May 27, Sept 27
+  // Populate Step 1 options: Jan 2027, May 2027, Sept 2027
   const attempts = [
-    { id: 'Jan 27', label: 'Jan 27', sub: 'January 2027 Attempt • Fast Track' },
-    { id: 'May 27', label: 'May 27', sub: 'May 2027 Attempt • Standard Track (Recommended)' },
-    { id: 'Sept 27', label: 'Sept 27', sub: 'Sept 2027 Attempt • Extended Prep' }
+    { id: 'Jan 2027', label: 'Jan 2027', sub: 'Fast Track Prep' },
+    { id: 'May 2027', label: 'May 2027', sub: 'Standard Track (Recommended)' },
+    { id: 'Sept 2027', label: 'Sept 2027', sub: 'Extended Prep' }
   ];
 
   const attemptCont = document.getElementById('attempt-opts-container');
   if (attemptCont) {
     attemptCont.innerHTML = attempts.map(att => `
-      <div class="onboard-opt-card ${att.id === 'May 27' ? 'selected' : ''}" onclick="selectOnboardingAttempt('${att.id}', this)">
+      <div class="onboard-opt-card ${att.id === 'May 2027' ? 'selected' : ''}" onclick="selectOnboardingAttempt('${att.id}', this)">
         <div class="opt-card-radio">
           <div class="radio-inner"></div>
         </div>
@@ -827,7 +827,7 @@ function startOnboardingTour() {
           <div class="opt-card-sub">${att.sub}</div>
         </div>
         <div class="opt-card-check">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><polyline points="20 6 9 17 4 12"/></svg>
         </div>
       </div>
     `).join('');
@@ -839,12 +839,12 @@ function startOnboardingTour() {
 
   // Populate Step 2: Discovery Channels
   const discoveryChannels = [
-    { id: 'twitter', label: 'Twitter / X', sub: 'Posts & Updates' },
-    { id: 'telegram', label: 'Telegram', sub: 'CA Student Groups' },
-    { id: 'whatsapp', label: 'WhatsApp', sub: 'Study Communities' },
-    { id: 'google', label: 'Google Search', sub: 'CA Intermediate Portal' },
-    { id: 'senior', label: 'Peer / Senior CA', sub: 'Word of mouth' },
-    { id: 'other', label: 'Other', sub: 'Other channels' }
+    { id: 'twitter', label: 'Twitter / X', sub: 'Updates' },
+    { id: 'telegram', label: 'Telegram', sub: 'CA Groups' },
+    { id: 'whatsapp', label: 'WhatsApp', sub: 'Study circles' },
+    { id: 'google', label: 'Google Search', sub: 'Web' },
+    { id: 'senior', label: 'Senior / Peer', sub: 'Word of mouth' },
+    { id: 'other', label: 'Other', sub: 'Direct link' }
   ];
 
   const discCont = document.getElementById('discovery-opts-container');
@@ -852,7 +852,7 @@ function startOnboardingTour() {
     discCont.innerHTML = discoveryChannels.map(ch => `
       <div class="onboard-chip-card" onclick="toggleOnboardingDiscovery('${ch.id}', this)">
         <div class="chip-checkbox">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><polyline points="20 6 9 17 4 12"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" width="11" height="11"><polyline points="20 6 9 17 4 12"/></svg>
         </div>
         <div>
           <div class="chip-title">${ch.label}</div>
@@ -864,12 +864,12 @@ function startOnboardingTour() {
 
   // Populate Step 3: Challenges / Pain Points
   const challenges = [
-    { id: 'distracted', label: 'Too Distracted', sub: 'Phone, notifications & short attention spans' },
-    { id: 'lazy_book', label: 'Lazy to Open Bulky Books', sub: 'Hesitant to tackle massive ICAI modules directly' },
-    { id: 'focus_time', label: "Can't Focus for Long Hours", sub: 'Mental fatigue and burnout during 8+ hr study days' },
-    { id: 'procrastination', label: 'Chronic Procrastination', sub: 'Delaying difficult subjects like Law and Costing' },
-    { id: 'lack_recall', label: 'Lack of Daily Active Recall', sub: 'Forgetting legal provisions & standards within weeks' },
-    { id: 'law_drafting', label: 'Unsure of ICAI Answer Format', sub: 'Losing marks on presentation & legal analysis structure' }
+    { id: 'distracted', label: 'Distractions & notifications', sub: 'Frequent phone interruptions during study' },
+    { id: 'lazy_book', label: 'Bulky ICAI modules', sub: 'Hard to start reading dense material from scratch' },
+    { id: 'focus_time', label: 'Low endurance for long hours', sub: 'Mental fatigue after 2-3 hours of study' },
+    { id: 'procrastination', label: 'Procrastinating on tough topics', sub: 'Delaying complex chapters in Law and Costing' },
+    { id: 'lack_recall', label: 'Active recall & retention', sub: 'Forgetting legal provisions and sections over time' },
+    { id: 'law_drafting', label: 'ICAI answer presentation', sub: 'Uncertainty regarding drafting and step marking' }
   ];
 
   const chalCont = document.getElementById('challenges-opts-container');
@@ -877,7 +877,7 @@ function startOnboardingTour() {
     chalCont.innerHTML = challenges.map(ch => `
       <div class="onboard-opt-card" onclick="toggleOnboardingChallenge('${ch.id}', this)">
         <div class="opt-card-checkbox">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><polyline points="20 6 9 17 4 12"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" width="12" height="12"><polyline points="20 6 9 17 4 12"/></svg>
         </div>
         <div class="opt-card-body">
           <div class="opt-card-title">${ch.label}</div>

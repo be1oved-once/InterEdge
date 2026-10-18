@@ -1280,11 +1280,10 @@ function initProfile() {
   updateProfileAvatar();
 }
 
-// Avatar Frame Selector Overlay Functions (Mobile Bottom Sheet)
-function openFrameModal() {
-  const modal = document.getElementById('frame-selector-modal');
+// Avatar Frame Selector Overlay Functions
+function renderFramesList() {
   const grid = document.getElementById('frame-modal-grid');
-  if (!modal || !grid) return;
+  if (!grid) return;
 
   const userLvl = calculateUserLevel(AppState.xp).level;
   const equippedId = AppState.user.equippedFrame || 'frame_1';
@@ -1296,38 +1295,62 @@ function openFrameModal() {
     const isEquipped = equippedId === f.id;
 
     return `
-      <div class="frame-item-card ${isEquipped ? 'equipped' : ''} ${!isUnlocked ? 'locked' : ''}" style="background:var(--card); border:${isEquipped ? '2px solid var(--accent)' : '1px solid var(--border)'}; border-radius:18px; padding:14px; display:flex; align-items:center; gap:14px; position:relative; box-shadow:${isEquipped ? '0 2px 8px rgba(91,108,255,0.2)' : 'none'};">
-        ${renderAvatarWithFrame(userAvatar, f.id, 52, false)}
-        <div style="flex:1; min-width:0;">
-          <div style="display:flex; align-items:center; gap:6px;">
-            <span style="font-weight:700; font-size:0.92rem; color:var(--txt);">${f.name}</span>
-            <span style="font-size:0.65rem; font-weight:800; background:${f.color}22; color:${f.color}; border:1px solid ${f.color}44; padding:1px 6px; border-radius:4px;">${f.badge}</span>
+      <div class="frame-item-card ${isEquipped ? 'equipped' : ''} ${!isUnlocked ? 'locked' : ''}">
+        ${renderAvatarWithFrame(userAvatar, f.id, 42, false)}
+        <div class="frame-item-info">
+          <div class="frame-item-title-row">
+            <span class="frame-item-name">${f.name}</span>
+            <span class="frame-item-badge" style="background:${f.color}22; color:${f.color}; border:1px solid ${f.color}44;">${f.badge}</span>
           </div>
-          <div style="font-size:0.75rem; color:var(--txt3); margin-top:2px; font-weight:500;">
+          <div class="frame-item-sub">
             ${f.styleTitle}
           </div>
-          <div style="font-size:0.7rem; color:${isUnlocked ? 'var(--green)' : 'var(--txt4)'}; margin-top:3px; font-weight:600;">
-            ${isUnlocked ? '&#10003; Unlocked &amp; Ready' : `Unlocks at Level ${f.minLevel}`}
+          <div class="frame-item-status" style="color:${isUnlocked ? 'var(--green)' : 'var(--txt4)'};">
+            ${isUnlocked ? '&#10003; Unlocked' : `Unlocks at Level ${f.minLevel}`}
           </div>
         </div>
         <div>
           ${isEquipped 
-            ? `<span style="font-size:0.72rem; font-weight:800; background:var(--accent); color:#fff; padding:6px 12px; border-radius:8px; display:inline-block;">EQUIPPED</span>`
+            ? `<span class="frame-tag-equipped">Equipped</span>`
             : isUnlocked 
-              ? `<button onclick="equipFrame('${f.id}')" style="background:var(--accent); color:#fff; border:none; font-weight:700; font-size:0.75rem; padding:7px 14px; border-radius:8px; cursor:pointer; box-shadow:0 2px 8px rgba(91,108,255,0.3); transition:all 0.15s;">Equip</button>`
-              : `<span style="font-size:0.72rem; color:var(--txt4); display:flex; align-items:center; gap:4px; background:rgba(255,255,255,0.04); padding:6px 10px; border-radius:8px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Locked</span>`
+              ? `<button class="frame-btn-equip" onclick="equipFrame('${f.id}')">Equip</button>`
+              : `<span class="frame-tag-locked"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Lvl ${f.minLevel}</span>`
           }
         </div>
       </div>
     `;
   }).join('');
+}
 
-  modal.style.display = 'flex';
+function openFrameModal() {
+  const modal = document.getElementById('frame-selector-modal');
+  if (!modal) return;
+  renderFramesList();
+
+  if (window.location.pathname.includes('/profile') || window.location.hash.includes('profile')) {
+    if (!window.location.search.includes('panel=frames')) {
+      try {
+        window.history.pushState({ route: 'profile', params: { panel: 'frames' }, isOverlay: true }, '', '/profile?panel=frames');
+      } catch(e) {}
+    }
+  }
+
+  modal.classList.add('open');
 }
 
 function closeFrameModal() {
   const modal = document.getElementById('frame-selector-modal');
-  if (modal) modal.style.display = 'none';
+  if (modal) modal.classList.remove('open');
+
+  if (window.location.search.includes('panel=frames')) {
+    if (window.history.length > 1 && window.history.state && window.history.state.isOverlay) {
+      window.history.back();
+      return;
+    }
+    try {
+      window.history.replaceState({ route: 'profile', params: {}, isOverlay: false }, '', '/profile');
+    } catch(e) {}
+  }
 }
 
 function equipFrame(frameId) {
@@ -1372,11 +1395,11 @@ window.openFrameModal = openFrameModal;
 window.closeFrameModal = closeFrameModal;
 window.equipFrame = equipFrame;
 window.populateRanks = populateRanks;
-window.filterRanksTier = filterRanksTier;
+window.renderFrames = openFrameModal;
 
 // ===== PROFILE OVERLAY URL SYSTEM =====
 // All profile sub-screens use query params: /profile?panel=editProfile
-const PROFILE_OVERLAYS = ['editProfile','performance','bookmarks','community','settings','privacyPolicy','disclaimer','contactUs', 'telegramLink'];
+const PROFILE_OVERLAYS = ['editProfile','performance','bookmarks','community','settings','privacyPolicy','disclaimer','contactUs', 'telegramLink', 'frames'];
 
 function openProfileOverlay(name) {
   // Use router navigate
@@ -1385,7 +1408,7 @@ function openProfileOverlay(name) {
 }
 
 function closeProfileOverlay(name) {
-  const el = document.getElementById('fs-' + name);
+  const el = (name === 'frames') ? document.getElementById('frame-selector-modal') : document.getElementById('fs-' + name);
   if (el) el.classList.remove('open');
 
   // If this overlay was pushed into history via query params, pop history back cleanly
