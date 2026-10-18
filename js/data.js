@@ -609,16 +609,16 @@ function getTierFromXP(xp) {
 
 // 10 AVATAR FRAMES SPECIFICATION (Unlocked every 5 levels from 1 to 50)
 const AVATAR_FRAMES = [
-  { id: 'frame_1', name: 'Bronze Cadet', styleTitle: 'Brushed Bronze Rim', minLevel: 1, color: '#cd7f32', border: '2.5px solid #cd7f32', glow: 'rgba(205,127,50,0.35)', badge: 'Lvl 1', desc: 'Warm metallic bronze edge with satin finish.' },
-  { id: 'frame_2', name: 'Emerald Scholar', styleTitle: 'Double Emerald & Gems', minLevel: 5, color: '#10b981', border: '3px double #10b981', glow: 'rgba(16,185,129,0.5)', badge: 'Lvl 5', desc: 'Dual neon emerald lines with luminous corner gemstones.' },
-  { id: 'frame_3', name: 'Sapphire Sentinel', styleTitle: 'Cyber Shield Brackets', minLevel: 10, color: '#3b82f6', border: '2.5px solid #3b82f6', glow: 'rgba(59,130,246,0.55)', badge: 'Lvl 10', desc: 'Tactical cobalt cyber shield with reinforced corner brackets.' },
-  { id: 'frame_4', name: 'Amber Vanguard', styleTitle: 'Radiant Solar Halo', minLevel: 15, color: '#f59e0b', border: '2.5px solid #f59e0b', glow: 'rgba(245,158,11,0.65)', badge: 'Lvl 15', desc: 'Concentric golden core enveloped in a dashed solar aura.' },
-  { id: 'frame_5', name: 'Ruby Warlord', styleTitle: 'Dragon Chamfer Crests', minLevel: 20, color: '#ef4444', border: '3px solid #ef4444', glow: 'rgba(239,68,68,0.7)', badge: 'Lvl 20', desc: 'Crimson dragonflame rim with diamond armor corner crests.' },
-  { id: 'frame_6', name: 'Amethyst Archon', styleTitle: 'Arcane Cardinal Studs', minLevel: 25, color: '#8b5cf6', border: '2.5px solid #8b5cf6', glow: 'rgba(139,92,246,0.75)', badge: 'Lvl 25', desc: 'Mystic violet resonant aura with 4 celestial star diamonds.' },
-  { id: 'frame_7', name: 'Neon Matrix', styleTitle: 'Cyber Laser Crosshairs', minLevel: 30, color: '#06b6d4', border: '2.5px dashed #06b6d4', glow: 'rgba(6,182,212,0.75)', badge: 'Lvl 30', desc: 'Cyberpunk dashed high-voltage circuit with laser corner tags.' },
-  { id: 'frame_8', name: 'Titanium Elite', styleTitle: 'Aerospace Chrome Rivets', minLevel: 35, color: '#e2e8f0', border: '3.5px double #f1f5f9', glow: 'rgba(241,245,249,0.7)', badge: 'Lvl 35', desc: 'Aerospace platinum double band with industrial corner rivets.' },
-  { id: 'frame_9', name: 'Obsidian Sovereign', styleTitle: 'Void Plasma Wings', minLevel: 40, color: '#ec4899', border: '3px solid #ec4899', glow: 'rgba(236,72,153,0.8)', badge: 'Lvl 40', desc: 'Stealth dark obsidian with hot-pink cyber edge & plasma wings.' },
-  { id: 'frame_10', name: 'Grandmaster Celestial', styleTitle: 'Legendary Chroma Crown', minLevel: 50, color: '#fbbf24', border: '3px solid #fbbf24', glow: 'rgba(251,191,36,0.9)', badge: 'Lvl 50 (MAX)', desc: 'Mythic chromatic rainbow gradient, golden crown & stellar stars.' }
+  { id: 'frame_1', name: 'Bronze Cadet', styleTitle: 'Brushed Bronze Rim', minLevel: 1, color: '#cd7f32', border: '2px solid #cd7f32', glow: 'none', badge: 'Lvl 1', desc: 'Warm metallic bronze edge with satin finish.' },
+  { id: 'frame_2', name: 'Emerald Scholar', styleTitle: 'Double Emerald & Gems', minLevel: 5, color: '#10b981', border: '3px double #10b981', glow: 'none', badge: 'Lvl 5', desc: 'Dual neon emerald lines with luminous corner gemstones.' },
+  { id: 'frame_3', name: 'Sapphire Sentinel', styleTitle: 'Cyber Shield Brackets', minLevel: 10, color: '#3b82f6', border: '2px solid #3b82f6', glow: 'none', badge: 'Lvl 10', desc: 'Tactical cobalt cyber shield with reinforced corner brackets.' },
+  { id: 'frame_4', name: 'Amber Vanguard', styleTitle: 'Radiant Solar Halo', minLevel: 15, color: '#f59e0b', border: '2px solid #f59e0b', glow: 'none', badge: 'Lvl 15', desc: 'Concentric golden core enveloped in a dashed solar aura.' },
+  { id: 'frame_5', name: 'Ruby Warlord', styleTitle: 'Dragon Chamfer Crests', minLevel: 20, color: '#ef4444', border: '2.5px solid #ef4444', glow: 'none', badge: 'Lvl 20', desc: 'Crimson dragonflame rim with diamond armor corner crests.' },
+  { id: 'frame_6', name: 'Amethyst Archon', styleTitle: 'Arcane Cardinal Studs', minLevel: 25, color: '#8b5cf6', border: '2.5px solid #8b5cf6', glow: 'none', badge: 'Lvl 25', desc: 'Mystic violet resonant aura with 4 celestial star diamonds.' },
+  { id: 'frame_7', name: 'Neon Matrix', styleTitle: 'Cyber Laser Crosshairs', minLevel: 30, color: '#06b6d4', border: '2.5px dashed #06b6d4', glow: 'none', badge: 'Lvl 30', desc: 'Cyberpunk dashed high-voltage circuit with laser corner tags.' },
+  { id: 'frame_8', name: 'Titanium Elite', styleTitle: 'Aerospace Chrome Rivets', minLevel: 35, color: '#cbd5e1', border: '3.5px double #cbd5e1', glow: 'none', badge: 'Lvl 35', desc: 'Aerospace platinum double band with industrial corner rivets.' },
+  { id: 'frame_9', name: 'Obsidian Sovereign', styleTitle: 'Void Plasma Wings', minLevel: 40, color: '#ec4899', border: '2.5px solid #ec4899', glow: 'none', badge: 'Lvl 40', desc: 'Stealth dark obsidian with hot-pink cyber edge & plasma wings.' },
+  { id: 'frame_10', name: 'Grandmaster Celestial', styleTitle: 'Legendary Chroma Crown', minLevel: 50, color: '#fbbf24', border: '2.5px solid #fbbf24', glow: 'none', badge: 'Lvl 50 (MAX)', desc: 'Mythic chromatic rainbow gradient, golden crown & stellar stars.' }
 ];
 
 const NOTIFICATIONS_DATA = [

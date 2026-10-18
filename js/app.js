@@ -924,8 +924,8 @@ function renderAvatarWithFrame(avatarData, frameId = 'frame_1', size = 52, showB
   let ornaments = '';
   if (frameNum === '2') {
     ornaments = `
-      <span style="position:absolute;top:2px;left:2px;width:5px;height:5px;border-radius:50%;background:#34d399;box-shadow:0 0 6px #10b981;pointer-events:none;z-index:2;"></span>
-      <span style="position:absolute;bottom:2px;right:2px;width:5px;height:5px;border-radius:50%;background:#34d399;box-shadow:0 0 6px #10b981;pointer-events:none;z-index:2;"></span>
+      <span style="position:absolute;top:2px;left:2px;width:5px;height:5px;border-radius:50%;background:#34d399;border:1px solid #059669;pointer-events:none;z-index:2;"></span>
+      <span style="position:absolute;bottom:2px;right:2px;width:5px;height:5px;border-radius:50%;background:#34d399;border:1px solid #059669;pointer-events:none;z-index:2;"></span>
     `;
   } else if (frameNum === '3') {
     ornaments = `
@@ -1022,9 +1022,9 @@ function generateBoardHtml(displayBoard, fullBoard = []) {
   const podium = showPodium ? displayBoard.slice(0, 3) : [];
   const listRows = showPodium ? displayBoard.slice(3) : displayBoard;
 
-  const crownGold = `<svg viewBox="0 0 24 24" fill="#fbbf24" stroke="#d97706" stroke-width="1.5" width="22" height="22" style="filter:drop-shadow(0 2px 4px rgba(251,191,36,0.5));"><path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"/></svg>`;
-  const silverMedal = `<svg viewBox="0 0 24 24" fill="#94a3b8" stroke="#475569" stroke-width="1.5" width="20" height="20" style="filter:drop-shadow(0 2px 4px rgba(148,163,184,0.4));"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>`;
-  const bronzeMedal = `<svg viewBox="0 0 24 24" fill="#b45309" stroke="#78350f" stroke-width="1.5" width="20" height="20" style="filter:drop-shadow(0 2px 4px rgba(180,83,9,0.4));"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>`;
+  const crownGold = `<svg viewBox="0 0 24 24" fill="#fbbf24" stroke="#d97706" stroke-width="1.5" width="22" height="22"><path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"/></svg>`;
+  const silverMedal = `<svg viewBox="0 0 24 24" fill="#94a3b8" stroke="#475569" stroke-width="1.5" width="20" height="20"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>`;
+  const bronzeMedal = `<svg viewBox="0 0 24 24" fill="#b45309" stroke="#78350f" stroke-width="1.5" width="20" height="20"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>`;
 
   let html = '';
 
@@ -1259,7 +1259,7 @@ function openFrameModal() {
     const isEquipped = equippedId === f.id;
 
     return `
-      <div class="frame-item-card ${isEquipped ? 'equipped' : ''} ${!isUnlocked ? 'locked' : ''}" style="background:var(--card); border:${isEquipped ? '2px solid var(--accent)' : '1px solid var(--border)'}; border-radius:18px; padding:14px; display:flex; align-items:center; gap:14px; position:relative; box-shadow:${isEquipped ? '0 4px 18px rgba(91,108,255,0.25)' : 'none'};">
+      <div class="frame-item-card ${isEquipped ? 'equipped' : ''} ${!isUnlocked ? 'locked' : ''}" style="background:var(--card); border:${isEquipped ? '2px solid var(--accent)' : '1px solid var(--border)'}; border-radius:18px; padding:14px; display:flex; align-items:center; gap:14px; position:relative; box-shadow:${isEquipped ? '0 2px 8px rgba(91,108,255,0.2)' : 'none'};">
         ${renderAvatarWithFrame(userAvatar, f.id, 52, false)}
         <div style="flex:1; min-width:0;">
           <div style="display:flex; align-items:center; gap:6px;">
