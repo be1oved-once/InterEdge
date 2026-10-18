@@ -1186,7 +1186,7 @@ function renderProfile() {
 
     <!-- Account & Platform Actions -->
     <div class="sec-label">Account Controls</div>
-    <div class="menu-list" style="background:var(--card); border:1px solid var(--border); border-radius:16px; overflow:hidden; margin-bottom:20px;">
+    <div class="menu-list">
       
       <div class="menu-item" onclick="openFrameModal()">
         <div class="menu-left">
