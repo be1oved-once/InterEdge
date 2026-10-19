@@ -901,87 +901,210 @@ body {
 .stat-val.amber { color: var(--amber); }
 .stat-lbl { font-size: .68rem; color: var(--txt3); margin-top: 3px; }
 
-.sub-grid {
+/* ===== REDESIGNED MODERN PRACTICE ARENA ===== */
+.practice-metrics-bar {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  margin-bottom: 18px;
+  grid-template-columns: 1fr auto 1fr auto 1fr;
+  align-items: center;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 8px 12px;
+  margin-bottom: 14px;
+}
+.pm-stat {
+  text-align: center;
+}
+.pm-val {
+  font-size: 0.95rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+.pm-val.text-indigo { color: var(--accent); }
+.pm-val.text-green { color: var(--green); }
+.pm-val.text-amber { color: var(--amber); }
+.pm-lbl {
+  font-size: 0.65rem;
+  color: var(--txt3);
+  font-weight: 500;
+  margin-top: 2px;
+}
+.pm-divider {
+  width: 1px;
+  height: 24px;
+  background: var(--border);
 }
 
-.sub-card {
-  background: var(--card);
-  border-radius: 18px;
-  padding: 16px;
+.practice-group-switcher {
+  display: flex;
+  gap: 6px;
+  background: var(--bg2);
+  padding: 3px;
+  border-radius: 10px;
+  margin-bottom: 14px;
+  border: 1px solid var(--border);
+}
+.practice-filter-pill {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--txt3);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 6px 4px;
+  border-radius: 7px;
   cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+.practice-filter-pill.active {
+  background: var(--card);
+  color: var(--txt);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  font-weight: 700;
+}
+
+.sub-list-col {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  min-height: 140px;
-  box-sizing: border-box;
-  transition: transform .15s ease, border-color .2s ease, box-shadow .2s ease;
-  position: relative;
+  gap: 8px;
 }
-
-.sub-card:active {
-  transform: scale(.97);
-}
-
-@media (hover: hover) {
-  .sub-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-  }
-}
-
-.sub-card.span-2 {
-  grid-column: span 2;
-  min-height: 115px;
-}
-
-.sub-icon {
-  margin-bottom: 12px;
+.subject-row-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 10px 12px;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.15s ease;
 }
-
-.sub-icon svg {
-  width: 24px;
-  height: 24px;
-  display: block;
+.subject-row-card:active {
+  transform: scale(0.99);
 }
-
-.sub-name {
-  font-size: 0.96rem;
+.sub-row-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.sub-row-icon svg {
+  width: 20px;
+  height: 20px;
+}
+.sub-row-body {
+  flex: 1;
+  min-width: 0;
+}
+.sub-row-top {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.sub-paper-tag {
+  font-size: 0.6rem;
+  font-weight: 800;
+  padding: 1px 5px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  line-height: 1.2;
+}
+.sub-row-title {
+  font-size: 0.86rem;
   font-weight: 700;
-  line-height: 1.3;
   color: var(--txt);
-  word-break: break-word;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-
-.sub-count {
-  font-size: 0.74rem;
+.sub-row-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.7rem;
   color: var(--txt3);
-  margin-top: 5px;
-  font-weight: 500;
+  margin-top: 3px;
 }
-
-.sub-bar {
-  margin-top: 14px;
-  height: 4px;
-  background: rgba(255, 255, 255, 0.08);
+.sub-row-progress-text {
+  font-weight: 600;
+  font-size: 0.68rem;
+}
+.sub-row-bar {
+  height: 3px;
+  background: rgba(255,255,255,0.06);
   border-radius: 99px;
   overflow: hidden;
+  margin-top: 5px;
 }
-
-.light-theme .sub-bar {
-  background: rgba(0, 0, 0, 0.08);
-}
-
-.sub-fill {
+.sub-row-fill {
   height: 100%;
   border-radius: 99px;
   transition: width 0.3s ease;
+}
+.sub-row-arrow {
+  color: var(--txt4);
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+}
+
+.practice-modes-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-bottom: 24px;
+}
+.pm-mode-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.15s ease;
+}
+.pm-mode-card:active {
+  transform: scale(0.98);
+}
+.pm-mode-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+}
+.pm-mode-icon svg {
+  width: 16px;
+  height: 16px;
+}
+.pm-mode-title {
+  font-weight: 700;
+  font-size: 0.82rem;
+  color: var(--txt);
+  line-height: 1.2;
+}
+.pm-mode-desc {
+  font-size: 0.68rem;
+  color: var(--txt3);
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pm-mode-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 0.6rem;
+  font-weight: 800;
+  padding: 1px 6px;
+  border-radius: 4px;
 }
 
 /* ===== TESTS SCREEN ===== */
@@ -1241,12 +1364,25 @@ body {
 .back-btn svg { width: 18px; height: 18px; color: var(--txt2); }
 .settings-head h2 { font-size: 1.2rem; }
 
+.set-sec-title {
+  font-size: .72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .6px;
+  color: var(--txt3);
+  margin: 18px 0 8px 4px;
+}
+.set-sec-title:first-child {
+  margin-top: 4px;
+}
+
 .set-card {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 18px;
-  padding: 16px;
-  margin-bottom: 14px;
+  border-radius: 16px;
+  padding: 2px 14px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
   transition: background .3s, border-color .3s;
 }
 
@@ -1258,57 +1394,233 @@ body {
   justify-content: space-between;
   padding: 12px 0;
   border-bottom: 1px solid var(--border);
+  gap: 12px;
   transition: border-color .3s;
 }
 
-.set-row:last-child { border-bottom: none; padding-bottom: 0; }
-.set-info { flex: 1; }
-.set-label { font-size: .85rem; font-weight: 600; }
-.set-desc { font-size: .72rem; color: var(--txt3); margin-top: 2px; }
+.set-row:last-child { border-bottom: none; }
 
-.toggle {
-  width: 46px;
-  height: 26px;
-  background: var(--card-light);
-  border-radius: 99px;
-  position: relative;
-  cursor: pointer;
-  transition: .2s, background .3s;
+.set-row-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  display: grid;
+  place-items: center;
   flex-shrink: 0;
 }
 
-.toggle.on { background: var(--accent); }
+.set-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.set-label {
+  font-size: .84rem;
+  font-weight: 600;
+  color: var(--txt);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.set-desc {
+  font-size: .70rem;
+  color: var(--txt3);
+  margin-top: 1px;
+  line-height: 1.3;
+}
+
+.toggle {
+  width: 44px;
+  height: 24px;
+  background: var(--bg3);
+  border-radius: 99px;
+  position: relative;
+  cursor: pointer;
+  transition: background .2s, border-color .2s;
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+}
+
+.toggle.on {
+  background: var(--accent);
+  border-color: var(--accent);
+}
 
 .toggle-knob {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   background: #fff;
   border-radius: 50%;
   position: absolute;
-  top: 3px;
-  left: 3px;
-  transition: .2s;
+  top: 2px;
+  left: 2px;
+  transition: transform .2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 }
 
 .toggle.on .toggle-knob { transform: translateX(20px); }
 
-.theme-options { display: flex; gap: 8px; }
+.theme-options {
+  display: flex;
+  gap: 3px;
+  background: var(--bg3);
+  padding: 3px;
+  border-radius: 10px;
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+}
 
 .theme-btn {
-  flex: 1;
-  height: 42px;
+  padding: 5px 9px;
+  height: 27px;
   border: none;
-  border-radius: 12px;
-  background: var(--card-light);
+  border-radius: 7px;
+  background: transparent;
   color: var(--txt3);
-  font-size: .82rem;
+  font-size: .72rem;
   font-weight: 600;
   cursor: pointer;
   font-family: 'Sora', sans-serif;
-  transition: .2s, background .3s, color .3s;
+  transition: all .15s ease;
+  white-space: nowrap;
 }
 
-.theme-btn.active { background: var(--accent); color: #fff; }
+.theme-btn.active {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 1px 4px rgba(91,108,255,0.3);
+}
+
+.num-input-wrap {
+  display: inline-flex;
+  align-items: center;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 2px 4px;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.num-btn {
+  width: 26px;
+  height: 26px;
+  border: none;
+  background: var(--card);
+  border-radius: 7px;
+  color: var(--txt);
+  font-size: .9rem;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  line-height: 1;
+  transition: background .15s, transform .1s;
+}
+
+.num-btn:active {
+  transform: scale(0.92);
+}
+
+.num-input {
+  width: 36px;
+  border: none;
+  background: transparent;
+  text-align: center;
+  font-size: .8rem;
+  font-weight: 700;
+  color: var(--txt);
+  font-family: 'Sora', sans-serif;
+  outline: none;
+  -moz-appearance: textfield;
+}
+
+.num-input::-webkit-outer-spin-button,
+.num-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.num-unit {
+  font-size: .72rem;
+  font-weight: 600;
+  color: var(--txt3);
+  margin-right: 4px;
+}
+
+.setting-dropdown-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.setting-dropdown-trigger {
+  padding: 5px 10px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  color: var(--txt);
+  font-size: .74rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Sora', sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: border-color .2s;
+}
+
+.setting-dropdown-trigger:focus,
+.setting-dropdown-trigger.open {
+  border-color: var(--accent);
+}
+
+.setting-dropdown-menu {
+  display: none;
+  position: absolute;
+  right: 0;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px var(--shadow);
+  z-index: 100;
+  min-width: 130px;
+  overflow: hidden;
+  padding: 4px;
+}
+
+.setting-dropdown-menu.upward {
+  bottom: calc(100% + 6px);
+}
+
+.setting-dropdown-menu.open {
+  display: block;
+  animation: dropdownIn 0.15s cubic-bezier(.22,1,.36,1);
+}
+
+.setting-dropdown-item {
+  padding: 7px 10px;
+  font-size: .74rem;
+  font-weight: 500;
+  color: var(--txt2);
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background .15s, color .15s;
+}
+
+.setting-dropdown-item:hover {
+  background: var(--card-light);
+  color: var(--txt);
+}
+
+.setting-dropdown-item.selected {
+  color: var(--accent);
+  font-weight: 700;
+  background: rgba(91,108,255,0.08);
+}
 
 /* ===== HEATMAP ===== */
 .heatmap-card {
@@ -1569,20 +1881,20 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px 0;
+  padding: 12px 0 16px;
 }
 
 .edit-av {
-  width: 90px;
-  height: 90px;
-  border-radius: 28px;
+  width: 66px;
+  height: 66px;
+  border-radius: 20px;
   background: linear-gradient(135deg, var(--accent), #a78bfa);
   display: grid;
   place-items: center;
-  font-size: 32px;
+  font-size: 24px;
   font-weight: 700;
   color: #fff;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   cursor: pointer;
   position: relative;
   overflow: hidden;
@@ -1605,16 +1917,16 @@ body {
 .edit-av:hover .edit-av-overlay,
 .edit-av:active .edit-av-overlay { opacity: 1; }
 
-.edit-av-overlay svg { width: 28px; height: 28px; color: #fff; }
-.edit-av-btn { font-size: .78rem; color: var(--accent2); cursor: pointer; font-weight: 600; }
+.edit-av-overlay svg { width: 22px; height: 22px; color: #fff; }
+.edit-av-btn { font-size: .75rem; color: var(--accent2); cursor: pointer; font-weight: 600; }
 
-.form-group { margin-bottom: 16px; }
+.form-group { margin-bottom: 12px; }
 
 .form-label {
-  font-size: .72rem;
+  font-size: .68rem;
   font-weight: 600;
   color: var(--txt3);
-  margin-bottom: 6px;
+  margin-bottom: 4px;
   display: block;
   text-transform: uppercase;
   letter-spacing: .5px;
@@ -1622,12 +1934,14 @@ body {
 
 .form-input {
   width: 100%;
-  padding: 12px 14px;
+  padding: 10px 13px;
+  height: 42px;
+  box-sizing: border-box;
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 14px;
+  border-radius: 12px;
   color: var(--txt);
-  font-size: .88rem;
+  font-size: .84rem;
   font-family: 'Sora', sans-serif;
   outline: none;
   transition: background .3s, border-color .3s, color .3s;
@@ -1638,15 +1952,18 @@ body {
 
 .btn-save {
   width: 100%;
-  padding: 14px;
+  padding: 11px 14px;
+  height: 42px;
+  box-sizing: border-box;
   background: var(--accent);
   border: none;
-  border-radius: 14px;
+  border-radius: 12px;
   color: #fff;
-  font-size: .88rem;
+  font-size: .85rem;
   font-weight: 700;
   cursor: pointer;
   font-family: 'Sora', sans-serif;
+  margin-top: 6px;
 }
 
 /* ===== CUSTOM DROPDOWN ===== */
@@ -1654,12 +1971,14 @@ body {
 
 .custom-dropdown-trigger {
   width: 100%;
-  padding: 12px 14px;
+  padding: 10px 13px;
+  height: 42px;
+  box-sizing: border-box;
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 14px;
+  border-radius: 12px;
   color: var(--txt);
-  font-size: .88rem;
+  font-size: .84rem;
   font-family: 'Sora', sans-serif;
   cursor: pointer;
   display: flex;
@@ -3989,185 +4308,88 @@ body {
   border-radius: inherit;
 }
 
-/* ===== 10 LIGHTWEIGHT TIER FRAMES (OPTIMIZED FOR 60FPS ON LOW-END MOBILE) ===== */
+/* ===== 10 MINIMAL & EXECUTIVE TIER FRAMES (SLEEK CONCENTRIC FINISH) ===== */
 
-/* 1. Bronze Cadet (Lvl 1) — Brushed warm bronze metallic rim */
+/* 1. Bronze Cadet (Lvl 1) — Brushed warm bronze rim */
 .frame-style-1 {
   border: 2px solid #cd7f32;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
-  background: rgba(205, 127, 50, 0.1);
+  background: rgba(205, 127, 50, 0.08);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
-/* 2. Emerald Scholar (Lvl 5) — Double neon emerald border with corner gem pips */
+/* 2. Emerald Scholar (Lvl 5) — Dual emerald precision metallic outline */
 .frame-style-2 {
-  border: 3px double #10b981;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
-  background: rgba(16, 185, 129, 0.1);
+  border: 2px solid #10b981;
+  outline: 1px solid rgba(16, 185, 129, 0.4);
+  outline-offset: 1px;
+  background: rgba(16, 185, 129, 0.08);
 }
 
-/* 3. Sapphire Sentinel (Lvl 10) — Cyber shield frame with outer corner brackets */
+/* 3. Sapphire Sentinel (Lvl 10) — Clean royal sapphire rim with precision ring */
 .frame-style-3 {
   border: 2px solid #3b82f6;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
-  background: rgba(59, 130, 246, 0.1);
+  outline: 1.5px solid rgba(59, 130, 246, 0.45);
+  outline-offset: 1px;
+  background: rgba(59, 130, 246, 0.08);
 }
-.frame-style-3 .cyber-bracket {
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  border-color: #60a5fa;
-  border-style: solid;
-  pointer-events: none;
-  z-index: 2;
-}
-.frame-style-3 .cyber-bracket.tl { top: -2px; left: -2px; border-width: 2px 0 0 2px; border-top-left-radius: 4px; }
-.frame-style-3 .cyber-bracket.tr { top: -2px; right: -2px; border-width: 2px 2px 0 0; border-top-right-radius: 4px; }
-.frame-style-3 .cyber-bracket.bl { bottom: -2px; left: -2px; border-width: 0 0 2px 2px; border-bottom-left-radius: 4px; }
-.frame-style-3 .cyber-bracket.br { bottom: -2px; right: -2px; border-width: 0 2px 2px 0; border-bottom-right-radius: 4px; }
 
-/* 4. Amber Vanguard (Lvl 15) — Dual concentric ring with radiant dashed solar halo */
+/* 4. Amber Vanguard (Lvl 15) — Radiant amber double-track bezel */
 .frame-style-4 {
   border: 2px solid #f59e0b;
-  outline: 1.5px dashed rgba(245, 158, 11, 0.85);
-  outline-offset: 2.5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
-  background: rgba(245, 158, 11, 0.1);
+  outline: 1.5px dashed rgba(245, 158, 11, 0.65);
+  outline-offset: 1.5px;
+  background: rgba(245, 158, 11, 0.08);
 }
 
-/* 5. Ruby Warlord (Lvl 20) — Crimson dragonflame with chamfered diamond shield crests */
+/* 5. Ruby Warlord (Lvl 20) — Deep crimson bevel border with laser finish */
 .frame-style-5 {
-  border: 2.5px solid #ef4444;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
-  background: rgba(239, 68, 68, 0.12);
+  border: 2px solid #ef4444;
+  outline: 1.5px solid rgba(239, 68, 68, 0.5);
+  outline-offset: 1.5px;
+  background: rgba(239, 68, 68, 0.08);
 }
-.frame-style-5 .ruby-crest {
-  position: absolute;
-  width: 7px;
-  height: 7px;
-  background: #f87171;
-  border: 1px solid #b91c1c;
-  transform: rotate(45deg);
-  pointer-events: none;
-  z-index: 2;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
-}
-.frame-style-5 .ruby-crest.tl { top: -1px; left: -1px; }
-.frame-style-5 .ruby-crest.tr { top: -1px; right: -1px; }
-.frame-style-5 .ruby-crest.bl { bottom: -1px; left: -1px; }
-.frame-style-5 .ruby-crest.br { bottom: -1px; right: -1px; }
 
-/* 6. Amethyst Archon (Lvl 25) — Arcane violet dual-ring with 4 cardinal star diamond studs */
+/* 6. Amethyst Archon (Lvl 25) — Royal violet dual-ring */
 .frame-style-6 {
-  border: 2.5px solid #8b5cf6;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
-  background: rgba(139, 92, 246, 0.12);
+  border: 2px solid #8b5cf6;
+  outline: 1.5px solid rgba(139, 92, 246, 0.5);
+  outline-offset: 1.5px;
+  background: rgba(139, 92, 246, 0.08);
 }
-.frame-style-6 .archon-stud {
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  background: #c084fc;
-  border: 1px solid #7c3aed;
-  border-radius: 1px;
-  transform: rotate(45deg);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
-  pointer-events: none;
-  z-index: 2;
-}
-.frame-style-6 .archon-stud.top { top: -3px; left: calc(50% - 3px); }
-.frame-style-6 .archon-stud.bottom { bottom: -3px; left: calc(50% - 3px); }
-.frame-style-6 .archon-stud.left { left: -3px; top: calc(50% - 3px); }
-.frame-style-6 .archon-stud.right { right: -3px; top: calc(50% - 3px); }
 
-/* 7. Neon Matrix (Lvl 30) — Cyberpunk cyan dashed border with 4 tactical crosshairs */
+/* 7. Neon Matrix (Lvl 30) — Precision cyan technical border */
 .frame-style-7 {
-  border: 2.5px dashed #06b6d4;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
-  background: rgba(6, 182, 212, 0.1);
+  border: 2px solid #06b6d4;
+  outline: 1.5px dashed rgba(6, 182, 212, 0.7);
+  outline-offset: 1.5px;
+  background: rgba(6, 182, 212, 0.08);
 }
-.frame-style-7 .matrix-cross {
-  position: absolute;
-  color: #22d3ee;
-  font-size: 10px;
-  font-weight: 900;
-  line-height: 1;
-  pointer-events: none;
-  z-index: 2;
-}
-.frame-style-7 .matrix-cross.tl { top: -3px; left: -2px; }
-.frame-style-7 .matrix-cross.tr { top: -3px; right: -2px; }
-.frame-style-7 .matrix-cross.bl { bottom: -3px; left: -2px; }
-.frame-style-7 .matrix-cross.br { bottom: -3px; right: -2px; }
 
-/* 8. Titanium Elite (Lvl 35) — Brushed aerospace platinum double border + chrome rivets */
+/* 8. Titanium Elite (Lvl 35) — Aerospace platinum double border */
 .frame-style-8 {
-  border: 3.5px double #cbd5e1;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
-  background: rgba(226, 232, 240, 0.1);
+  border: 2.5px double #cbd5e1;
+  outline: 1px solid rgba(203, 213, 225, 0.5);
+  outline-offset: 1.5px;
+  background: rgba(226, 232, 240, 0.08);
 }
-.frame-style-8 .titanium-rivet {
-  position: absolute;
-  width: 5px;
-  height: 5px;
-  background: #f1f5f9;
-  border: 1px solid #64748b;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 2;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-}
-.frame-style-8 .titanium-rivet.tl { top: 2px; left: 2px; }
-.frame-style-8 .titanium-rivet.tr { top: 2px; right: 2px; }
-.frame-style-8 .titanium-rivet.bl { bottom: 2px; left: 2px; }
-.frame-style-8 .titanium-rivet.br { bottom: 2px; right: 2px; }
 
-/* 9. Obsidian Sovereign (Lvl 40) — Dark void chrome with hot magenta wireframe & stealth wings */
+/* 9. Obsidian Sovereign (Lvl 40) — Ultra-clean hot magenta & dark void dual line */
 .frame-style-9 {
-  border: 2.5px solid #ec4899;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
-  background: linear-gradient(135deg, rgba(236, 72, 153, 0.16), var(--bg2));
+  border: 2px solid #ec4899;
+  outline: 1.5px solid rgba(236, 72, 153, 0.5);
+  outline-offset: 1.5px;
+  background: linear-gradient(135deg, rgba(236, 72, 153, 0.12), var(--bg2));
 }
-.frame-style-9 .obsidian-wing {
-  position: absolute;
-  width: 5px;
-  height: 14px;
-  background: #ec4899;
-  border: 1px solid #be185d;
-  border-radius: 3px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-  pointer-events: none;
-  z-index: 2;
-}
-.frame-style-9 .obsidian-wing.left { left: -4px; top: calc(50% - 7px); }
-.frame-style-9 .obsidian-wing.right { right: -4px; top: calc(50% - 7px); }
 
-/* 10. Grandmaster Celestial MAX (Lvl 50) — Legendary chromatic rainbow border + stars + 3D crown! */
+/* 10. Grandmaster Celestial (Lvl 50) — Chromatic spectrum border gradient */
 .frame-style-10 {
   border: 2.5px solid transparent;
   background: linear-gradient(var(--bg2), var(--bg2)) padding-box,
               linear-gradient(135deg, #fbbf24, #f43f5e, #a855f7, #06b6d4, #fbbf24) border-box;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+  outline: 1.5px solid rgba(251, 191, 36, 0.4);
+  outline-offset: 1.5px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
 }
-.frame-style-10 .celestial-crown {
-  position: absolute;
-  top: -12px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 3;
-  pointer-events: none;
-}
-.frame-style-10 .celestial-star {
-  position: absolute;
-  color: #fbbf24;
-  font-size: 10px;
-  line-height: 1;
-  pointer-events: none;
-  z-index: 2;
-}
-.frame-style-10 .celestial-star.tl { top: -3px; left: -3px; }
-.frame-style-10 .celestial-star.tr { top: -3px; right: -3px; }
-.frame-style-10 .celestial-star.bl { bottom: -3px; left: -3px; }
-.frame-style-10 .celestial-star.br { bottom: -3px; right: -3px; }
 
 /* ============================================
    RESPONSIVE ADJUSTMENTS (MOBILES & TABLETS)

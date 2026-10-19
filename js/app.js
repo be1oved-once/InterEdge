@@ -542,75 +542,121 @@ function getSubjectOutlineSvg(subId) {
   }
 }
 
-function renderPractice() {
+window.selectedPracticeGroup = window.selectedPracticeGroup || 'all';
+
+function filterPracticeGroup(grpKey, btn) {
+  window.selectedPracticeGroup = grpKey;
+  document.querySelectorAll('.practice-filter-pill').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  const listEl = document.getElementById('practice-subjects-list');
+  if (listEl) {
+    listEl.innerHTML = renderPracticeSubjectsList();
+  }
+}
+window.filterPracticeGroup = filterPracticeGroup;
+
+function renderPracticeSubjectsList() {
   const SUBJECT_KEYS = ['adv_acc', 'law', 'tax', 'cost', 'audit', 'fmsm'];
-  const subjects = SUBJECT_KEYS.map(k => MCQ_DATA[k]).filter(Boolean);
-  const grp1 = subjects.filter(s => s.group === 'Group 1');
-  const grp2 = subjects.filter(s => s.group === 'Group 2');
+  const subjects = SUBJECT_KEYS.map((k, idx) => ({ ...(MCQ_DATA[k] || {}), paperNum: idx + 1 })).filter(s => s && s.id);
+  const grp = window.selectedPracticeGroup || 'all';
+  
+  let filtered = subjects;
+  if (grp === 'grp1') {
+    filtered = subjects.filter(s => s.group === 'Group 1');
+  } else if (grp === 'grp2') {
+    filtered = subjects.filter(s => s.group === 'Group 2');
+  }
+
+  return filtered.map(sub => renderSubjectCard(sub, sub.paperNum)).join('');
+}
+
+function renderPractice() {
+  const qAttempted = (AppState.questionsAttempted || 0).toLocaleString();
+  const acc = AppState.accuracy || 0;
+  const xp = formatXP(AppState.xp || 0);
 
   return getPausedPracticeBanner() + `
-    <!-- Top Stats Strip (PathEdge Style) -->
-    <div class="stat-row" style="margin-top: 4px; margin-bottom: 20px;">
-      <div class="stat-card">
-        <div class="stat-val indigo">${(AppState.questionsAttempted || 0).toLocaleString()}</div>
-        <div class="stat-lbl">Qs Attempted</div>
+    <!-- Top Study Metrics Strip -->
+    <div class="practice-metrics-bar">
+      <div class="pm-stat">
+        <div class="pm-val text-indigo">${qAttempted}</div>
+        <div class="pm-lbl">Qs Attempted</div>
       </div>
-      <div class="stat-card">
-        <div class="stat-val green">${AppState.accuracy || 0}%</div>
-        <div class="stat-lbl">Accuracy</div>
+      <div class="pm-divider"></div>
+      <div class="pm-stat">
+        <div class="pm-val text-green">${acc}%</div>
+        <div class="pm-lbl">Accuracy</div>
       </div>
-      <div class="stat-card">
-        <div class="stat-val amber">${formatXP(AppState.xp || 0)}</div>
-        <div class="stat-lbl">XP Earned</div>
+      <div class="pm-divider"></div>
+      <div class="pm-stat">
+        <div class="pm-val text-amber">${xp}</div>
+        <div class="pm-lbl">XP Earned</div>
       </div>
     </div>
 
-    <!-- GROUP 1 SUBJECTS -->
-    <div class="sec-label" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-      <span>Group 1 &bull; Core Papers</span>
-      <span style="font-size:0.72rem; color:var(--txt3); font-weight:500; text-transform:none; letter-spacing:normal;">Papers 1, 2, 3</span>
-    </div>
-    <div class="sub-grid">
-      ${grp1.map((sub, i) => renderSubjectCard(sub, i === 2)).join('')}
+    <!-- Segmented Group Switcher -->
+    <div class="practice-group-switcher">
+      <button class="practice-filter-pill ${window.selectedPracticeGroup==='all'?'active':''}" onclick="filterPracticeGroup('all', this)">All Papers (6)</button>
+      <button class="practice-filter-pill ${window.selectedPracticeGroup==='grp1'?'active':''}" onclick="filterPracticeGroup('grp1', this)">Group 1 (Core)</button>
+      <button class="practice-filter-pill ${window.selectedPracticeGroup==='grp2'?'active':''}" onclick="filterPracticeGroup('grp2', this)">Group 2 (Applied)</button>
     </div>
 
-    <!-- GROUP 2 SUBJECTS -->
-    <div class="sec-label" style="display:flex; justify-content:space-between; align-items:center; margin-top:20px; margin-bottom:12px;">
-      <span>Group 2 &bull; Applied Papers</span>
-      <span style="font-size:0.72rem; color:var(--txt3); font-weight:500; text-transform:none; letter-spacing:normal;">Papers 4, 5, 6</span>
-    </div>
-    <div class="sub-grid">
-      ${grp2.map((sub, i) => renderSubjectCard(sub, i === 2)).join('')}
+    <!-- Sleek Subject List Rows -->
+    <div class="sub-list-col" id="practice-subjects-list">
+      ${renderPracticeSubjectsList()}
     </div>
 
-    <!-- PRACTICE MODES -->
-    <div class="sec-label" style="margin-top:24px; margin-bottom:12px;">Practice Modes</div>
-    <div class="recent-list">
-      <div class="recent-item" onclick="openMtpRtp('mtp')">
-        <div class="ri-icon" style="background:rgba(91,108,255,0.1); color:var(--accent);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>
-        <div class="ri-text"><div class="ri-title">ICAI MTP Simulator</div><div class="ri-sub">Full-length timed exam papers with AIR benchmark</div></div>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    <!-- Practice Modes 2x2 Grid -->
+    <div class="sec-label" style="margin-top:20px; margin-bottom:10px; font-size:0.8rem;">Practice Modes</div>
+    <div class="practice-modes-grid">
+      <div class="pm-mode-card" onclick="openMtpRtp('mtp')">
+        <div class="pm-mode-icon" style="background:rgba(91,108,255,0.12); color:var(--accent);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        </div>
+        <div class="pm-mode-info">
+          <div class="pm-mode-title">ICAI MTPs</div>
+          <div class="pm-mode-desc">Timed mock exams</div>
+        </div>
+        <span class="pm-mode-badge" style="background:rgba(91,108,255,0.15); color:var(--accent);">AIR</span>
       </div>
-      <div class="recent-item" onclick="openMtpRtp('rtp')">
-        <div class="ri-icon" style="background:rgba(16,185,129,0.1); color:var(--green);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
-        <div class="ri-text"><div class="ri-title">Revision Test Papers (RTP)</div><div class="ri-sub">May 2027 amendments &amp; case studies</div></div>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+
+      <div class="pm-mode-card" onclick="openMtpRtp('rtp')">
+        <div class="pm-mode-icon" style="background:rgba(16,185,129,0.12); color:var(--green);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </div>
+        <div class="pm-mode-info">
+          <div class="pm-mode-title">RTP Series</div>
+          <div class="pm-mode-desc">May '27 updates</div>
+        </div>
+        <span class="pm-mode-badge" style="background:rgba(16,185,129,0.15); color:var(--green);">2027</span>
       </div>
-      <div class="recent-item" onclick="openSubjectDrilldown('adv_acc')">
-        <div class="ri-icon" style="background:rgba(139,92,246,0.1); color:var(--accent2);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-        <div class="ri-text"><div class="ri-title">Theory Flashcards &amp; Recall</div><div class="ri-sub">Active recall decks for Accounting Standards &amp; Laws</div></div>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+
+      <div class="pm-mode-card" onclick="openSubjectDrilldown('adv_acc')">
+        <div class="pm-mode-icon" style="background:rgba(139,92,246,0.12); color:var(--accent2);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        </div>
+        <div class="pm-mode-info">
+          <div class="pm-mode-title">Flashcards</div>
+          <div class="pm-mode-desc">Active recall decks</div>
+        </div>
+        <span class="pm-mode-badge" style="background:rgba(139,92,246,0.15); color:var(--accent2);">Recall</span>
       </div>
-      <div class="recent-item" onclick="openFs('bookmarks')">
-        <div class="ri-icon" style="background:rgba(245,158,11,0.1); color:var(--amber);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></div>
-        <div class="ri-text"><div class="ri-title">Bookmarked Case Scenarios</div><div class="ri-sub">${(window.BOOKMARKS_DATA||[]).length} saved questions for active revision</div></div>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+
+      <div class="pm-mode-card" onclick="openFs('bookmarks')">
+        <div class="pm-mode-icon" style="background:rgba(245,158,11,0.12); color:var(--amber);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <div class="pm-mode-info">
+          <div class="pm-mode-title">Bookmarks</div>
+          <div class="pm-mode-desc">${(window.BOOKMARKS_DATA||[]).length} saved cases</div>
+        </div>
+        <span class="pm-mode-badge" style="background:rgba(245,158,11,0.15); color:var(--amber);">Saved</span>
       </div>
     </div>
   `;
 }
 
-function renderSubjectCard(sub, isSpan2 = false) {
+function renderSubjectCard(sub, paperNum = 1) {
   const chCount = (sub.chapters || []).length;
   let qCount = 0;
   (sub.chapters || []).forEach(c => {
@@ -624,19 +670,31 @@ function renderSubjectCard(sub, isSpan2 = false) {
   const progress = qCount > 0 ? Math.min(Math.round((completed / qCount) * 100), 100) : 0;
   const iconSvg = getSubjectOutlineSvg(sub.id);
 
-  const displayName = sub.id === 'law' ? 'Corporate & Other Laws' : (sub.id === 'cost' ? 'Cost & Management Accounting' : (sub.id === 'tax' ? 'Taxation (Direct & Indirect)' : sub.name));
+  const displayName = sub.id === 'law' ? 'Corporate & Other Laws' : (sub.id === 'cost' ? 'Cost & Management Accounting' : (sub.id === 'tax' ? 'Taxation (Direct & Indirect)' : (sub.id === 'fmsm' ? 'FM & Strategic Management' : sub.name)));
 
   return `
-    <div class="sub-card ${isSpan2 ? 'span-2' : ''}" onclick="openSubjectDrilldown('${sub.id}')" style="border: 1.5px solid ${sub.color}35;">
-      <div class="sub-icon" style="color: ${sub.color};">
+    <div class="subject-row-card" onclick="openSubjectDrilldown('${sub.id}')">
+      <div class="sub-row-icon" style="background:${sub.color}18; color:${sub.color}; border:1px solid ${sub.color}35;">
         ${iconSvg}
       </div>
-      <div>
-        <div class="sub-name">${displayName}</div>
-        <div class="sub-count">${chCount} chapters &bull; ${qCount} questions</div>
+      <div class="sub-row-body">
+        <div class="sub-row-top">
+          <span class="sub-paper-tag" style="background:${sub.color}20; color:${sub.color}; border:1px solid ${sub.color}40;">Paper ${paperNum}</span>
+          <span class="sub-row-title">${displayName}</span>
+        </div>
+        <div class="sub-row-meta">
+          <span>${chCount} Chapters &bull; ${qCount} Qs</span>
+          ${progress > 0 
+            ? `<span class="sub-row-progress-text" style="color:${sub.color};">${progress}% done</span>` 
+            : `<span style="color:var(--txt4);font-size:0.68rem;">Ready</span>`
+          }
+        </div>
+        <div class="sub-row-bar">
+          <div class="sub-row-fill" style="width:${progress}%; background:${sub.color};"></div>
+        </div>
       </div>
-      <div class="sub-bar">
-        <div class="sub-fill" style="width: ${progress}%; background: ${sub.color};"></div>
+      <div class="sub-row-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg>
       </div>
     </div>
   `;
@@ -786,10 +844,10 @@ function renderRanks() {
   setTimeout(populateRanks, 0);
   return `
     <!-- Top Header -->
-    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
-      <div style="display:flex; align-items:center; gap:12px;">
-        <div style="width:36px; height:36px; border-radius:10px; background:linear-gradient(135deg, #f59e0b, #fbbf24); display:grid; place-items:center; color:#fff; box-shadow: 0 4px 10px rgba(245,158,11,0.3);">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+      <div style="display:flex; align-items:center; gap:10px;">
+        <div style="width:32px; height:32px; border-radius:9px; background:linear-gradient(135deg, #f59e0b, #fbbf24); display:grid; place-items:center; color:#fff; box-shadow: 0 3px 8px rgba(245,158,11,0.25);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="17" height="17">
             <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
             <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
             <path d="M4 22h16"></path>
@@ -799,31 +857,31 @@ function renderRanks() {
           </svg>
         </div>
         <div>
-          <h2 style="font-size:1.4rem; font-weight:700; letter-spacing:-0.3px;">Leaderboard</h2>
-          <div style="font-size:.82rem;color:var(--txt3);">All-India CA Intermediate Standings</div>
+          <h2 style="font-size:1.15rem; font-weight:700; margin:0; line-height:1.2;">Leaderboard</h2>
+          <div style="font-size:0.75rem; color:var(--txt3); margin-top:1px;">All-India CA Intermediate Standings</div>
         </div>
       </div>
 
       <!-- User Active Rank Pill -->
-      <div style="background:var(--card); border:1px solid var(--border); padding:6px 12px; border-radius:100px; font-size:0.75rem; font-weight:700; color:var(--accent2); display:flex; align-items:center; gap:6px;">
-        <span>Your Rank:</span>
-        <strong id="user-rank-val" style="color:var(--txt); font-size:0.85rem;">#${AppState.rank || 12}</strong>
+      <div style="background:var(--card); border:1px solid var(--border); padding:4px 10px; border-radius:100px; font-size:0.72rem; font-weight:700; color:var(--accent2); display:flex; align-items:center; gap:5px;">
+        <span style="color:var(--txt3); font-weight:500;">Rank:</span>
+        <strong id="user-rank-val" style="color:var(--txt); font-size:0.8rem;">#${AppState.rank || 12}</strong>
       </div>
     </div>
 
-    <!-- 5 Tiers Filter Strip (No Emojis, Pure 3D Badges) -->
-    <div class="rank-tier-filters" style="display:flex; gap:8px; overflow-x:auto; padding-bottom:8px; margin-bottom:16px; scrollbar-width:none; -webkit-overflow-scrolling:touch;">
+    <!-- 5 Tiers Filter Strip (Clean 3D Badges) -->
+    <div class="rank-tier-filters" style="display:flex; gap:6px; overflow-x:auto; padding-bottom:6px; margin-bottom:12px; scrollbar-width:none; -webkit-overflow-scrolling:touch;">
       <button class="tier-filter-btn ${window.selectedLeaderboardTier==='all'?'active':''}" onclick="filterRanksTier('all', this)">All (20)</button>
-      <button class="tier-filter-btn ${window.selectedLeaderboardTier==='zone'?'active':''}" onclick="filterRanksTier('zone', this)">${getTierSvg('In The Zone', 14)} In The Zone</button>
-      <button class="tier-filter-btn ${window.selectedLeaderboardTier==='focus'?'active':''}" onclick="filterRanksTier('focus', this)">${getTierSvg('Focused', 14)} Focused</button>
-      <button class="tier-filter-btn ${window.selectedLeaderboardTier==='hustle'?'active':''}" onclick="filterRanksTier('hustle', this)">${getTierSvg('Hustler', 14)} Hustler</button>
-      <button class="tier-filter-btn ${window.selectedLeaderboardTier==='grind'?'active':''}" onclick="filterRanksTier('grind', this)">${getTierSvg('Grinder', 14)} Grinder</button>
-      <button class="tier-filter-btn ${window.selectedLeaderboardTier==='rookie'?'active':''}" onclick="filterRanksTier('rookie', this)">${getTierSvg('Rookie', 14)} Rookie</button>
+      <button class="tier-filter-btn ${window.selectedLeaderboardTier==='zone'?'active':''}" onclick="filterRanksTier('zone', this)">${getTierSvg('In The Zone', 12)} In The Zone</button>
+      <button class="tier-filter-btn ${window.selectedLeaderboardTier==='focus'?'active':''}" onclick="filterRanksTier('focus', this)">${getTierSvg('Focused', 12)} Focused</button>
+      <button class="tier-filter-btn ${window.selectedLeaderboardTier==='hustle'?'active':''}" onclick="filterRanksTier('hustle', this)">${getTierSvg('Hustler', 12)} Hustler</button>
+      <button class="tier-filter-btn ${window.selectedLeaderboardTier==='grind'?'active':''}" onclick="filterRanksTier('grind', this)">${getTierSvg('Grinder', 12)} Grinder</button>
+      <button class="tier-filter-btn ${window.selectedLeaderboardTier==='rookie'?'active':''}" onclick="filterRanksTier('rookie', this)">${getTierSvg('Rookie', 12)} Rookie</button>
     </div>
 
     <!-- Container for dynamic ranks -->
     <div id="ranks-container" style="position:relative; min-height: 250px;">
-      <div style="text-align:center; padding: 40px; color: var(--txt3);">Loading rankings...</div>
+      <div style="text-align:center; padding: 40px; color: var(--txt3); font-size:0.82rem;">Loading rankings...</div>
     </div>
   `;
 }
@@ -910,90 +968,28 @@ function renderAvatarWithFrame(avatarData, frameId = 'frame_1', size = 52, showB
   // Exact concentric math: R_inner = R_outer - border_width - padding
   let outerR, borderW, padding;
   if (size >= 70) {
-    outerR = 22; borderW = 3.5; padding = 2.5;
-  } else if (size >= 60) {
-    outerR = 19; borderW = 3; padding = 2.5;
-  } else if (size >= 50) {
-    outerR = 16; borderW = 2.5; padding = 2;
+    outerR = 20; borderW = 3; padding = 2;
+  } else if (size >= 55) {
+    outerR = 17; borderW = 2.5; padding = 2;
+  } else if (size >= 45) {
+    outerR = 14; borderW = 2; padding = 1.5;
   } else {
-    outerR = 13; borderW = 2; padding = 1.5;
+    outerR = 11; borderW = 1.5; padding = 1.5;
   }
   const innerR = Math.max(Math.round(outerR - borderW - padding), 3);
-
-  // Distinct frame ornaments
-  let ornaments = '';
-  if (frameNum === '2') {
-    ornaments = `
-      <span style="position:absolute;top:2px;left:2px;width:5px;height:5px;border-radius:50%;background:#34d399;border:1px solid #059669;pointer-events:none;z-index:2;"></span>
-      <span style="position:absolute;bottom:2px;right:2px;width:5px;height:5px;border-radius:50%;background:#34d399;border:1px solid #059669;pointer-events:none;z-index:2;"></span>
-    `;
-  } else if (frameNum === '3') {
-    ornaments = `
-      <span class="cyber-bracket tl"></span>
-      <span class="cyber-bracket tr"></span>
-      <span class="cyber-bracket bl"></span>
-      <span class="cyber-bracket br"></span>
-    `;
-  } else if (frameNum === '5') {
-    ornaments = `
-      <span class="ruby-crest tl"></span>
-      <span class="ruby-crest tr"></span>
-      <span class="ruby-crest bl"></span>
-      <span class="ruby-crest br"></span>
-    `;
-  } else if (frameNum === '6') {
-    ornaments = `
-      <span class="archon-stud top"></span>
-      <span class="archon-stud bottom"></span>
-      <span class="archon-stud left"></span>
-      <span class="archon-stud right"></span>
-    `;
-  } else if (frameNum === '7') {
-    ornaments = `
-      <span class="matrix-cross tl">+</span>
-      <span class="matrix-cross tr">+</span>
-      <span class="matrix-cross bl">+</span>
-      <span class="matrix-cross br">+</span>
-    `;
-  } else if (frameNum === '8') {
-    ornaments = `
-      <span class="titanium-rivet tl"></span>
-      <span class="titanium-rivet tr"></span>
-      <span class="titanium-rivet bl"></span>
-      <span class="titanium-rivet br"></span>
-    `;
-  } else if (frameNum === '9') {
-    ornaments = `
-      <span class="obsidian-wing left"></span>
-      <span class="obsidian-wing right"></span>
-    `;
-  } else if (frameNum === '10') {
-    ornaments = `
-      <div class="celestial-crown">
-        <svg viewBox="0 0 24 24" fill="#fbbf24" stroke="#d97706" stroke-width="1.5" width="${size >= 70 ? 22 : 18}" height="${size >= 70 ? 22 : 18}">
-          <path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"/>
-        </svg>
-      </div>
-      <span class="celestial-star tl">&#10022;</span>
-      <span class="celestial-star tr">&#10022;</span>
-      <span class="celestial-star bl">&#10022;</span>
-      <span class="celestial-star br">&#10022;</span>
-    `;
-  }
 
   const avInnerHtml = avatarData
     ? `<img src="${avatarData}" style="width:100%;height:100%;object-fit:cover;border-radius:${innerR}px;display:block;" alt="">`
     : window.getDefaultAvatarSVG();
 
   const badgeHtml = showBadge ? `
-    <div style="position:absolute; bottom:-4px; right:-4px; background:${f.color}; color:#fff; font-size:0.55rem; font-weight:800; padding:1px 5px; border-radius:4px; line-height:1.2; box-shadow:0 2px 4px rgba(0,0,0,0.5); z-index:3;">
+    <div style="position:absolute; bottom:-3px; right:-3px; background:${f.color}; color:#fff; font-size:0.52rem; font-weight:800; padding:1px 4px; border-radius:3px; line-height:1.2; box-shadow:0 1px 3px rgba(0,0,0,0.5); z-index:3;">
       ${f.badge}
     </div>
   ` : '';
 
   return `
     <div class="avatar-frame-wrap frame-style-${frameNum}" style="width:${size}px; height:${size}px; border-radius:${outerR}px; padding:${padding}px;">
-      ${ornaments}
       <div class="avatar-frame-inner" style="border-radius:${innerR}px;">
         ${avInnerHtml}
       </div>
@@ -1004,104 +1000,101 @@ function renderAvatarWithFrame(avatarData, frameId = 'frame_1', size = 52, showB
 
 function generateBoardHtml(displayBoard, fullBoard = []) {
   if (!displayBoard || displayBoard.length === 0) {
-    return `<div style="text-align:center; padding:40px; color:var(--txt3);">No students in this tier yet. Keep grinding!</div>`;
+    return `<div style="text-align:center; padding:30px; color:var(--txt3); font-size:0.82rem;">No students in this tier yet. Keep practicing!</div>`;
   }
 
-  // Helper to format long names in podium so they never clip awkwardly with ellipsis
   const formatPodiumName = (name) => {
     if (!name) return '';
     const parts = name.trim().split(/\s+/);
-    if (parts.length > 1 && name.length > 11) {
+    if (parts.length > 1 && name.length > 10) {
       return `${parts[0]} ${parts[1][0]}.`;
     }
     return name;
   };
 
-  // Check if viewing all ranks to render Top 3 Podium
   const showPodium = window.selectedLeaderboardTier === 'all' && displayBoard.length >= 3;
   const podium = showPodium ? displayBoard.slice(0, 3) : [];
   const listRows = showPodium ? displayBoard.slice(3) : displayBoard;
 
-  const crownGold = `<svg viewBox="0 0 24 24" fill="#fbbf24" stroke="#d97706" stroke-width="1.5" width="22" height="22"><path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"/></svg>`;
-  const silverMedal = `<svg viewBox="0 0 24 24" fill="#94a3b8" stroke="#475569" stroke-width="1.5" width="20" height="20"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>`;
-  const bronzeMedal = `<svg viewBox="0 0 24 24" fill="#b45309" stroke="#78350f" stroke-width="1.5" width="20" height="20"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>`;
+  const crownGold = `<svg viewBox="0 0 24 24" fill="#fbbf24" stroke="#d97706" stroke-width="1.5" width="16" height="16"><path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"/></svg>`;
+  const silverMedal = `<svg viewBox="0 0 24 24" fill="#94a3b8" stroke="#475569" stroke-width="1.5" width="15" height="15"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>`;
+  const bronzeMedal = `<svg viewBox="0 0 24 24" fill="#b45309" stroke="#78350f" stroke-width="1.5" width="15" height="15"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>`;
 
   let html = '';
 
   if (showPodium) {
     html += `
-      <div class="podium-3d-wrap" style="display:flex; justify-content:center; align-items:flex-end; gap:10px; margin-bottom:28px; padding-top:20px;">
+      <div class="podium-3d-wrap" style="display:flex; justify-content:center; align-items:flex-end; gap:8px; margin-bottom:16px; padding-top:8px;">
         <!-- Rank 2: Silver -->
-        <div class="podium-3d-spot silver" style="flex:1; max-width:110px; display:flex; flex-direction:column; align-items:center;">
-          <div style="margin-bottom:6px;">${silverMedal}</div>
+        <div class="podium-3d-spot silver" style="flex:1; max-width:96px; display:flex; flex-direction:column; align-items:center;">
+          <div style="margin-bottom:4px;">${silverMedal}</div>
           <div style="position:relative; display:inline-block;">
-            ${renderAvatarWithFrame(podium[1].avatar, podium[1].frame || 'frame_8', 64, false)}
-            <div style="position:absolute; bottom:-4px; right:-4px; width:22px; height:22px; border-radius:50%; background:var(--card); display:grid; place-items:center; box-shadow:0 2px 6px rgba(0,0,0,0.5); z-index:4;">${getTierSvg(podium[1].tier, 15)}</div>
+            ${renderAvatarWithFrame(podium[1].avatar, podium[1].frame || 'frame_8', 44, false)}
+            <div style="position:absolute; bottom:-3px; right:-3px; width:18px; height:18px; border-radius:50%; background:var(--card); display:grid; place-items:center; box-shadow:0 1px 4px rgba(0,0,0,0.4); z-index:4;">${getTierSvg(podium[1].tier, 12)}</div>
           </div>
-          <div style="font-weight:700; font-size:0.85rem; color:var(--txt); margin-top:8px; text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:105px;">${escapeHtml(formatPodiumName(podium[1].name))}</div>
-          <div style="font-size:0.75rem; font-weight:700; color:var(--accent2);">${formatXP(podium[1].xp)} XP</div>
-          <div style="margin-top:6px; width:100%; height:45px; background:linear-gradient(180deg, rgba(148,163,184,0.2), rgba(148,163,184,0.05)); border:1px solid rgba(148,163,184,0.3); border-radius:12px 12px 0 0; display:grid; place-items:center; font-weight:800; color:#94a3b8; font-size:1.1rem;">2</div>
+          <div style="font-weight:700; font-size:0.75rem; color:var(--txt); margin-top:6px; text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:92px;">${escapeHtml(formatPodiumName(podium[1].name))}</div>
+          <div style="font-size:0.68rem; font-weight:700; color:var(--accent2);">${formatXP(podium[1].xp)} XP</div>
+          <div style="margin-top:5px; width:100%; height:32px; background:linear-gradient(180deg, rgba(148,163,184,0.2), rgba(148,163,184,0.05)); border:1px solid rgba(148,163,184,0.3); border-radius:10px 10px 0 0; display:grid; place-items:center; font-weight:800; color:#94a3b8; font-size:0.95rem;">2</div>
         </div>
 
         <!-- Rank 1: Gold (Center Elevated) -->
-        <div class="podium-3d-spot gold" style="flex:1; max-width:125px; display:flex; flex-direction:column; align-items:center;">
-          <div style="margin-bottom:8px; transform:scale(1.2);">${crownGold}</div>
+        <div class="podium-3d-spot gold" style="flex:1; max-width:108px; display:flex; flex-direction:column; align-items:center;">
+          <div style="margin-bottom:4px;">${crownGold}</div>
           <div style="position:relative; display:inline-block;">
-            ${renderAvatarWithFrame(podium[0].avatar, podium[0].frame || 'frame_10', 74, false)}
-            <div style="position:absolute; bottom:-4px; right:-4px; width:24px; height:24px; border-radius:50%; background:var(--card); display:grid; place-items:center; box-shadow:0 2px 6px rgba(0,0,0,0.5); z-index:4;">${getTierSvg(podium[0].tier, 18)}</div>
+            ${renderAvatarWithFrame(podium[0].avatar, podium[0].frame || 'frame_10', 52, false)}
+            <div style="position:absolute; bottom:-3px; right:-3px; width:20px; height:20px; border-radius:50%; background:var(--card); display:grid; place-items:center; box-shadow:0 1px 4px rgba(0,0,0,0.4); z-index:4;">${getTierSvg(podium[0].tier, 14)}</div>
           </div>
-          <div style="font-weight:800; font-size:0.92rem; color:var(--txt); margin-top:8px; text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:120px;">${escapeHtml(formatPodiumName(podium[0].name))}</div>
-          <div style="font-size:0.8rem; font-weight:800; color:#fbbf24;">${formatXP(podium[0].xp)} XP</div>
-          <div style="margin-top:6px; width:100%; height:65px; background:linear-gradient(180deg, rgba(251,191,36,0.25), rgba(251,191,36,0.05)); border:1.5px solid rgba(251,191,36,0.4); border-radius:14px 14px 0 0; display:grid; place-items:center; font-weight:900; color:#fbbf24; font-size:1.3rem;">1</div>
+          <div style="font-weight:800; font-size:0.8rem; color:var(--txt); margin-top:6px; text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:104px;">${escapeHtml(formatPodiumName(podium[0].name))}</div>
+          <div style="font-size:0.72rem; font-weight:800; color:#fbbf24;">${formatXP(podium[0].xp)} XP</div>
+          <div style="margin-top:5px; width:100%; height:44px; background:linear-gradient(180deg, rgba(251,191,36,0.25), rgba(251,191,36,0.05)); border:1.5px solid rgba(251,191,36,0.4); border-radius:12px 12px 0 0; display:grid; place-items:center; font-weight:900; color:#fbbf24; font-size:1.15rem;">1</div>
         </div>
 
         <!-- Rank 3: Bronze -->
-        <div class="podium-3d-spot bronze" style="flex:1; max-width:110px; display:flex; flex-direction:column; align-items:center;">
-          <div style="margin-bottom:6px;">${bronzeMedal}</div>
+        <div class="podium-3d-spot bronze" style="flex:1; max-width:96px; display:flex; flex-direction:column; align-items:center;">
+          <div style="margin-bottom:4px;">${bronzeMedal}</div>
           <div style="position:relative; display:inline-block;">
-            ${renderAvatarWithFrame(podium[2].avatar, podium[2].frame || 'frame_5', 64, false)}
-            <div style="position:absolute; bottom:-4px; right:-4px; width:22px; height:22px; border-radius:50%; background:var(--card); display:grid; place-items:center; box-shadow:0 2px 6px rgba(0,0,0,0.5); z-index:4;">${getTierSvg(podium[2].tier, 15)}</div>
+            ${renderAvatarWithFrame(podium[2].avatar, podium[2].frame || 'frame_5', 44, false)}
+            <div style="position:absolute; bottom:-3px; right:-3px; width:18px; height:18px; border-radius:50%; background:var(--card); display:grid; place-items:center; box-shadow:0 1px 4px rgba(0,0,0,0.4); z-index:4;">${getTierSvg(podium[2].tier, 12)}</div>
           </div>
-          <div style="font-weight:700; font-size:0.85rem; color:var(--txt); margin-top:8px; text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:105px;">${escapeHtml(formatPodiumName(podium[2].name))}</div>
-          <div style="font-size:0.75rem; font-weight:700; color:var(--accent2);">${formatXP(podium[2].xp)} XP</div>
-          <div style="margin-top:6px; width:100%; height:35px; background:linear-gradient(180deg, rgba(180,83,9,0.2), rgba(180,83,9,0.05)); border:1px solid rgba(180,83,9,0.3); border-radius:12px 12px 0 0; display:grid; place-items:center; font-weight:800; color:#d97706; font-size:1.05rem;">3</div>
+          <div style="font-weight:700; font-size:0.75rem; color:var(--txt); margin-top:6px; text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:92px;">${escapeHtml(formatPodiumName(podium[2].name))}</div>
+          <div style="font-size:0.68rem; font-weight:700; color:var(--accent2);">${formatXP(podium[2].xp)} XP</div>
+          <div style="margin-top:5px; width:100%; height:24px; background:linear-gradient(180deg, rgba(180,83,9,0.2), rgba(180,83,9,0.05)); border:1px solid rgba(180,83,9,0.3); border-radius:10px 10px 0 0; display:grid; place-items:center; font-weight:800; color:#d97706; font-size:0.9rem;">3</div>
         </div>
       </div>
     `;
   }
 
-  // List Rows for Ranks 4 to 20
-  html += '<div class="rank-list" style="display:flex; flex-direction:column; gap:8px;">';
+  // List Rows for Remaining Ranks
+  html += '<div class="rank-list" style="display:flex; flex-direction:column; gap:6px;">';
   listRows.forEach(u => {
     const isMe = u.isMe || (AppState.user && u.email === AppState.user.email);
     const meClass = isMe ? 'me-highlight' : '';
 
     html += `
-      <div class="rank-row ${meClass}" style="background:var(--card); border:${isMe ? '1.5px solid var(--accent)' : '1px solid var(--border)'}; border-radius:14px; padding:12px 16px; display:flex; align-items:center; gap:12px; transition:transform 0.2s;">
-        <div style="width:24px; font-weight:800; font-size:0.9rem; color:${isMe ? 'var(--accent2)' : 'var(--txt3)'}; text-align:center;">
+      <div class="rank-row ${meClass}" style="background:var(--card); border:${isMe ? '1.5px solid var(--accent)' : '1px solid var(--border)'}; border-radius:12px; padding:9px 12px; display:flex; align-items:center; gap:10px; transition:transform 0.15s;">
+        <div style="width:20px; font-weight:800; font-size:0.82rem; color:${isMe ? 'var(--accent2)' : 'var(--txt3)'}; text-align:center;">
           ${u.rank}
         </div>
         <div style="flex-shrink:0;">
-          ${renderAvatarWithFrame(u.avatar, u.frame || 'frame_1', 40, false)}
+          ${renderAvatarWithFrame(u.avatar, u.frame || 'frame_1', 34, false)}
         </div>
         <div style="flex:1; min-width:0;">
-          <div style="display:flex; align-items:center; gap:6px;">
-            <span style="font-weight:700; font-size:0.9rem; color:var(--txt); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+          <div style="display:flex; align-items:center; gap:5px;">
+            <span style="font-weight:700; font-size:0.84rem; color:var(--txt); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
               ${escapeHtml(u.name)}
             </span>
-            ${isMe ? '<span style="font-size:0.65rem; font-weight:800; background:var(--accent); color:#fff; padding:2px 6px; border-radius:4px;">YOU</span>' : ''}
-            ${u.isDev ? '<span style="font-size:0.65rem; font-weight:700; background:rgba(91,108,255,0.15); color:var(--accent2); padding:2px 6px; border-radius:4px;">CREATOR</span>' : ''}
+            ${isMe ? '<span style="font-size:0.6rem; font-weight:800; background:var(--accent); color:#fff; padding:1px 5px; border-radius:3px;">YOU</span>' : ''}
+            ${u.isDev ? '<span style="font-size:0.6rem; font-weight:700; background:rgba(91,108,255,0.15); color:var(--accent2); padding:1px 5px; border-radius:3px;">CREATOR</span>' : ''}
           </div>
-          <div style="display:flex; align-items:center; gap:6px; margin-top:2px;">
-            ${getTierSvg(u.tier, 13)}
-            <span style="font-size:0.72rem; color:var(--txt3); font-weight:600;">${u.tier}</span>
-            <span style="font-size:0.72rem; color:var(--txt4);">&bull;</span>
-            <span style="font-size:0.72rem; color:var(--txt3);">${u.streak || 1}d streak</span>
+          <div style="display:flex; align-items:center; gap:5px; margin-top:1px;">
+            ${getTierSvg(u.tier, 11)}
+            <span style="font-size:0.68rem; color:var(--txt3); font-weight:500;">${u.tier}</span>
+            <span style="font-size:0.68rem; color:var(--txt4);">&bull;</span>
+            <span style="font-size:0.68rem; color:var(--txt3);">${u.streak || 1}d streak</span>
           </div>
         </div>
         <div style="text-align:right; flex-shrink:0;">
-          <div style="font-weight:800; font-size:0.95rem; color:${isMe ? 'var(--accent2)' : 'var(--txt)'};">${formatXP(u.xp)}</div>
-          <div style="font-size:0.68rem; color:var(--txt3); text-transform:uppercase;">XP</div>
+          <div style="font-weight:700; font-size:0.8rem; color:var(--txt);">${formatXP(u.xp)} <span style="font-size:0.68rem; color:var(--txt3); font-weight:500;">XP</span></div>
         </div>
       </div>
     `;
@@ -1484,13 +1477,13 @@ function renderEditProfile() {
           const barColor = pct >= 71 ? '#22c55e' : pct >= 41 ? '#f59e0b' : '#ef4444';
           
           return `
-            <div style="margin-bottom:24px; display:flex; align-items:center; justify-content:space-between; gap:12px; padding-bottom:12px; border-bottom:1px solid var(--border);">
-              <span style="font-size:0.85rem; font-weight:600; color:var(--txt2);">Profile Setup</span>
+            <div style="margin-bottom:14px; display:flex; align-items:center; justify-content:space-between; gap:12px; padding-bottom:10px; border-bottom:1px solid var(--border);">
+              <span style="font-size:0.78rem; font-weight:600; color:var(--txt2);">Profile Setup</span>
               <div style="display:flex; align-items:center; gap:8px;">
-                <div style="width:80px; height:4px; background:var(--bg3); border-radius:2px; overflow:hidden;">
+                <div style="width:70px; height:4px; background:var(--bg3); border-radius:2px; overflow:hidden;">
                   <div style="width:${pct}%; height:100%; background:${barColor}; border-radius:2px;"></div>
                 </div>
-                <span style="font-size:0.75rem; font-weight:600; color:var(--txt3);">${pct}%</span>
+                <span style="font-size:0.72rem; font-weight:700; color:var(--txt3);">${pct}%</span>
               </div>
             </div>`;
         })()}
@@ -1516,8 +1509,8 @@ function renderEditProfile() {
           ${user.provider === 'google' 
             ? `<input type="email" class="form-input" id="inpEmail" value="${escapeHtml(user.email)}" disabled style="opacity:0.5;">`
             : `<div style="position:relative;">
-                 <input type="email" class="form-input" id="inpEmail" value="${escapeHtml(user.email)}" disabled style="opacity:0.8; padding-right:80px; color:var(--txt2);">
-                 <button onclick="openChangeEmailOverlay()" style="position:absolute; right:10px; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--accent); font-weight:600; font-size:0.9rem; cursor:pointer;">Change</button>
+                 <input type="email" class="form-input" id="inpEmail" value="${escapeHtml(user.email)}" disabled style="opacity:0.8; padding-right:72px; color:var(--txt2);">
+                 <button onclick="openChangeEmailOverlay()" style="position:absolute; right:10px; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--accent); font-weight:600; font-size:0.8rem; cursor:pointer;">Change</button>
                </div>`
           }
         </div>
@@ -2410,70 +2403,95 @@ function renderSettings() {
     { val: 'RomanLow', label: 'i. ii. iii. iv.' }
   ];
 
-  const labelStyleOpts = labelStyles.map(ls =>
-    `<option value="${ls.val}" ${s.optionLabelStyle === ls.val ? 'selected' : ''}>${ls.label}</option>`
-  ).join('');
-
   overlay.innerHTML = `
     <div class="fs-overlay" id="fs-settings">
       <div class="fs-head">
         <button class="back-btn" onclick="closeProfileOverlay('settings')">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
         </button>
-        <h2 style="font-size:1.1rem;font-weight:700;">Settings</h2>
+        <div style="flex:1;min-width:0;">
+          <h2 style="font-size:1.05rem;font-weight:700;margin:0;color:var(--txt);">Settings</h2>
+          <div style="font-size:0.72rem;color:var(--txt3);margin-top:1px;">Preferences, exam timing &amp; features</div>
+        </div>
       </div>
-      <div class="fs-content">
+      <div class="fs-content" style="padding: 14px 16px 80px;">
 
-        <!-- APPEARANCE -->
+        <!-- APPEARANCE & DISPLAY -->
+        <div class="set-sec-title">Appearance &amp; Display</div>
         <div class="set-card">
-          <div class="set-title">Appearance</div>
-          <div class="theme-options">
-            <button class="theme-btn ${s.theme==='dark'?'active':''}" onclick="setTheme('dark', this)">Dark</button>
-            <button class="theme-btn ${s.theme==='light'?'active':''}" onclick="setTheme('light', this)">Light</button>
-            <button class="theme-btn ${s.theme==='system'?'active':''}" onclick="setTheme('system', this)">System</button>
+          <div class="set-row">
+            <div class="set-row-icon" style="background:rgba(91,108,255,0.12); color:var(--accent);">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            </div>
+            <div class="set-info">
+              <div class="set-label">App Theme</div>
+              <div class="set-desc">Dark, Light or System mode</div>
+            </div>
+            <div class="theme-options">
+              <button class="theme-btn ${s.theme==='dark'?'active':''}" onclick="setTheme('dark', this)">Dark</button>
+              <button class="theme-btn ${s.theme==='light'?'active':''}" onclick="setTheme('light', this)">Light</button>
+              <button class="theme-btn ${s.theme==='system'?'active':''}" onclick="setTheme('system', this)">Auto</button>
+            </div>
           </div>
-          <div class="set-row" style="margin-top:10px;">
+
+          <div class="set-row">
+            <div class="set-row-icon" style="background:rgba(16,185,129,0.12); color:var(--green);">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+            </div>
             <div class="set-info">
               <div class="set-label">Fullscreen Mode</div>
-              <div class="set-desc">Hides browser UI during quiz</div>
+              <div class="set-desc">Hides browser UI during live quizzes</div>
             </div>
             <div class="toggle ${s.fullscreen?'on':''}" id="toggle-fullscreen" onclick="toggleFullscreenSetting(this)"><div class="toggle-knob"></div></div>
           </div>
+
           <div class="set-row" onclick="openQuizStyleOverlay()" style="cursor:pointer;">
+            <div class="set-row-icon" style="background:rgba(139,92,246,0.12); color:var(--accent2);">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+            </div>
             <div class="set-info">
-              <div class="set-label">Quiz Style</div>
+              <div class="set-label">Quiz Layout Style</div>
               <div class="set-desc" id="quizStyleDesc">${s.quizStyle === 'dense' ? 'Dense Practice Mode' : s.quizStyle === 'compact' ? 'Compact Mode' : 'Standard Mode'}</div>
             </div>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--txt4);flex-shrink:0;"><polyline points="9 18 15 12 9 6"/></svg>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--txt4);flex-shrink:0;"><polyline points="9 18 15 12 9 6"/></svg>
           </div>
         </div>
 
-        <!-- MCQ BEHAVIOUR -->
+        <!-- MCQ BEHAVIOUR & TIMERS -->
+        <div class="set-sec-title">MCQ Engine &amp; Timers</div>
         <div class="set-card">
-          <div class="set-title">MCQ Behaviour</div>
           <div class="set-row">
+            <div class="set-row-icon" style="background:rgba(245,158,11,0.12); color:var(--amber);">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
+            </div>
             <div class="set-info">
               <div class="set-label">Auto Next Question</div>
-              <div class="set-desc">300ms correct / 2s wrong</div>
+              <div class="set-desc">300ms on correct / 2s on wrong</div>
             </div>
             <div class="toggle ${s.autoNext?'on':''}" onclick="toggleSettingBool('autoNext', this)"><div class="toggle-knob"></div></div>
           </div>
 
           <div class="set-row">
+            <div class="set-row-icon" style="background:rgba(239,68,68,0.12); color:var(--red);">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
             <div class="set-info">
               <div class="set-label">Per-Question Timer</div>
-              <div class="set-desc">Expired = auto skipped</div>
+              <div class="set-desc">Auto-skips question when timer expires</div>
             </div>
             <div class="toggle ${s.timerEnabled?'on':''}" id="toggle-timer" onclick="toggleTimerSetting(this)"><div class="toggle-knob"></div></div>
           </div>
 
           <div class="set-row" id="timer-duration-row" style="${!s.timerEnabled?'opacity:.4;pointer-events:none;':''}">
+            <div class="set-row-icon" style="background:rgba(91,108,255,0.12); color:var(--accent);">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M12 2v4"/><path d="M12 18v4"/><circle cx="12" cy="12" r="6"/></svg>
+            </div>
             <div class="set-info">
               <div class="set-label">Timer Duration</div>
-              <div class="set-desc">15 - 300 seconds</div>
+              <div class="set-desc">15 to 300 seconds per question</div>
             </div>
             <div class="num-input-wrap">
-              <button class="num-btn" onclick="stepTimerDuration(-5)">-</button>
+              <button class="num-btn" onclick="stepTimerDuration(-5)">&minus;</button>
               <input type="number" id="timerNumInput" min="15" max="300" step="5" value="${s.timerDuration}"
                 oninput="updateTimerDuration(this.value)"
                 onblur="clampTimerDuration(this)"
@@ -2483,18 +2501,23 @@ function renderSettings() {
             </div>
           </div>
 
-          <!-- OPTION LABELS -->
-          <div class="set-row" style="margin-top:4px;">
+          <div class="set-row">
+            <div class="set-row-icon" style="background:rgba(6,182,212,0.12); color:#06b6d4;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            </div>
             <div class="set-info">
               <div class="set-label">Option Labels</div>
-              <div class="set-desc">Show A/B/C/D etc. on options</div>
+              <div class="set-desc">Display A/B/C/D labels on options</div>
             </div>
             <div class="toggle ${s.optionLabelEnabled?'on':''}" id="toggle-labels" onclick="toggleLabelSetting(this)"><div class="toggle-knob"></div></div>
           </div>
 
           <div class="set-row" id="label-style-row" style="${!s.optionLabelEnabled?'opacity:.4;pointer-events:none;':''}">
+            <div class="set-row-icon" style="background:rgba(168,85,247,0.12); color:#a855f7;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/></svg>
+            </div>
             <div class="set-info">
-              <div class="set-label">Label Style</div>
+              <div class="set-label">Label Format</div>
               <div class="set-desc" id="labelStyleDesc">${labelStyles.find(l=>l.val===s.optionLabelStyle)?.label||'A B C D'}</div>
             </div>
             <div class="setting-dropdown-wrap" id="labelStyleWrap">
@@ -2515,23 +2538,30 @@ function renderSettings() {
           </div>
         </div>
 
-        <!-- NEGATIVE MARKING -->
+        <!-- SCORING RULES -->
+        <div class="set-sec-title">Scoring Rules</div>
         <div class="set-card">
-          <div class="set-title">Negative Marking (MCQ only)</div>
           <div class="set-row">
+            <div class="set-row-icon" style="background:rgba(239,68,68,0.12); color:var(--red);">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </div>
             <div class="set-info">
-              <div class="set-label">Enable Negative Marking</div>
-              <div class="set-desc">Deduct marks for wrong answers</div>
+              <div class="set-label">Negative Marking</div>
+              <div class="set-desc">Deduct marks for incorrect answers</div>
             </div>
             <div class="toggle ${s.negativeMarking?'on':''}" id="toggle-neg" onclick="toggleNegMarking(this)"><div class="toggle-knob"></div></div>
           </div>
+
           <div class="set-row" id="neg-mark-row" style="${!s.negativeMarking?'opacity:.4;pointer-events:none;':''}">
+            <div class="set-row-icon" style="background:rgba(245,158,11,0.12); color:var(--amber);">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+            </div>
             <div class="set-info">
-              <div class="set-label">Deduction per wrong</div>
-              <div class="set-desc">0.25 - 1.00</div>
+              <div class="set-label">Deduction per Wrong</div>
+              <div class="set-desc">Range: 0.25 to 1.00 marks</div>
             </div>
             <div class="num-input-wrap">
-              <button class="num-btn neg" onclick="stepNegMark(-0.25)">-</button>
+              <button class="num-btn neg" onclick="stepNegMark(-0.25)">&minus;</button>
               <input type="number" id="negNumInput" min="0.25" max="1" step="0.25" value="${s.negativeMark}"
                 oninput="updateNegMark(this.value)"
                 onblur="clampNegMark(this)"
@@ -2542,49 +2572,110 @@ function renderSettings() {
           </div>
         </div>
 
-        <!-- PREFERENCES -->
+        <!-- NOTIFICATIONS & PREFERENCES -->
+        <div class="set-sec-title">Notifications &amp; Experience</div>
         <div class="set-card">
-          <div class="set-title">Preferences</div>
           <div class="set-row">
-            <div class="set-info"><div class="set-label">Push Notifications</div><div class="set-desc">Get alerts for tests & streaks</div></div>
+            <div class="set-row-icon" style="background:rgba(91,108,255,0.12); color:var(--accent);">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            </div>
+            <div class="set-info">
+              <div class="set-label">Push Notifications</div>
+              <div class="set-desc">Alerts for streak milestones &amp; tests</div>
+            </div>
             <div class="toggle ${s.pushNotifications?'on':''}" onclick="toggleSettingBool('pushNotifications', this)"><div class="toggle-knob"></div></div>
           </div>
+
           <div class="set-row">
-            <div class="set-info"><div class="set-label">Sound Effects</div><div class="set-desc">Play sounds on completion</div></div>
+            <div class="set-row-icon" style="background:rgba(16,185,129,0.12); color:var(--green);">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+            </div>
+            <div class="set-info">
+              <div class="set-label">Sound &amp; Haptics</div>
+              <div class="set-desc">Audio cues on correct answers</div>
+            </div>
             <div class="toggle ${s.soundEffects?'on':''}" onclick="toggleSoundEffects(this)"><div class="toggle-knob"></div></div>
           </div>
+
           <div class="set-row">
-            <div class="set-info"><div class="set-label">Auto-Sync</div><div class="set-desc">Sync progress automatically</div></div>
+            <div class="set-row-icon" style="background:rgba(139,92,246,0.12); color:var(--accent2);">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+            </div>
+            <div class="set-info">
+              <div class="set-label">Cloud Auto-Sync</div>
+              <div class="set-desc">Sync questions &amp; progress across devices</div>
+            </div>
             <div class="toggle ${s.autoSync?'on':''}" onclick="toggleSettingBool('autoSync', this)"><div class="toggle-knob"></div></div>
           </div>
+
           <div class="set-row">
-            <div class="set-info"><div class="set-label">Study Reminders</div><div class="set-desc">Daily reminder to practice</div></div>
+            <div class="set-row-icon" style="background:rgba(245,158,11,0.12); color:var(--amber);">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <div class="set-info">
+              <div class="set-label">Study Reminders</div>
+              <div class="set-desc">Daily notification to maintain streak</div>
+            </div>
             <div class="toggle ${s.studyReminders?'on':''}" onclick="toggleSettingBool('studyReminders', this)"><div class="toggle-knob"></div></div>
           </div>
+
           <div class="set-row">
-            <div class="set-info"><div class="set-label">Paige AI Assistant</div><div class="set-desc">Show the floating AI button</div></div>
+            <div class="set-row-icon" style="background:rgba(236,72,153,0.12); color:#ec4899;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
+            </div>
+            <div class="set-info">
+              <div class="set-label">Paige AI Assistant</div>
+              <div class="set-desc">Show floating AI query button</div>
+            </div>
             <div class="toggle ${localStorage.getItem('paige_ai_hidden') === 'true' ? '' : 'on'}" id="toggle-paige-ai" onclick="togglePaigeAISetting(this)"><div class="toggle-knob"></div></div>
           </div>
         </div>
 
-        <!-- ACCOUNT -->
+        <!-- ABOUT & LEGAL -->
+        <div class="set-sec-title">About &amp; Support</div>
         <div class="set-card">
-          <div class="set-title">Account</div>
-          <div class="set-row" onclick="openProfileOverlay('privacyPolicy')">
-            <div class="set-info"><div class="set-label">Privacy Policy</div></div>
-            <div style="font-size:.78rem;color:var(--txt3);">&rsaquo;</div>
+          <div class="set-row" onclick="openProfileOverlay('privacyPolicy')" style="cursor:pointer;">
+            <div class="set-row-icon" style="background:rgba(91,108,255,0.12); color:var(--accent);">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div class="set-info">
+              <div class="set-label">Privacy Policy</div>
+              <div class="set-desc">Data protection &amp; student privacy</div>
+            </div>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--txt4);"><polyline points="9 18 15 12 9 6"/></svg>
           </div>
-          <div class="set-row" onclick="openProfileOverlay('disclaimer')">
-            <div class="set-info"><div class="set-label">Disclaimer</div></div>
-            <div style="font-size:.78rem;color:var(--txt3);">&rsaquo;</div>
+
+          <div class="set-row" onclick="openProfileOverlay('disclaimer')" style="cursor:pointer;">
+            <div class="set-row-icon" style="background:rgba(245,158,11,0.12); color:var(--amber);">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </div>
+            <div class="set-info">
+              <div class="set-label">Disclaimer</div>
+              <div class="set-desc">ICAI content &amp; copyright notice</div>
+            </div>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--txt4);"><polyline points="9 18 15 12 9 6"/></svg>
           </div>
-          <div class="set-row" onclick="openProfileOverlay('contactUs')">
-            <div class="set-info"><div class="set-label">Contact Us</div></div>
-            <div style="font-size:.78rem;color:var(--txt3);">&rsaquo;</div>
+
+          <div class="set-row" onclick="openProfileOverlay('contactUs')" style="cursor:pointer;">
+            <div class="set-row-icon" style="background:rgba(16,185,129,0.12); color:var(--green);">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div class="set-info">
+              <div class="set-label">Contact &amp; Support</div>
+              <div class="set-desc">Helpdesk and student queries</div>
+            </div>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--txt4);"><polyline points="9 18 15 12 9 6"/></svg>
           </div>
-          <div class="set-row" onclick="showToast('Version 2.4.1')">
-            <div class="set-info"><div class="set-label">App Version</div></div>
-            <div style="font-size:.78rem;color:var(--txt3);">v2.4.1</div>
+
+          <div class="set-row" onclick="showToast('InterEdge v2.4.1 (Stable build)')" style="cursor:pointer;">
+            <div class="set-row-icon" style="background:rgba(255,255,255,0.06); color:var(--txt3);">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/></svg>
+            </div>
+            <div class="set-info">
+              <div class="set-label">App Version</div>
+              <div class="set-desc">Latest build &bull; CA Inter May 2027</div>
+            </div>
+            <span style="font-size:0.72rem; font-weight:700; color:var(--accent); background:rgba(91,108,255,0.12); padding:3px 8px; border-radius:6px;">v2.4.1</span>
           </div>
         </div>
 
