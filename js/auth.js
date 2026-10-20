@@ -947,6 +947,19 @@ function toggleOnboardingChallenge(chId, el) {
 }
 
 function onboardingNext(currStep) {
+  if (currStep === 1) {
+    if (!window.onboardingState.selectedAttempt) {
+      showToast('Please select your exam attempt to continue.');
+      return;
+    }
+  }
+  if (currStep === 2) {
+    const selectedChannels = Object.values(window.onboardingState.discovery || {}).filter(Boolean).length;
+    if (selectedChannels === 0) {
+      showToast('Please select at least one channel to continue.');
+      return;
+    }
+  }
   showOnboardStep(currStep + 1);
 }
 

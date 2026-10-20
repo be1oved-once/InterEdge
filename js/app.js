@@ -1153,6 +1153,8 @@ window.openCaseBooklet = function(subjectId, chapterId, caseIdx = 0) {
     answers: {},
     isSubmitted: {},
     score: 0,
+    viewMode: 'split',
+    isCaseRefOpen: false,
     isReaderExpanded: false
   };
 
@@ -1189,6 +1191,8 @@ window.openComprehensiveCaseBooklet = function(bookletIdx = 0) {
     score: 0,
     bookletAllCases: booklet.cases,
     currentCaseIndexInBooklet: 0,
+    viewMode: 'split',
+    isCaseRefOpen: false,
     isReaderExpanded: false
   };
 
@@ -1227,17 +1231,31 @@ window.setCasePage = function(pageNum) {
 
 window.toggleCaseReaderExpand = function() {
   if (!window.currentCaseSession) return;
-  window.currentCaseSession.isReaderExpanded = !window.currentCaseSession.isReaderExpanded;
+  const newMode = window.currentCaseSession.viewMode === 'reader' ? 'split' : 'reader';
+  window.setCaseViewMode(newMode);
+};
+
+window.setCaseViewMode = function(mode) {
+  if (!window.currentCaseSession) return;
+  window.currentCaseSession.viewMode = mode;
   const layout = document.getElementById('doapage-layout-container');
   if (layout) {
-    layout.classList.toggle('reader-expanded', window.currentCaseSession.isReaderExpanded);
+    layout.classList.remove('mode-reader', 'mode-solver');
+    if (mode === 'reader') layout.classList.add('mode-reader');
+    if (mode === 'solver') layout.classList.add('mode-solver');
   }
-  const btn = document.getElementById('doapage-expand-btn');
-  if (btn) {
-    btn.innerHTML = window.currentCaseSession.isReaderExpanded 
-      ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/></svg> Restore Split`
-      : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Expand Case`;
+  const btns = document.querySelectorAll('.doapage-mode-btn');
+  if (btns) {
+    btns.forEach(b => {
+      b.classList.toggle('active', b.getAttribute('data-mode') === mode);
+    });
   }
+};
+
+window.toggleCaseRefDrawer = function() {
+  if (!window.currentCaseSession) return;
+  window.currentCaseSession.isCaseRefOpen = !window.currentCaseSession.isCaseRefOpen;
+  renderCaseSolverDrawer();
 };
 
 window.selectCaseQuestion = function(qIdx) {
@@ -1336,31 +1354,33 @@ function renderCaseBooklet() {
   const container = document.getElementById('case-booklet-content');
   if (!container) return;
 
-  const initialPage = sess.pages.find(p => p.pageNum === sess.activePage) || sess.pages[0];
+  if (!sess.viewMode) sess.viewMode = 'split';
+
+  const initialPage = sess.pages.find(p => p.pageNum === sess.activePage) || sess.pages[0] || { pageNum: 1, title: 'Case Narrative', content: '' };
+  const modeCls = sess.viewMode === 'reader' ? 'mode-reader' : (sess.viewMode === 'solver' ? 'mode-solver' : '');
 
   container.innerHTML = `
     <div class="doapage-header">
       <button class="doapage-close-btn" onclick="closeCaseBooklet()" aria-label="Close Case Booklet">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
       <div style="flex:1; min-width:0;">
-        <div style="font-size:0.68rem; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:0.5px;">
-          ${sess.isBookletMode ? ('30-Mark ICAI Case Booklet • Case ' + (sess.currentCaseIndexInBooklet + 1) + ' of ' + sess.bookletAllCases.length) : 'ICAI Case Scenario Booklet'}
+        <div style="font-size:0.62rem; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:0.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+          ${sess.isBookletMode ? ('30M Booklet • Case ' + (sess.currentCaseIndexInBooklet + 1) + '/' + sess.bookletAllCases.length) : 'Case Scenario'}
         </div>
-        <div style="font-size:0.92rem; font-weight:800; color:var(--txt); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+        <div style="font-size:0.82rem; font-weight:800; color:var(--txt); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
           ${sess.caseTitle}
         </div>
       </div>
-      <div style="display:flex; align-items:center; gap:8px;">
-        <span class="doapage-score-chip">Score: ${sess.score}/${sess.totalMarks} M</span>
-        <button id="doapage-expand-btn" class="doapage-expand-btn" onclick="toggleCaseReaderExpand()">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
-          Expand Case
-        </button>
+      <div class="doapage-mode-switcher">
+        <button class="doapage-mode-btn ${sess.viewMode === 'split' ? 'active' : ''}" data-mode="split" onclick="setCaseViewMode('split')" title="Split View">⬍ Split</button>
+        <button class="doapage-mode-btn ${sess.viewMode === 'reader' ? 'active' : ''}" data-mode="reader" onclick="setCaseViewMode('reader')" title="Read Case">📖 Case</button>
+        <button class="doapage-mode-btn ${sess.viewMode === 'solver' ? 'active' : ''}" data-mode="solver" onclick="setCaseViewMode('solver')" title="Solve Questions">✏️ Qs</button>
       </div>
+      <span class="doapage-score-chip">${sess.score}/${sess.totalMarks}M</span>
     </div>
 
-    <div class="doapage-split-container" id="doapage-layout-container">
+    <div class="doapage-split-container ${modeCls}" id="doapage-layout-container">
       <div class="doapage-reader-pane">
         <div class="doapage-tabs-bar">
           ${sess.pages.map((p, i) => `
@@ -1374,6 +1394,11 @@ function renderCaseBooklet() {
         <div class="doapage-page-body" id="doapage-reading-content">
           <div class="doapage-page-title">${initialPage.title || ('Page ' + initialPage.pageNum)}</div>
           <div class="doapage-page-text">${(initialPage.content || '').replace(/\n/g, '<br><br>')}</div>
+        </div>
+
+        <div class="reader-mode-footer" style="padding:6px 10px; background:var(--bg2); border-top:1px solid var(--border); display:none; justify-content:space-between; align-items:center;">
+          <span style="font-size:0.72rem; color:var(--txt3); font-weight:600;">${sess.questions.length} Scenario Questions</span>
+          <button class="btn-primary" style="height:30px; padding:0 12px; font-size:0.72rem; border-radius:6px; font-weight:700;" onclick="setCaseViewMode('solver')">Go to Questions &rarr;</button>
         </div>
       </div>
 
@@ -1399,10 +1424,27 @@ function renderCaseSolverDrawer() {
   const isAnswered = !!sess.isSubmitted[qIdx];
   const selectedOpt = sess.answers[qIdx];
   const isCorrect = isAnswered && (selectedOpt === q.correct);
+  const activePage = sess.pages.find(p => p.pageNum === sess.activePage) || sess.pages[0] || {};
 
   drawer.innerHTML = `
+    <!-- If in solver mode, provide a collapsible quick-view case excerpt button -->
+    ${sess.viewMode === 'solver' ? `
+      <div style="margin-bottom:8px;">
+        <button class="doapage-case-ref-toggle" onclick="toggleCaseRefDrawer()" style="width:100%; border:1px solid var(--border); background:var(--card); border-radius:6px; padding:5px 8px; display:flex; justify-content:space-between; align-items:center; cursor:pointer;">
+          <span style="font-size:0.68rem; font-weight:700; color:var(--accent);">📄 View Case Excerpt (${activePage.tabTitle || 'Page ' + (activePage.pageNum || 1)})</span>
+          <span style="font-size:0.64rem; color:var(--txt3);">${sess.isCaseRefOpen ? '▲ Hide' : '▼ Show'}</span>
+        </button>
+        ${sess.isCaseRefOpen ? `
+          <div style="margin-top:4px; max-height:160px; overflow-y:auto; padding:8px; border-radius:6px; background:var(--bg2); border:1px solid var(--border); font-size:0.72rem; line-height:1.45; color:var(--txt);">
+            <div style="font-weight:700; color:var(--accent); margin-bottom:4px;">${activePage.title || ''}</div>
+            ${(activePage.content || '').replace(/\n/g, '<br><br>')}
+          </div>
+        ` : ''}
+      </div>
+    ` : ''}
+
     <div class="doapage-q-nav-bar">
-      <div style="font-size:0.74rem; font-weight:700; color:var(--txt3);">Questions:</div>
+      <div style="font-size:0.7rem; font-weight:700; color:var(--txt3);">Questions:</div>
       <div class="doapage-q-pills">
         ${sess.questions.map((item, idx) => {
           const ans = sess.isSubmitted[idx];
@@ -1417,7 +1459,7 @@ function renderCaseSolverDrawer() {
           `;
         }).join('')}
       </div>
-      <span style="font-size:0.72rem; color:var(--txt4); margin-left:auto;">2 Marks Each</span>
+      <span style="font-size:0.68rem; color:var(--txt4); margin-left:auto;">2 Marks Each</span>
     </div>
 
     <div class="doapage-q-body">
@@ -1443,10 +1485,10 @@ function renderCaseSolverDrawer() {
               <span class="doapage-opt-letter">${letter}</span>
               <span class="doapage-opt-text">${opt}</span>
               ${isAnswered && oIdx === q.correct ? `
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16" style="margin-left:auto; color:var(--green);"><polyline points="20 6 9 17 4 12"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="15" height="15" style="margin-left:auto; color:var(--green); flex-shrink:0;"><polyline points="20 6 9 17 4 12"/></svg>
               ` : ''}
               ${isAnswered && oIdx === selectedOpt && !isCorrect ? `
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16" style="margin-left:auto; color:var(--red);"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="15" height="15" style="margin-left:auto; color:var(--red); flex-shrink:0;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
               ` : ''}
             </button>
           `;
@@ -1456,14 +1498,14 @@ function renderCaseSolverDrawer() {
       ${isAnswered ? `
         <div class="doapage-rationale-box ${isCorrect ? 'rationale-correct' : 'rationale-wrong'}">
           <div class="doapage-rationale-title">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-            ICAI Examiner Rationale & Case Paragraph Link
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            ICAI Examiner Rationale & Case Link
           </div>
           <div class="doapage-rationale-text">${q.explanation || 'See relevant statutory paragraph.'}</div>
         </div>
 
-        <div style="margin-top:12px; display:flex; justify-content:flex-end;">
-          <button class="btn-primary" style="height:38px; padding:0 18px; border-radius:8px; font-weight:700; font-size:0.82rem;" onclick="nextCaseQuestion()">
+        <div style="margin-top:10px; display:flex; justify-content:flex-end;">
+          <button class="btn-primary" style="height:36px; padding:0 16px; border-radius:8px; font-weight:700; font-size:0.78rem;" onclick="nextCaseQuestion()">
             ${qIdx < sess.questions.length - 1 ? 'Next Question &rarr;' : (sess.isBookletMode && sess.currentCaseIndexInBooklet < sess.bookletAllCases.length - 1 ? 'Next Case in Booklet &rarr;' : 'Finish Case Booklet')}
           </button>
         </div>
