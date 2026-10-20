@@ -904,6 +904,27 @@ function showOnboardStep(stepNum) {
 
   const bar = document.getElementById('onboarding-progress-fill');
   if (bar) bar.style.width = (stepNum * 33.33) + '%';
+
+  if (stepNum === 3) {
+    updateChallengeSelectionState();
+  }
+}
+
+function updateChallengeSelectionState() {
+  const finishBtn = document.getElementById('btn-onboard-finish') || document.querySelector('.onboard-btn-finish');
+  if (!finishBtn) return;
+  const count = Object.values(window.onboardingState.challenges || {}).filter(Boolean).length;
+  if (count === 0) {
+    finishBtn.disabled = true;
+    finishBtn.style.opacity = '0.5';
+    finishBtn.style.cursor = 'not-allowed';
+    finishBtn.style.pointerEvents = 'none';
+  } else {
+    finishBtn.disabled = false;
+    finishBtn.style.opacity = '1';
+    finishBtn.style.cursor = 'pointer';
+    finishBtn.style.pointerEvents = 'auto';
+  }
 }
 
 function selectOnboardingAttempt(attempt, el) {
@@ -922,6 +943,7 @@ function toggleOnboardingDiscovery(channel, el) {
 function toggleOnboardingChallenge(chId, el) {
   window.onboardingState.challenges[chId] = !window.onboardingState.challenges[chId];
   if (el) el.classList.toggle('selected', !!window.onboardingState.challenges[chId]);
+  updateChallengeSelectionState();
 }
 
 function onboardingNext(currStep) {
@@ -933,6 +955,14 @@ function onboardingPrev(currStep) {
 }
 
 function finishOnboarding(skipped = false) {
+  if (!skipped) {
+    const selectedCount = Object.values(window.onboardingState.challenges || {}).filter(Boolean).length;
+    if (selectedCount === 0) {
+      showToast('Please select at least one challenge to continue.');
+      return;
+    }
+  }
+
   const chosenAttempt = window.onboardingState.selectedAttempt || AppState.user.attempt || 'May 2027';
   AppState.user.attempt = chosenAttempt;
   

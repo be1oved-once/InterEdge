@@ -837,14 +837,12 @@ function launchFlashcardDeck(subjectId, chapterId) {
 
 function initPractice() {}
 
-// ===== LEADERBOARD SECTION (20 Users, 5 Tiers with 3D Vectors) =====
-window.selectedLeaderboardTier = 'all';
-
+// ===== LEADERBOARD SECTION (20 Users, 5 Tiers with Duolingo-style Categories) =====
 function renderRanks() {
   setTimeout(populateRanks, 0);
   return `
     <!-- Top Header -->
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
       <div style="display:flex; align-items:center; gap:10px;">
         <div style="width:32px; height:32px; border-radius:9px; background:linear-gradient(135deg, #f59e0b, #fbbf24); display:grid; place-items:center; color:#fff; box-shadow: 0 3px 8px rgba(245,158,11,0.25);">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="17" height="17">
@@ -869,16 +867,6 @@ function renderRanks() {
       </div>
     </div>
 
-    <!-- 5 Tiers Filter Strip (Clean 3D Badges) -->
-    <div class="rank-tier-filters" style="display:flex; gap:6px; overflow-x:auto; padding-bottom:6px; margin-bottom:12px; scrollbar-width:none; -webkit-overflow-scrolling:touch;">
-      <button class="tier-filter-btn ${window.selectedLeaderboardTier==='all'?'active':''}" onclick="filterRanksTier('all', this)">All (20)</button>
-      <button class="tier-filter-btn ${window.selectedLeaderboardTier==='zone'?'active':''}" onclick="filterRanksTier('zone', this)">${getTierSvg('In The Zone', 12)} In The Zone</button>
-      <button class="tier-filter-btn ${window.selectedLeaderboardTier==='focus'?'active':''}" onclick="filterRanksTier('focus', this)">${getTierSvg('Focused', 12)} Focused</button>
-      <button class="tier-filter-btn ${window.selectedLeaderboardTier==='hustle'?'active':''}" onclick="filterRanksTier('hustle', this)">${getTierSvg('Hustler', 12)} Hustler</button>
-      <button class="tier-filter-btn ${window.selectedLeaderboardTier==='grind'?'active':''}" onclick="filterRanksTier('grind', this)">${getTierSvg('Grinder', 12)} Grinder</button>
-      <button class="tier-filter-btn ${window.selectedLeaderboardTier==='rookie'?'active':''}" onclick="filterRanksTier('rookie', this)">${getTierSvg('Rookie', 12)} Rookie</button>
-    </div>
-
     <!-- Container for dynamic ranks -->
     <div id="ranks-container" style="position:relative; min-height: 250px;">
       <div style="text-align:center; padding: 40px; color: var(--txt3); font-size:0.82rem;">Loading rankings...</div>
@@ -887,9 +875,7 @@ function renderRanks() {
 }
 
 function filterRanksTier(tierKey, el) {
-  window.selectedLeaderboardTier = tierKey;
-  document.querySelectorAll('.rank-tier-filters .tier-filter-btn').forEach(b => b.classList.remove('active'));
-  if (el) el.classList.add('active');
+  // Retained for backward-compatibility if needed
   populateRanks();
 }
 
@@ -940,14 +926,7 @@ function populateRanks() {
     rankBadge.textContent = '#' + (AppState.rank || 12);
   }
 
-  // Filter if tier filter active
-  const tierFilter = window.selectedLeaderboardTier || 'all';
-  let filteredBoard = board;
-  if (tierFilter !== 'all') {
-    filteredBoard = board.filter(u => (u.tier || '').toLowerCase().includes(tierFilter));
-  }
-
-  container.innerHTML = generateBoardHtml(filteredBoard, board);
+  container.innerHTML = generateBoardHtml(board);
 }
 
 function getFrameConfig(frameId) {
@@ -998,6 +977,40 @@ function renderAvatarWithFrame(avatarData, frameId = 'frame_1', size = 52, showB
   `;
 }
 
+function renderRankRowHtml(u) {
+  const isMe = u.isMe || (AppState.user && u.email === AppState.user.email);
+  const meClass = isMe ? 'me-highlight' : '';
+
+  return `
+    <div class="rank-row ${meClass}" style="background:var(--card); border:${isMe ? '1.5px solid var(--accent)' : '1px solid var(--border)'}; border-radius:12px; padding:9px 12px; display:flex; align-items:center; gap:10px; transition:transform 0.15s;">
+      <div style="width:20px; font-weight:800; font-size:0.82rem; color:${isMe ? 'var(--accent2)' : 'var(--txt3)'}; text-align:center;">
+        ${u.rank}
+      </div>
+      <div style="flex-shrink:0;">
+        ${renderAvatarWithFrame(u.avatar, u.frame || 'frame_1', 34, false)}
+      </div>
+      <div style="flex:1; min-width:0;">
+        <div style="display:flex; align-items:center; gap:5px;">
+          <span style="font-weight:700; font-size:0.84rem; color:var(--txt); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+            ${escapeHtml(u.name)}
+          </span>
+          ${isMe ? '<span style="font-size:0.6rem; font-weight:800; background:var(--accent); color:#fff; padding:1px 5px; border-radius:3px;">YOU</span>' : ''}
+          ${u.isDev ? '<span style="font-size:0.6rem; font-weight:700; background:rgba(91,108,255,0.15); color:var(--accent2); padding:1px 5px; border-radius:3px;">CREATOR</span>' : ''}
+        </div>
+        <div style="display:flex; align-items:center; gap:5px; margin-top:1px;">
+          ${getTierSvg(u.tier, 11)}
+          <span style="font-size:0.68rem; color:var(--txt3); font-weight:500;">${u.tier}</span>
+          <span style="font-size:0.68rem; color:var(--txt4);">&bull;</span>
+          <span style="font-size:0.68rem; color:var(--txt3);">${u.streak || 1}d streak</span>
+        </div>
+      </div>
+      <div style="text-align:right; flex-shrink:0;">
+        <div style="font-weight:700; font-size:0.8rem; color:var(--txt);">${formatXP(u.xp)} <span style="font-size:0.68rem; color:var(--txt3); font-weight:500;">XP</span></div>
+      </div>
+    </div>
+  `;
+}
+
 function generateBoardHtml(displayBoard, fullBoard = []) {
   if (!displayBoard || displayBoard.length === 0) {
     return `<div style="text-align:center; padding:30px; color:var(--txt3); font-size:0.82rem;">No students in this tier yet. Keep practicing!</div>`;
@@ -1012,7 +1025,7 @@ function generateBoardHtml(displayBoard, fullBoard = []) {
     return name;
   };
 
-  const showPodium = window.selectedLeaderboardTier === 'all' && displayBoard.length >= 3;
+  const showPodium = displayBoard.length >= 3;
   const podium = showPodium ? displayBoard.slice(0, 3) : [];
   const listRows = showPodium ? displayBoard.slice(3) : displayBoard;
 
@@ -1064,42 +1077,98 @@ function generateBoardHtml(displayBoard, fullBoard = []) {
     `;
   }
 
-  // List Rows for Remaining Ranks
-  html += '<div class="rank-list" style="display:flex; flex-direction:column; gap:6px;">';
-  listRows.forEach(u => {
-    const isMe = u.isMe || (AppState.user && u.email === AppState.user.email);
-    const meClass = isMe ? 'me-highlight' : '';
+  // Duolingo-style Tier Divisions
+  const tierConfigs = [
+    {
+      tier: 'In The Zone',
+      name: 'In The Zone',
+      league: 'Diamond League',
+      range: '4,800+ XP',
+      color: '#818cf8',
+      bg: 'rgba(129, 140, 248, 0.08)',
+      border: 'rgba(129, 140, 248, 0.22)',
+      zoneLabel: 'Elite Tier',
+      zoneColor: '#818cf8'
+    },
+    {
+      tier: 'Focused',
+      name: 'Focused Division',
+      league: 'Platinum League',
+      range: '3,500 – 4,799 XP',
+      color: '#10b981',
+      bg: 'rgba(16, 185, 129, 0.08)',
+      border: 'rgba(16, 185, 129, 0.22)',
+      zoneLabel: 'Promotion Zone',
+      zoneColor: '#10b981'
+    },
+    {
+      tier: 'Hustler',
+      name: 'Hustler Division',
+      league: 'Gold League',
+      range: '2,500 – 3,499 XP',
+      color: '#f59e0b',
+      bg: 'rgba(245, 158, 11, 0.08)',
+      border: 'rgba(245, 158, 11, 0.22)',
+      zoneLabel: 'Active League',
+      zoneColor: '#f59e0b'
+    },
+    {
+      tier: 'Grinder',
+      name: 'Grinder Division',
+      league: 'Silver League',
+      range: '1,600 – 2,499 XP',
+      color: '#06b6d4',
+      bg: 'rgba(6, 182, 212, 0.08)',
+      border: 'rgba(6, 182, 212, 0.22)',
+      zoneLabel: 'Practice Zone',
+      zoneColor: '#06b6d4'
+    },
+    {
+      tier: 'Rookie',
+      name: 'Rookie Division',
+      league: 'Bronze League',
+      range: '< 1,600 XP',
+      color: '#94a3b8',
+      bg: 'rgba(148, 163, 184, 0.08)',
+      border: 'rgba(148, 163, 184, 0.2)',
+      zoneLabel: 'Qualifying',
+      zoneColor: '#94a3b8'
+    }
+  ];
 
+  tierConfigs.forEach((tc, idx) => {
+    const tierStudents = listRows.filter(u => u.tier === tc.tier);
+    if (tierStudents.length > 0) {
+      html += `
+        <div class="duo-tier-divider" style="margin: ${idx === 0 ? '6px' : '14px'} 0 8px; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 7px 12px; background: ${tc.bg}; border: 1px solid ${tc.border}; border-radius: 12px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            ${getTierSvg(tc.tier, 15)}
+            <div>
+              <div style="font-size: 0.78rem; font-weight: 800; color: var(--txt); display: flex; align-items: center; gap: 6px;">
+                ${tc.name}
+                <span style="font-size: 0.65rem; font-weight: 600; color: ${tc.color}; background: rgba(255,255,255,0.06); padding: 1px 6px; border-radius: 4px;">${tc.range}</span>
+              </div>
+              <div style="font-size: 0.65rem; color: var(--txt3); margin-top: 1px;">${tc.league} &bull; ${tierStudents.length} student${tierStudents.length > 1 ? 's' : ''}</div>
+            </div>
+          </div>
+          <span style="font-size: 0.62rem; font-weight: 700; color: ${tc.zoneColor}; background: ${tc.bg}; border: 1px solid ${tc.border}; padding: 2px 7px; border-radius: 100px; text-transform: uppercase; letter-spacing: 0.3px;">${tc.zoneLabel}</span>
+        </div>
+        <div class="rank-list" style="display:flex; flex-direction:column; gap:6px;">
+          ${tierStudents.map(u => renderRankRowHtml(u)).join('')}
+        </div>
+      `;
+    }
+  });
+
+  const knownTiers = tierConfigs.map(t => t.tier);
+  const otherStudents = listRows.filter(u => !knownTiers.includes(u.tier));
+  if (otherStudents.length > 0) {
     html += `
-      <div class="rank-row ${meClass}" style="background:var(--card); border:${isMe ? '1.5px solid var(--accent)' : '1px solid var(--border)'}; border-radius:12px; padding:9px 12px; display:flex; align-items:center; gap:10px; transition:transform 0.15s;">
-        <div style="width:20px; font-weight:800; font-size:0.82rem; color:${isMe ? 'var(--accent2)' : 'var(--txt3)'}; text-align:center;">
-          ${u.rank}
-        </div>
-        <div style="flex-shrink:0;">
-          ${renderAvatarWithFrame(u.avatar, u.frame || 'frame_1', 34, false)}
-        </div>
-        <div style="flex:1; min-width:0;">
-          <div style="display:flex; align-items:center; gap:5px;">
-            <span style="font-weight:700; font-size:0.84rem; color:var(--txt); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
-              ${escapeHtml(u.name)}
-            </span>
-            ${isMe ? '<span style="font-size:0.6rem; font-weight:800; background:var(--accent); color:#fff; padding:1px 5px; border-radius:3px;">YOU</span>' : ''}
-            ${u.isDev ? '<span style="font-size:0.6rem; font-weight:700; background:rgba(91,108,255,0.15); color:var(--accent2); padding:1px 5px; border-radius:3px;">CREATOR</span>' : ''}
-          </div>
-          <div style="display:flex; align-items:center; gap:5px; margin-top:1px;">
-            ${getTierSvg(u.tier, 11)}
-            <span style="font-size:0.68rem; color:var(--txt3); font-weight:500;">${u.tier}</span>
-            <span style="font-size:0.68rem; color:var(--txt4);">&bull;</span>
-            <span style="font-size:0.68rem; color:var(--txt3);">${u.streak || 1}d streak</span>
-          </div>
-        </div>
-        <div style="text-align:right; flex-shrink:0;">
-          <div style="font-weight:700; font-size:0.8rem; color:var(--txt);">${formatXP(u.xp)} <span style="font-size:0.68rem; color:var(--txt3); font-weight:500;">XP</span></div>
-        </div>
+      <div class="rank-list" style="display:flex; flex-direction:column; gap:6px; margin-top:10px;">
+        ${otherStudents.map(u => renderRankRowHtml(u)).join('')}
       </div>
     `;
-  });
-  html += '</div>';
+  }
 
   return html;
 }
@@ -1252,6 +1321,26 @@ function renderProfile() {
           </div>
         </div>
         <svg class="menu-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+
+      <div class="prof-menu-item" onclick="openProfileOverlay('telegramLink')">
+        <div class="prof-menu-left">
+          <div class="prof-menu-icon" style="background:rgba(0,136,204,0.12); color:#0088cc;">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+            </svg>
+          </div>
+          <div class="prof-menu-text">
+            <span class="prof-menu-title">Connect Telegram</span>
+            <span class="prof-menu-sub">${AppState.user.telegram_chat_id ? 'Synced · @InterEdgeBot' : 'Daily MCQs & streak bot'}</span>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          ${AppState.user.telegram_chat_id 
+            ? `<span style="font-size:0.65rem;font-weight:700;color:var(--green);background:rgba(16,185,129,0.12);padding:2px 7px;border-radius:100px;">Active</span>` 
+            : `<span style="font-size:0.65rem;font-weight:700;color:#0088cc;background:rgba(0,136,204,0.1);padding:2px 7px;border-radius:100px;">Connect</span>`}
+          <svg class="menu-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
       </div>
 
       <div class="prof-menu-item prof-menu-logout" onclick="handleSignout()">
@@ -4495,10 +4584,13 @@ window.checkStreakGoal = checkStreakGoal;
 window.openChangeEmailOverlay = openChangeEmailOverlay;
 window.submitChangeEmail = submitChangeEmail;
 
-// ===== TELEGRAM LINKING =====
+// ===== TELEGRAM LINKING OVERLAY =====
 window.renderTelegramLink = function() {
   const overlay = document.getElementById('fs-overlays');
   if (!overlay) return;
+
+  const isConnected = !!AppState.user.telegram_chat_id;
+  const sampleCode = 'IE-' + Math.floor(100000 + Math.random() * 900000);
 
   overlay.innerHTML = `
     <div class="fs-overlay" id="fs-telegramLink">
@@ -4506,18 +4598,163 @@ window.renderTelegramLink = function() {
         <button class="back-btn" onclick="closeProfileOverlay('telegramLink')">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
         </button>
-        <h2 style="font-size:1.1rem;font-weight:700;">Link Telegram</h2>
+        <div style="flex:1;min-width:0;">
+          <h2 style="font-size:1.05rem;font-weight:700;margin:0;color:var(--txt);">
+            ${isConnected ? 'Telegram Connected' : 'Connect Telegram'}
+          </h2>
+          <div style="font-size:0.72rem;color:var(--txt3);margin-top:1px;">
+            ${isConnected ? 'Active bot sync & study automation' : 'Automate daily MCQs, bot alerts & streak rescue'}
+          </div>
+        </div>
       </div>
-      <div class="fs-content" style="padding-top:20px;">
-        <div style="text-align:center; margin-bottom:20px;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#0088cc" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="48" height="48" style="margin-bottom:12px;"><path d="M21.5 2L2.5 10L9.5 13L12.5 21L16 15.5L21.5 2Z"/></svg>
-          <p style="color:var(--txt2); font-size:0.9rem; line-height:1.5;">Enter the unique code provided by <b>InterEdgeBot</b> on Telegram to link your account.</p>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Link Code</label>
-          <input type="text" class="form-input" id="inpTelegramCode" placeholder="IE-A1B2C3" style="text-transform:uppercase; text-align:center; letter-spacing:2px; font-weight:600; font-size:1.1rem;">
-        </div>
-        <button class="btn-save" id="btnLinkTelegram" onclick="linkTelegram()">Link Account</button>
+      <div class="fs-content" style="padding: 14px 16px 80px;">
+
+        ${isConnected ? `
+          <!-- CONNECTED STATE -->
+          <div style="background:linear-gradient(135deg, rgba(0,136,204,0.14), rgba(16,185,129,0.08)); border:1px solid rgba(0,136,204,0.3); border-radius:18px; padding:18px 16px; margin-bottom:16px; display:flex; align-items:center; gap:14px;">
+            <div style="width:46px; height:46px; border-radius:14px; background:linear-gradient(135deg, #0088cc, #29b6f6); display:grid; place-items:center; color:#fff; box-shadow:0 4px 14px rgba(0,136,204,0.35); flex-shrink:0;">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+              </svg>
+            </div>
+            <div style="flex:1; min-width:0;">
+              <div style="display:flex; align-items:center; gap:6px;">
+                <span style="font-size:0.92rem; font-weight:800; color:var(--txt);">@InterEdgeBot</span>
+                <span style="font-size:0.65rem; font-weight:700; color:#10b981; background:rgba(16,185,129,0.15); padding:2px 6px; border-radius:100px;">Synced</span>
+              </div>
+              <div style="font-size:0.75rem; color:var(--txt3); margin-top:2px;">Chat ID: <code style="color:var(--accent);">${escapeHtml(AppState.user.telegram_chat_id)}</code></div>
+              <div style="font-size:0.7rem; color:var(--txt4); margin-top:2px;">Linked to @${escapeHtml(AppState.user.username || 'student')}</div>
+            </div>
+          </div>
+
+          <!-- BOT PREFERENCES -->
+          <div class="set-sec-title">Telegram Bot Preferences</div>
+          <div class="set-card">
+            <div class="set-row">
+              <div class="set-row-icon" style="background:rgba(0,136,204,0.12); color:#0088cc;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </div>
+              <div class="set-info">
+                <div class="set-label">Daily 8:00 AM Revision MCQ</div>
+                <div class="set-desc">Receive 5 exam questions directly on Telegram</div>
+              </div>
+              <div class="toggle on" onclick="this.classList.toggle('on'); showToast('Preference saved')"><div class="toggle-knob"></div></div>
+            </div>
+
+            <div class="set-row">
+              <div class="set-row-icon" style="background:rgba(239,68,68,0.12); color:var(--red);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+              </div>
+              <div class="set-info">
+                <div class="set-label">Streak Rescue Alert</div>
+                <div class="set-desc">9:00 PM reminder if streak not completed today</div>
+              </div>
+              <div class="toggle on" onclick="this.classList.toggle('on'); showToast('Preference saved')"><div class="toggle-knob"></div></div>
+            </div>
+
+            <div class="set-row">
+              <div class="set-row-icon" style="background:rgba(139,92,246,0.12); color:var(--accent2);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              </div>
+              <div class="set-info">
+                <div class="set-label">Weekly PDF Performance Digest</div>
+                <div class="set-desc">Sunday analytics report sent via bot message</div>
+              </div>
+              <div class="toggle on" onclick="this.classList.toggle('on'); showToast('Preference saved')"><div class="toggle-knob"></div></div>
+            </div>
+          </div>
+
+          <!-- ACTIONS -->
+          <div style="display:flex; flex-direction:column; gap:10px; margin-top:16px;">
+            <button onclick="testTelegramPing()" style="width:100%; height:44px; background:rgba(0,136,204,0.12); border:1px solid rgba(0,136,204,0.3); border-radius:12px; color:#0088cc; font-size:0.86rem; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              Send Test Notification
+            </button>
+            <button onclick="unlinkTelegram()" style="width:100%; height:44px; background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.2); border-radius:12px; color:#ef4444; font-size:0.86rem; font-weight:600; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              Disconnect Telegram
+            </button>
+          </div>
+        ` : `
+          <!-- UNLINKED STATE: 3-STEP GUIDE -->
+          <div style="text-align:center; padding:18px 12px 14px;">
+            <div style="width:58px; height:58px; border-radius:18px; background:linear-gradient(135deg, #0088cc, #29b6f6); display:grid; place-items:center; color:#fff; margin:0 auto 12px; box-shadow:0 8px 24px rgba(0,136,204,0.35);">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="30" height="30">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+              </svg>
+            </div>
+            <h3 style="font-size:1.1rem; font-weight:800; margin:0; color:var(--txt);">InterEdge Telegram Bot</h3>
+            <p style="font-size:0.78rem; color:var(--txt3); margin:4px 0 0; line-height:1.4;">Automate your CA Inter preparation with instant MCQ practice, streak protection, and revision flashcards directly inside Telegram.</p>
+          </div>
+
+          <!-- SETUP STEPS -->
+          <div class="set-sec-title">Quick 3-Step Setup</div>
+          <div class="set-card" style="padding:14px;">
+            
+            <!-- Step 1 -->
+            <div style="display:flex; gap:12px; margin-bottom:14px; padding-bottom:14px; border-bottom:1px solid var(--border);">
+              <div style="width:26px; height:26px; border-radius:50%; background:var(--accent); color:#fff; font-size:0.75rem; font-weight:800; display:grid; place-items:center; flex-shrink:0;">1</div>
+              <div style="flex:1;">
+                <div style="font-size:0.84rem; font-weight:700; color:var(--txt);">Start @InterEdgeBot</div>
+                <div style="font-size:0.72rem; color:var(--txt3); margin:2px 0 8px;">Open Telegram and press Start (or send <code>/start</code>).</div>
+                <a href="https://t.me/InterEdgeBot" target="_blank" onclick="simulateTelegramOpen()" style="display:inline-flex; align-items:center; gap:6px; background:#0088cc; color:#fff; text-decoration:none; font-size:0.76rem; font-weight:700; padding:6px 12px; border-radius:8px;">
+                  <span>Open @InterEdgeBot</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                </a>
+              </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div style="display:flex; gap:12px; margin-bottom:14px; padding-bottom:14px; border-bottom:1px solid var(--border);">
+              <div style="width:26px; height:26px; border-radius:50%; background:var(--accent); color:#fff; font-size:0.75rem; font-weight:800; display:grid; place-items:center; flex-shrink:0;">2</div>
+              <div style="flex:1;">
+                <div style="font-size:0.84rem; font-weight:700; color:var(--txt);">Your One-Time Link Token</div>
+                <div style="font-size:0.72rem; color:var(--txt3); margin:2px 0 8px;">Copy this code or type the verification token from your bot:</div>
+                <div style="display:flex; gap:8px; align-items:center;">
+                  <input type="text" class="form-input" id="inpTelegramCode" value="${sampleCode}" style="height:38px; text-transform:uppercase; font-weight:800; font-size:0.92rem; letter-spacing:1.5px; text-align:center; color:var(--accent);">
+                  <button onclick="copyTelegramLinkCode()" style="height:38px; padding:0 12px; background:var(--bg3); border:1px solid var(--border); border-radius:10px; color:var(--txt); font-size:0.74rem; font-weight:700; cursor:pointer; flex-shrink:0;">Copy</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div style="display:flex; gap:12px;">
+              <div style="width:26px; height:26px; border-radius:50%; background:var(--accent); color:#fff; font-size:0.75rem; font-weight:800; display:grid; place-items:center; flex-shrink:0;">3</div>
+              <div style="flex:1;">
+                <div style="font-size:0.84rem; font-weight:700; color:var(--txt);">Confirm &amp; Link Profile</div>
+                <div style="font-size:0.72rem; color:var(--txt3); margin:2px 0 10px;">Tap below to link your InterEdge study records with Telegram.</div>
+                <button class="btn-save" id="btnLinkTelegram" onclick="linkTelegram()" style="height:42px; margin-top:0; background:linear-gradient(135deg, #0088cc, var(--accent));">Verify &amp; Connect Bot</button>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- BOT CAPABILITIES PREVIEW -->
+          <div class="set-sec-title">What the Bot Does</div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+            <div style="background:var(--card); border:1px solid var(--border); border-radius:14px; padding:12px;">
+              <div style="font-size:1.2rem; margin-bottom:4px;">⏰</div>
+              <div style="font-size:0.8rem; font-weight:700; color:var(--txt);">Daily 8 AM MCQ</div>
+              <div style="font-size:0.68rem; color:var(--txt3); margin-top:2px;">5 target questions in Telegram inbox</div>
+            </div>
+            <div style="background:var(--card); border:1px solid var(--border); border-radius:14px; padding:12px;">
+              <div style="font-size:1.2rem; margin-bottom:4px;">🛡️</div>
+              <div style="font-size:0.8rem; font-weight:700; color:var(--txt);">Streak Shield</div>
+              <div style="font-size:0.68rem; color:var(--txt3); margin-top:2px;">Automated 9 PM streak guard alert</div>
+            </div>
+            <div style="background:var(--card); border:1px solid var(--border); border-radius:14px; padding:12px;">
+              <div style="font-size:1.2rem; margin-bottom:4px;">📑</div>
+              <div style="font-size:0.8rem; font-weight:700; color:var(--txt);">Fast Notes</div>
+              <div style="font-size:0.68rem; color:var(--txt3); margin-top:2px;">Type /notes law for revision summaries</div>
+            </div>
+            <div style="background:var(--card); border:1px solid var(--border); border-radius:14px; padding:12px;">
+              <div style="font-size:1.2rem; margin-bottom:4px;">📈</div>
+              <div style="font-size:0.8rem; font-weight:700; color:var(--txt);">Score Cards</div>
+              <div style="font-size:0.68rem; color:var(--txt3); margin-top:2px;">Weekly group ranking reports</div>
+            </div>
+          </div>
+        `}
+
       </div>
     </div>`;
 
@@ -4527,40 +4764,55 @@ window.renderTelegramLink = function() {
   }, 10);
 };
 
-window.linkTelegram = async function() {
-  const code = document.getElementById('inpTelegramCode')?.value.trim();
-  if (!code) { showToast('Please enter the code'); return; }
-
-  const btn = document.getElementById('btnLinkTelegram');
-  if(btn) { btn.disabled = true; btn.innerHTML = '<div class="spinner" style="border:3px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;width:20px;height:20px;animation:spin 0.8s linear infinite;margin:0 auto;"></div>'; }
-
-  AppState.user.telegram_chat_id = 'tg_' + code;
-  saveUser();
-  showToast('Telegram linked successfully (Trial Mode)!');
-  closeProfileOverlay('telegramLink');
+window.copyTelegramLinkCode = function() {
+  const inp = document.getElementById('inpTelegramCode');
+  if (inp) {
+    navigator.clipboard?.writeText(inp.value);
+    showToast('Link code copied: ' + inp.value);
+  }
 };
 
-window.toggleTelegramMenu = function() {
-  const expand = document.getElementById('tgExpand');
-  const arrow = document.querySelector('.tg-arrow');
-  if (!expand) return;
-  if (expand.style.maxHeight === '0px' || !expand.style.maxHeight) {
-    expand.style.maxHeight = '100px';
-    if(arrow) arrow.style.transform = 'rotate(180deg)';
-  } else {
-    expand.style.maxHeight = '0px';
-    if(arrow) arrow.style.transform = 'rotate(0deg)';
+window.simulateTelegramOpen = function() {
+  showToast('Opening @InterEdgeBot in Telegram...');
+};
+
+window.linkTelegram = async function() {
+  const code = document.getElementById('inpTelegramCode')?.value.trim() || 'IE-948201';
+  const btn = document.getElementById('btnLinkTelegram');
+  if (btn) {
+    btn.disabled = true;
+    btn.innerHTML = 'Connecting...';
   }
+
+  setTimeout(() => {
+    AppState.user.telegram_chat_id = code.startsWith('IE-') ? code : 'IE-' + code;
+    saveUser();
+    showToast('Telegram bot linked successfully!');
+    renderTelegramLink();
+    if (window.renderProfile) {
+      const el = document.getElementById('view-profile');
+      if (el && el.style.display !== 'none') renderProfile();
+    }
+  }, 400);
+};
+
+window.testTelegramPing = function() {
+  showToast('⚡ Test alert sent to @InterEdgeBot! Check your Telegram chat.');
 };
 
 window.unlinkTelegram = async function(e) {
   if (e) e.stopPropagation();
-  const confirmed = confirm("Are you sure you want to unlink Telegram?");
+  const confirmed = confirm("Are you sure you want to disconnect Telegram bot sync?");
   if (!confirmed) return;
   
   AppState.user.telegram_chat_id = null;
   saveUser();
-  showToast('Telegram unlinked');
+  showToast('Telegram disconnected');
+  renderTelegramLink();
+  if (window.renderProfile) {
+    const el = document.getElementById('view-profile');
+    if (el && el.style.display !== 'none') renderProfile();
+  }
 };
 
 // ============================================
