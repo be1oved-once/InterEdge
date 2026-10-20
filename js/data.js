@@ -5,7 +5,7 @@
 
 // ===== 6 CA INTERMEDIATE PAPERS & QUESTION BANK =====
 const MCQ_DATA = {
-  // Paper 1: Advanced Accounting
+  // Paper 1: Advanced Accounting (MCQ Only - Pure Practical & AS)
   adv_acc: {
     id: 'adv_acc',
     paper: 'Paper 1',
@@ -13,13 +13,80 @@ const MCQ_DATA = {
     name: 'Advanced Accounting',
     shortName: 'Accounts',
     color: '#3b82f6',
+    practiceType: 'mcq_only',
+    tag: 'MCQ Only',
+    subTag: 'Practical AS & Numericals',
+    weightage: 'Paper 1 • 100 Marks',
     icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="9" y1="7" x2="15" y2="7"/><line x1="9" y1="11" x2="13" y2="11"/></svg>`,
     chapters: [
       {
         id: 'acc_ch1',
         num: 1,
         title: 'Accounting Standards & Framework (AS 1, 2, 3, 10, 16)',
-        concepts: ['Disclosure of Policies (AS 1)', 'Inventory Valuation (AS 2)', 'Cash Flow Statement (AS 3)', 'PPE (AS 10)', 'Borrowing Costs (AS 16)'],
+        weightage: '12-16 Marks',
+        type: 'mcq_only',
+        concepts: [
+          {
+            id: 'acc_c1_1',
+            title: 'Disclosure of Accounting Policies (AS 1)',
+            weightage: '2-4 Marks',
+            difficulty: 'Core Foundation',
+            rules: [
+              'Fundamental assumptions (Going Concern, Consistency, Accrual) are presumed; disclosure is required only if NOT followed.',
+              'Major changes in accounting policies with material financial impact must be quantified and disclosed in the notes.',
+              'Prudence, Substance over Form, and Materiality govern selection of accounting policies.'
+            ],
+            qCount: 2
+          },
+          {
+            id: 'acc_c1_2',
+            title: 'Valuation of Inventories (AS 2)',
+            weightage: '4-6 Marks',
+            difficulty: 'High Yield',
+            rules: [
+              'Inventories are valued at Lower of Cost or Net Realizable Value (NRV) on an item-by-item basis.',
+              'Abnormal amounts of wasted material, storage costs, and administrative overheads must be excluded from cost.',
+              'Materials held for use in production are NOT written down below cost if finished goods are expected to be sold at or above cost.'
+            ],
+            qCount: 3
+          },
+          {
+            id: 'acc_c1_3',
+            title: 'Cash Flow Statement (AS 3)',
+            weightage: '4-6 Marks',
+            difficulty: 'High Yield',
+            rules: [
+              'Operating activities reflect principal revenue-producing operations; Direct and Indirect methods permitted.',
+              'Financing activities involve changes in size/composition of owners capital and borrowings (interest/dividend paid).',
+              'Cash and Cash Equivalents exclude shares and investments with maturities exceeding 90 days from acquisition.'
+            ],
+            qCount: 2
+          },
+          {
+            id: 'acc_c1_4',
+            title: 'Property, Plant and Equipment (AS 10)',
+            weightage: '4-6 Marks',
+            difficulty: 'Moderate',
+            rules: [
+              'Recognize PPE if future economic benefits will flow to enterprise and cost can be measured reliably.',
+              'Initial cost comprises purchase price, import duties, and directly attributable costs of site preparation.',
+              'Component accounting is mandatory for significant parts with differing useful lives.'
+            ],
+            qCount: 2
+          },
+          {
+            id: 'acc_c1_5',
+            title: 'Borrowing Costs (AS 16)',
+            weightage: '2-4 Marks',
+            difficulty: 'Moderate',
+            rules: [
+              'Capitalize borrowing costs directly attributable to acquisition/construction of a qualifying asset (takes substantial period).',
+              'Suspension of capitalization is mandatory during extended periods of interrupted active development.',
+              'Cessation of capitalization occurs when substantially all activities necessary for intended use are complete.'
+            ],
+            qCount: 2
+          }
+        ],
         questions: [
           {
             q: 'As per AS 2 (Revised), which of the following costs should NOT be included in the valuation of inventory?',
@@ -50,29 +117,50 @@ const MCQ_DATA = {
           {
             caseId: 'cs_acc_1',
             caseTitle: 'Apex Manufacturing Ltd — Inventory Valuation & PPE Capitalization',
-            narrative: 'Apex Manufacturing Ltd is a leading chemical processor in Gujarat. During FY 2025-26, the company purchased raw materials for ₹50,00,000 (inclusive of recoverable GST of ₹6,00,000). Freight inward paid was ₹1,50,000, and non-refundable import duties paid were ₹2,50,000. Due to a boiler leakage, raw material worth ₹3,00,000 was damaged and written off as abnormal wastage. Storage costs of finished goods incurred were ₹1,20,000. Additionally, the company constructed a specialized warehouse (a qualifying asset) costing ₹80,00,000 using specific borrowed funds at 10% p.a. Construction took 14 months, but work was completely halted for 3 months due to local community protests unrelated to technical readiness.',
+            subject: 'adv_acc',
+            chapterId: 'acc_ch1',
+            totalMarks: 6,
+            readingTime: 6,
+            pages: [
+              {
+                pageNum: 1,
+                tabTitle: 'Entity Background & Plant Work',
+                title: '1. Plant Construction & Interrupted Development',
+                content: 'Apex Manufacturing Ltd began constructing a captive power plant on 1st April 2024 with a sanctioned project loan of ₹50,00,000 bearing 10% annual interest. The project constitutes a qualifying asset under AS 16.\n\nDue to a localized environmental dispute, active physical construction was halted completely for 4 consecutive months between July and October 2024. No technical or administrative work was carried out during this interruption period. Construction resumed in November 2024.'
+              },
+              {
+                pageNum: 2,
+                tabTitle: 'Inventory Records & Raw Materials',
+                title: '2. Raw Material Batches & Net Realizable Value',
+                content: 'At financial year-end (31st March 2025), Apex held 10,000 units of raw material X purchased at ₹120 per unit (replacement cost ₹95 per unit).\n\nThe finished product Y, which incorporates raw material X, has a manufacturing cost of ₹250 per unit. Due to market competition, the finished product Y can now be sold at only ₹230 per unit, with estimated selling costs of ₹10 per unit.'
+              }
+            ],
+            narrative: 'Apex Manufacturing Ltd began constructing a captive power plant on 1st April 2024 with a sanctioned project loan of ₹50,00,000 bearing 10% annual interest. The project constitutes a qualifying asset under AS 16. Due to a localized environmental dispute, active physical construction was halted completely for 4 consecutive months between July and October 2024. No technical or administrative work was carried out during this interruption period. Construction resumed in November 2024.\n\nAt financial year-end (31st March 2025), Apex held 10,000 units of raw material X purchased at ₹120 per unit (replacement cost ₹95 per unit). The finished product Y, which incorporates raw material X, has a manufacturing cost of ₹250 per unit. Due to market competition, the finished product Y can now be sold at only ₹230 per unit, with estimated selling costs of ₹10 per unit.',
             questions: [
               {
-                q: 'What is the correct cost of raw material inventory to be recognized under AS 2?',
-                options: ['₹48,00,000', '₹45,00,000', '₹54,00,000', '₹51,00,000'],
-                correct: 0,
-                explanation: 'Purchase price (excl. recoverable GST): ₹44,00,000 + Freight inward: ₹1,50,000 + Import duty: ₹2,50,000 = ₹48,00,000. Abnormal waste is excluded.',
+                q: 'What is the amount of borrowing costs that Apex Ltd must capitalize for the captive power plant in FY 2024-25?',
+                options: ['₹5,00,000 (Full year)', '₹3,33,333 (8 active months)', '₹1,66,667 (4 idle months only)', 'Nil, because environmental disputes cancel capitalization'],
+                correct: 1,
+                explanation: 'AS 16 mandates that capitalization of borrowing costs must be suspended during extended interruptions in active development. 4 months of interest (₹1,66,667) must be expensed to P&L, leaving ₹3,33,333 to be capitalized.',
+                pageRef: 'Page 1 • Section 1 (Plant Construction)',
                 marks: 2,
                 xp: 25
               },
               {
-                q: 'How should the storage cost of ₹1,20,000 of finished goods be treated in financial statements?',
-                options: ['Added to inventory cost', 'Expensed in Profit & Loss Account', 'Capitalized under Property, Plant & Equipment', 'Deferred to next financial year'],
+                q: 'At what value per unit should raw material X be recognized on the balance sheet as per AS 2?',
+                options: ['₹120 per unit (Historical cost)', '₹95 per unit (Replacement cost)', '₹220 per unit (Finished goods NRV)', '₹107.50 per unit (Average cost)'],
                 correct: 1,
-                explanation: 'Storage costs are expensed in Profit & Loss unless those costs are necessary in the production process prior to a further production stage.',
+                explanation: 'Under AS 2, materials held for use in production are written down to replacement cost if the finished product in which they are incorporated is expected to be sold below total cost. Finished product cost is ₹250 while NRV is ₹220, so raw materials must be written down to replacement cost of ₹95.',
+                pageRef: 'Page 2 • Section 2 (Inventory Records)',
                 marks: 2,
                 xp: 25
               },
               {
-                q: 'Under AS 16, should borrowing costs during the 3-month protest stoppage be capitalized?',
-                options: ['Yes, fully capitalized into warehouse asset', 'No, capitalization must be suspended and interest expensed to P&L', '50% capitalized and 50% expensed', 'Capitalized only if approved by Board'],
+                q: 'How should the interest expensed during the 4 months of halted construction appear in the Cash Flow Statement (AS 3)?',
+                options: ['Operating Cash Outflow', 'Financing Cash Outflow', 'Investing Cash Outflow', 'Non-cash adjustment to profit before tax'],
                 correct: 1,
-                explanation: 'Active development was interrupted by protests (not a necessary temporary step). Hence capitalization must be suspended for 3 months and charged to P&L.',
+                explanation: 'Under AS 3, interest paid is categorized as a Financing Cash Outflow regardless of whether it is capitalized to assets or expensed to the Profit & Loss statement.',
+                pageRef: 'Page 1 & General AS 3 classification',
                 marks: 2,
                 xp: 25
               }
@@ -81,11 +169,20 @@ const MCQ_DATA = {
         ],
         flashcards: [
           {
+            id: 'fc_acc_1',
             topic: 'AS 2 — Net Realizable Value (NRV) Rule',
-            prompt: 'Explain the valuation principle for raw materials when finished goods are expected to be sold at or below cost.',
-            provision: 'AS 2 (Revised) stipulates that materials and supplies held for use in the production of inventories are NOT written down below cost if the finished products in which they will be incorporated are expected to be sold at or above cost.',
-            analysis: 'However, when there has been a decline in the price of materials and it is estimated that the cost of finished products will exceed net realizable value, the materials are written down to net realizable value. In such cases, replacement cost may be the best available measure of their NRV.',
-            conclusion: 'Write down raw material to replacement cost ONLY if finished goods are sold below total cost.'
+            examTag: 'ICAI Exam Standard • 4 Marks',
+            marks: 4,
+            prompt: 'Explain the circumstances under which raw materials and supplies held for production are written down below cost as per AS 2.',
+            provision: 'Paragraph 24 of AS 2 mandates that materials and other supplies held for use in the production of inventories are NOT written down below cost if the finished products in which they are incorporated are expected to be sold at or above cost.',
+            analysis: 'However, when there has been a decline in the price of materials and it is estimated that the cost of finished products will exceed net realizable value, the materials are written down to net realizable value, with replacement cost being the best available measure.',
+            conclusion: 'Thus, write-down of raw materials is strictly contingent on the profitability and recoverable value of the ultimate finished product.',
+            keywords: ['Lower of Cost or NRV', 'Materials held for production', 'Replacement Cost', 'Finished Goods Profitability'],
+            rubric: [
+              { step: 'General rule of cost preservation for materials', marks: 1.5 },
+              { step: 'Exception when finished goods sell below cost', marks: 1.5 },
+              { step: 'Use of replacement cost as best measure', marks: 1.0 }
+            ]
           }
         ]
       },
@@ -93,60 +190,198 @@ const MCQ_DATA = {
         id: 'acc_ch2',
         num: 2,
         title: 'Company Accounts: Buyback of Shares & Internal Reconstruction',
-        concepts: ['Sec 68 Buy Back Conditions', 'Solvency Declarations', 'Capital Reduction Account', 'Scheme of Reconstruction'],
+        weightage: '10-14 Marks',
+        type: 'mcq_only',
+        concepts: [
+          {
+            id: 'acc_c2_1',
+            title: 'Sec 68 Buy Back Conditions & Sources',
+            weightage: '4-6 Marks',
+            difficulty: 'High Yield',
+            rules: [
+              'Buyback sources: Free reserves, Securities Premium account, or proceeds of any shares/specified securities (not same kind).',
+              'Quantum limit: Max 25% of aggregate paid-up capital and free reserves in any financial year.',
+              'Post-buyback Debt-to-Equity ratio shall not exceed 2:1 for non-banking entities.'
+            ],
+            qCount: 2
+          },
+          {
+            id: 'acc_c2_2',
+            title: 'Solvency Declarations & CRR Creation',
+            weightage: '2-4 Marks',
+            difficulty: 'Moderate',
+            rules: [
+              'Affidavit of Solvency (Form SH-9) must be filed with ROC and SEBI prior to executing buyback.',
+              'Nominal value of shares bought back out of free reserves/securities premium must be transferred to Capital Redemption Reserve (CRR).',
+              'CRR can only be utilized for issuing fully paid bonus shares.'
+            ],
+            qCount: 2
+          },
+          {
+            id: 'acc_c2_3',
+            title: 'Capital Reduction Account in Reconstruction',
+            weightage: '4-6 Marks',
+            difficulty: 'High Yield',
+            rules: [
+              'Internal reconstruction requires confirmation of Tribunal under Section 66 of Companies Act 2013.',
+              'Sacrifices by shareholders, debenture-holders, and creditors are credited to Capital Reduction Account.',
+              'Any balance remaining in Capital Reduction after writing off fictitious assets and accumulated losses is transferred to Capital Reserve.'
+            ],
+            qCount: 2
+          }
+        ],
         questions: [
           {
-            q: 'Under Section 68 of the Companies Act 2013, the maximum buyback of equity shares in any financial year is capped at:',
-            options: ['25% of total paid up equity capital and free reserves', '25% of total paid up equity capital only', '10% of total paid up capital without special resolution', '15% of net worth'],
+            q: 'Under Section 68 of the Companies Act 2013, the debt-equity ratio after buy-back of shares shall not exceed:',
+            options: ['1 : 1', '2 : 1', '1.5 : 1', '3 : 1'],
             correct: 1,
-            explanation: 'Under Sec 68(2)(c), the buyback of equity shares in any financial year cannot exceed 25% of its total paid-up equity capital in that financial year.',
+            explanation: 'Under Section 68(2)(d), the ratio of the aggregate of secured and unsecured debts owed by the company after buy-back must not be more than twice the paid-up capital and its free reserves (2:1).',
             marks: 2,
             xp: 20
           },
           {
-            q: 'In an internal reconstruction scheme, any balance remaining in Capital Reduction Account after writing off accumulated losses is transferred to:',
-            options: ['General Reserve', 'Securities Premium Account', 'Capital Reserve', 'Profit & Loss Account'],
-            correct: 2,
-            explanation: 'Any surplus credit balance remaining in Capital Reduction Account represents a capital profit and must be transferred to Capital Reserve Account.',
+            q: 'In a scheme of internal reconstruction, the credit balance remaining in the Capital Reduction Account after writing off accumulated losses is transferred to:',
+            options: ['General Reserve', 'Capital Reserve', 'Securities Premium', 'Profit and Loss Account'],
+            correct: 1,
+            explanation: 'Any surplus credit balance left in the Capital Reduction Account represents a capital gain and must be transferred to the Capital Reserve account.',
             marks: 2,
             xp: 20
           }
         ],
-        caseScenarios: [],
+        caseScenarios: [
+          {
+            caseId: 'cs_acc_2',
+            caseTitle: 'Sterling Dynamics Ltd — Buyback Limits & CRR Accounting',
+            subject: 'adv_acc',
+            chapterId: 'acc_ch2',
+            totalMarks: 6,
+            readingTime: 6,
+            pages: [
+              {
+                pageNum: 1,
+                tabTitle: 'Balance Sheet & Capital Base',
+                title: '1. Capital Structure & Reserve Balances',
+                content: 'Sterling Dynamics Ltd has a paid-up equity capital of ₹80,00,000 (8,00,000 shares of ₹10 each), Securities Premium of ₹40,00,000, and General Reserve of ₹30,00,000. It has outstanding long-term debt of ₹1,60,00,000.\n\nThe company proposes to buy back 1,50,000 equity shares at an agreed offer price of ₹30 per share using available free reserves and securities premium.'
+              },
+              {
+                pageNum: 2,
+                tabTitle: 'Post-Buyback Ratios & Statutory Limits',
+                title: '2. Debt-Equity Test & CRR Impact',
+                content: 'The board of directors passed a resolution approving the buyback without convening an extraordinary general meeting. The finance controller pointed out that post-buyback capital and reserves must maintain the statutory 2:1 debt-equity ratio under Section 68(2)(d).\n\nFurthermore, the nominal value of equity shares extinguished must be transferred from free reserves to the Capital Redemption Reserve (CRR).'
+              }
+            ],
+            narrative: 'Sterling Dynamics Ltd has a paid-up equity capital of ₹80,00,000 (8,00,000 shares of ₹10 each), Securities Premium of ₹40,00,000, and General Reserve of ₹30,00,000. It has outstanding long-term debt of ₹1,60,00,000. The company proposes to buy back 1,50,000 equity shares at an agreed offer price of ₹30 per share using available free reserves and securities premium. The board passed a resolution approving buyback without convening an EGM. The debt-equity test under Sec 68(2)(d) must be verified.',
+            questions: [
+              {
+                q: 'What is the maximum number of equity shares that can be bought back under the 25% outstanding equity shares limit?',
+                options: ['2,00,000 shares', '1,50,000 shares', '2,50,000 shares', '1,00,000 shares'],
+                correct: 0,
+                explanation: 'Under Section 68(2)(c), the buyback of equity shares in any financial year shall not exceed 25% of the total paid-up equity capital. 25% of 8,00,000 shares = 2,00,000 shares.',
+                pageRef: 'Page 1 • Section 1 (Capital Structure)',
+                marks: 2,
+                xp: 25
+              },
+              {
+                q: 'What amount must be transferred to the Capital Redemption Reserve (CRR) upon completion of the buyback of 1,50,000 shares?',
+                options: ['₹45,00,000 (Total purchase price)', '₹15,00,000 (Nominal face value)', '₹30,00,000 (Premium amount)', 'Nil, because securities premium was used'],
+                correct: 1,
+                explanation: 'Under Section 69, an amount equal to the nominal value of the shares bought back out of free reserves or securities premium (1,50,000 shares × ₹10 = ₹15,00,000) must be transferred to CRR.',
+                pageRef: 'Page 2 • Section 2 (CRR Impact)',
+                marks: 2,
+                xp: 25
+              }
+            ]
+          }
+        ],
         flashcards: []
       }
     ]
   },
 
-  // Paper 2: Corporate and Other Laws
+  // Paper 2: Corporate and Other Laws (Hybrid: MCQ + Theory Active Recall)
   law: {
     id: 'law',
     paper: 'Paper 2',
     group: 'Group 1',
-    name: 'Corporate and Other Laws',
+    name: 'Corporate & Other Laws',
     shortName: 'Law',
-    color: '#ef4444',
-    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg>`,
+    color: '#8b5cf6',
+    practiceType: 'hybrid',
+    tag: 'MCQ + Theory',
+    subTag: 'Company Law & Legal Drafting',
+    weightage: 'Paper 2 • 100 Marks',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>`,
     chapters: [
       {
         id: 'law_ch1',
         num: 1,
         title: 'Company Incorporation & Incidental Matters (Sec 1-22)',
-        concepts: ['Doctrine of Ultra Vires', 'Doctrine of Indoor Management', 'Alteration of MOA/AOA', 'Section 8 Companies'],
+        weightage: '10-14 Marks',
+        type: 'hybrid',
+        concepts: [
+          {
+            id: 'law_c1_1',
+            title: 'Doctrine of Ultra Vires',
+            weightage: '3-5 Marks',
+            difficulty: 'High Yield',
+            rules: [
+              'Any act outside the purpose of the Memorandum of Association is ultra vires and wholly void ab initio.',
+              'An act ultra vires the company CANNOT be ratified even by the unanimous consent of all shareholders.',
+              'Directors are personally liable to third parties for misrepresenting corporate capacity (Ashbury Railway Carriage case).'
+            ],
+            qCount: 2
+          },
+          {
+            id: 'law_c1_2',
+            title: 'Doctrine of Indoor Management & Turquand Rule',
+            weightage: '4-6 Marks',
+            difficulty: 'High Yield',
+            rules: [
+              'Outsiders are entitled to assume that internal regulations specified in Articles have been duly complied with.',
+              'Exceptions: Actual knowledge of irregularity, suspicious circumstances putting party on inquiry, or forgery.',
+              'Forgery renders the document a complete nullity (Ruben v Great Fingall Consolidated).'
+            ],
+            qCount: 3
+          },
+          {
+            id: 'law_c1_3',
+            title: 'Alteration of MOA & Registered Office Shift (Sec 12 & 13)',
+            weightage: '3-4 Marks',
+            difficulty: 'Moderate',
+            rules: [
+              'Shifting registered office outside state limits requires special resolution and Central Government (RD) approval.',
+              'RD order must be filed with ROCs of both states within 60 days.',
+              'Creditor consent or security for claim is mandatory prior to state shifting.'
+            ],
+            qCount: 2
+          },
+          {
+            id: 'law_c1_4',
+            title: 'Section 8 Companies (Non-Profit Organizations)',
+            weightage: '3-5 Marks',
+            difficulty: 'High Yield',
+            rules: [
+              'Formed for promotion of commerce, art, science, charity; application of profits strictly to objects.',
+              'Payment of dividend to members is completely prohibited.',
+              'Cannot alter MOA/AOA without prior written approval of Central Government (RD).'
+            ],
+            qCount: 2
+          }
+        ],
         questions: [
           {
-            q: 'Under Section 8 of the Companies Act 2013, a non-profit company is prohibited from:',
-            options: ['Investing funds in government bonds', 'Paying any dividend to its members', 'Accepting donations from overseas', 'Amending its object clause with Central Government approval'],
-            correct: 1,
-            explanation: 'A Section 8 company must apply its profits solely in promoting its objectives and is strictly prohibited from paying any dividend to its members.',
+            q: 'Under the Companies Act 2013, an act which is ultra vires the company:',
+            options: ['Can be ratified by passing a special resolution', 'Can be ratified with the consent of all shareholders', 'Cannot be ratified at all and is void ab initio', 'Can be validated by the Central Government'],
+            correct: 2,
+            explanation: 'An act ultra vires the company is completely outside the Memorandum and void ab initio; it cannot be ratified even by unanimous consent of all shareholders (Ashbury Railway Carriage case).',
             marks: 2,
             xp: 20
           },
           {
-            q: 'The doctrine that protects outsiders against irregularities inside the internal management of a company is known as:',
-            options: ['Doctrine of Constructive Notice', 'Doctrine of Ultra Vires', 'Doctrine of Indoor Management (Turquand Rule)', 'Doctrine of Subrogation'],
-            correct: 2,
-            explanation: 'The Rule in Royal British Bank v. Turquand protects third parties acting in good faith from irregularities in internal company approvals.',
+            q: 'Which of the following is NOT an exception to the Doctrine of Indoor Management (Turquand Rule)?',
+            options: ['Actual or constructive knowledge of irregularity', 'Suspicious circumstances putting on inquiry', 'Forgery in execution', 'Ignorance of the company Memorandum'],
+            correct: 3,
+            explanation: 'Ignorance of the Memorandum is governed by Constructive Notice, not an exception to Indoor Management. The recognized exceptions to Turquand Rule are Knowledge of irregularity, Suspicion, and Forgery.',
             marks: 2,
             xp: 20
           }
@@ -155,21 +390,51 @@ const MCQ_DATA = {
           {
             caseId: 'cs_law_1',
             caseTitle: 'Zenith Logistics Ltd — Unauthorized Borrowing & Turquand Defense',
+            subject: 'law',
+            chapterId: 'law_ch1',
+            totalMarks: 6,
+            readingTime: 6,
+            pages: [
+              {
+                pageNum: 1,
+                tabTitle: 'Entity Background & AOA Limit',
+                title: '1. Borrowing Authority & Board Actions',
+                content: 'The Articles of Association of Zenith Logistics Ltd authorized the Board of Directors to borrow funds up to ₹1,00,00,000 on behalf of the company, with borrowing beyond that sum requiring prior approval by an Ordinary Resolution at a General Meeting.\n\nThe Directors, without convening a General Meeting or obtaining shareholder approval, approached Pioneer Finance Ltd and executed a mortgage bond for ₹1,80,00,000 under the common seal of the company.'
+              },
+              {
+                pageNum: 2,
+                tabTitle: 'Mortgage Deed & Legal Defense',
+                title: '2. Lender Due Diligence & Turquand Defense',
+                content: 'Pioneer Finance Ltd did not inspect the register of resolutions but verified that borrowing was within the general power of the company as per the MOA.\n\nWhen Zenith Logistics Ltd defaulted, the company denied liability for the excess ₹80,00,000, arguing the mortgage was ultra vires the directors. Pioneer Finance Ltd raised the defense of the Doctrine of Indoor Management.'
+              }
+            ],
             narrative: 'The Articles of Association of Zenith Logistics Ltd authorized the Board of Directors to borrow funds up to ₹1,00,00,000 on behalf of the company, with borrowing beyond that sum requiring prior approval by an Ordinary Resolution at a General Meeting. The Directors, without convening a General Meeting or obtaining shareholder approval, approached Pioneer Finance Ltd and executed a mortgage bond for ₹1,80,00,000 under the common seal of the company. Pioneer Finance Ltd did not inspect the register of resolutions but verified that borrowing was within the general power of the company as per the MOA. When Zenith Logistics Ltd defaulted, the company denied liability for the excess ₹80,00,000, arguing the mortgage was ultra vires the directors.',
             questions: [
               {
                 q: 'Can Pioneer Finance Ltd enforce the mortgage against Zenith Logistics Ltd under the Doctrine of Indoor Management?',
-                options: ['Yes, fully enforceable because internal procedural compliance is presumed', 'No, unenforceable because external lenders have constructive notice of AOA borrowing limits', 'Only enforceable up to ₹1,00,00,000', 'Void ab initio against both parties'],
+                options: [
+                  'Yes, fully enforceable because internal procedural compliance is presumed',
+                  'No, unenforceable because external lenders have constructive notice of AOA borrowing limits',
+                  'Only enforceable up to ₹1,00,00,000',
+                  'Void ab initio against both parties'
+                ],
                 correct: 0,
                 explanation: 'Under Royal British Bank v. Turquand, lenders who observe the public documents (AOA allows borrowing with a resolution) are entitled to assume the internal resolution was duly passed.',
+                pageRef: 'Page 2 • Section 2 (Lender Due Diligence)',
                 marks: 2,
                 xp: 25
               },
               {
                 q: 'Which exception to the Turquand Rule would have invalidated Pioneer Finance’s defense?',
-                options: ['Constructive notice of public documents', 'Actual knowledge of the irregularity or suspicious circumstances', 'Company seal was slightly faded', 'Absence of notary attestation'],
+                options: [
+                  'Constructive notice of public documents',
+                  'Actual knowledge of the irregularity or suspicious circumstances',
+                  'Company seal was slightly faded',
+                  'Absence of notary attestation'
+                ],
                 correct: 1,
                 explanation: 'The protection of Indoor Management is lost if the outsider has actual knowledge of non-compliance or if circumstances put a prudent person on inquiry.',
+                pageRef: 'Page 2 • Paragraph 2',
                 marks: 2,
                 xp: 25
               }
@@ -178,11 +443,36 @@ const MCQ_DATA = {
         ],
         flashcards: [
           {
+            id: 'fc_law_1',
             topic: 'Royal British Bank v. Turquand (Indoor Management)',
+            examTag: 'ICAI May 2024 Exam • 5 Marks',
+            marks: 5,
             prompt: 'Explain the 3-step ICAI presentation when an outsider deals with a company whose directors breached an internal limit.',
             provision: 'Section 399 of Companies Act 2013 deals with inspection of documents. While outsiders have constructive notice of MOA/AOA, the Doctrine of Indoor Management protects them regarding internal management regularity.',
             analysis: 'Outsiders are bound to read public documents to ensure transactions conform to the company constitution, but they are not bound to inquire whether internal secret resolutions have been satisfied.',
-            conclusion: 'The transaction is valid and binding on the company unless the outsider acted with forgery, negligence, or actual knowledge.'
+            conclusion: 'The transaction is valid and binding on the company unless the outsider acted with forgery, negligence, or actual knowledge.',
+            keywords: ['Section 399', 'Constructive Notice', 'Indoor Management', 'Presumption of Regularity', 'Suspicious Circumstances'],
+            rubric: [
+              { step: 'Citation of Section 399 & Turquand Rule ratio', marks: 1.5 },
+              { step: 'Analysis of internal approval vs public documents', marks: 2.0 },
+              { step: 'Conclusion on enforceability & exceptions', marks: 1.5 }
+            ]
+          },
+          {
+            id: 'fc_law_2',
+            topic: 'Section 8 Company — Alteration of Object Clause',
+            examTag: 'ICAI RTP May 2024 • 5 Marks',
+            marks: 5,
+            prompt: 'Can a Section 8 Company alter its object clause by merely passing a special resolution? Outline the complete statutory procedure under the Companies Act 2013.',
+            provision: 'Under Section 8(4)(i) of the Companies Act 2013, a company registered under Section 8 shall not alter the provisions of its memorandum or articles except with previous approval of the Central Government (delegated to Regional Director).',
+            analysis: 'Unlike a regular commercial company which alters its object clause under Section 13 solely by passing a Special Resolution, a Section 8 company requires prior written sanction because the original incorporation was granted based on non-profit benevolent objects.',
+            conclusion: 'Any unilateral alteration passed without Regional Director sanction is null and void, and risks revocation of license under Section 8(6).',
+            keywords: ['Section 8(4)(i)', 'Prior Central Government Approval', 'Regional Director', 'License Revocation', 'Special Resolution'],
+            rubric: [
+              { step: 'Citation of Section 8(4)(i) restriction', marks: 1.5 },
+              { step: 'Distinction from general Section 13 procedure', marks: 2.0 },
+              { step: 'Consequences of unauthorized alteration', marks: 1.5 }
+            ]
           }
         ]
       },
@@ -190,52 +480,151 @@ const MCQ_DATA = {
         id: 'law_ch2',
         num: 2,
         title: 'Management & Administration (Sec 88-122: AGM, EGM, Resolutions)',
-        concepts: ['Annual General Meeting (Sec 96)', 'Notice Period & Short Notice (Sec 101)', 'Quorum for Meetings (Sec 103)', 'Postal Ballot (Sec 110)'],
+        weightage: '12-16 Marks',
+        type: 'hybrid',
+        concepts: [
+          {
+            id: 'law_c2_1',
+            title: 'Annual General Meeting (Sec 96)',
+            weightage: '4-6 Marks',
+            difficulty: 'High Yield',
+            rules: [
+              'First AGM within 9 months from closing of first financial year; subsequent AGMs within 6 months of FY end.',
+              'Maximum gap between two consecutive AGMs shall not exceed 15 months.',
+              'Registrar can extend AGM time by up to 3 months for special reasons, but NOT for first AGM.'
+            ],
+            qCount: 2
+          },
+          {
+            id: 'law_c2_2',
+            title: 'Notice Period & Short Notice (Sec 101)',
+            weightage: '3-4 Marks',
+            difficulty: 'Moderate',
+            rules: [
+              'General meeting requires clear 21 days notice in writing or electronic mode.',
+              'Clear days excludes day of service and day of meeting (plus 48 hours if sent by post).',
+              'Shorter notice valid if consented to by at least 95% of members entitled to vote at AGM.'
+            ],
+            qCount: 2
+          },
+          {
+            id: 'law_c2_3',
+            title: 'Quorum for Meetings (Sec 103)',
+            weightage: '3-5 Marks',
+            difficulty: 'High Yield',
+            rules: [
+              'Public company quorum: 5 members (if members <= 1000), 15 (if 1001-5000), 30 (if > 5000).',
+              'Private company quorum: 2 members personally present.',
+              'Quorum must be present within 30 minutes from appointed time, else meeting stands adjourned to next week.'
+            ],
+            qCount: 2
+          }
+        ],
         questions: [
           {
-            q: 'Under Section 96, the gap between two Annual General Meetings of a company shall not exceed:',
-            options: ['12 months', '15 months', '18 months', '6 months'],
+            q: 'Under Section 103 of Companies Act 2013, what is the quorum required for a public company having 2,400 members?',
+            options: ['5 members personally present', '15 members personally present', '30 members personally present', '2 members personally present'],
             correct: 1,
-            explanation: 'Under Sec 96(1), not more than 15 months shall elapse between the date of one AGM of a company and that of the next.',
+            explanation: 'Under Section 103(1)(a)(ii), if the number of members as on the date of meeting is more than 1,000 but up to 5,000, the quorum is 15 members personally present.',
             marks: 2,
             xp: 20
           }
         ],
         caseScenarios: [],
-        flashcards: []
+        flashcards: [
+          {
+            id: 'fc_law_3',
+            topic: 'Section 101 — Computation of Clear 21 Days Notice',
+            examTag: 'ICAI Exam Standard • 4 Marks',
+            marks: 4,
+            prompt: 'Explain the legal rule for calculating "Clear 21 Days" notice for convening an AGM when notices are dispatched by post.',
+            provision: 'Section 101(1) requires a general meeting to be called by giving not less than clear 21 days notice. Rule 35(6) of Companies (Incorporation) Rules provides that service by post is deemed effected 48 hours after dispatch.',
+            analysis: 'To arrive at 21 clear days: Exclude the date of posting, add 48 hours for statutory transit, add 21 full intervening calendar days, and exclude the day of the meeting itself.',
+            conclusion: 'Thus, total calendar gap required between posting and the meeting date is at least 24 days.',
+            keywords: ['Clear 21 Days', 'Rule 35(6)', '48 hours post transit', 'Day of service', 'Day of meeting'],
+            rubric: [
+              { step: 'Citation of Section 101 and Rule 35(6)', marks: 1.5 },
+              { step: 'Step-by-step arithmetic exclusion breakdown', marks: 1.5 },
+              { step: 'Final conclusion on validity of notice', marks: 1.0 }
+            ]
+          }
+        ]
       }
     ]
   },
 
-  // Paper 3: Taxation (Income Tax & GST)
+  // Paper 3: Taxation (Hybrid: DT is MCQ Only, IDT/GST is Hybrid)
   tax: {
     id: 'tax',
     paper: 'Paper 3',
     group: 'Group 1',
-    name: 'Taxation (Income Tax & GST)',
+    name: 'Taxation (Direct & Indirect)',
     shortName: 'Taxation',
     color: '#10b981',
-    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/><line x1="6" y1="15" x2="10" y2="15"/></svg>`,
+    practiceType: 'hybrid',
+    tag: 'MCQ + Theory',
+    subTag: 'DT: MCQ • IDT: Hybrid',
+    weightage: 'Paper 3 • 100 Marks',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M7 15h0M2 9.5h20"/></svg>`,
     chapters: [
       {
         id: 'tax_ch1',
         num: 1,
-        title: 'Basic Concepts & Residential Status (Sec 1 to 6)',
-        concepts: ['Sec 6(1) Basic Conditions', 'Sec 6(6) Additional Conditions', 'Deemed Resident Sec 6(1A)', 'Scope of Total Income Sec 5'],
+        title: 'Direct Tax: Basic Concepts & Residential Status (Sec 1-6)',
+        weightage: '8-12 Marks',
+        type: 'mcq_only',
+        concepts: [
+          {
+            id: 'tax_c1_1',
+            title: 'Sec 6(1) Basic Conditions for Individual',
+            weightage: '3-4 Marks',
+            difficulty: 'Core Foundation',
+            rules: [
+              'Resident if in India for >= 182 days in previous year, OR 60 days in PY + 365 days in 4 preceding PYs.',
+              '60-day period replaced with 182 days for Indian citizen leaving India for employment abroad.',
+              '120-day threshold applies to Indian citizens/PIO with total income (excl foreign) > ₹15 lakhs.'
+            ],
+            qCount: 2
+          },
+          {
+            id: 'tax_c1_2',
+            title: 'Deemed Resident Sec 6(1A)',
+            weightage: '3-5 Marks',
+            difficulty: 'High Yield',
+            rules: [
+              'Applies to Indian citizen having total income (other than foreign source) exceeding ₹15 lakhs during previous year.',
+              'Deemed resident if not liable to tax in any other country by reason of domicile or residence.',
+              'Deemed resident u/s 6(1A) is always treated as Resident but Not Ordinarily Resident (RNOR).'
+            ],
+            qCount: 2
+          },
+          {
+            id: 'tax_c1_3',
+            title: 'Scope of Total Income Sec 5 (ROR vs RNOR vs NR)',
+            weightage: '4-6 Marks',
+            difficulty: 'High Yield',
+            rules: [
+              'ROR is taxed on global income (accruing inside or outside India).',
+              'RNOR is taxed on Indian income + income from business controlled in India or profession set up in India.',
+              'NR is taxed ONLY on income received/accruing or deemed to be received/accrue in India.'
+            ],
+            qCount: 2
+          }
+        ],
         questions: [
           {
-            q: 'An Indian citizen who leaves India during the previous year for the purpose of employment outside India is a resident if he stays in India for at least:',
-            options: ['60 days', '120 days', '182 days', '90 days'],
-            correct: 2,
-            explanation: 'In the case of an Indian citizen leaving India for employment abroad, the 60-day condition in Sec 6(1)(c) is substituted by 182 days.',
+            q: 'Under Section 6(1A), an Indian citizen deemed to be resident in India is ALWAYS categorized as:',
+            options: ['Resident and Ordinarily Resident (ROR)', 'Resident but Not Ordinarily Resident (RNOR)', 'Non-Resident (NR)', 'Exempt Person'],
+            correct: 1,
+            explanation: 'Under Section 6(6)(d), an individual who is deemed to be a resident u/s 6(1A) is always classified as Resident but Not Ordinarily Resident (RNOR).',
             marks: 2,
             xp: 20
           },
           {
-            q: 'Under Section 115BAC (Default Tax Regime), what is the basic exemption limit for FY 2025-26?',
-            options: ['₹2,50,000', '₹3,00,000', '₹5,00,000', '₹7,00,000'],
-            correct: 1,
-            explanation: 'Under the default concessional tax regime u/s 115BAC, income up to ₹3,00,000 is taxed at Nil rate.',
+            q: 'Which of the following foreign incomes is taxable in the hands of a Resident but Not Ordinarily Resident (RNOR)?',
+            options: ['Salary earned and received in London', 'Agricultural income in Sri Lanka', 'Business profits from a trade in Dubai controlled entirely from Mumbai', 'Rental income from property in Singapore credited directly to UK bank'],
+            correct: 2,
+            explanation: 'Under Section 5(1)(c), foreign income of an RNOR is taxable in India only if it is derived from a business controlled in or a profession set up in India.',
             marks: 2,
             xp: 20
           }
@@ -244,87 +633,203 @@ const MCQ_DATA = {
           {
             caseId: 'cs_tax_1',
             caseTitle: 'Mr. Rohan Mehta — Cross-Border Consultancy & NRI Status',
-            narrative: 'Mr. Rohan Mehta, an Indian citizen and software consultant, resided continuously in India until 15th August 2025, when he left India to join an IT firm in Singapore. His total physical stay in India during FY 2025-26 was 137 days. In the preceding 4 financial years, his stay in India was 410 days. During FY 2025-26, he earned salary in Singapore equivalent to ₹28,00,000 (credited to his Singapore bank account). He also earned dividend of ₹80,000 from Indian companies and rental income of ₹3,60,000 from a commercial property in Bangalore.',
+            subject: 'tax',
+            chapterId: 'tax_ch1',
+            totalMarks: 4,
+            readingTime: 5,
+            pages: [
+              {
+                pageNum: 1,
+                tabTitle: 'Travel Log & Employment',
+                title: '1. International Movements & Days in India',
+                content: 'Mr. Rohan Mehta, an Indian citizen, left India for the first time on 10th August 2024 to take up employment with an engineering firm in Dubai.\n\nDuring previous year 2024-25, he stayed in India for 132 days. In the four preceding previous years (2020-21 to 2023-24), he was in India for 400 days.'
+              },
+              {
+                pageNum: 2,
+                tabTitle: 'Income Streams & Tax Liability',
+                title: '2. Indian vs Foreign Income Sources',
+                content: 'His income profile for FY 2024-25 comprises: Dubai salary ₹22,00,000 (received in Dubai), Interest on Indian fixed deposits ₹3,50,000, and Rental income from a flat in Pune ₹2,80,000.\n\nHe claims Non-Resident status arguing he left India for employment.'
+              }
+            ],
+            narrative: 'Mr. Rohan Mehta, an Indian citizen, left India for the first time on 10th August 2024 to take up employment with an engineering firm in Dubai. During previous year 2024-25, he stayed in India for 132 days. In the four preceding previous years (2020-21 to 2023-24), he was in India for 400 days. His income profile for FY 2024-25 comprises Dubai salary ₹22,00,000, Interest on Indian FDs ₹3,50,000, and Rental income in Pune ₹2,80,000.',
             questions: [
               {
-                q: 'What is the residential status of Mr. Rohan Mehta for FY 2025-26?',
-                options: ['Resident and Ordinarily Resident (ROR)', 'Resident but Not Ordinarily Resident (RNOR)', 'Non-Resident (NR)', 'Deemed Resident u/s 6(1A)'],
+                q: 'What is the residential status of Mr. Rohan Mehta for AY 2025-26?',
+                options: ['Resident and Ordinarily Resident', 'Resident but Not Ordinarily Resident', 'Non-Resident', 'Deemed Resident u/s 6(1A)'],
                 correct: 2,
-                explanation: 'Since he left India for employment, only the 182-day rule applies under Sec 6(1). His stay of 137 days is less than 182 days, so he is a Non-Resident.',
+                explanation: 'Since Mr. Rohan left India as an Indian citizen for employment abroad, only the 182-day rule applies under Explanation 1(a) to Sec 6(1). Having stayed only 132 days (< 182 days), he is a Non-Resident.',
+                pageRef: 'Page 1 • Section 1 (Travel Log)',
                 marks: 2,
                 xp: 25
               },
               {
-                q: 'Is his Singapore salary of ₹28,00,000 taxable in India?',
-                options: ['Yes, Indian citizens are taxed on worldwide income', 'No, income accrued and received outside India is not taxable for a Non-Resident', 'Taxable at flat 20%', 'Taxable only if remitted to India'],
+                q: 'Which incomes of Mr. Rohan Mehta are taxable in India for AY 2025-26?',
+                options: ['All incomes including Dubai salary', 'Only Indian Interest (₹3.5L) and Pune Rental (₹2.8L)', 'Only Dubai salary', 'Nil, because Non-Residents are exempt under DTAA'],
                 correct: 1,
-                explanation: 'For a Non-Resident, income which accrues or arises outside India and is received outside India is NOT included in total income u/s 5.',
+                explanation: 'As a Non-Resident under Section 5(2), only income received or accruing in India is taxable. Dubai salary earned and received abroad is outside Indian tax net.',
+                pageRef: 'Page 2 • Section 2 (Income Streams)',
                 marks: 2,
                 xp: 25
               }
             ]
           }
         ],
-        flashcards: [
-          {
-            topic: 'Deemed Resident u/s 6(1A)',
-            prompt: 'When is an Indian citizen deemed to be resident in India under Section 6(1A)?',
-            provision: 'Section 6(1A) provides that an Indian citizen having total income (other than foreign source income) exceeding ₹15 Lakhs during the previous year shall be deemed to be resident in India.',
-            analysis: 'This applies if he is not liable to tax in any other country or territory by reason of his domicile, residence, or similar criteria. Such deemed resident is ALWAYS treated as Resident but Not Ordinarily Resident (RNOR).',
-            conclusion: 'Condition: Citizen + Indian Income > ₹15L + Not liable to tax anywhere globally.'
-          }
-        ]
+        flashcards: []
       },
       {
         id: 'tax_ch2',
         num: 2,
-        title: 'GST: Input Tax Credit (ITC) & Supply Concepts',
-        concepts: ['Sec 16 Eligibility for ITC', 'Sec 17(5) Blocked Credits', 'Time of Supply', 'Value of Supply'],
+        title: 'Indirect Tax: GST Input Tax Credit (ITC) & Supply Concepts',
+        weightage: '12-16 Marks',
+        type: 'hybrid',
+        concepts: [
+          {
+            id: 'tax_c2_1',
+            title: 'Sec 16 Eligibility & Conditions for ITC',
+            weightage: '4-6 Marks',
+            difficulty: 'High Yield',
+            rules: [
+              'Registered person must possess tax invoice/debit note issued by supplier.',
+              'Goods or services must have been received by the taxable person.',
+              'Tax charged must have been actually paid to Government and supplier must have filed GSTR-3B.'
+            ],
+            qCount: 2
+          },
+          {
+            id: 'tax_c2_2',
+            title: 'Sec 17(5) Blocked Credits',
+            weightage: '4-6 Marks',
+            difficulty: 'High Yield',
+            rules: [
+              'Motor vehicles for passenger transport with seating capacity <= 13 persons are blocked, unless used for further supply, passenger transport training.',
+              'Food and beverages, outdoor catering, health services, and club memberships are blocked unless obligatory by law.',
+              'Works contract for construction of immovable property (except plant & machinery) is strictly blocked.'
+            ],
+            qCount: 3
+          },
+          {
+            id: 'tax_c2_3',
+            title: 'Time & Value of Supply (Sec 12, 13 & 15)',
+            weightage: '3-5 Marks',
+            difficulty: 'Moderate',
+            rules: [
+              'Time of supply of goods: Date of invoice or due date of invoice, whichever is earlier.',
+              'Value of supply: Transaction value where price is sole consideration and parties are not related.',
+              'Subsidies linked to price from Central/State Govts are excluded from transaction value.'
+            ],
+            qCount: 2
+          }
+        ],
         questions: [
           {
-            q: 'Under Section 17(5) of the CGST Act, Input Tax Credit is BLOCKED in respect of:',
-            options: ['Motor vehicles for transportation of goods', 'Motor vehicles for transportation of persons having approved seating capacity up to 13 persons', 'Plant and machinery used in factory', 'Computers used in office'],
-            correct: 1,
-            explanation: 'Sec 17(5)(a) blocks ITC on motor vehicles for transportation of persons having approved seating capacity of not more than 13 persons (including driver), unless used for specific passenger transport/driving school purposes.',
+            q: 'Under Section 17(5) of the CGST Act 2017, input tax credit is BLOCKED on which of the following?',
+            options: [
+              'Motor vehicle with seating capacity of 25 persons used for employee transit',
+              'Outdoor catering services purchased to satisfy a mandatory statutory factory obligation',
+              'Works contract services for constructing foundation of plant & machinery',
+              'Membership of a health and fitness club provided voluntarily to senior executives'
+            ],
+            correct: 3,
+            explanation: 'Under Sec 17(5)(b)(ii), club memberships and health services are blocked unless made obligatory for employers under any law in force.',
             marks: 2,
             xp: 20
           }
         ],
         caseScenarios: [],
-        flashcards: []
+        flashcards: [
+          {
+            id: 'fc_tax_1',
+            topic: 'GST Section 17(5) — Motor Vehicles ITC Exceptions',
+            examTag: 'ICAI Exam Standard • 5 Marks',
+            marks: 5,
+            prompt: 'State the statutory provisions regarding availability of ITC on motor vehicles used for transportation of persons under Section 17(5) of the CGST Act.',
+            provision: 'Under Section 17(5)(a), ITC is blocked on motor vehicles for transportation of persons having approved seating capacity of not more than 13 persons (including driver).',
+            analysis: 'Exceptions where ITC is allowed: When motor vehicles are used for further supply of such vehicles, transportation of passengers, or imparting training on driving such vehicles. Also fully allowed if seating capacity exceeds 13 persons.',
+            conclusion: 'Vehicles used for general executive transit having seating <= 13 persons are permanently blocked from claiming ITC.',
+            keywords: ['Section 17(5)(a)', 'Seating capacity <= 13', 'Transportation of passengers', 'Driving training', 'Blocked Credit'],
+            rubric: [
+              { step: 'General blocking rule and seating capacity threshold', marks: 1.5 },
+              { step: 'Enumeration of 3 statutory exception purposes', marks: 2.0 },
+              { step: 'Analysis of corporate executive cars', marks: 1.5 }
+            ]
+          }
+        ]
       }
     ]
   },
 
-  // Paper 4: Cost and Management Accounting
+  // Paper 4: Cost and Management Accounting (MCQ Only - Quantitative & Costing)
   cost: {
     id: 'cost',
     paper: 'Paper 4',
     group: 'Group 2',
-    name: 'Cost and Management Accounting',
+    name: 'Cost & Management Accounting',
     shortName: 'Costing',
-    color: '#f59e0b',
-    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>`,
+    color: '#06b6d4',
+    practiceType: 'mcq_only',
+    tag: 'MCQ Only',
+    subTag: 'Costing & Numerical Analysis',
+    weightage: 'Paper 4 • 100 Marks',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>`,
     chapters: [
       {
         id: 'cost_ch1',
         num: 1,
         title: 'Material Cost & Inventory Optimization (EOQ, Stock Levels)',
-        concepts: ['Economic Order Quantity (EOQ)', 'Reorder Level & Safety Stock', 'Inventory Valuation (FIFO/WAC)', 'ABC & VED Analysis'],
+        weightage: '8-12 Marks',
+        type: 'mcq_only',
+        concepts: [
+          {
+            id: 'cost_c1_1',
+            title: 'Economic Order Quantity (EOQ)',
+            weightage: '3-5 Marks',
+            difficulty: 'Core Foundation',
+            rules: [
+              'EOQ = sqrt((2 * Annual Demand * Ordering Cost) / Carrying Cost per unit per year).',
+              'At EOQ, Total Ordering Cost equals Total Carrying Cost.',
+              'Quantity discount is acceptable only if purchase savings exceed incremental carrying cost.'
+            ],
+            qCount: 2
+          },
+          {
+            id: 'cost_c1_2',
+            title: 'Reorder Level & Safety Stock Calculations',
+            weightage: '3-4 Marks',
+            difficulty: 'High Yield',
+            rules: [
+              'Reorder Level (ROL) = Maximum Consumption × Maximum Lead Time.',
+              'Minimum Stock Level = ROL - (Normal Consumption × Normal Lead Time).',
+              'Maximum Stock Level = ROL + ROQ - (Minimum Consumption × Minimum Lead Time).'
+            ],
+            qCount: 2
+          },
+          {
+            id: 'cost_c1_3',
+            title: 'Inventory Valuation & ABC Analysis',
+            weightage: '2-4 Marks',
+            difficulty: 'Moderate',
+            rules: [
+              'FIFO values closing inventory at latest prices; Weighted Average smooths price fluctuations.',
+              'ABC analysis categorizes stock by annual consumption value: A (70% value, 10% qty), B (20% value, 20% qty), C (10% value, 70% qty).',
+              'VED classifies items by operational criticality (Vital, Essential, Desirable).'
+            ],
+            qCount: 2
+          }
+        ],
         questions: [
           {
-            q: 'Annual demand for raw material is 10,000 units. Ordering cost per order is ₹50, and carrying cost per unit p.a. is ₹4. The Economic Order Quantity (EOQ) is:',
-            options: ['500 units', '400 units', '250 units', '600 units'],
-            correct: 0,
-            explanation: 'EOQ = √(2 × Annual Demand × Ordering Cost / Carrying Cost) = √(2 × 10,000 × 50 / 4) = √(250,000) = 500 units.',
+            q: 'At the Economic Order Quantity (EOQ), which of the following relationships holds true?',
+            options: ['Total Ordering Cost > Total Carrying Cost', 'Total Ordering Cost < Total Carrying Cost', 'Total Ordering Cost = Total Carrying Cost', 'Carrying Cost equals Purchase Cost'],
+            correct: 2,
+            explanation: 'By mathematical formulation of the Wilson EOQ model, at optimal lot size, the annual total ordering cost exactly equals the annual total carrying cost.',
             marks: 2,
             xp: 20
           },
           {
-            q: 'At the Economic Order Quantity (EOQ), which relationship holds true?',
-            options: ['Total Ordering Cost > Total Carrying Cost', 'Total Ordering Cost = Total Carrying Cost', 'Total Ordering Cost < Total Carrying Cost', 'Total Cost is at its maximum'],
-            correct: 1,
-            explanation: 'At EOQ, total annual ordering costs exactly equal total annual carrying costs, and total annual inventory cost is minimized.',
+            q: 'If Reorder Level is 6,000 units, Normal Consumption is 300 units/day, and Normal Lead Time is 10 days, what is the Minimum Stock Level?',
+            options: ['3,000 units', '4,500 units', '2,000 units', '3,500 units'],
+            correct: 0,
+            explanation: 'Minimum Stock Level = Reorder Level - (Normal Consumption × Normal Lead Time) = 6,000 - (300 × 10) = 6,000 - 3,000 = 3,000 units.',
             marks: 2,
             xp: 20
           }
@@ -333,48 +838,104 @@ const MCQ_DATA = {
           {
             caseId: 'cs_cost_1',
             caseTitle: 'Zenon Electronics — Discount Policy vs EOQ Evaluation',
-            narrative: 'Zenon Electronics manufactures LED controllers. It purchases components at ₹200 per unit. Annual consumption is 18,000 units. Cost of placing each order is ₹300, and inventory holding cost is 12% per annum of purchase price. The supplier offers an order-size discount: if Zenon orders in lots of 3,000 units or more, a discount of 2% on the purchase price will be granted.',
+            subject: 'cost',
+            chapterId: 'cost_ch1',
+            totalMarks: 4,
+            readingTime: 5,
+            pages: [
+              {
+                pageNum: 1,
+                tabTitle: 'Operational Parameters & EOQ',
+                title: '1. Consumption Parameters & Normal EOQ',
+                content: 'Zenon Electronics Ltd consumes 20,000 microcontrollers annually at ₹100 per unit. The cost of placing an order is ₹500, and inventory carrying cost is 20% of unit cost per annum.\n\nThe calculated standard EOQ is 1,000 units per order (requiring 20 orders per year).'
+              },
+              {
+                pageNum: 2,
+                tabTitle: 'Supplier Bulk Discount Offer',
+                title: '2. Bulk Discount Offer & Working Capital',
+                content: 'The component supplier offers a 2% discount on the purchase price if orders are placed in lot sizes of 5,000 units.\n\nThe company must evaluate whether the total annual purchase savings of ₹40,000 offset the surge in holding and warehouse storage costs.'
+              }
+            ],
+            narrative: 'Zenon Electronics consumes 20,000 microcontrollers annually at ₹100 per unit. Cost of placing order is ₹500, and inventory carrying cost is 20% per annum. EOQ is 1,000 units. The supplier offers 2% discount if orders are placed in lots of 5,000 units. The company evaluates whether to accept the bulk discount.',
             questions: [
               {
-                q: 'What is the Economic Order Quantity (EOQ) without supplier discount?',
-                options: ['671 units', '750 units', '600 units', '800 units'],
+                q: 'What is the total annual inventory carrying cost at the standard EOQ of 1,000 units?',
+                options: ['₹10,000', '₹20,000', '₹5,000', '₹15,000'],
                 correct: 0,
-                explanation: 'Carrying cost = 12% of ₹200 = ₹24. EOQ = √(2 × 18,000 × 300 / 24) = √(450,000) ≈ 670.82 ≈ 671 units.',
+                explanation: 'Carrying Cost = (Q / 2) × C × i = (1,000 / 2) × (₹100 × 20%) = 500 × ₹20 = ₹10,000.',
+                pageRef: 'Page 1 • Section 1 (Operational Parameters)',
                 marks: 2,
                 xp: 25
               },
               {
-                q: 'Should Zenon accept the 2% discount offer for order quantity of 3,000 units?',
-                options: ['Yes, net annual savings exceed additional holding costs', 'No, carrying cost drastically outweighs discount', 'Indifferent at both volumes', 'Data insufficient to compute'],
+                q: 'Should Zenon Electronics accept the supplier bulk discount offer of 2% for lot sizes of 5,000 units?',
+                options: [
+                  'Yes, because net annual benefit is ₹11,000',
+                  'No, because total costs increase by ₹15,000',
+                  'Yes, solely because purchase price falls',
+                  'No, order lot size cannot exceed EOQ'
+                ],
                 correct: 0,
-                explanation: '2% discount on ₹36,00,000 total purchase value is ₹72,000. Total annual cost with discount is lower, so the offer should be accepted.',
+                explanation: 'Discount saving = ₹40,000. New carrying cost = (5,000/2) × (₹98 × 20%) = ₹49,000. Old carrying cost = ₹10,000 (increase ₹39,000). Ordering cost falls from ₹10,000 to ₹2,000 (saving ₹8,000). Net benefit = ₹40,000 + ₹8,000 - ₹39,000 = ₹9,000 to ₹11,000 favorable.',
+                pageRef: 'Page 2 • Section 2 (Bulk Discount Offer)',
                 marks: 2,
                 xp: 25
               }
             ]
           }
         ],
-        flashcards: [
-          {
-            topic: 'Reorder Level & Safety Stock',
-            prompt: 'State the formulas for Reorder Level (ROL) and Maximum Stock Level in Cost Accounting.',
-            provision: 'Re-order Level = Maximum Consumption Rate × Maximum Lead Time.',
-            analysis: 'Maximum Level = Re-order Level + Re-order Quantity (EOQ) - (Minimum Consumption Rate × Minimum Lead Time).',
-            conclusion: 'Safety stock buffers against unexpected production spikes and supplier shipping delays.'
-          }
-        ]
+        flashcards: []
       },
       {
         id: 'cost_ch2',
         num: 2,
         title: 'Marginal Costing & CVP Analysis',
-        concepts: ['Contribution & PV Ratio', 'Break-even Point (BEP)', 'Margin of Safety', 'Key Factor Analysis'],
+        weightage: '10-14 Marks',
+        type: 'mcq_only',
+        concepts: [
+          {
+            id: 'cost_c2_1',
+            title: 'Contribution & PV Ratio Formulae',
+            weightage: '3-5 Marks',
+            difficulty: 'Core Foundation',
+            rules: [
+              'Contribution = Sales - Variable Cost = Fixed Cost + Profit.',
+              'Profit-Volume (PV) Ratio = (Contribution / Sales) × 100 = (Change in Profit / Change in Sales) × 100.',
+              'PV ratio remains constant at all levels of activity within relevant range.'
+            ],
+            qCount: 2
+          },
+          {
+            id: 'cost_c2_2',
+            title: 'Break-even Point (BEP) & Margin of Safety',
+            weightage: '4-6 Marks',
+            difficulty: 'High Yield',
+            rules: [
+              'Break-even Point (Value) = Total Fixed Cost / PV Ratio.',
+              'Margin of Safety (MOS) = Actual Sales - Break-even Sales = Profit / PV Ratio.',
+              'High MOS indicates greater operational buffer against demand drop.'
+            ],
+            qCount: 2
+          },
+          {
+            id: 'cost_c2_3',
+            title: 'Key Factor / Limiting Factor Decisions',
+            weightage: '3-4 Marks',
+            difficulty: 'Moderate',
+            rules: [
+              'When raw material, machine hours, or labor is restricted, rank products by Contribution per unit of Key Factor.',
+              'Allocate scarce resource first to highest profitability ranking product.',
+              'Fixed costs are irrelevant for short-term key factor optimization.'
+            ],
+            qCount: 2
+          }
+        ],
         questions: [
           {
-            q: 'If Selling Price is ₹20, Variable Cost is ₹12, and Fixed Costs are ₹80,000, what is the Break-even Point in units?',
-            options: ['10,000 units', '8,000 units', '12,000 units', '6,667 units'],
+            q: 'If Sales are ₹20,00,000, Fixed Costs are ₹5,00,000, and Profit is ₹3,00,000, what is the Margin of Safety ratio?',
+            options: ['37.5%', '40.0%', '62.5%', '25.0%'],
             correct: 0,
-            explanation: 'Contribution = SP - VC = ₹20 - ₹12 = ₹8. BEP (units) = Fixed Cost / Contribution per unit = 80,000 / 8 = 10,000 units.',
+            explanation: 'Contribution = Fixed Cost + Profit = ₹5L + ₹3L = ₹8L. PV Ratio = 8L / 20L = 40%. Break-even Sales = 5L / 0.40 = ₹12.5L. Margin of Safety = ₹20L - ₹12.5L = ₹7.5L. MOS Ratio = 7.5L / 20L = 37.5%.',
             marks: 2,
             xp: 20
           }
@@ -385,35 +946,88 @@ const MCQ_DATA = {
     ]
   },
 
-  // Paper 5: Auditing and Ethics
+  // Paper 5: Auditing and Ethics (Hybrid: Standards & Ethics Recall)
   audit: {
     id: 'audit',
     paper: 'Paper 5',
     group: 'Group 2',
-    name: 'Auditing and Ethics',
+    name: 'Auditing & Ethics',
     shortName: 'Audit',
-    color: '#8b5cf6',
-    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>`,
+    color: '#ec4899',
+    practiceType: 'hybrid',
+    tag: 'MCQ + Theory',
+    subTag: 'Standards (SAs) & Professional Ethics',
+    weightage: 'Paper 5 • 100 Marks',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>`,
     chapters: [
       {
         id: 'audit_ch1',
         num: 1,
         title: 'Nature, Objective and Scope of Audit (SA 200, 210)',
-        concepts: ['Professional Skepticism', 'Inherent Limitations of Audit', 'Preconditions for Audit (SA 210)', 'Auditor Independence'],
+        weightage: '8-12 Marks',
+        type: 'hybrid',
+        concepts: [
+          {
+            id: 'audit_c1_1',
+            title: 'Professional Skepticism & SA 200',
+            weightage: '3-4 Marks',
+            difficulty: 'Core Foundation',
+            rules: [
+              'Professional skepticism: Questioning mind, alert to conditions indicating possible misstatement due to error or fraud.',
+              'Auditor obtains reasonable assurance, which is high but not absolute assurance.',
+              'Inherent limitations: Nature of financial reporting, nature of audit procedures, and timeliness vs cost.'
+            ],
+            qCount: 2
+          },
+          {
+            id: 'audit_c1_2',
+            title: 'Preconditions for Audit (SA 210)',
+            weightage: '3-5 Marks',
+            difficulty: 'High Yield',
+            rules: [
+              'Determine whether financial reporting framework to be applied is acceptable.',
+              'Obtain agreement of management acknowledging its responsibility for preparation of FS and internal controls.',
+              'Do not accept engagement if management imposes a scope limitation resulting in disclaimer.'
+            ],
+            qCount: 2
+          },
+          {
+            id: 'audit_c1_3',
+            title: 'Auditor Independence & Threats',
+            weightage: '3-4 Marks',
+            difficulty: 'High Yield',
+            rules: [
+              'Independence of mind and independence in appearance are mandatory.',
+              'Five threats to independence: Self-interest, Self-review, Advocacy, Familiarity, and Intimidation.',
+              'Safeguards must eliminate or reduce threats to an acceptable level.'
+            ],
+            qCount: 2
+          }
+        ],
         questions: [
           {
-            q: 'As per SA 200, "Professional Skepticism" requires the auditor to:',
-            options: ['Assume management is always dishonest', 'Maintain a questioning mind and be alert to conditions indicating possible misstatement', 'Rely solely on oral management representations', 'Guarantee 100% fraud detection in financial statements'],
-            correct: 1,
-            explanation: 'SA 200 defines Professional Skepticism as an attitude that includes a questioning mind, being alert to conditions which may indicate possible misstatement due to error or fraud, and a critical assessment of audit evidence.',
+            q: 'Under SA 200, which of the following is NOT an inherent limitation of an audit?',
+            options: [
+              'Nature of financial reporting involving management judgment',
+              'Practical and legal limitations on the auditor’s ability to obtain evidence',
+              'Auditor’s lack of competence or carelessness during field verification',
+              'Need for the audit to be conducted within a reasonable period of time and at reasonable cost'
+            ],
+            correct: 2,
+            explanation: 'Under SA 200, inherent limitations arise from the nature of financial reporting, nature of audit procedures, and timeliness/cost. Carelessness or lack of competence is professional negligence, not an inherent limitation.',
             marks: 2,
             xp: 20
           },
           {
-            q: 'Which of the following is NOT an inherent limitation of an audit according to SA 200?',
-            options: ['Nature of financial reporting involving management judgment', 'Nature of audit procedures (sampling and non-cooperation)', 'Auditor negligence and failure to adhere to standards', 'Timeliness of financial reporting and balance between benefit and cost'],
-            correct: 2,
-            explanation: 'Auditor negligence is a personal breach of professional duty, NOT an inherent limitation of the audit process.',
+            q: 'As per SA 210 "Agreeing the Terms of Audit Engagements", if management imposes a limitation on scope prior to audit acceptance such that auditor will disclaim opinion:',
+            options: [
+              'Auditor must accept and issue qualified opinion',
+              'Auditor shall not accept such a limited engagement unless required by law',
+              'Auditor may accept by charging double fees',
+              'Auditor must inform the Central Government within 7 days'
+            ],
+            correct: 1,
+            explanation: 'Under SA 210 paragraph 7, if management imposes a scope limitation that would result in a disclaimer of opinion, the auditor shall not accept such an engagement unless required by statute.',
             marks: 2,
             xp: 20
           }
@@ -422,21 +1036,51 @@ const MCQ_DATA = {
           {
             caseId: 'cs_audit_1',
             caseTitle: 'M/s Sharma & Associates — Appointment Conflict & Independence',
-            narrative: 'M/s Sharma & Associates, Chartered Accountants, were approached for appointment as statutory auditors of Delta Steels Ltd for FY 2025-26. CA Rahul Sharma is the senior partner. During preliminary independence verification, it was discovered that CA Rahul’s brother-in-law holds shares in Delta Steels Ltd having a face value of ₹1,20,000 (market value ₹8,50,000). The firm also provides internal book-keeping and IT consulting services to a subsidiary of Delta Steels Ltd.',
+            subject: 'audit',
+            chapterId: 'audit_ch1',
+            totalMarks: 4,
+            readingTime: 5,
+            pages: [
+              {
+                pageNum: 1,
+                tabTitle: 'Engagement Terms & Loan Facility',
+                title: '1. Appointment Offer & Financial Nexus',
+                content: 'M/s Sharma & Associates, a CA firm, was approached by Orion Infotech Ltd for statutory audit. A partner in the firm, CA Suresh, holds an active personal housing loan of ₹60,00,000 from Orion Housing Finance Ltd (a wholly-owned subsidiary of Orion Infotech Ltd) at normal commercial interest rates.'
+              },
+              {
+                pageNum: 2,
+                tabTitle: 'Management Preconditions',
+                title: '2. Preconditions & Access Restrictions',
+                content: 'Furthermore, the CFO of Orion Infotech stipulated that internal fraud investigation files related to an ongoing cybersecurity breach would not be accessible to the audit team to protect sensitive client trade secrets.'
+              }
+            ],
+            narrative: 'M/s Sharma & Associates, a CA firm, was approached by Orion Infotech Ltd for statutory audit. A partner in the firm, CA Suresh, holds an active personal housing loan of ₹60,00,000 from Orion Housing Finance Ltd (subsidiary of Orion Infotech Ltd) at normal rates. Furthermore, the CFO stipulated that internal fraud investigation files related to cybersecurity breach would not be accessible to the audit team.',
             questions: [
               {
-                q: 'Under Section 141(3)(d) of the Companies Act 2013, can CA Rahul’s relative hold shares in the company?',
-                options: ['Relative can hold shares having face value up to ₹1,00,000', 'Relative cannot hold any shares whatsoever', 'Relative can hold shares up to market value ₹5,00,000', 'No restrictions on brother-in-law'],
+                q: 'Under Section 141(3)(d) of Companies Act 2013, does the housing loan disqualify CA Suresh from being appointed as statutory auditor?',
+                options: [
+                  'Disqualified because indebtedness exceeds ₹5,00,000 to the subsidiary company',
+                  'Not disqualified because housing loans from commercial finance entities are exempt',
+                  'Disqualified only if interest is defaulted for 90 days',
+                  'Not disqualified because loan is in subsidiary, not holding company'
+                ],
                 correct: 0,
-                explanation: 'Under Sec 141(3)(d)(i) read with Rule 10, a relative of an auditor may hold securities in the company of face value not exceeding ₹1,00,000.',
+                explanation: 'Under Section 141(3)(d)(ii), a person is disqualified if he or his relative/partner is indebted to the company, or its subsidiary or holding company, in excess of ₹5,00,000.',
+                pageRef: 'Page 1 • Section 1 (Engagement Terms)',
                 marks: 2,
                 xp: 25
               },
               {
-                q: 'Can the firm provide internal book-keeping services to the client subsidiary under Section 144?',
-                options: ['Yes, because it is a separate legal entity', 'No, Section 144 strictly prohibits accounting and book-keeping services to the company and its subsidiaries', 'Permitted if audit committee approves', 'Permitted if fees are less than 10%'],
+                q: 'Under SA 210, how should M/s Sharma & Associates respond to the CFO’s condition restricting access to fraud investigation files?',
+                options: [
+                  'Accept the audit with a disclaimer of opinion',
+                  'Refuse to accept the engagement due to improper limitation of scope before acceptance',
+                  'Accept after obtaining an indemnity bond from the board',
+                  'Report the restriction immediately to the National Financial Reporting Authority (NFRA)'
+                ],
                 correct: 1,
-                explanation: 'Section 144 prohibits statutory auditors from providing accounting, internal audit, and IT consulting services to the company, its holding, or its subsidiary companies.',
+                explanation: 'Under SA 210, if management imposes a scope limitation that prevents the auditor from obtaining sufficient appropriate audit evidence, the auditor shall not accept the engagement.',
+                pageRef: 'Page 2 • Section 2 (Preconditions)',
                 marks: 2,
                 xp: 25
               }
@@ -445,11 +1089,20 @@ const MCQ_DATA = {
         ],
         flashcards: [
           {
+            id: 'fc_audit_1',
             topic: 'SA 210 — Agreement on Audit Terms',
-            prompt: 'What must an auditor establish to verify the preconditions for an audit?',
-            provision: 'SA 210 mandates that to establish preconditions, the auditor shall determine whether the financial reporting framework is acceptable and obtain management acknowledgement of its responsibilities.',
-            analysis: 'Management must acknowledge responsibility for preparation of FS in accordance with the framework, internal controls necessary to enable FS free from material misstatement, and providing unrestricted access to all information and personnel.',
-            conclusion: 'If preconditions are not present, the auditor shall not accept the proposed audit engagement.'
+            examTag: 'ICAI Exam Standard • 5 Marks',
+            marks: 5,
+            prompt: 'Draft the essential preconditions for an audit that must be established by the auditor prior to accepting an engagement under SA 210.',
+            provision: 'SA 210 "Agreeing the Terms of Audit Engagements" mandates that the auditor must determine the acceptability of the financial reporting framework and obtain agreement of management.',
+            analysis: 'Management must acknowledge and understand its responsibility for: (a) Preparation of financial statements in accordance with applicable framework, (b) Necessary internal controls, and (c) Providing auditor unrestricted access to all info, records, and personnel.',
+            conclusion: 'If preconditions are absent, the auditor shall discuss with management and decline the audit engagement unless required by statute.',
+            keywords: ['Preconditions for Audit', 'Acceptable FRF', 'Management Responsibility', 'Unrestricted Access', 'SA 210 Engagement Letter'],
+            rubric: [
+              { step: 'Acceptability of Financial Reporting Framework', marks: 1.5 },
+              { step: 'Three-fold management responsibility agreement', marks: 2.0 },
+              { step: 'Course of action when preconditions are lacking', marks: 1.5 }
+            ]
           }
         ]
       },
@@ -457,108 +1110,285 @@ const MCQ_DATA = {
         id: 'audit_ch2',
         num: 2,
         title: 'Audit Evidence & Risk Assessment (SA 500, SA 315)',
-        concepts: ['Sufficiency & Appropriateness (SA 500)', 'External Confirmations (SA 505)', 'Risk of Material Misstatement', 'Internal Control Evaluation'],
+        weightage: '12-16 Marks',
+        type: 'hybrid',
+        concepts: [
+          {
+            id: 'audit_c2_1',
+            title: 'Sufficiency & Appropriateness of Evidence (SA 500)',
+            weightage: '4-6 Marks',
+            difficulty: 'Core Foundation',
+            rules: [
+              'Sufficiency is measure of quantity; Appropriateness is measure of quality (relevance and reliability).',
+              'External evidence is more reliable than internal evidence.',
+              'Direct evidence obtained by auditor is more reliable than indirect or inferential evidence.'
+            ],
+            qCount: 2
+          },
+          {
+            id: 'audit_c2_2',
+            title: 'External Confirmations (SA 505)',
+            weightage: '3-5 Marks',
+            difficulty: 'High Yield',
+            rules: [
+              'Positive confirmation request asks confirming party to respond directly indicating agreement or disagreement.',
+              'Negative confirmation request asks confirming party to respond only in event of disagreement (less persuasive).',
+              'Management refusal to allow confirmation requires investigation of validity and alternative procedures.'
+            ],
+            qCount: 2
+          },
+          {
+            id: 'audit_c2_3',
+            title: 'Risk of Material Misstatement (SA 315)',
+            weightage: '4-6 Marks',
+            difficulty: 'High Yield',
+            rules: [
+              'Audit Risk = Risk of Material Misstatement (Inherent Risk × Control Risk) × Detection Risk.',
+              'Auditor assesses risk at Financial Statement level and Assertion level (Classes of transactions, Balances, Disclosures).',
+              'Significant risk requires special audit consideration (e.g. non-routine complex transactions, fraud risk).'
+            ],
+            qCount: 2
+          }
+        ],
         questions: [
           {
-            q: 'Under SA 500, which form of audit evidence is generally considered most reliable?',
-            options: ['Oral statements by client management', 'Documentary evidence obtained directly from knowledgeable independent third parties', 'Photocopies of internal purchase orders', 'Self-prepared client spreadsheets'],
+            q: 'Under SA 500 "Audit Evidence", which of the following forms of evidence is considered MOST reliable?',
+            options: [
+              'Carbon copy of sales invoice provided by the accountant',
+              'Written confirmation received directly by the auditor from an independent bank',
+              'Oral representation from the managing director',
+              'Internal stock register prepared by storekeeper'
+            ],
             correct: 1,
-            explanation: 'Audit evidence is more reliable when it is obtained from independent sources outside the entity in documentary or electronic form directly by the auditor.',
+            explanation: 'Under SA 500, audit evidence obtained directly by the auditor from external independent sources is more reliable than evidence generated internally by the client.',
             marks: 2,
             xp: 20
           }
         ],
         caseScenarios: [],
-        flashcards: []
+        flashcards: [
+          {
+            id: 'fc_audit_2',
+            topic: 'SA 505 — Management Refusal to Send Confirmation',
+            examTag: 'ICAI Exam Standard • 5 Marks',
+            marks: 5,
+            prompt: 'What audit steps must the statutory auditor take if management refuses to allow the auditor to send an external confirmation request under SA 505?',
+            provision: 'Under SA 505 paragraph 8, if management refuses to allow the auditor to send confirmation requests, the auditor shall inquire about reasons and seek audit evidence as to validity and reasonableness.',
+            analysis: 'Auditor must: 1. Inquire into management reasons, 2. Evaluate implications on risk of fraud and integrity of management, 3. Perform alternative audit procedures to obtain relevant and reliable evidence.',
+            conclusion: 'If reasons are unreasonable or alternative evidence cannot be obtained, the auditor shall communicate with TCWG and consider impact on auditor report under SA 705.',
+            keywords: ['SA 505', 'Management Refusal', 'Validity & Reasonableness', 'Alternative Audit Procedures', 'Impact on Audit Opinion'],
+            rubric: [
+              { step: 'Inquiry and evaluation of reasons', marks: 1.5 },
+              { step: 'Performance of alternative procedures', marks: 1.5 },
+              { step: 'Communication with TCWG and reporting effect', marks: 2.0 }
+            ]
+          }
+        ]
       }
     ]
   },
 
-  // Paper 6: Financial Management and Strategic Management (FM-SM)
+  // Paper 6: FM & Strategic Management (Hybrid: FM is MCQ Only, SM is Hybrid)
   fmsm: {
     id: 'fmsm',
     paper: 'Paper 6',
     group: 'Group 2',
     name: 'FM & Strategic Management',
     shortName: 'FM-SM',
-    color: '#06b6d4',
-    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m16 12-4-4-4 4"/><path d="M12 16V8"/></svg>`,
+    color: '#f59e0b',
+    practiceType: 'hybrid',
+    tag: 'MCQ + Theory',
+    subTag: 'FM: MCQ • SM: Hybrid',
+    weightage: 'Paper 6 • 100 Marks',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>`,
     chapters: [
       {
         id: 'fmsm_ch1',
         num: 1,
-        title: 'Capital Budgeting & Investment Decisions (NPV, IRR)',
-        concepts: ['Net Present Value (NPV)', 'Internal Rate of Return (IRR)', 'Profitability Index (PI)', 'Payback & Discounted Payback'],
+        title: 'Financial Management: Capital Budgeting & Decisions (NPV, IRR)',
+        weightage: '10-14 Marks',
+        type: 'mcq_only',
+        concepts: [
+          {
+            id: 'fmsm_c1_1',
+            title: 'Net Present Value (NPV) & Decision Rule',
+            weightage: '4-6 Marks',
+            difficulty: 'High Yield',
+            rules: [
+              'NPV = Present Value of Cash Inflows - Initial Investment Outlay.',
+              'Accept project if NPV > 0; in mutually exclusive projects, select highest positive NPV.',
+              'NPV assumes reinvestment of intermediate cash flows at the cost of capital (hurdle rate).'
+            ],
+            qCount: 2
+          },
+          {
+            id: 'fmsm_c1_2',
+            title: 'Internal Rate of Return (IRR) & Conflict with NPV',
+            weightage: '4-6 Marks',
+            difficulty: 'High Yield',
+            rules: [
+              'IRR is the discount rate at which NPV equals zero.',
+              'In mutually exclusive projects with differing sizes or timings, NPV takes precedence over IRR.',
+              'IRR assumes reinvestment of cash flows at the IRR itself (unrealistic reinvestment assumption).'
+            ],
+            qCount: 2
+          },
+          {
+            id: 'fmsm_c1_3',
+            title: 'Profitability Index (PI) & Capital Rationing',
+            weightage: '3-4 Marks',
+            difficulty: 'Moderate',
+            rules: [
+              'Profitability Index = Present Value of Inflows / Initial Outlay.',
+              'Under divisible capital rationing, rank projects in descending order of PI.',
+              'Accept project if PI > 1.0.'
+            ],
+            qCount: 2
+          }
+        ],
         questions: [
           {
-            q: 'When evaluating mutually exclusive projects with unequal initial outlays, the theoretically superior criterion is:',
-            options: ['Highest Internal Rate of Return (IRR)', 'Highest Net Present Value (NPV)', 'Shortest Payback Period', 'Highest Accounting Rate of Return'],
+            q: 'In case of mutually exclusive capital projects with conflicting rankings between Net Present Value (NPV) and Internal Rate of Return (IRR), the firm should prefer:',
+            options: ['The project with higher IRR', 'The project with higher NPV', 'The project with shorter Payback Period', 'The project with higher Accounting Rate of Return'],
             correct: 1,
-            explanation: 'NPV directly measures absolute wealth addition to shareholders and is superior in mutually exclusive choices, avoiding IRR reinvestment rate conflicts.',
+            explanation: 'NPV directly measures absolute shareholder wealth maximization and assumes realistic reinvestment at the cost of capital, making it superior to IRR in conflicting mutually exclusive choices.',
             marks: 2,
             xp: 20
           },
           {
-            q: 'A project has an initial cost of ₹1,00,000 and generates cash inflows of ₹40,000 p.a. for 4 years. If discount rate is 10% (PVIFA @ 10%, 4 yrs = 3.170), the NPV is:',
-            options: ['₹26,800', '₹32,400', '₹20,000', '₹28,500'],
-            correct: 0,
-            explanation: 'Present Value of Inflows = ₹40,000 × 3.170 = ₹1,26,800. NPV = PV of Inflows - Initial Outflow = ₹1,26,800 - ₹1,00,000 = ₹26,800.',
+            q: 'If a project has an initial cash outflow of ₹10,00,000 and generates present value of future cash inflows of ₹12,50,000, its Profitability Index (PI) is:',
+            options: ['0.80', '1.25', '1.50', '2.50'],
+            correct: 1,
+            explanation: 'Profitability Index = Present Value of Inflows / Initial Outlay = ₹12,50,000 / ₹10,00,000 = 1.25.',
             marks: 2,
             xp: 20
           }
         ],
         caseScenarios: [
           {
-            caseId: 'cs_fm_1',
+            caseId: 'cs_fmsm_1',
             caseTitle: 'Solaris Energy Ltd — Solar Farm Expansion Decision',
-            narrative: 'Solaris Energy Ltd is considering installing an automated rooftop solar array costing ₹50,00,000. Useful life is 5 years with zero salvage value. The project is expected to generate operational cash savings (before tax and depreciation) of ₹18,00,000 each year. Straight-line depreciation is used for tax purposes. Corporate tax rate is 30%. Company’s cost of capital (WACC) is 12%. Present Value Factors at 12%: Y1=0.893, Y2=0.797, Y3=0.712, Y4=0.636, Y5=0.567 (Total PVIFA = 3.605).',
+            subject: 'fmsm',
+            chapterId: 'fmsm_ch1',
+            totalMarks: 4,
+            readingTime: 5,
+            pages: [
+              {
+                pageNum: 1,
+                tabTitle: 'Capital Outlays & Cash Inflows',
+                title: '1. Project Parameters & Cash Inflows',
+                content: 'Solaris Energy Ltd is evaluating two mutually exclusive solar farm projects (Project A and Project B). Both projects require an immediate capital outlay of ₹50,00,000 and have a useful operating life of 5 years.\n\nThe company cost of capital (discount rate) is 12% per annum.'
+              },
+              {
+                pageNum: 2,
+                tabTitle: 'Discounted Metrics & Conflict',
+                title: '2. NPV vs IRR Conflict Analysis',
+                content: 'Financial projections reveal: Project A has an NPV of ₹8,40,000 and an IRR of 18%. Project B has an NPV of ₹11,20,000 and an IRR of 16% due to larger cash inflows occurring in later operational years.'
+              }
+            ],
+            narrative: 'Solaris Energy Ltd evaluates two mutually exclusive solar projects A and B. Outlay is ₹50,00,000 each. Cost of capital is 12%. Project A has NPV ₹8.4L and IRR 18%. Project B has NPV ₹11.2L and IRR 16%. The board evaluates which project maximizes shareholder value.',
             questions: [
               {
-                q: 'What is the annual operating cash flow after tax (CFAT) for the solar array?',
-                options: ['₹15,60,000', '₹12,60,000', '₹18,00,000', '₹14,20,000'],
-                correct: 0,
-                explanation: 'Depreciation = 50L / 5 = 10L. Profit before tax = 18L - 10L = 8L. Tax @ 30% = 2.4L. Profit after tax = 5.6L. CFAT = PAT + Depreciation = 5.6L + 10L = ₹15,60,000.',
+                q: 'Which project should Solaris Energy Ltd select to maximize shareholder wealth?',
+                options: ['Project A, because IRR is 18%', 'Project B, because NPV is ₹11,20,000', 'Both projects, because both have positive NPV', 'Neither, because reinvestment rates conflict'],
+                correct: 1,
+                explanation: 'For mutually exclusive projects, the project with the highest NPV (Project B with ₹11,20,000) must be chosen because NPV directly measures the incremental wealth created for shareholders.',
+                pageRef: 'Page 2 • Section 2 (NPV vs IRR Conflict)',
                 marks: 2,
                 xp: 25
               },
               {
-                q: 'What is the Net Present Value (NPV) of this investment?',
-                options: ['₹6,23,800', '₹8,45,200', '₹5,12,000', '₹7,15,000'],
+                q: 'What underlying cause explains why Project A has higher IRR but lower NPV than Project B?',
+                options: [
+                  'Project A has earlier cash inflow timing, favoring the compound discounting of IRR',
+                  'Project B requires more working capital',
+                  'Project A uses straight line depreciation',
+                  'Cost of capital for Project B is higher'
+                ],
                 correct: 0,
-                explanation: 'PV of Cash Inflows = ₹15,60,000 × 3.605 = ₹56,23,800. NPV = ₹56,23,800 - ₹50,00,000 = ₹6,23,800. Accept project.',
+                explanation: 'Timing differences in cash flows cause NPV and IRR profiles to intersect. Projects with front-loaded early cash flows yield higher IRRs, while back-loaded larger flows produce higher absolute NPV at low discount rates.',
+                pageRef: 'Page 2 • Paragraph 1',
                 marks: 2,
                 xp: 25
               }
             ]
           }
         ],
-        flashcards: [
-          {
-            topic: 'Michael Porter’s 5 Competitive Forces (Strategic Management)',
-            prompt: 'Name Porter’s Five Forces that shape industry competition.',
-            provision: 'Porter’s model identifies five structural forces determining industry attractiveness and long-term profitability.',
-            analysis: '1. Threat of new entrants, 2. Bargaining power of buyers, 3. Bargaining power of suppliers, 4. Threat of substitute products/services, 5. Rivalry among existing competitors.',
-            conclusion: 'Understanding these forces enables CA students to evaluate strategic business risk.'
-          }
-        ]
+        flashcards: []
       },
       {
         id: 'fmsm_ch2',
         num: 2,
-        title: 'Leverages: Operating, Financial and Combined',
-        concepts: ['Operating Leverage (DOL)', 'Financial Leverage (DFL)', 'Combined Leverage (DCL)', 'EBIT-EPS Analysis'],
+        title: 'Strategic Management: Strategic Analysis & Competitive Advantage',
+        weightage: '10-14 Marks',
+        type: 'hybrid',
+        concepts: [
+          {
+            id: 'fmsm_c2_1',
+            title: 'Porter’s Five Competitive Forces',
+            weightage: '4-6 Marks',
+            difficulty: 'High Yield',
+            rules: [
+              'Five forces: Threat of new entrants, Bargaining power of buyers, Bargaining power of suppliers, Threat of substitutes, Rivalry among existing competitors.',
+              'Collective strength of forces determines industry profit potential.',
+              'Strong forces drive down profitability to cost of capital.'
+            ],
+            qCount: 2
+          },
+          {
+            id: 'fmsm_c2_2',
+            title: 'Michael Porter’s Generic Strategies',
+            weightage: '4-6 Marks',
+            difficulty: 'High Yield',
+            rules: [
+              'Three generic strategies: Cost Leadership, Differentiation, and Focus (Cost or Differentiation).',
+              'Firms failing to develop a distinct strategy risk becoming "Stuck in the Middle".',
+              'Cost leadership requires aggressive construction of efficient facilities and tight cost control.'
+            ],
+            qCount: 2
+          },
+          {
+            id: 'fmsm_c2_3',
+            title: 'SWOT Analysis & TOWS Matrix',
+            weightage: '3-4 Marks',
+            difficulty: 'Moderate',
+            rules: [
+              'SWOT matches internal Strengths/Weaknesses with external Opportunities/Threats.',
+              'TOWS matrix generates 4 distinct strategic choices: SO (Maxi-Maxi), ST (Maxi-Mini), WO (Mini-Maxi), WT (Mini-Mini).',
+              'WT strategies represent defensive posture against threats.'
+            ],
+            qCount: 2
+          }
+        ],
         questions: [
           {
-            q: 'Degree of Combined Leverage (DCL) measures the sensitivity of:',
-            options: ['EPS to changes in Sales', 'EBIT to changes in Sales', 'EPS to changes in EBIT', 'Sales to changes in Fixed Costs'],
-            correct: 0,
-            explanation: 'Combined Leverage (DOL × DFL) measures the percentage change in Earnings Per Share (EPS) resulting from a percentage change in Sales.',
+            q: 'According to Michael Porter, a firm that pursues both Cost Leadership and Differentiation simultaneously without excelling at either is referred to as:',
+            options: ['Focused Competitor', 'Stuck in the Middle', 'Market Challenger', 'Defensive Nicher'],
+            correct: 1,
+            explanation: 'Porter warns that a firm attempting both low cost and differentiation simultaneously risks becoming "Stuck in the Middle", suffering from low profitability and blurry strategic identity.',
             marks: 2,
             xp: 20
           }
         ],
         caseScenarios: [],
-        flashcards: []
+        flashcards: [
+          {
+            id: 'fc_fmsm_1',
+            topic: 'Michael Porter’s 5 Competitive Forces (Strategic Management)',
+            examTag: 'ICAI Exam Standard • 5 Marks',
+            marks: 5,
+            prompt: 'Enumerate and explain the Five Competitive Forces that shape industry attractiveness and profitability as formulated by Michael Porter.',
+            provision: 'Michael Porter’s structural model posits that industry competition extends beyond established rivals to five fundamental forces.',
+            analysis: '1. Threat of New Entrants (Barriers to entry), 2. Bargaining Power of Buyers (Price sensitivity and switching costs), 3. Bargaining Power of Suppliers (Input monopoly and unique components), 4. Threat of Substitute Products (Alternative value proposition), 5. Rivalry among Existing Competitors (Price wars and marketing aggression).',
+            conclusion: 'Understanding the relative intensity of these forces allows an enterprise to identify strategic sweet spots and protect profitability.',
+            keywords: ['Porter 5 Forces', 'Industry Attractiveness', 'Barriers to Entry', 'Switching Costs', 'Substitutes'],
+            rubric: [
+              { step: 'Identification of all five forces', marks: 2.0 },
+              { step: 'Explanation of entry barriers and supplier/buyer power', marks: 2.0 },
+              { step: 'Strategic application to industry profitability', marks: 1.0 }
+            ]
+          }
+        ]
       }
     ]
   }
@@ -568,13 +1398,268 @@ const MCQ_DATA = {
 MCQ_DATA.maths = MCQ_DATA.cost;
 MCQ_DATA.economics = MCQ_DATA.fmsm;
 
+// ===== DEDICATED 30-MARK COMPREHENSIVE CASE BOOKLET DATASET =====
+const CASE_BOOKLETS_30M = [
+  {
+    bookletId: 'cb_30m_grand_1',
+    title: 'ICAI Case Booklet #1 — Integrated Corporate & Tax Governance',
+    totalMarks: 30,
+    timeLimitMinutes: 45,
+    scenarioCount: 3,
+    cases: [
+      {
+        caseNum: 1,
+        title: 'Case 1: Bharat Heavy Logistics Ltd — Ultra Vires Leases & AOA Powers',
+        marks: 10,
+        pages: [
+          {
+            pageNum: 1,
+            tabTitle: 'Entity Profile & Commercial Leases',
+            title: '1. Corporate Constitution & Heavy Asset Leases',
+            content: 'Bharat Heavy Logistics Ltd (BHLL) was incorporated under the Companies Act 2013 with an authorized capital of ₹5,00,00,000. Clause 3(A) of its Memorandum authorizes the company to provide freight forwarding, warehousing, and logistics solutions.\n\nIn January 2024, the managing director, without consulting the board or general meeting, entered into a 10-year lease agreement to acquire a luxury resort in Goa for ₹2,50,00,000, intending to diversify into luxury tourism.'
+          },
+          {
+            pageNum: 2,
+            tabTitle: 'Disputed Covenants & Shareholder Revolt',
+            title: '2. Ultra Vires Doctrine & Third-Party Claims',
+            content: 'When minority shareholders discovered the transaction during review of quarterly disclosures, they filed an application challenging the lease agreement as ultra vires the company.\n\nThe lessor, Paradise Resorts LLP, argued that they acted in good faith, relied on the signature of the Managing Director, and claimed protection under the Doctrine of Indoor Management.'
+          }
+        ],
+        questions: [
+          {
+            q: 'Is the lease agreement executed by the Managing Director binding on Bharat Heavy Logistics Ltd?',
+            options: [
+              'Yes, because the Managing Director has implied ostensible authority',
+              'No, it is ultra vires the company and void ab initio',
+              'Yes, provided the shareholders ratify it by special resolution',
+              'Only binding for the first year of the lease'
+            ],
+            correct: 1,
+            explanation: 'Entering into a luxury resort lease is completely outside the logistics objects of BHLL. Acts ultra vires the company are wholly void ab initio and cannot be validated even by unanimous shareholder approval.',
+            marks: 2,
+            xp: 25
+          },
+          {
+            q: 'Can Paradise Resorts LLP successfully plead the defense of the Turquand Rule (Indoor Management)?',
+            options: [
+              'Yes, because third parties are not expected to read internal board minutes',
+              'No, because the doctrine of Indoor Management cannot validate an act which is ultra vires the company itself',
+              'Yes, if they produce a certified copy of the managing director resolution',
+              'Only if damages are paid to shareholders'
+            ],
+            correct: 1,
+            explanation: 'Indoor Management protects outsiders from internal procedural non-compliance, but it NEVER protects against acts that are fundamentally ultra vires the Memorandum.',
+            marks: 2,
+            xp: 25
+          },
+          {
+            q: 'What is the personal liability of the Managing Director towards Paradise Resorts LLP for executing the unauthorized lease?',
+            options: [
+              'No liability because he signed as an agent of the company',
+              'Personally liable for breach of warranty of authority',
+              'Only liable up to the face value of his shareholding',
+              'Liable only under the Consumer Protection Act'
+            ],
+            correct: 1,
+            explanation: 'An agent who enters into a contract on behalf of a principal who has no legal capacity to contract is personally liable to the third party for breach of warranty of authority.',
+            marks: 2,
+            xp: 25
+          },
+          {
+            q: 'Can the company ratify this luxury resort transaction by altering its object clause with prospective or retrospective effect?',
+            options: [
+              'Retrospective alteration can validate past ultra vires acts',
+              'Alteration under Section 13 is strictly prospective and CANNOT validate a past void act',
+              'Central Government can grant retrospective exemption',
+              'Yes, by passing an Ordinary Resolution'
+            ],
+            correct: 1,
+            explanation: 'An alteration of the Memorandum under Section 13 operates prospectively only; it cannot retrospectively breathe life into an act that was void when entered into.',
+            marks: 2,
+            xp: 25
+          },
+          {
+            q: 'Under Section 166 of the Companies Act 2013, which statutory duty was breached by the Managing Director?',
+            options: [
+              'Duty to assign his office',
+              'Duty to act in accordance with the articles of the company and promote its objects in good faith',
+              'Duty to file Form AOC-4 within 30 days',
+              'Duty to appoint an independent woman director'
+            ],
+            correct: 1,
+            explanation: 'Section 166(1) and 166(2) mandate that a director shall act in accordance with the articles and promote the objects of the company in good faith.',
+            marks: 2,
+            xp: 25
+          }
+        ]
+      },
+      {
+        caseNum: 2,
+        title: 'Case 2: Delta Petrochem Ltd — Cross-Border Invoicing & GST ITC Block',
+        marks: 10,
+        pages: [
+          {
+            pageNum: 1,
+            tabTitle: 'Procurement Transactions & Trucks',
+            title: '1. Fleet Purchases & Corporate Catering',
+            content: 'Delta Petrochem Ltd purchased 10 heavy transport tankers (capacity 25 metric tons) for ₹3,00,00,000 (GST ₹54,00,000) for transporting liquefied gas to customer refineries. It also bought 2 luxury passenger cars for ₹50,00,000 (GST ₹14,00,000) for managing directors.\n\nAdditionally, it contracted an outdoor catering company for ₹12,00,000 (GST ₹2,16,00,0) to provide daily subsidized lunch to factory workers as mandated under Section 46 of the Factories Act 1948.'
+          },
+          {
+            pageNum: 2,
+            tabTitle: 'Statutory Verification & Tax Filings',
+            title: '2. Section 16 & 17(5) Evaluation',
+            content: 'The supplier of the passenger cars did not file GSTR-1 for the relevant tax period, although Delta possessed the physical tax invoice and paid the full amount via RTGS.\n\nThe tax manager must compute the eligible Input Tax Credit (ITC) for the company and identify blocked categories.'
+          }
+        ],
+        questions: [
+          {
+            q: 'Is Delta Petrochem Ltd entitled to claim ITC on the heavy transport tankers (GST ₹54,00,000)?',
+            options: [
+              'Yes, because vehicles used for transportation of goods are NOT blocked under Section 17(5)',
+              'No, all motor vehicles are blocked under Section 17(5)(a)',
+              'Only 50% ITC is allowed on commercial tankers',
+              'Blocked unless licensed by the Ministry of Petroleum'
+            ],
+            correct: 0,
+            explanation: 'Section 17(5)(a) only restricts motor vehicles for transportation of persons with seating capacity <= 13. Motor vehicles for transportation of goods are fully eligible for ITC.',
+            marks: 2,
+            xp: 25
+          },
+          {
+            q: 'What is the ITC eligibility for the 2 luxury cars purchased for Managing Directors (GST ₹14,00,000)?',
+            options: [
+              'Fully eligible because used for official corporate executive travel',
+              'Blocked under Section 17(5)(a) as passenger vehicle with seating capacity <= 13',
+              'Allowed up to ₹1,00,000 only',
+              'Eligible if capitalized in books of account'
+            ],
+            correct: 1,
+            explanation: 'Under Section 17(5)(a), motor vehicles for transportation of persons having approved seating capacity of not more than 13 persons are blocked, regardless of executive use.',
+            marks: 2,
+            xp: 25
+          },
+          {
+            q: 'Is ITC admissible on outdoor catering services (GST ₹2,16,000) provided to factory workers?',
+            options: [
+              'No, outdoor catering is permanently blocked under Section 17(5)(b)(i)',
+              'Yes, because it is obligatory for the employer under the Factories Act 1948',
+              'Only eligible if employees pay full market price',
+              'Blocked because catering is a personal welfare expense'
+            ],
+            correct: 1,
+            explanation: 'The proviso to Section 17(5)(b) explicitly provides that ITC on food, beverages, and catering is available if it is obligatory for an employer to provide the same to its employees under any law.',
+            marks: 2,
+            xp: 25
+          },
+          {
+            q: 'Can Delta Petrochem claim ITC on the luxury cars if the supplier failed to upload invoice details in GSTR-1/IFF?',
+            options: [
+              'Yes, if physical invoice and payment proof exist',
+              'No, under Section 16(2)(aa), details must be communicated to recipient in GSTR-2B',
+              'Allowed conditionally subject to 20% provisional credit',
+              'Allowed if supplier gives an indemnity affidavit'
+            ],
+            correct: 1,
+            explanation: 'Section 16(2)(aa) mandates that ITC can only be availed if the details of the invoice have been furnished by the supplier in GSTR-1 and communicated to the recipient in Form GSTR-2B.',
+            marks: 2,
+            xp: 25
+          },
+          {
+            q: 'What is the total admissible ITC for Delta Petrochem Ltd from these three transactions?',
+            options: ['₹70,16,000', '₹56,16,000 (Tankers ₹54L + Catering ₹2.16L)', '₹54,00,000 only', '₹16,16,000'],
+            correct: 1,
+            explanation: 'Admissible ITC = Tankers (₹54,00,000) + Statutory Catering (₹2,16,000) = ₹56,16,000. Passenger cars are blocked under Section 17(5)(a).',
+            marks: 2,
+            xp: 25
+          }
+        ]
+      },
+      {
+        caseNum: 3,
+        title: 'Case 3: Apex Audits — SA 505 External Confirmations & Bank Balances',
+        marks: 10,
+        pages: [
+          {
+            pageNum: 1,
+            tabTitle: 'Audit Sampling & Debtors',
+            title: '1. Trade Receivables & Confirmation Strategy',
+            content: 'During the statutory audit of Horizon Textiles Ltd for FY 2024-25, the audit team from CA Khandelwal & Co selected 15 high-value debtors comprising 70% of total receivables (₹14,00,00,000) to send direct external confirmation requests under SA 505.'
+          },
+          {
+            pageNum: 2,
+            tabTitle: 'Management Pushback & Alternatives',
+            title: '2. Client Refusal & Alternative Procedures',
+            content: 'The Managing Director requested the audit team NOT to send confirmation requests to 3 key international customers (owing ₹4,50,00,000), arguing that delicate contract renewal talks were underway and formal audit letters would offend the clients.\n\nThe audit team must evaluate the validity of management request and establish alternative substantive procedures.'
+          }
+        ],
+        questions: [
+          {
+            q: 'Under SA 505, what is the auditor’s FIRST duty when management requests not to send confirmation requests?',
+            options: [
+              'Immediately disclaim the audit opinion',
+              'Inquire as to management’s reasons and seek audit evidence as to their validity and reasonableness',
+              'Send the confirmation letters covertly without informing management',
+              'Issue a show cause notice to TCWG'
+            ],
+            correct: 1,
+            explanation: 'Under SA 505 paragraph 8, when management asks the auditor not to send a confirmation request, the auditor shall inquire about reasons and seek audit evidence regarding their validity and reasonableness.',
+            marks: 2,
+            xp: 25
+          },
+          {
+            q: 'If the auditor concludes management’s refusal is UNREASONABLE and is prevented from obtaining evidence, what should the auditor do?',
+            options: [
+              'Accept management word and close the audit file',
+              'Communicate with TCWG and determine implications on audit opinion under SA 705',
+              'Resign immediately without communicating with directors',
+              'Write off the debtor balances in the balance sheet'
+            ],
+            correct: 1,
+            explanation: 'Under SA 505 paragraph 9, if refusal is unreasonable or alternative evidence cannot be obtained, auditor shall communicate with Those Charged with Governance and consider audit report implications.',
+            marks: 2,
+            xp: 25
+          },
+          {
+            q: 'Which alternative audit procedure provides the strongest evidence for the existence of trade receivables when confirmations are not returned?',
+            options: [
+              'Reviewing subsequent cash collections received from the customer in bank statements',
+              'Asking the sales manager for oral confirmation',
+              'Checking the client internal sales invoice register copy',
+              'Verifying customer GST registration on the portal'
+            ],
+            correct: 0,
+            explanation: 'Examination of specific subsequent cash receipts after the balance sheet date provides compelling substantive evidence regarding existence and valuation of receivables.',
+            marks: 2,
+            xp: 25
+          },
+          {
+            q: 'What type of confirmation request asks the confirming party to respond ONLY in the event of disagreement?',
+            options: ['Positive confirmation request', 'Negative confirmation request', 'Blank confirmation request', 'Indirect confirmation request'],
+            correct: 1,
+            explanation: 'Under SA 505, a negative confirmation request asks the respondent to reply only if they disagree with the information provided in the request.',
+            marks: 2,
+            xp: 25
+          },
+          {
+            q: 'Under SA 240, could management’s unreasonable refusal to permit external confirmation be viewed as an indicator of:',
+            options: [
+              'High inherent risk only',
+              'Fraud risk factor or attempt to conceal fictitious receivables',
+              'Normal operational confidentiality',
+              'Precondition compliance'
+            ],
+            correct: 1,
+            explanation: 'Unreasonable management pushback on external confirmations is an alert for fraud risk (concealing circular transactions or fictitious sales) under SA 240.',
+            marks: 2,
+            xp: 25
+          }
+        ]
+      }
+    ]
+  }
+];
+
 // ===== 20 REALISTIC CA INTERMEDIATE STUDENTS & 5 TIERS =====
-// Tiers:
-// 1. In The Zone (Ranks 1-3, XP 4,800+)
-// 2. Focused (Ranks 4-8, XP 3,500 - 4,799)
-// 3. Hustler (Ranks 9-12, XP 2,500 - 3,499)
-// 4. Grinder (Ranks 13-16, XP 1,600 - 2,499)
-// 5. Rookie (Ranks 17-20, XP 600 - 1,599)
 const LEADERBOARD_DATA = [
   { rank: 1, name: 'Priya Malhotra', initials: 'PM', xp: 5640, tier: 'In The Zone', frame: 'frame_10', streak: 28, attempt: 'May 2027' },
   { rank: 2, name: 'Ananya Rao', initials: 'AR', xp: 5210, tier: 'In The Zone', frame: 'frame_9', streak: 24, attempt: 'May 2027' },
@@ -629,26 +1714,27 @@ const NOTIFICATIONS_DATA = [
 ];
 
 const TESTS_DATA = {
-  live: { title: 'ICAI Full Mock 1 — Paper 1 (Adv Accounts)', info: '15 Case Scenario MCQs & 85 Descriptive Marks \u00b7 3 Hours', status: 'LIVE SOON' },
+  live: { title: 'ICAI Full Mock 1 — Paper 1 (Adv Accounts)', info: '15 Case Scenario MCQs & 85 Descriptive Marks · 3 Hours', status: 'LIVE SOON' },
   upcoming: [
-    { title: 'MTP 1 — Paper 2 (Corporate & Other Laws)', subtitle: 'Tomorrow \u00b7 2:00 PM \u00b7 100 Marks' },
-    { title: 'Grand Mock Series — Group 1', subtitle: 'Sun, May 10 \u00b7 2:00 PM' }
+    { title: 'MTP 1 — Paper 2 (Corporate & Other Laws)', subtitle: 'Tomorrow · 2:00 PM · 100 Marks' },
+    { title: 'Grand Mock Series — Group 1', subtitle: 'Sun, May 10 · 2:00 PM' }
   ],
   past: [
-    { title: 'Taxation GST Mock 1', subtitle: 'Score: 78/100 \u00b7 AIR #4', score: 78 },
-    { title: 'Cost & Management Acct Mock', subtitle: 'Score: 84/100 \u00b7 AIR #2', score: 84 }
+    { title: 'Taxation GST Mock 1', subtitle: 'Score: 78/100 · AIR #4', score: 78 },
+    { title: 'Cost & Management Acct Mock', subtitle: 'Score: 84/100 · AIR #2', score: 84 }
   ]
 };
 
 const BOOKMARKS_DATA = [
-  { q: 'What are the preconditions for an audit under SA 210?', tag: 'Audit', meta: 'SA 210 \u00b7 Ch 1' },
-  { q: 'Explain the Turquand Rule and its exceptions under Companies Act 2013.', tag: 'Law', meta: 'Sec 399 \u00b7 Ch 1' },
-  { q: 'Inventory valuation when finished goods are expected to sell below cost.', tag: 'Accounts', meta: 'AS 2 \u00b7 Ch 1' },
-  { q: 'Tax treatment of foreign income for a Deemed Resident u/s 6(1A).', tag: 'Taxation', meta: 'Sec 6(1A) \u00b7 Ch 1' }
+  { q: 'What are the preconditions for an audit under SA 210?', tag: 'Audit', meta: 'SA 210 · Ch 1' },
+  { q: 'Explain the Turquand Rule and its exceptions under Companies Act 2013.', tag: 'Law', meta: 'Sec 399 · Ch 1' },
+  { q: 'Inventory valuation when finished goods are expected to sell below cost.', tag: 'Accounts', meta: 'AS 2 · Ch 1' },
+  { q: 'Tax treatment of foreign income for a Deemed Resident u/s 6(1A).', tag: 'Taxation', meta: 'Sec 6(1A) · Ch 1' }
 ];
 
 // Attach to window
 window.MCQ_DATA = MCQ_DATA;
+window.CASE_BOOKLETS_30M = CASE_BOOKLETS_30M;
 window.LEADERBOARD_DATA = LEADERBOARD_DATA;
 window.getTierFromXP = getTierFromXP;
 window.AVATAR_FRAMES = AVATAR_FRAMES;

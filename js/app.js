@@ -631,15 +631,15 @@ function renderPractice() {
         <span class="pm-mode-badge" style="background:rgba(16,185,129,0.15); color:var(--green);">2027</span>
       </div>
 
-      <div class="pm-mode-card" onclick="openSubjectDrilldown('adv_acc')">
-        <div class="pm-mode-icon" style="background:rgba(139,92,246,0.12); color:var(--accent2);">
+      <div class="pm-mode-card" onclick="openComprehensiveCaseBooklet(0)">
+        <div class="pm-mode-icon" style="background:rgba(245,158,11,0.12); color:var(--amber);">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
         </div>
         <div class="pm-mode-info">
-          <div class="pm-mode-title">Flashcards</div>
-          <div class="pm-mode-desc">Active recall decks</div>
+          <div class="pm-mode-title">Case Booklet</div>
+          <div class="pm-mode-desc">30-Mark ICAI Cases</div>
         </div>
-        <span class="pm-mode-badge" style="background:rgba(139,92,246,0.15); color:var(--accent2);">Recall</span>
+        <span class="pm-mode-badge" style="background:rgba(245,158,11,0.15); color:var(--amber);">30 M</span>
       </div>
 
       <div class="pm-mode-card" onclick="openFs('bookmarks')">
@@ -656,6 +656,18 @@ function renderPractice() {
   `;
 }
 
+
+// ============================================
+// PRACTICE SECTION: 4-LEVEL DRILLDOWN, DOAPAGE CASE BOOKLET, & 3D THEORY RECALL
+// ============================================
+
+window.drilldownState = {
+  subjectId: null,
+  chapterId: null,
+  conceptId: null,
+  level: 2 // 2: Chapters, 3: Concepts, 4: Pre-flight briefing card
+};
+
 function renderSubjectCard(sub, paperNum = 1) {
   const chCount = (sub.chapters || []).length;
   let qCount = 0;
@@ -670,30 +682,45 @@ function renderSubjectCard(sub, paperNum = 1) {
   const progress = qCount > 0 ? Math.min(Math.round((completed / qCount) * 100), 100) : 0;
   const iconSvg = getSubjectOutlineSvg(sub.id);
 
-  const displayName = sub.id === 'law' ? 'Corporate & Other Laws' : (sub.id === 'cost' ? 'Cost & Management Accounting' : (sub.id === 'tax' ? 'Taxation (Direct & Indirect)' : (sub.id === 'fmsm' ? 'FM & Strategic Management' : sub.name)));
+  const isMcqOnly = sub.practiceType === 'mcq_only';
+  const modeTagClass = isMcqOnly ? 'mode-pill-mcq' : 'mode-pill-hybrid';
+  const modeTagText = isMcqOnly ? 'MCQ Only' : 'MCQ + Theory';
+  const subTag = sub.subTag || (isMcqOnly ? 'Numerical & Practical' : 'Hybrid Curriculum');
 
   return `
     <div class="subject-row-card" onclick="openSubjectDrilldown('${sub.id}')">
-      <div class="sub-row-icon" style="background:${sub.color}18; color:${sub.color}; border:1px solid ${sub.color}35;">
+      <div class="sub-row-icon" style="background:${sub.color}15; color:${sub.color}; border:1px solid ${sub.color}35;">
         ${iconSvg}
       </div>
       <div class="sub-row-body">
-        <div class="sub-row-top">
-          <span class="sub-paper-tag" style="background:${sub.color}20; color:${sub.color}; border:1px solid ${sub.color}40;">Paper ${paperNum}</span>
-          <span class="sub-row-title">${displayName}</span>
+        <div class="sub-row-top" style="display:flex; align-items:center; justify-content:space-between; gap:6px; margin-bottom:4px;">
+          <div style="display:flex; align-items:center; gap:6px; min-width:0;">
+            <span class="sub-paper-tag" style="background:${sub.color}18; color:${sub.color}; border:1px solid ${sub.color}35; font-size:0.68rem; font-weight:700; padding:2px 6px; border-radius:5px;">Paper ${paperNum}</span>
+            <span class="sub-row-title" style="font-size:0.92rem; font-weight:700; color:var(--txt); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${sub.name}</span>
+          </div>
+          <span class="practice-mode-tag ${modeTagClass}">${modeTagText}</span>
         </div>
-        <div class="sub-row-meta">
-          <span>${chCount} Chapters &bull; ${qCount} Qs</span>
+
+        <div style="font-size:0.72rem; color:var(--txt3); margin-bottom:6px; display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+          <span>${subTag}</span>
+          <span>&bull;</span>
+          <span>${chCount} Chapters</span>
+          <span>&bull;</span>
+          <span>${qCount} Qs</span>
+        </div>
+
+        <div class="sub-row-meta" style="display:flex; align-items:center; justify-content:space-between; margin-bottom:4px;">
+          <span style="font-size:0.7rem; color:var(--txt4);">Mastery Progress</span>
           ${progress > 0 
-            ? `<span class="sub-row-progress-text" style="color:${sub.color};">${progress}% done</span>` 
-            : `<span style="color:var(--txt4);font-size:0.68rem;">Ready</span>`
+            ? `<span class="sub-row-progress-text" style="color:${sub.color}; font-size:0.72rem; font-weight:700;">${progress}%</span>` 
+            : `<span style="color:var(--txt4); font-size:0.68rem; font-weight:600;">Ready</span>`
           }
         </div>
-        <div class="sub-row-bar">
-          <div class="sub-row-fill" style="width:${progress}%; background:${sub.color};"></div>
+        <div class="sub-row-bar" style="height:5px; background:var(--bg3); border-radius:99px; overflow:hidden;">
+          <div class="sub-row-fill" style="width:${progress}%; height:100%; background:${sub.color}; transition:width .3s ease;"></div>
         </div>
       </div>
-      <div class="sub-row-arrow">
+      <div class="sub-row-arrow" style="color:var(--txt4); margin-left:6px;">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg>
       </div>
     </div>
@@ -706,78 +733,30 @@ function switchPracticeMode(mode) {
   if (main) main.innerHTML = renderPractice();
 }
 
-// Subject Drilldown Overlay Controller
-function openSubjectDrilldown(subjectId) {
+// ============================================
+// 4-LEVEL DRILLDOWN CONTROLLER (Smooth, Zero Glitch)
+// ============================================
+
+function openSubjectDrilldown(subjectId, chapterId = null, level = 2) {
   const sub = MCQ_DATA[subjectId];
   if (!sub) return;
+
+  window.drilldownState = {
+    subjectId: subjectId,
+    chapterId: chapterId,
+    conceptId: null,
+    level: level
+  };
 
   const modal = document.getElementById('subject-drilldown-modal');
   const container = document.getElementById('drilldown-content');
   if (!modal || !container) return;
 
-  const isFlashcardMode = window.practiceMode === 'flashcards';
-
-  container.innerHTML = `
-    <!-- Top Nav -->
-    <div style="position:sticky; top:0; z-index:10; background:var(--bg); border-bottom:1px solid var(--border); padding:12px 16px; display:flex; align-items:center; gap:12px;">
-      <button onclick="closeSubjectDrilldown()" style="width:34px; height:34px; border-radius:8px; background:var(--card); border:1px solid var(--border); color:var(--txt); display:grid; place-items:center; cursor:pointer;">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="15 18 9 12 15 6"/></svg>
-      </button>
-      <div style="flex:1; min-width:0;">
-        <div style="font-size:0.7rem; font-weight:700; color:${sub.color}; text-transform:uppercase;">${sub.paper} &bull; ${sub.group}</div>
-        <h2 style="font-size:1.05rem; font-weight:700; color:var(--txt); margin:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${sub.name}</h2>
-      </div>
-    </div>
-
-    <!-- Chapter List -->
-    <div style="padding:16px; max-width:640px; margin:0 auto;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-        <div style="font-size:0.78rem; font-weight:700; color:var(--txt3); text-transform:uppercase;">
-          ${isFlashcardMode ? 'Theory Recall Chapters' : 'Select Chapter to Practice'}
-        </div>
-        <span style="font-size:0.75rem; color:var(--txt3);">${(sub.chapters||[]).length} Chapters</span>
-      </div>
-
-      <div style="display:flex; flex-direction:column; gap:10px;">
-        ${(sub.chapters || []).map((ch, idx) => {
-          const qCount = (ch.questions || []).length;
-          const hasCase = ch.caseScenarios && ch.caseScenarios.length > 0;
-          const hasFlash = ch.flashcards && ch.flashcards.length > 0;
-
-          return `
-            <div style="background:var(--card); border:1px solid var(--border); border-radius:12px; padding:12px 14px;">
-              <div style="display:flex; gap:10px; align-items:flex-start; margin-bottom:10px;">
-                <div style="width:28px; height:28px; border-radius:8px; background:rgba(91,108,255,0.1); color:${sub.color}; font-weight:800; font-size:0.85rem; display:grid; place-items:center; flex-shrink:0;">
-                  ${ch.num || (idx + 1)}
-                </div>
-                <div style="flex:1; min-width:0;">
-                  <div style="font-size:0.92rem; font-weight:700; color:var(--txt); line-height:1.3;">${ch.title}</div>
-                  <div style="font-size:0.72rem; color:var(--txt3); margin-top:2px;">${qCount} Questions &bull; ICAI Scheme</div>
-                </div>
-              </div>
-
-              <div style="display:flex; gap:8px;">
-                <button onclick="launchChapterMCQs('${subjectId}', '${ch.id}')" style="flex:1; padding:8px 12px; border-radius:8px; border:none; background:var(--accent); color:#fff; font-weight:700; font-size:0.78rem; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                  Practice MCQs
-                </button>
-                ${hasCase ? `
-                  <button onclick="launchCaseScenario('${subjectId}', '${ch.id}', 0)" style="padding:8px 12px; border-radius:8px; border:1px solid var(--border); background:var(--bg2); color:var(--accent2); font-weight:700; font-size:0.78rem; cursor:pointer; display:flex; align-items:center; gap:4px;">
-                    Case Set
-                  </button>
-                ` : ''}
-                ${hasFlash ? `
-                  <button onclick="launchFlashcardDeck('${subjectId}', '${ch.id}')" style="padding:8px 12px; border-radius:8px; border:1px solid var(--border); background:var(--bg2); color:var(--txt2); font-weight:600; font-size:0.78rem; cursor:pointer; display:flex; align-items:center; gap:4px;">
-                    Recall
-                  </button>
-                ` : ''}
-              </div>
-            </div>
-          `;
-        }).join('')}
-      </div>
-    </div>
-  `;
+  if (level === 2) {
+    container.innerHTML = renderDrilldownChapters(subjectId);
+  } else if (level === 3 && chapterId) {
+    container.innerHTML = renderDrilldownConcepts(subjectId, chapterId);
+  }
 
   modal.style.display = 'block';
   modal.scrollTop = 0;
@@ -786,18 +765,367 @@ function openSubjectDrilldown(subjectId) {
 function closeSubjectDrilldown() {
   const modal = document.getElementById('subject-drilldown-modal');
   if (modal) modal.style.display = 'none';
+  window.drilldownState = { subjectId: null, chapterId: null, conceptId: null, level: 2 };
+}
+
+function drilldownGoBack() {
+  const state = window.drilldownState;
+  if (!state) { closeSubjectDrilldown(); return; }
+
+  if (state.level === 4) {
+    drilldownGoToConcepts(state.subjectId, state.chapterId);
+  } else if (state.level === 3) {
+    openSubjectDrilldown(state.subjectId, null, 2);
+  } else {
+    closeSubjectDrilldown();
+  }
+}
+
+// Level 2: Chapters List
+function renderDrilldownChapters(subjectId) {
+  const sub = MCQ_DATA[subjectId];
+  if (!sub) return '';
+
+  const isMcqOnly = sub.practiceType === 'mcq_only';
+  const modeBadge = isMcqOnly ? 'MCQ Only' : 'MCQ + Theory Hybrid';
+  const modeClass = isMcqOnly ? 'mode-pill-mcq' : 'mode-pill-hybrid';
+
+  return `
+    <div class="drilldown-top-bar">
+      <button class="drilldown-back-btn" onclick="drilldownGoBack()" aria-label="Back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="17" height="17"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <div style="flex:1; min-width:0;">
+        <div style="font-size:0.68rem; font-weight:700; color:${sub.color}; text-transform:uppercase; letter-spacing:0.5px;">${sub.paper} &bull; ${sub.group}</div>
+        <h2 style="font-size:1.05rem; font-weight:700; color:var(--txt); margin:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${sub.name}</h2>
+      </div>
+      <span class="practice-mode-tag ${modeClass}">${modeBadge}</span>
+    </div>
+
+    <div class="drilldown-body">
+      <div class="drilldown-header-strip">
+        <div>
+          <div style="font-size:0.85rem; font-weight:700; color:var(--txt);">Syllabus Chapters</div>
+          <div style="font-size:0.72rem; color:var(--txt3);">Tap any chapter to view micro-concepts or launch practice</div>
+        </div>
+        <div class="drilldown-count-chip">${(sub.chapters||[]).length} Chapters</div>
+      </div>
+
+      <div class="drilldown-list-col">
+        ${(sub.chapters || []).map((ch, idx) => {
+          const qCount = (ch.questions || []).length;
+          const concepts = ch.concepts || [];
+          const hasCase = ch.caseScenarios && ch.caseScenarios.length > 0;
+          const hasFlash = ch.flashcards && ch.flashcards.length > 0;
+
+          return `
+            <div class="drilldown-ch-card">
+              <div class="drilldown-ch-top" onclick="drilldownGoToConcepts('${subjectId}', '${ch.id}')">
+                <div class="drilldown-ch-num" style="background:${sub.color}18; color:${sub.color};">
+                  ${ch.num || (idx + 1)}
+                </div>
+                <div style="flex:1; min-width:0;">
+                  <div style="display:flex; align-items:center; justify-content:space-between; gap:6px; margin-bottom:3px;">
+                    <span class="drilldown-weightage-pill">${ch.weightage || '10-14 Marks'}</span>
+                    <span style="font-size:0.7rem; color:var(--txt4);">${concepts.length} Concepts &bull; ${qCount} Qs</span>
+                  </div>
+                  <h3 class="drilldown-ch-title">${ch.title}</h3>
+                </div>
+                <div class="drilldown-ch-arrow">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg>
+                </div>
+              </div>
+
+              <div class="drilldown-ch-actions">
+                <button class="drilldown-btn-primary" onclick="launchChapterMCQs('${subjectId}', '${ch.id}')">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                  Practice MCQs
+                </button>
+                ${hasCase ? `
+                  <button class="drilldown-btn-secondary" onclick="openCaseBooklet('${subjectId}', '${ch.id}', 0)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                    Case Set
+                  </button>
+                ` : ''}
+                ${hasFlash ? `
+                  <button class="drilldown-btn-secondary" onclick="openTheoryRecall('${subjectId}', '${ch.id}', 0)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
+                    Theory Recall
+                  </button>
+                ` : ''}
+                <button class="drilldown-btn-text" onclick="drilldownGoToConcepts('${subjectId}', '${ch.id}')">
+                  Concepts &rarr;
+                </button>
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function drilldownGoToConcepts(subjectId, chapterId) {
+  window.drilldownState = {
+    subjectId: subjectId,
+    chapterId: chapterId,
+    conceptId: null,
+    level: 3
+  };
+  const container = document.getElementById('drilldown-content');
+  if (container) {
+    container.innerHTML = renderDrilldownConcepts(subjectId, chapterId);
+    const modal = document.getElementById('subject-drilldown-modal');
+    if (modal) modal.scrollTop = 0;
+  }
+}
+
+// Level 3: Micro-Concepts Listing
+function renderDrilldownConcepts(subjectId, chapterId) {
+  const sub = MCQ_DATA[subjectId];
+  if (!sub) return '';
+  const ch = (sub.chapters || []).find(c => c.id === chapterId);
+  if (!ch) return '';
+
+  const concepts = ch.concepts || [];
+  const qCount = (ch.questions || []).length;
+  const hasCase = ch.caseScenarios && ch.caseScenarios.length > 0;
+  const hasFlash = ch.flashcards && ch.flashcards.length > 0;
+
+  return `
+    <div class="drilldown-top-bar">
+      <button class="drilldown-back-btn" onclick="drilldownGoBack()" aria-label="Back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="17" height="17"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <div style="flex:1; min-width:0;">
+        <div style="font-size:0.68rem; font-weight:700; color:${sub.color}; text-transform:uppercase;">
+          ${sub.shortName || sub.name} &bull; Ch ${ch.num}
+        </div>
+        <h2 style="font-size:1.02rem; font-weight:700; color:var(--txt); margin:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${ch.title}</h2>
+      </div>
+    </div>
+
+    <div class="drilldown-body">
+      <div class="concept-chapter-banner" style="border-left: 3px solid ${sub.color};">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+          <span style="font-size:0.75rem; font-weight:700; color:${sub.color}; text-transform:uppercase;">Chapter Blueprint</span>
+          <span class="drilldown-weightage-pill">${ch.weightage || '10-14 Marks'}</span>
+        </div>
+        <div style="font-size:0.78rem; color:var(--txt2); line-height:1.4;">
+          ${concepts.length} micro-concepts analyzed from past 10 ICAI exam attempts. Select a concept to inspect key rules & launch targeted practice.
+        </div>
+        <div style="display:flex; gap:8px; margin-top:10px;">
+          <button class="drilldown-btn-primary" style="flex:1;" onclick="launchChapterMCQs('${subjectId}', '${ch.id}')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Practice All Chapter MCQs (${qCount} Qs)
+          </button>
+          ${hasCase ? `
+            <button class="drilldown-btn-secondary" onclick="openCaseBooklet('${subjectId}', '${ch.id}', 0)">
+              Case Booklet
+            </button>
+          ` : ''}
+          ${hasFlash ? `
+            <button class="drilldown-btn-secondary" onclick="openTheoryRecall('${subjectId}', '${ch.id}', 0)">
+              Recall Deck
+            </button>
+          ` : ''}
+        </div>
+      </div>
+
+      <div class="drilldown-header-strip">
+        <div>
+          <div style="font-size:0.85rem; font-weight:700; color:var(--txt);">Micro-Concepts Directory</div>
+          <div style="font-size:0.72rem; color:var(--txt3);">Tap concept card for exam weightage & pre-flight briefing</div>
+        </div>
+        <div class="drilldown-count-chip">${concepts.length} Concepts</div>
+      </div>
+
+      <div class="drilldown-list-col">
+        ${concepts.map((conceptItem, cIdx) => {
+          const isObj = typeof conceptItem === 'object';
+          const cId = isObj ? conceptItem.id : ('c_' + cIdx);
+          const cTitle = isObj ? conceptItem.title : conceptItem;
+          const cWeightage = isObj ? (conceptItem.weightage || '3-5 Marks') : '3-5 Marks';
+          const cDiff = isObj ? (conceptItem.difficulty || 'High Yield') : 'High Yield';
+          const cRuleSummary = isObj && conceptItem.rules && conceptItem.rules[0] ? conceptItem.rules[0] : 'Essential statutory provisions and objective evaluation criteria.';
+
+          return `
+            <div class="drilldown-concept-card" onclick="drilldownGoToLaunchCard('${subjectId}', '${ch.id}', '${cId}')">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:6px;">
+                <div style="display:flex; align-items:center; gap:6px;">
+                  <span class="concept-index-badge">Concept ${ch.num}.${cIdx + 1}</span>
+                  <span class="concept-difficulty-tag ${cDiff === 'High Yield' ? 'tag-high-yield' : ''}">${cDiff}</span>
+                </div>
+                <span class="concept-weightage-tag">${cWeightage}</span>
+              </div>
+
+              <h4 class="concept-card-title">${cTitle}</h4>
+              <p class="concept-card-desc">${cRuleSummary}</p>
+
+              <div class="concept-card-footer">
+                <span style="font-size:0.72rem; color:${sub.color}; font-weight:700; display:flex; align-items:center; gap:4px;">
+                  Pre-Flight Briefing & Launch
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="13" height="13"><polyline points="9 18 15 12 9 6"/></svg>
+                </span>
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function drilldownGoToLaunchCard(subjectId, chapterId, conceptId) {
+  window.drilldownState = {
+    subjectId: subjectId,
+    chapterId: chapterId,
+    conceptId: conceptId,
+    level: 4
+  };
+  const container = document.getElementById('drilldown-content');
+  if (container) {
+    container.innerHTML = renderConceptLaunchCard(subjectId, chapterId, conceptId);
+    const modal = document.getElementById('subject-drilldown-modal');
+    if (modal) modal.scrollTop = 0;
+  }
+}
+
+// Level 4: Concept Pre-Flight Launch Card
+function renderConceptLaunchCard(subjectId, chapterId, conceptId) {
+  const sub = MCQ_DATA[subjectId];
+  if (!sub) return '';
+  const ch = (sub.chapters || []).find(c => c.id === chapterId);
+  if (!ch) return '';
+
+  const concepts = ch.concepts || [];
+  let concept = concepts.find(c => (typeof c === 'object' ? c.id === conceptId : false));
+  if (!concept) {
+    const idx = parseInt((conceptId || '').replace('c_', '')) || 0;
+    concept = typeof concepts[idx] === 'object' ? concepts[idx] : { title: concepts[idx] || 'General Concept', weightage: '3-5 Marks', difficulty: 'High Yield', rules: [] };
+  }
+
+  const hasCase = ch.caseScenarios && ch.caseScenarios.length > 0;
+  const hasFlash = ch.flashcards && ch.flashcards.length > 0;
+
+  const defaultRules = [
+    'Strict adherence to statutory criteria or accounting standard mandates.',
+    'Focus on scenario-based objective application and calculation traps.',
+    'Common negative marking trap: verify whether question asks for "Correct" or "Incorrect" statement.'
+  ];
+  const rules = (concept.rules && concept.rules.length > 0) ? concept.rules : defaultRules;
+
+  return `
+    <div class="drilldown-top-bar">
+      <button class="drilldown-back-btn" onclick="drilldownGoBack()" aria-label="Back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="17" height="17"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <div style="flex:1; min-width:0;">
+        <div style="font-size:0.68rem; font-weight:700; color:${sub.color}; text-transform:uppercase;">
+          ${sub.shortName || sub.name} &bull; Ch ${ch.num} Concept Briefing
+        </div>
+        <h2 style="font-size:1.02rem; font-weight:700; color:var(--txt); margin:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${concept.title}</h2>
+      </div>
+    </div>
+
+    <div class="drilldown-body">
+      <div class="preflight-card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <span class="concept-difficulty-tag ${concept.difficulty === 'High Yield' ? 'tag-high-yield' : ''}">${concept.difficulty || 'High Yield'}</span>
+          <span class="concept-weightage-tag" style="font-size:0.75rem;">Expected: ${concept.weightage || '3-5 Marks'}</span>
+        </div>
+
+        <h3 style="font-size:1.1rem; font-weight:800; color:var(--txt); margin:0 0 6px 0; line-height:1.3;">
+          ${concept.title}
+        </h3>
+        <div style="font-size:0.74rem; color:var(--txt3); margin-bottom:14px;">
+          ICAI Syllabus Module Reference &bull; Paper ${sub.paper} &bull; ${sub.group}
+        </div>
+
+        <div class="preflight-rule-box">
+          <div style="font-size:0.76rem; font-weight:700; color:var(--txt); margin-bottom:8px; display:flex; align-items:center; gap:6px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" width="15" height="15"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            Key ICAI Exam Rules & Pitfalls
+          </div>
+          <ul class="preflight-rule-list">
+            ${rules.map(r => `<li>${r}</li>`).join('')}
+          </ul>
+        </div>
+
+        <div class="preflight-launch-section">
+          <div style="font-size:0.78rem; font-weight:700; color:var(--txt2); margin-bottom:10px;">Select Practice Mode to Launch:</div>
+
+          <button class="preflight-action-btn primary" onclick="launchConceptMCQs('${subjectId}', '${ch.id}', '${conceptId}')">
+            <div class="pfa-icon" style="background:rgba(255,255,255,0.2);">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            </div>
+            <div style="flex:1; text-align:left;">
+              <div style="font-size:0.88rem; font-weight:700;">Practice Concept MCQs</div>
+              <div style="font-size:0.72rem; opacity:0.85;">Timed exam mode &bull; Instant rationale &bull; +2 / -0.5m</div>
+            </div>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+
+          ${hasCase ? `
+            <button class="preflight-action-btn case" onclick="openCaseBooklet('${subjectId}', '${ch.id}', 0)">
+              <div class="pfa-icon" style="background:rgba(245,158,11,0.15); color:var(--amber);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+              </div>
+              <div style="flex:1; text-align:left;">
+                <div style="font-size:0.88rem; font-weight:700; color:var(--txt);">Case Scenario Booklet ("DoAPage")</div>
+                <div style="font-size:0.72rem; color:var(--txt3);">Multi-page split reader &bull; Integrated scenario questions</div>
+              </div>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="16" height="16" style="color:var(--txt4);"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          ` : ''}
+
+          ${hasFlash ? `
+            <button class="preflight-action-btn theory" onclick="openTheoryRecall('${subjectId}', '${ch.id}', 0)">
+              <div class="pfa-icon" style="background:rgba(139,92,246,0.15); color:var(--accent2);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
+              </div>
+              <div style="flex:1; text-align:left;">
+                <div style="font-size:0.88rem; font-weight:700; color:var(--txt);">Theory Active Recall (3D Flip)</div>
+                <div style="font-size:0.72rem; color:var(--txt3);">Descriptive questions &bull; Golden keywords &bull; Step-marking</div>
+              </div>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="16" height="16" style="color:var(--txt4);"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          ` : ''}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function launchConceptMCQs(subjectId, chapterId, conceptId) {
+  closeSubjectDrilldown();
+  launchChapterMCQs(subjectId, chapterId);
 }
 
 function launchChapterMCQs(subjectId, chapterId) {
   closeSubjectDrilldown();
   if (typeof startQuiz === 'function') {
     startQuiz(subjectId, chapterId);
-  } else {
+  } else if (typeof Router !== 'undefined' && Router.navigate) {
     Router.navigate('chapter', { subject: subjectId, chapter: chapterId });
   }
 }
 
 function launchCaseScenario(subjectId, chapterId, caseIdx = 0) {
+  openCaseBooklet(subjectId, chapterId, caseIdx);
+}
+
+function launchFlashcardDeck(subjectId, chapterId) {
+  openTheoryRecall(subjectId, chapterId, 0);
+}
+
+// ============================================
+// "DoAPage" CASE SCENARIO BOOKLET ENGINE
+// ============================================
+
+window.currentCaseSession = null;
+
+window.openCaseBooklet = function(subjectId, chapterId, caseIdx = 0) {
   const sub = MCQ_DATA[subjectId];
   if (!sub) return;
   const ch = (sub.chapters || []).find(c => c.id === chapterId);
@@ -806,36 +1134,620 @@ function launchCaseScenario(subjectId, chapterId, caseIdx = 0) {
   const cs = ch.caseScenarios[caseIdx];
   closeSubjectDrilldown();
 
-  const questionsWithNarrative = cs.questions.map((q) => ({
-    ...q,
-    caseNarrative: cs.narrative,
-    caseTitle: cs.caseTitle,
-    marks: 2,
-    xp: 25
-  }));
+  const pages = (cs.pages && cs.pages.length > 0) ? cs.pages : [
+    { pageNum: 1, tabTitle: 'Facts & Context', title: '1. Case Narrative', content: cs.narrative }
+  ];
 
-  if (typeof startQuizWithQuestions === 'function') {
-    startQuizWithQuestions(questionsWithNarrative, {
-      title: cs.caseTitle,
-      subject: subjectId,
-      chapterId: chapterId
-    });
-  } else if (typeof startQuiz === 'function') {
-    startQuiz(subjectId, chapterId);
+  window.currentCaseSession = {
+    isBookletMode: false,
+    subjectId: subjectId,
+    chapterId: chapterId,
+    caseIdx: caseIdx,
+    caseTitle: cs.caseTitle,
+    totalMarks: cs.totalMarks || (cs.questions.length * 2),
+    readingTime: cs.readingTime || 10,
+    pages: pages,
+    activePage: 1,
+    questions: cs.questions || [],
+    currentQIdx: 0,
+    answers: {},
+    isSubmitted: {},
+    score: 0,
+    isReaderExpanded: false
+  };
+
+  const modal = document.getElementById('case-booklet-modal');
+  if (modal) {
+    modal.style.display = 'block';
+    renderCaseBooklet();
   }
+};
+
+window.openComprehensiveCaseBooklet = function(bookletIdx = 0) {
+  const booklet = (window.CASE_BOOKLETS_30M && window.CASE_BOOKLETS_30M[bookletIdx]) || (window.CASE_BOOKLETS_30M && window.CASE_BOOKLETS_30M[0]);
+  if (!booklet || !booklet.cases || booklet.cases.length === 0) {
+    window.openCaseBooklet('law', 'law_ch1', 0);
+    return;
+  }
+
+  const firstCase = booklet.cases[0];
+  window.currentCaseSession = {
+    isBookletMode: true,
+    bookletId: booklet.bookletId,
+    bookletTitle: booklet.title,
+    caseNum: 1,
+    totalCasesInBooklet: booklet.cases.length,
+    caseTitle: firstCase.title,
+    totalMarks: booklet.totalMarks || 30,
+    readingTime: booklet.timeLimitMinutes || 45,
+    pages: firstCase.pages || [],
+    activePage: 1,
+    questions: firstCase.questions || [],
+    currentQIdx: 0,
+    answers: {},
+    isSubmitted: {},
+    score: 0,
+    bookletAllCases: booklet.cases,
+    currentCaseIndexInBooklet: 0,
+    isReaderExpanded: false
+  };
+
+  const modal = document.getElementById('case-booklet-modal');
+  if (modal) {
+    modal.style.display = 'block';
+    renderCaseBooklet();
+  }
+};
+
+window.closeCaseBooklet = function() {
+  const modal = document.getElementById('case-booklet-modal');
+  if (modal) modal.style.display = 'none';
+  window.currentCaseSession = null;
+};
+
+window.setCasePage = function(pageNum) {
+  if (!window.currentCaseSession) return;
+  window.currentCaseSession.activePage = pageNum;
+  const pageContainer = document.getElementById('doapage-reading-content');
+  const tabs = document.querySelectorAll('.doapage-tab');
+  if (tabs) {
+    tabs.forEach((t, i) => {
+      t.classList.toggle('active', (i + 1) === pageNum);
+    });
+  }
+  const page = window.currentCaseSession.pages.find(p => p.pageNum === pageNum) || window.currentCaseSession.pages[pageNum - 1];
+  if (pageContainer && page) {
+    pageContainer.innerHTML = `
+      <div class="doapage-page-title">${page.title || ('Page ' + pageNum)}</div>
+      <div class="doapage-page-text">${(page.content || '').replace(/\n/g, '<br><br>')}</div>
+    `;
+    pageContainer.scrollTop = 0;
+  }
+};
+
+window.toggleCaseReaderExpand = function() {
+  if (!window.currentCaseSession) return;
+  window.currentCaseSession.isReaderExpanded = !window.currentCaseSession.isReaderExpanded;
+  const layout = document.getElementById('doapage-layout-container');
+  if (layout) {
+    layout.classList.toggle('reader-expanded', window.currentCaseSession.isReaderExpanded);
+  }
+  const btn = document.getElementById('doapage-expand-btn');
+  if (btn) {
+    btn.innerHTML = window.currentCaseSession.isReaderExpanded 
+      ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/></svg> Restore Split`
+      : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Expand Case`;
+  }
+};
+
+window.selectCaseQuestion = function(qIdx) {
+  if (!window.currentCaseSession) return;
+  window.currentCaseSession.currentQIdx = qIdx;
+  renderCaseSolverDrawer();
+};
+
+window.answerCaseQuestion = function(optIdx) {
+  const sess = window.currentCaseSession;
+  if (!sess) return;
+  const qIdx = sess.currentQIdx;
+  if (sess.isSubmitted[qIdx]) return;
+
+  sess.answers[qIdx] = optIdx;
+  sess.isSubmitted[qIdx] = true;
+
+  const currentQ = sess.questions[qIdx];
+  const isCorrect = (optIdx === currentQ.correct);
+  if (isCorrect) {
+    sess.score += (currentQ.marks || 2);
+    AppState.xp = (AppState.xp || 0) + (currentQ.xp || 25);
+    showToast('Correct! +' + (currentQ.xp || 25) + ' XP');
+  } else {
+    showToast('Incorrect option selected');
+  }
+
+  AppState.questionsAttempted = (AppState.questionsAttempted || 0) + 1;
+  saveUser();
+
+  renderCaseSolverDrawer();
+};
+
+window.nextCaseQuestion = function() {
+  const sess = window.currentCaseSession;
+  if (!sess) return;
+  if (sess.currentQIdx < sess.questions.length - 1) {
+    sess.currentQIdx++;
+    renderCaseSolverDrawer();
+  } else {
+    if (sess.isBookletMode && sess.bookletAllCases && sess.currentCaseIndexInBooklet < sess.bookletAllCases.length - 1) {
+      sess.currentCaseIndexInBooklet++;
+      const nextC = sess.bookletAllCases[sess.currentCaseIndexInBooklet];
+      sess.caseTitle = nextC.title;
+      sess.pages = nextC.pages || [];
+      sess.activePage = 1;
+      sess.questions = nextC.questions || [];
+      sess.currentQIdx = 0;
+      sess.answers = {};
+      sess.isSubmitted = {};
+      renderCaseBooklet();
+      showToast('Advancing to Case ' + (sess.currentCaseIndexInBooklet + 1) + ' of ' + sess.bookletAllCases.length);
+    } else {
+      window.finishCaseBooklet();
+    }
+  }
+};
+
+window.finishCaseBooklet = function() {
+  const sess = window.currentCaseSession;
+  if (!sess) return;
+  const totalMarks = sess.totalMarks || (sess.questions.length * 2);
+  const earnedScore = sess.score;
+  const pct = Math.round((earnedScore / totalMarks) * 100);
+
+  const container = document.getElementById('case-booklet-content');
+  if (container) {
+    container.innerHTML = `
+      <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:24px; text-align:center; background:var(--bg);">
+        <div style="width:68px; height:68px; border-radius:50%; background:rgba(16,185,129,0.15); color:var(--green); display:grid; place-items:center; margin-bottom:16px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="36" height="36"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div style="font-size:0.75rem; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;">
+          Case Booklet Completed
+        </div>
+        <h2 style="font-size:1.35rem; font-weight:800; color:var(--txt); margin:0 0 10px 0;">
+          ${sess.isBookletMode ? sess.bookletTitle : sess.caseTitle}
+        </h2>
+        <div style="font-size:0.86rem; color:var(--txt3); margin-bottom:24px; max-width:360px;">
+          You scored <strong style="color:var(--txt);">${earnedScore}</strong> out of <strong style="color:var(--txt);">${totalMarks} Marks</strong> (${pct}% accuracy).
+        </div>
+
+        <div style="display:flex; gap:12px; width:100%; max-width:320px;">
+          <button class="btn-primary" style="flex:1; height:44px; border-radius:10px; font-weight:700;" onclick="closeCaseBooklet()">
+            Done & Return
+          </button>
+        </div>
+      </div>
+    `;
+  }
+};
+
+function renderCaseBooklet() {
+  const sess = window.currentCaseSession;
+  if (!sess) return;
+  const container = document.getElementById('case-booklet-content');
+  if (!container) return;
+
+  const initialPage = sess.pages.find(p => p.pageNum === sess.activePage) || sess.pages[0];
+
+  container.innerHTML = `
+    <div class="doapage-header">
+      <button class="doapage-close-btn" onclick="closeCaseBooklet()" aria-label="Close Case Booklet">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div style="flex:1; min-width:0;">
+        <div style="font-size:0.68rem; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:0.5px;">
+          ${sess.isBookletMode ? ('30-Mark ICAI Case Booklet • Case ' + (sess.currentCaseIndexInBooklet + 1) + ' of ' + sess.bookletAllCases.length) : 'ICAI Case Scenario Booklet'}
+        </div>
+        <div style="font-size:0.92rem; font-weight:800; color:var(--txt); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+          ${sess.caseTitle}
+        </div>
+      </div>
+      <div style="display:flex; align-items:center; gap:8px;">
+        <span class="doapage-score-chip">Score: ${sess.score}/${sess.totalMarks} M</span>
+        <button id="doapage-expand-btn" class="doapage-expand-btn" onclick="toggleCaseReaderExpand()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+          Expand Case
+        </button>
+      </div>
+    </div>
+
+    <div class="doapage-split-container" id="doapage-layout-container">
+      <div class="doapage-reader-pane">
+        <div class="doapage-tabs-bar">
+          ${sess.pages.map((p, i) => `
+            <button class="doapage-tab ${p.pageNum === sess.activePage ? 'active' : ''}" onclick="setCasePage(${p.pageNum})">
+              <span class="doapage-tab-num">P${p.pageNum}</span>
+              <span class="doapage-tab-label">${p.tabTitle || ('Page ' + p.pageNum)}</span>
+            </button>
+          `).join('')}
+        </div>
+
+        <div class="doapage-page-body" id="doapage-reading-content">
+          <div class="doapage-page-title">${initialPage.title || ('Page ' + initialPage.pageNum)}</div>
+          <div class="doapage-page-text">${(initialPage.content || '').replace(/\n/g, '<br><br>')}</div>
+        </div>
+      </div>
+
+      <div class="doapage-solver-pane" id="doapage-solver-drawer">
+        <!-- Rendered by renderCaseSolverDrawer() -->
+      </div>
+    </div>
+  `;
+
+  renderCaseSolverDrawer();
 }
 
-function launchFlashcardDeck(subjectId, chapterId) {
+function renderCaseSolverDrawer() {
+  const sess = window.currentCaseSession;
+  if (!sess) return;
+  const drawer = document.getElementById('doapage-solver-drawer');
+  if (!drawer) return;
+
+  const qIdx = sess.currentQIdx;
+  const q = sess.questions[qIdx];
+  if (!q) return;
+
+  const isAnswered = !!sess.isSubmitted[qIdx];
+  const selectedOpt = sess.answers[qIdx];
+  const isCorrect = isAnswered && (selectedOpt === q.correct);
+
+  drawer.innerHTML = `
+    <div class="doapage-q-nav-bar">
+      <div style="font-size:0.74rem; font-weight:700; color:var(--txt3);">Questions:</div>
+      <div class="doapage-q-pills">
+        ${sess.questions.map((item, idx) => {
+          const ans = sess.isSubmitted[idx];
+          const correct = ans && (sess.answers[idx] === item.correct);
+          let cls = '';
+          if (idx === qIdx) cls += ' active';
+          if (ans) cls += (correct ? ' answered-correct' : ' answered-wrong');
+          return `
+            <button class="doapage-q-pill ${cls}" onclick="selectCaseQuestion(${idx})">
+              Q${idx + 1}
+            </button>
+          `;
+        }).join('')}
+      </div>
+      <span style="font-size:0.72rem; color:var(--txt4); margin-left:auto;">2 Marks Each</span>
+    </div>
+
+    <div class="doapage-q-body">
+      <div class="doapage-q-meta">
+        <span class="doapage-q-badge">Question ${qIdx + 1} of ${sess.questions.length}</span>
+        ${q.pageRef ? `<span class="doapage-ref-tag">${q.pageRef}</span>` : ''}
+      </div>
+
+      <div class="doapage-q-text">${q.q}</div>
+
+      <div class="doapage-options-col">
+        ${q.options.map((opt, oIdx) => {
+          const letter = String.fromCharCode(65 + oIdx);
+          let optCls = '';
+          if (isAnswered) {
+            if (oIdx === q.correct) optCls = 'option-correct';
+            else if (oIdx === selectedOpt) optCls = 'option-incorrect';
+            else optCls = 'option-disabled';
+          }
+
+          return `
+            <button class="doapage-opt-btn ${optCls}" onclick="answerCaseQuestion(${oIdx})" ${isAnswered ? 'disabled' : ''}>
+              <span class="doapage-opt-letter">${letter}</span>
+              <span class="doapage-opt-text">${opt}</span>
+              ${isAnswered && oIdx === q.correct ? `
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16" style="margin-left:auto; color:var(--green);"><polyline points="20 6 9 17 4 12"/></svg>
+              ` : ''}
+              ${isAnswered && oIdx === selectedOpt && !isCorrect ? `
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16" style="margin-left:auto; color:var(--red);"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              ` : ''}
+            </button>
+          `;
+        }).join('')}
+      </div>
+
+      ${isAnswered ? `
+        <div class="doapage-rationale-box ${isCorrect ? 'rationale-correct' : 'rationale-wrong'}">
+          <div class="doapage-rationale-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            ICAI Examiner Rationale & Case Paragraph Link
+          </div>
+          <div class="doapage-rationale-text">${q.explanation || 'See relevant statutory paragraph.'}</div>
+        </div>
+
+        <div style="margin-top:12px; display:flex; justify-content:flex-end;">
+          <button class="btn-primary" style="height:38px; padding:0 18px; border-radius:8px; font-weight:700; font-size:0.82rem;" onclick="nextCaseQuestion()">
+            ${qIdx < sess.questions.length - 1 ? 'Next Question &rarr;' : (sess.isBookletMode && sess.currentCaseIndexInBooklet < sess.bookletAllCases.length - 1 ? 'Next Case in Booklet &rarr;' : 'Finish Case Booklet')}
+          </button>
+        </div>
+      ` : ''}
+    </div>
+  `;
+}
+
+// ============================================
+// THEORY ACTIVE RECALL 3D FLIP CAROUSEL ENGINE
+// ============================================
+
+window.theoryRecallSession = null;
+
+window.openTheoryRecall = function(subjectId, chapterId, startIdx = 0) {
   const sub = MCQ_DATA[subjectId];
   if (!sub) return;
   const ch = (sub.chapters || []).find(c => c.id === chapterId);
-  if (!ch || !ch.flashcards || ch.flashcards.length === 0) return;
+  
+  let cards = (ch && ch.flashcards && ch.flashcards.length > 0) ? ch.flashcards : [];
+  if (cards.length === 0) {
+    (sub.chapters || []).forEach(c => {
+      if (c.flashcards) cards = cards.concat(c.flashcards);
+    });
+  }
 
-  const fc = ch.flashcards[0];
-  alert(`ICAI Theory Recall:\n\n[Topic]: ${fc.topic}\n\n[Question]: ${fc.prompt}\n\n[Provision]: ${fc.provision}\n\n[Analysis]: ${fc.analysis}\n\n[Conclusion]: ${fc.conclusion}`);
+  if (cards.length === 0) {
+    showToast('No theory recall cards available for this chapter yet.');
+    return;
+  }
+
+  closeSubjectDrilldown();
+
+  window.theoryRecallSession = {
+    subjectId: subjectId,
+    chapterId: chapterId,
+    subjectName: sub.name,
+    chapterTitle: ch ? ch.title : 'Theory Active Recall',
+    cards: cards,
+    cardIdx: Math.min(startIdx, cards.length - 1),
+    isFlipped: false,
+    ratings: {}
+  };
+
+  const modal = document.getElementById('theory-recall-modal');
+  if (modal) {
+    modal.style.display = 'block';
+    renderTheoryRecall();
+  }
+};
+
+window.closeTheoryRecall = function() {
+  const modal = document.getElementById('theory-recall-modal');
+  if (modal) modal.style.display = 'none';
+  window.theoryRecallSession = null;
+};
+
+window.flipTheoryCard = function() {
+  const sess = window.theoryRecallSession;
+  if (!sess) return;
+  sess.isFlipped = !sess.isFlipped;
+  const cardInner = document.getElementById('theory-flip-card-inner');
+  if (cardInner) {
+    cardInner.classList.toggle('is-flipped', sess.isFlipped);
+  }
+};
+
+window.rateTheoryCard = function(rating) {
+  const sess = window.theoryRecallSession;
+  if (!sess) return;
+  const idx = sess.cardIdx;
+  sess.ratings[idx] = rating;
+
+  let xpAward = 5;
+  let msg = 'Marked for Revision';
+  if (rating === 'partial') {
+    xpAward = 15;
+    msg = 'Good Recall! +15 XP';
+  } else if (rating === 'mastered') {
+    xpAward = 30;
+    msg = 'Mastered! +30 XP';
+  }
+
+  AppState.xp = (AppState.xp || 0) + xpAward;
+  AppState.questionsAttempted = (AppState.questionsAttempted || 0) + 1;
+  saveUser();
+  showToast(msg);
+
+  setTimeout(() => {
+    if (sess.cardIdx < sess.cards.length - 1) {
+      window.nextTheoryCard();
+    } else {
+      showToast('Completed all recall cards in this deck! +50 Bonus XP');
+      AppState.xp = (AppState.xp || 0) + 50;
+      saveUser();
+      window.closeTheoryRecall();
+    }
+  }, 400);
+};
+
+window.prevTheoryCard = function() {
+  const sess = window.theoryRecallSession;
+  if (!sess) return;
+  if (sess.cardIdx > 0) {
+    sess.cardIdx--;
+    sess.isFlipped = false;
+    renderTheoryRecall();
+  }
+};
+
+window.nextTheoryCard = function() {
+  const sess = window.theoryRecallSession;
+  if (!sess) return;
+  if (sess.cardIdx < sess.cards.length - 1) {
+    sess.cardIdx++;
+    sess.isFlipped = false;
+    renderTheoryRecall();
+  }
+};
+
+function renderTheoryRecall() {
+  const sess = window.theoryRecallSession;
+  if (!sess) return;
+  const container = document.getElementById('theory-recall-content');
+  if (!container) return;
+
+  const card = sess.cards[sess.cardIdx];
+  if (!card) return;
+
+  const total = sess.cards.length;
+  const curr = sess.cardIdx + 1;
+  const keywords = card.keywords || ['ICAI Standard', 'Mandatory Legal Heading', 'Statutory Ratio'];
+  const rubric = card.rubric || [
+    { step: 'Citation of Statutory Provision', marks: 1.5 },
+    { step: 'Legal Reasoning & Facts Analysis', marks: 2.0 },
+    { step: 'Final Conclusion & Practical Remedy', marks: 1.5 }
+  ];
+
+  container.innerHTML = `
+    <div class="theory-top-bar">
+      <button class="theory-close-btn" onclick="closeTheoryRecall()" aria-label="Close Recall Deck">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div style="flex:1; min-width:0; text-align:center;">
+        <div style="font-size:0.68rem; font-weight:700; color:var(--accent2); text-transform:uppercase;">
+          Theory Active Recall Carousel
+        </div>
+        <div style="font-size:0.86rem; font-weight:800; color:var(--txt);">
+          Card ${curr} of ${total}
+        </div>
+      </div>
+      <div style="width:34px;"></div>
+    </div>
+
+    <div class="theory-carousel-body">
+      <div class="theory-flip-card-wrap">
+        <div class="theory-flip-card-inner ${sess.isFlipped ? 'is-flipped' : ''}" id="theory-flip-card-inner">
+          
+          <div class="theory-card-face theory-card-front" onclick="flipTheoryCard()">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+              <span class="theory-marks-badge">${card.examTag || (card.marks + ' Marks Descriptive')}</span>
+              <span class="theory-flip-hint">Tap card to flip &rarr;</span>
+            </div>
+
+            <div class="theory-front-topic">${card.topic || 'Descriptive Question'}</div>
+            <div class="theory-front-prompt">${card.prompt}</div>
+
+            <div class="theory-self-test-box">
+              <div style="font-size:0.75rem; font-weight:700; color:var(--txt2); margin-bottom:4px;">
+                ICAI Active Recall Instruction:
+              </div>
+              <div style="font-size:0.74rem; color:var(--txt3); line-height:1.4;">
+                Mentally formulate the 3-step presentation (Statutory Provision &rarr; Analysis &rarr; Conclusion) before flipping to evaluate against the ICAI suggested answer.
+              </div>
+            </div>
+
+            <button class="theory-reveal-btn" onclick="event.stopPropagation(); flipTheoryCard();">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+              Reveal ICAI Answer & Marking Rubric
+            </button>
+          </div>
+
+          <div class="theory-card-face theory-card-back">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+              <span class="theory-answer-badge">ICAI Model Presentation</span>
+              <button class="theory-flip-back-btn" onclick="flipTheoryCard()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+                Question
+              </button>
+            </div>
+
+            <div class="theory-keywords-strip">
+              <div style="font-size:0.68rem; font-weight:700; color:var(--txt3); margin-bottom:4px; text-transform:uppercase;">Golden Keywords:</div>
+              <div class="theory-keyword-chips">
+                ${keywords.map(kw => `<span class="theory-chip">${kw}</span>`).join('')}
+              </div>
+            </div>
+
+            <div class="theory-back-sections">
+              <div class="theory-section-block">
+                <div class="theory-sec-head">1. Applicable Statutory Provision</div>
+                <div class="theory-sec-content">${card.provision}</div>
+              </div>
+
+              <div class="theory-section-block">
+                <div class="theory-sec-head">2. Analysis & Application to Facts</div>
+                <div class="theory-sec-content">${card.analysis}</div>
+              </div>
+
+              <div class="theory-section-block">
+                <div class="theory-sec-head">3. Practical Conclusion & Ratio</div>
+                <div class="theory-sec-content">${card.conclusion}</div>
+              </div>
+            </div>
+
+            <div class="theory-rubric-box">
+              <div style="font-size:0.72rem; font-weight:700; color:var(--txt2); margin-bottom:6px;">ICAI Step-Marking Rubric:</div>
+              ${rubric.map(r => `
+                <div class="theory-rubric-row">
+                  <span>${r.step}</span>
+                  <strong style="color:var(--accent);">+${r.marks} M</strong>
+                </div>
+              `).join('')}
+            </div>
+
+            <div class="theory-scoring-panel">
+              <div style="font-size:0.74rem; font-weight:700; color:var(--txt3); margin-bottom:8px; text-align:center;">
+                Self-Score Your Recall:
+              </div>
+              <div class="theory-scoring-btns">
+                <button class="theory-score-btn missed" onclick="rateTheoryCard('missed')">
+                  <span class="ts-icon">&#128308;</span>
+                  <span class="ts-label">Missed</span>
+                  <span class="ts-sub">0-1 M</span>
+                </button>
+                <button class="theory-score-btn partial" onclick="rateTheoryCard('partial')">
+                  <span class="ts-icon">&#128993;</span>
+                  <span class="ts-label">Partial</span>
+                  <span class="ts-sub">2-3 M</span>
+                </button>
+                <button class="theory-score-btn mastered" onclick="rateTheoryCard('mastered')">
+                  <span class="ts-icon">&#128994;</span>
+                  <span class="ts-label">Mastered</span>
+                  <span class="ts-sub">4-5 M</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div class="theory-nav-bar">
+        <button class="theory-nav-btn" onclick="prevTheoryCard()" ${sess.cardIdx === 0 ? 'disabled' : ''}>
+          &larr; Prev Card
+        </button>
+        <div class="theory-dots">
+          ${sess.cards.map((c, i) => `
+            <span class="theory-dot ${i === sess.cardIdx ? 'active' : ''}"></span>
+          `).join('')}
+        </div>
+        <button class="theory-nav-btn" onclick="nextTheoryCard()" ${sess.cardIdx === sess.cards.length - 1 ? 'disabled' : ''}>
+          Next Card &rarr;
+        </button>
+      </div>
+    </div>
+  `;
 }
 
 function initPractice() {}
+
+// Expose on window
+window.renderSubjectCard = renderSubjectCard;
+window.openSubjectDrilldown = openSubjectDrilldown;
+window.closeSubjectDrilldown = closeSubjectDrilldown;
+window.drilldownGoBack = drilldownGoBack;
+window.drilldownGoToConcepts = drilldownGoToConcepts;
+window.drilldownGoToLaunchCard = drilldownGoToLaunchCard;
+window.launchConceptMCQs = launchConceptMCQs;
+window.launchChapterMCQs = launchChapterMCQs;
+window.launchCaseScenario = launchCaseScenario;
+window.launchFlashcardDeck = launchFlashcardDeck;
+
 
 // ===== LEADERBOARD SECTION (20 Users, 5 Tiers with Duolingo-style Categories) =====
 function renderRanks() {

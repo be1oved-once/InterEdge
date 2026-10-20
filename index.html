@@ -766,6 +766,20 @@
   </div>
 </div>
 
+<!-- ========== CASE SCENARIO BOOKLET ("DoAPage" SPLIT-PAGE READER) ========== -->
+<div id="case-booklet-modal" style="z-index:9200;background:var(--bg);display:none;position:fixed;inset:0;overflow:hidden;-webkit-overflow-scrolling:touch;">
+  <div id="case-booklet-content" style="display:flex;flex-direction:column;height:100%;width:100%;">
+    <!-- Populated dynamically by openCaseBooklet() -->
+  </div>
+</div>
+
+<!-- ========== THEORY ACTIVE RECALL 3D FLIP CAROUSEL ========== -->
+<div id="theory-recall-modal" style="z-index:9250;background:var(--bg);display:none;position:fixed;inset:0;overflow-y:auto;-webkit-overflow-scrolling:touch;">
+  <div id="theory-recall-content" style="min-height:100%;display:flex;flex-direction:column;">
+    <!-- Populated dynamically by openTheoryRecall() -->
+  </div>
+</div>
+
 <!-- ========== FORGOT PASSWORD OVERLAY ========== -->
 <div id="forgot-password-overlay" class="fs-overlay auth-fs-overlay" style="z-index:9000;background:var(--bg);display:none;">
   <div class="fs-content" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100dvh;text-align:center;padding:20px;">

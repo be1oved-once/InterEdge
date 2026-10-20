@@ -188,30 +188,44 @@
   background: rgba(91,108,255,.08);
 }
 
-/* ===== TOGGLE — consistent sizing ===== */
+/* ===== TOGGLE - standardized smooth iOS/Material toggle ===== */
 .toggle {
-  width: 46px;
-  height: 26px;
-  border-radius: 13px;
-  background: var(--border);
+  width: 44px;
+  height: 24px;
+  background: #cbd5e1;
+  border-radius: 999px;
   position: relative;
   cursor: pointer;
-  transition: background .3s cubic-bezier(.4,0,.2,1);
+  transition: background .22s ease, border-color .22s ease;
   flex-shrink: 0;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-sizing: border-box;
 }
-.toggle.on { background: var(--accent); }
+[data-theme="dark"] .toggle,
+body:not([data-theme="light"]) .toggle {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+.toggle.on {
+  background: var(--accent) !important;
+  border-color: var(--accent) !important;
+}
 .toggle-knob {
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
+  background: #ffffff;
   border-radius: 50%;
-  background: #fff;
-  transition: transform .3s cubic-bezier(.4,0,.2,1);
-  box-shadow: 0 2px 6px rgba(0,0,0,.3);
+  position: absolute;
+  top: 50%;
+  left: 2px;
+  transform: translateY(-50%);
+  transition: transform .22s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.22), 0 0 1px rgba(0, 0, 0, 0.15);
+  box-sizing: border-box;
 }
-.toggle.on .toggle-knob { transform: translateX(20px); }
+.toggle.on .toggle-knob {
+  transform: translate(20px, -50%);
+}
 
 .profile-av,
 .edit-av {
@@ -2975,5 +2989,6 @@ body.light .avatar-use{
 
 /* Subtle bottom border between rows */
 .qt-table .qt-body-row + .qt-body-row td { border-top: 1px solid var(--border); }
-@ k e y f r a m e s   c r u x G r a d A n i m   {   0 %   {   b a c k g r o u n d - p o s i t i o n :   0 %   5 0 % ;   }   5 0 %   {   b a c k g r o u n d - p o s i t i o n :   1 0 0 %   5 0 % ;   }   1 0 0 %   {   b a c k g r o u n d - p o s i t i o n :   0 %   5 0 % ;   }   }  
+@ k e y f r a m e s   c r u x G r a d A n i m   {   0 %   {   b a c k g r o u n d - p o s i t i o n :   0 %   5 0 % ;   }   5 0 %   {   b a c k g r o u n d - p o s i t i o n :   1 0 0 %   5 0 % ;   }   1 0 0 %   {   b a c k g r o u n d - p o s i t i o n :   0 %   5 0 % ;   }   } 
+ 
  
